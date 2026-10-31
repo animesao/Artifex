@@ -156,9 +156,14 @@ public class AttributeManager {
     }
 
     /**
-     * Clears all data on plugin disable
+     * Clears all data on plugin disable, removing modifiers from online players first.
      */
     public void cleanup() {
+        if (plugin != null && plugin.getServer() != null) {
+            for (Player player : plugin.getServer().getOnlinePlayers()) {
+                removeAllAttributes(player);
+            }
+        }
         playerAppliedAttributes.clear();
     }
 

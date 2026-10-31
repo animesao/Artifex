@@ -38,6 +38,7 @@ public class ItemRegistry {
      * and copying the map for every placeholder request would be a needless allocation.
      */
     private final Set<String> registeredItemIds = ConcurrentHashMap.newKeySet();
+    private final List<URLClassLoader> jarClassLoaders = new ArrayList<>();
     private final JavaItemCompiler compiler;
     private final AtomicBoolean loading = new AtomicBoolean(false);
     private final ExecutorService reloadExecutor;
@@ -62,6 +63,7 @@ public class ItemRegistry {
             throw new IllegalStateException("ItemRegistry.loadAll() must run on the Bukkit main thread");
         }
 
+        closeJarClassLoaders();
         registeredItems.clear();
         registeredItemIds.clear();
         registeredCommands.clear();
@@ -152,10 +154,11 @@ public class ItemRegistry {
     }
 
     /**
-     * Stops the reload thread (on plugin shutdown).
+     * Stops the reload thread and closes jar classloaders (on plugin shutdown).
      */
     public void shutdown() {
         reloadExecutor.shutdownNow();
+        closeJarClassLoaders();
     }
 
     /** Synchronous reload used by /ci reload on the main Bukkit thread. */
@@ -219,6 +222,7 @@ public class ItemRegistry {
             }
         }
 
+        closeJarClassLoaders();
         registeredItems.clear();
         registeredItemIds.clear();
         registeredCommands.clear();
@@ -368,8 +372,6 @@ public class ItemRegistry {
     }
 
     private void loadFromJar(File jarFile) {
-        // URLClassLoader keeps the jar file open — without closing it on Windows
-        // the file stayed locked and the descriptor was not released until GC.
         try (JarFile jar = new JarFile(jarFile)) {
             Enumeration<JarEntry> entries = jar.entries();
             List<String> classNames = new ArrayList<>();
@@ -380,25 +382,36 @@ public class ItemRegistry {
                 }
             }
             URL jarUrl = jarFile.toURI().toURL();
-            try (URLClassLoader cl = new URLClassLoader(new URL[]{jarUrl}, plugin.getClass().getClassLoader())) {
-                for (String cn : classNames) {
-                    try {
-                        Class<?> clazz = Class.forName(cn, false, cl);
-                        if (AbstractCustomItem.class.isAssignableFrom(clazz)) {
-                            AbstractCustomItem item = (AbstractCustomItem) clazz.getDeclaredConstructor().newInstance();
-                            registeredItems.put(item.getId(), item);
+            // URLClassLoader must remain open while registered items are in use.
+            // It is tracked in jarClassLoaders and closed on reload/shutdown.
+            URLClassLoader cl = new URLClassLoader(new URL[]{jarUrl}, plugin.getClass().getClassLoader());
+            jarClassLoaders.add(cl);
+            for (String cn : classNames) {
+                try {
+                    Class<?> clazz = Class.forName(cn, false, cl);
+                    if (AbstractCustomItem.class.isAssignableFrom(clazz)) {
+                        AbstractCustomItem item = (AbstractCustomItem) clazz.getDeclaredConstructor().newInstance();
+                        registeredItems.put(item.getId(), item);
                         registeredItemIds.add(item.getId());
-                        }
-                    } catch (Exception exception) {
-                        plugin.getLogger().log(java.util.logging.Level.WARNING,
-                            "[API] Failed to load class " + cn + " from " + jarFile.getName(), exception);
                     }
+                } catch (Exception exception) {
+                    plugin.getLogger().log(java.util.logging.Level.WARNING,
+                        "[API] Failed to load class " + cn + " from " + jarFile.getName(), exception);
                 }
             }
         } catch (IOException exception) {
             plugin.getLogger().log(java.util.logging.Level.WARNING,
                 "[API] Failed to read Java item jar " + jarFile.getName(), exception);
         }
+    }
+
+    private void closeJarClassLoaders() {
+        for (URLClassLoader cl : jarClassLoaders) {
+            try {
+                cl.close();
+            } catch (IOException ignored) {}
+        }
+        jarClassLoaders.clear();
     }
 
     private void logStats() {

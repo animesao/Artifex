@@ -16,7 +16,9 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -162,10 +164,8 @@ public class ApiEventListener implements Listener {
         Player damaged = (Player) event.getEntity();
 
         // onDamageTaken for the victim
-        ItemStack damagedItem = findCustomItem(damaged);
-        if (damagedItem != null) {
-            AbstractCustomItem item = registry.getItem(ItemAPI.getCustomItemId(damagedItem));
-            if (item != null && fireDamageTakenEvent(event, damaged, item)) {
+        for (AbstractCustomItem item : getEquippedCustomItems(damaged)) {
+            if (fireDamageTakenEvent(event, damaged, item)) {
                 item.onDamageTaken(event, damaged);
             }
         }
@@ -198,10 +198,8 @@ public class ApiEventListener implements Listener {
         Player player = event.getEntity();
 
         // onDeath for the dead player
-        ItemStack deathItem = findCustomItem(player);
-        if (deathItem != null) {
-            AbstractCustomItem item = registry.getItem(ItemAPI.getCustomItemId(deathItem));
-            if (item != null && fireDeathEvent(event, player, item)) {
+        for (AbstractCustomItem item : getEquippedCustomItems(player)) {
+            if (fireDeathEvent(event, player, item)) {
                 item.onDeath(player, event);
             }
         }
@@ -250,6 +248,17 @@ public class ApiEventListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerMove(PlayerMoveEvent event) {
+        // No Java items at all — the whole handler would be pure overhead.
+        // This is the hot path of the plugin: without this check a server
+        // without the Java API paid ~8 ItemMeta clones per move event.
+        if (registry.getItemCount() == 0) {
+            return;
+        }
+
+        if (event.getTo() == null) {
+            return;
+        }
+
         // PlayerMoveEvent fires ~20 times per second for every player,
         // including on camera rotation. If the position did not change —
         // there is nothing to call onMove/onJump for.
@@ -259,31 +268,17 @@ public class ApiEventListener implements Listener {
             return;
         }
 
-        // No Java items at all — the whole handler would be pure overhead.
-        // This is the hot path of the plugin: without this check a server
-        // without the Java API paid ~8 ItemMeta clones per move event.
-        if (registry.getItemCount() == 0) {
-            return;
-        }
-
         Player player = event.getPlayer();
-        ItemStack item = findCustomItem(player);
-        if (item == null) return;
+        List<AbstractCustomItem> equipped = getEquippedCustomItems(player);
+        if (equipped.isEmpty()) return;
 
-        // One PDC read instead of two (ItemAPI.getCustomItemId reads the
-        // metadata twice: once in isCustomItem and once for the value).
-        String id = plugin.getItemHandler().getCustomItemId(item);
-        if (id == null) return;
+        boolean isJump = (event.getTo().getY() - event.getFrom().getY()) > 0.25;
 
-        AbstractCustomItem customItem = registry.getItem(id);
-        if (customItem == null) return;
-
-        customItem.onMove(event, player);
-
-        // Jump detection: a noticeable rise, not any upward movement
-        // (otherwise onJump would trigger on ladders/while flying).
-        if (event.getTo().getY() - event.getFrom().getY() > 0.25) {
-            customItem.onJump(player);
+        for (AbstractCustomItem customItem : equipped) {
+            customItem.onMove(event, player);
+            if (isJump) {
+                customItem.onJump(player);
+            }
         }
     }
 
@@ -338,6 +333,29 @@ public class ApiEventListener implements Listener {
         AbstractCustomItem customItem = registry.getItem(id);
         if (customItem != null) {
             customItem.onSwapHand(event, player);
+        }
+    }
+
+    /**
+     * Gets all unique custom items equipped by the player (hands and armor).
+     */
+    private List<AbstractCustomItem> getEquippedCustomItems(Player player) {
+        List<AbstractCustomItem> items = new ArrayList<>(6);
+        addEquippedItem(items, player.getInventory().getItemInMainHand());
+        addEquippedItem(items, player.getInventory().getItemInOffHand());
+        for (ItemStack armor : player.getInventory().getArmorContents()) {
+            addEquippedItem(items, armor);
+        }
+        return items;
+    }
+
+    private void addEquippedItem(List<AbstractCustomItem> list, ItemStack item) {
+        if (item == null || item.getType() == org.bukkit.Material.AIR) return;
+        String id = plugin.getItemHandler().getCustomItemId(item);
+        if (id == null) return;
+        AbstractCustomItem customItem = registry.getItem(id);
+        if (customItem != null && !list.contains(customItem)) {
+            list.add(customItem);
         }
     }
 

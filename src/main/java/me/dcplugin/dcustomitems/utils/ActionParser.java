@@ -829,10 +829,11 @@ public class ActionParser {
 
     /**
      * A sequence of sounds with delays.
-     * Format: sound_sequence:SOUND1:VOLUME1:PITCH1;SOUND2:VOLUME2:PITCH2;...
+     * Format: sound_sequence:SOUND1:VOLUME1:PITCH1[:DELAY1];SOUND2:VOLUME2:PITCH2[:DELAY2];...
      */
     private static void executeSoundSequence(Player player, String value) {
         String[] sounds = value.split(";");
+        long delay = 0;
         for (String soundStr : sounds) {
             String[] parts = soundStr.split(":");
             if (parts.length < 1) continue;
@@ -841,17 +842,25 @@ public class ActionParser {
             if (sound == null) continue;
             float volume = parts.length > 1 ? (float) parseDouble(parts[1], 1.0) : 1.0f;
             float pitch = parts.length > 2 ? (float) parseDouble(parts[2], 1.0) : 1.0f;
+            long soundDelay = parts.length > 3 ? parseLong(parts[3], 0) : 0;
 
-            player.playSound(player.getLocation(), sound, volume, pitch);
+            final long finalDelay = delay;
+            scheduleLater(() -> {
+                if (player != null && player.isOnline()) {
+                    player.playSound(player.getLocation(), sound, volume, pitch);
+                }
+            }, finalDelay);
+            delay += soundDelay;
         }
     }
 
     /**
-     * A sequence of titles.
-     * Format: title_sequence:TITLE:SUBTITLE:FADEIN:STAY:FADEOUT;...
+     * A sequence of titles with delays.
+     * Format: title_sequence:TITLE:SUBTITLE:FADEIN:STAY:FADEOUT[:DELAY];...
      */
     private static void executeTitleSequence(Player player, String value) {
         String[] titles = value.split(";");
+        long delay = 0;
         for (String titleStr : titles) {
             String[] parts = titleStr.split(":");
             if (parts.length < 1) continue;
@@ -861,8 +870,16 @@ public class ActionParser {
             int fadeIn = parts.length > 2 ? parseInt(parts[2], 10) : 10;
             int stay = parts.length > 3 ? parseInt(parts[3], 40) : 40;
             int fadeOut = parts.length > 4 ? parseInt(parts[4], 10) : 10;
+            long stepDelay = parts.length > 5 ? parseLong(parts[5], (long) (fadeIn + stay + fadeOut) * 50L)
+                                              : (long) (fadeIn + stay + fadeOut) * 50L;
 
-            player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+            final long finalDelay = delay;
+            scheduleLater(() -> {
+                if (player != null && player.isOnline()) {
+                    player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+                }
+            }, finalDelay);
+            delay += stepDelay;
         }
     }
 
@@ -878,7 +895,7 @@ public class ActionParser {
             if (parts.length < 1) continue;
 
             String command = parts[0].replace("%player%", player.getName());
-            long cmdDelay = parts.length > 1 ? Long.parseLong(parts[1]) : 0;
+            long cmdDelay = parts.length > 1 ? parseLong(parts[1], 0) : 0;
 
             final long finalDelay = delay;
             scheduleLater(() ->
@@ -902,11 +919,15 @@ public class ActionParser {
             double x = parseDouble(parts[0], 0);
             double y = parseDouble(parts[1], 0);
             double z = parseDouble(parts[2], 0);
-            long tpDelay = parts.length > 3 ? Long.parseLong(parts[3]) : 0;
+            long tpDelay = parts.length > 3 ? parseLong(parts[3], 0) : 0;
 
             final long finalDelay = delay;
             final Location loc = new Location(player.getWorld(), x, y, z);
-            scheduleLater(() -> player.teleport(loc), finalDelay);
+            scheduleLater(() -> {
+                if (player != null && player.isOnline()) {
+                    player.teleport(loc);
+                }
+            }, finalDelay);
             delay += tpDelay;
         }
     }
@@ -924,16 +945,18 @@ public class ActionParser {
 
             PotionEffectType effectType = resolveEffect(parts[0].toUpperCase());
             int duration = parseInt(parts[1], 0);
-            int level = parts.length > 2 ? parseInt(parts[2], 1) - 1 : 0;
-            long effectDelay = parts.length > 3 ? Long.parseLong(parts[3]) : 0;
+            int level = parts.length > 2 ? Math.max(0, parseInt(parts[2], 1) - 1) : 0;
+            long effectDelay = parts.length > 3 ? parseLong(parts[3], 0) : 0;
 
             if (effectType != null) {
                 final PotionEffectType finalType = effectType;
                 final int finalLevel = level;
                 final long finalDelay = delay;
-                scheduleLater(() ->
-                    player.addPotionEffect(new PotionEffect(finalType, duration * 20, finalLevel, false, false)),
-                    finalDelay);
+                scheduleLater(() -> {
+                    if (player != null && player.isOnline()) {
+                        player.addPotionEffect(new PotionEffect(finalType, duration * 20, finalLevel, false, false));
+                    }
+                }, finalDelay);
             }
 
             delay += effectDelay;
@@ -1019,6 +1042,14 @@ public class ActionParser {
         return parseDouble(raw, current);
     }
 
+    private static long parseLong(String raw, long def) {
+        try {
+            return Long.parseLong(raw.trim());
+        } catch (Exception e) {
+            return def;
+        }
+    }
+
     private static int parseInt(String raw, int def) {
         try {
             return Integer.parseInt(raw.trim());
@@ -1043,4 +1074,4 @@ public class ActionParser {
         }
         org.bukkit.Bukkit.getScheduler().runTaskLater(plugin, task, Math.max(1L, delayMs / 50));
     }
-}
+}

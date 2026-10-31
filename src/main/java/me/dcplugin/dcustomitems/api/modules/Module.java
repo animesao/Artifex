@@ -170,6 +170,7 @@ public abstract class Module {
 
             commandMap.register("dcustomitems", command);
             dynamicCommands.add(command);
+            me.dcplugin.dcustomitems.utils.CommandMapAccessor.syncCommands();
             plugin.getLogger().info("[Module " + id + "] Registered command: /" + name);
         } catch (Exception e) {
             plugin.getLogger().warning("[Module " + id + "] Failed to register /" + name + ": " + e.getMessage());
@@ -192,13 +193,18 @@ public abstract class Module {
                 dynamicCommands.clear();
                 return;
             }
+            String prefix = "dcustomitems";
             for (org.bukkit.command.Command cmd : dynamicCommands) {
-                knownCommands.remove(cmd.getName().toLowerCase());
+                cmd.unregister(commandMap);
+                knownCommands.remove(cmd.getName().toLowerCase(java.util.Locale.ROOT));
+                knownCommands.remove(prefix + ":" + cmd.getName().toLowerCase(java.util.Locale.ROOT));
                 for (String alias : cmd.getAliases()) {
-                    knownCommands.remove(alias.toLowerCase());
+                    knownCommands.remove(alias.toLowerCase(java.util.Locale.ROOT));
+                    knownCommands.remove(prefix + ":" + alias.toLowerCase(java.util.Locale.ROOT));
                 }
             }
             dynamicCommands.clear();
+            me.dcplugin.dcustomitems.utils.CommandMapAccessor.syncCommands();
         } catch (Exception e) {
             plugin.getLogger().warning("[Module " + id + "] Error unregistering commands: " + e.getMessage());
         }

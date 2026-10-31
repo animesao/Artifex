@@ -99,9 +99,11 @@ public class CustomItemsCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage(MessagesConfig.colorize(MessagesConfig.RELOAD_SUCCESS));
             }
 
-            // Reload the modules
+            // Reload the modules (if API registry didn't already reload them)
             if (plugin.getModuleManager() != null) {
-                plugin.getModuleManager().reloadAll();
+                if (plugin.getApiItemRegistry() == null) {
+                    plugin.getModuleManager().reloadAll();
+                }
                 sender.sendMessage(msg("ci.modules", "&7Modules: &e{count}")
                     .replace("{count}", String.valueOf(plugin.getModuleManager().getModuleCount())));
             }

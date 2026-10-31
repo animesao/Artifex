@@ -7,6 +7,30 @@ extracts the section of the needed version for the GitHub Release notes.
 
 ---
 
+## v1.338.0
+
+### ⚡ Performance & Runtime Java Compiler
+- **Batch Compilation:** `JavaItemCompiler` now compiles all changed source files in a single batch `javac` task, greatly reducing compilation overhead during server startup and reload. If any script contains syntax errors, the compiler automatically falls back to isolated single-file compilation to report specific diagnostics without breaking valid items.
+- **PlayerMove Hot-Path Optimization:** `ApiEventListener.onPlayerMove` now checks whether Java items exist and whether position coordinates actually changed before reading metadata, eliminating unnecessary PDC reads on camera rotations.
+
+### 🛡️ Bug Fixes & Stability
+- **Attribute Stacking on Reload:** `AttributeManager.cleanup()` now strips attribute modifiers from all online players on plugin disable or reload, preventing attributes (e.g. max health, attack damage) from permanently stacking in player save files (`.dat`).
+- **Jar ClassLoader Lifecycle:** `ItemRegistry` now safely manages `URLClassLoader` lifecycles, keeping classloaders active for runtime class loading and properly closing them upon shutdown and reload.
+- **Full Equipment Triggers for Java Items:** `ApiEventListener` now checks both hands and all armor pieces on damage and death events (`onDamageTaken`, `onDeath`), so custom armor effects are no longer skipped when holding custom weapons.
+- **Pickup Item Sync:** In `PlayerListener.onEntityPickupItem`, updated item metadata (such as acquisition time for expiring items) is now synchronized to the ground entity before pickup.
+- **Click Anti-Spam:** Reduced `MIN_CLICK_DELAY` from 200ms to 50ms to allow normal player CPS for items without custom click cooldowns.
+- **Sequenced Actions & Titles:** Fixed timing in `ActionParser` so sequential sounds and titles observe specified delays.
+- **Safe Number Parsing:** Added defensive parsing in `ActionParser` to prevent unhandled `NumberFormatException` crashes.
+- **Logger Restoration:** `PluginLogManager.stop()` now restores `useParentHandlers(true)`, preventing lost logs after reload.
+
+### ✨ Features & Improvements
+- **Configurable Armor Set Sizes:** `ArmorSetManager` now supports `required-pieces` (or `pieces`) in config, allowing 2-piece, 3-piece, or 4-piece set bonuses.
+- **HEX Color Support:** `ColorUtils` now supports RGB hex formats (`&#RRGGBB`, `<#RRGGBB>`, and `{#RRGGBB}`).
+- **Legacy Enchantment Fallback:** `EnumCache.getEnchantment` now falls back to `Enchantment.getByName()`, correctly resolving legacy Bukkit names (such as `DAMAGE_ALL`).
+- **Dynamic Command & Brigadier Sync:** Dynamic commands and aliases are thoroughly cleaned up from Bukkit `CommandMap` on unload and synchronized with clients via `syncCommands()`.
+
+---
+
 ## v1.337.0
 
 ### 📖 English release notes

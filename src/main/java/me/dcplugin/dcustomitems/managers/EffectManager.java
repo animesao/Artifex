@@ -87,8 +87,13 @@ public class EffectManager {
         if (item == null || item.getParsedEffects() == null || item.getParsedEffects().isEmpty()) return;
 
         for (Map.Entry<PotionEffectType, Integer> entry : item.getParsedEffects().entrySet()) {
+            int amplifier = Math.max(0, entry.getValue() - 1);
+            PotionEffect existing = player.getPotionEffect(entry.getKey());
+            if (existing != null && existing.getAmplifier() > amplifier) {
+                continue;
+            }
             player.addPotionEffect(new PotionEffect(
-                    entry.getKey(), EFFECT_DURATION_TICKS, entry.getValue() - 1, false, false
+                    entry.getKey(), EFFECT_DURATION_TICKS, amplifier, false, false
             ), true);
         }
     }
@@ -178,10 +183,15 @@ public class EffectManager {
 
         // Apply
         for (Map.Entry<PotionEffectType, Integer> entry : effectsMap.entrySet()) {
+            int amplifier = Math.max(0, entry.getValue() - 1);
+            PotionEffect existing = player.getPotionEffect(entry.getKey());
+            if (existing != null && existing.getAmplifier() > amplifier) {
+                continue;
+            }
             player.addPotionEffect(new PotionEffect(
                     entry.getKey(),
                     EFFECT_DURATION_TICKS,
-                    entry.getValue() - 1,
+                    amplifier,
                     false,
                     false
             ), true);
@@ -197,7 +207,13 @@ public class EffectManager {
 
         Map<PotionEffectType, Integer> appliedEffects = playerAppliedEffects.remove(playerId);
         if (appliedEffects != null) {
-            for (PotionEffectType effectType : appliedEffects.keySet()) {
+            for (Map.Entry<PotionEffectType, Integer> entry : appliedEffects.entrySet()) {
+                PotionEffectType effectType = entry.getKey();
+                PotionEffect current = player.getPotionEffect(effectType);
+                int appliedAmp = Math.max(0, entry.getValue() - 1);
+                if (current != null && current.getAmplifier() > appliedAmp) {
+                    continue;
+                }
                 player.removePotionEffect(effectType);
             }
         }

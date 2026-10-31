@@ -10,12 +10,29 @@ import org.bukkit.entity.Player;
  */
 public class ColorUtils {
 
+    private static final java.util.regex.Pattern HEX_PATTERN =
+            java.util.regex.Pattern.compile("&#([A-Fa-f0-9]{6})|<#([A-Fa-f0-9]{6})>|\\{#([A-Fa-f0-9]{6})\\}");
+
     /**
-     * Replaces the color codes (& -> §).
+     * Replaces color codes (& -> §) and hex color formats (&#RRGGBB, <#RRGGBB>, {#RRGGBB}).
      */
     public static String colorize(String message) {
         if (message == null) {
             return "";
+        }
+        try {
+            java.util.regex.Matcher matcher = HEX_PATTERN.matcher(message);
+            StringBuffer buffer = new StringBuffer();
+            while (matcher.find()) {
+                String hex = matcher.group(1);
+                if (hex == null) hex = matcher.group(2);
+                if (hex == null) hex = matcher.group(3);
+                matcher.appendReplacement(buffer, net.md_5.bungee.api.ChatColor.of("#" + hex).toString());
+            }
+            matcher.appendTail(buffer);
+            message = buffer.toString();
+        } catch (Throwable ignored) {
+            // Older Bukkit without ChatColor.of
         }
         return ChatColor.translateAlternateColorCodes('&', message);
     }

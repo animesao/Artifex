@@ -13,15 +13,18 @@ public class ArmorSetManager {
 
     private final Main plugin;
     private final Map<String, List<String>> armorSetEffects;
+    private final Map<String, Integer> requiredPieces;
 
     public ArmorSetManager(Main plugin) {
         this.plugin = plugin;
         this.armorSetEffects = new HashMap<>();
+        this.requiredPieces = new HashMap<>();
         loadSetBonuses();
     }
 
     private void loadSetBonuses() {
         armorSetEffects.clear();
+        requiredPieces.clear();
 
         org.bukkit.configuration.ConfigurationSection section =
                 plugin.getConfig().getConfigurationSection("set-bonuses");
@@ -30,6 +33,9 @@ public class ArmorSetManager {
         for (String setId : section.getKeys(false)) {
             List<String> effects = plugin.getConfig().getStringList("set-bonuses." + setId + ".effects");
             armorSetEffects.put(setId, effects == null ? Collections.emptyList() : effects);
+            int pieces = plugin.getConfig().getInt("set-bonuses." + setId + ".required-pieces",
+                    plugin.getConfig().getInt("set-bonuses." + setId + ".pieces", 4));
+            requiredPieces.put(setId, Math.max(1, pieces));
         }
     }
 
@@ -56,8 +62,13 @@ public class ArmorSetManager {
         return setPieces;
     }
 
+    public int getRequiredPieces(String setId) {
+        if (setId == null) return 4;
+        return requiredPieces.getOrDefault(setId, 4);
+    }
+
     public boolean hasFullSet(Player player, String setId) {
-        return countSetPieces(player, setId) >= 4;
+        return countSetPieces(player, setId) >= getRequiredPieces(setId);
     }
 
     public List<String> getSetEffects(String setId) {

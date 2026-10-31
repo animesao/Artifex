@@ -43,6 +43,7 @@ public class CommandRegistrar {
                 dynamicCommands.add(bukkitCmd);
                 plugin.getLogger().info("[API] Registered command: /" + cmd.getName());
             }
+            CommandMapAccessor.syncCommands();
         } catch (Exception e) {
             plugin.getLogger().log(Level.WARNING, "Failed to register custom commands: " + e.getMessage(), e);
         }
@@ -64,13 +65,18 @@ public class CommandRegistrar {
                 return;
             }
 
+            String prefix = plugin.getName().toLowerCase(Locale.ROOT);
             for (Command cmd : dynamicCommands) {
-                knownCommands.remove(cmd.getName().toLowerCase());
+                cmd.unregister(commandMap);
+                knownCommands.remove(cmd.getName().toLowerCase(Locale.ROOT));
+                knownCommands.remove(prefix + ":" + cmd.getName().toLowerCase(Locale.ROOT));
                 for (String alias : cmd.getAliases()) {
-                    knownCommands.remove(alias.toLowerCase());
+                    knownCommands.remove(alias.toLowerCase(Locale.ROOT));
+                    knownCommands.remove(prefix + ":" + alias.toLowerCase(Locale.ROOT));
                 }
             }
             dynamicCommands.clear();
+            CommandMapAccessor.syncCommands();
         } catch (Exception e) {
             plugin.getLogger().log(Level.WARNING, "Failed to unregister custom commands: " + e.getMessage(), e);
         }

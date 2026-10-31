@@ -151,6 +151,8 @@ public class JavaItemCompiler {
         int skipped = 0;
         int compiled = 0;
 
+        List<File> toCompile = new ArrayList<>();
+
         for (File javaFile : javaFiles) {
             // Check whether the file has changed
             String currentHash = getFileHash(javaFile);
@@ -178,10 +180,32 @@ public class JavaItemCompiler {
                 }
             }
 
-            // Compile the file
-            if (compileFile(javaFile, result)) {
-                compiled++;
-                fileHashes.put(cacheKey, currentHash);
+            toCompile.add(javaFile);
+        }
+
+        if (!toCompile.isEmpty()) {
+            if (toCompile.size() > 1) {
+                // Try batch compilation first
+                if (batchCompile(toCompile, result)) {
+                    compiled += toCompile.size();
+                    for (File f : toCompile) {
+                        fileHashes.put(getCacheKey(f), getFileHash(f));
+                    }
+                } else {
+                    // Fall back to compiling one by one
+                    for (File javaFile : toCompile) {
+                        if (compileFile(javaFile, result)) {
+                            compiled++;
+                            fileHashes.put(getCacheKey(javaFile), getFileHash(javaFile));
+                        }
+                    }
+                }
+            } else {
+                File javaFile = toCompile.get(0);
+                if (compileFile(javaFile, result)) {
+                    compiled++;
+                    fileHashes.put(getCacheKey(javaFile), getFileHash(javaFile));
+                }
             }
         }
 
@@ -201,6 +225,131 @@ public class JavaItemCompiler {
         plugin.getLogger().info("[JavaCompiler] Compiled: " + compiled + ", Skipped: " + skipped + " (" + elapsed + "ms)");
 
         return result;
+    }
+
+    private boolean batchCompile(List<File> javaFiles, CompileResult result) {
+        try {
+            JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+            if (compiler == null) {
+                return false;
+            }
+
+            List<PreparedSource> prepared = new ArrayList<>(javaFiles.size());
+            List<JavaFileObject> sources = new ArrayList<>(javaFiles.size());
+
+            for (File javaFile : javaFiles) {
+                if (javaFile.length() > MAX_FILE_BYTES) {
+                    return false;
+                }
+                String sourceCode = readFileContent(javaFile);
+                sourceCode = stripPackageDeclaration(sourceCode);
+                for (String token : DANGEROUS_TOKENS) {
+                    if (sourceCode.contains(token)) {
+                        plugin.getLogger().warning("[JavaCompiler] ⚠ " + javaFile.getName() + " contains a dangerous call '" + token + "' - check the file manually (java-compilation executes arbitrary code).");
+                        break;
+                    }
+                }
+
+                sourceCode = injectDefaultImports(sourceCode);
+                ClassType classType = detectClassType(sourceCode);
+                String generatedClassName = getGeneratedClassName(javaFile);
+                sourceCode = replaceClassNames(sourceCode);
+
+                String finalSourceCode = "package " + PACKAGE + ";\n" + sourceCode;
+                String fullClassName = PACKAGE + "." + generatedClassName;
+
+                prepared.add(new PreparedSource(javaFile, generatedClassName, fullClassName, classType, finalSourceCode));
+
+                sources.add(new SimpleJavaFileObject(
+                    URI.create("string:///" + generatedClassName + ".java"),
+                    JavaFileObject.Kind.SOURCE
+                ) {
+                    @Override
+                    public CharSequence getCharContent(boolean ignoreEncodingErrors) {
+                        return finalSourceCode;
+                    }
+                });
+            }
+
+            DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
+            StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, null, null);
+
+            try {
+                final Map<String, byte[]> classBytesHolder = new HashMap<>();
+
+                JavaFileManager virtualFileManager = new ForwardingJavaFileManager<StandardJavaFileManager>(fileManager) {
+                    @Override
+                    public JavaFileObject getJavaFileForOutput(Location location, String className,
+                                                               JavaFileObject.Kind kind, FileObject sibling) {
+                        return new SimpleJavaFileObject(
+                            URI.create("mem:///" + className.replace('.', '/') + ".class"),
+                            JavaFileObject.Kind.CLASS
+                        ) {
+                            @Override
+                            public OutputStream openOutputStream() {
+                                return new ByteArrayOutputStream() {
+                                    @Override
+                                    public void close() throws IOException {
+                                        super.close();
+                                        classBytesHolder.put(className, toByteArray());
+                                    }
+                                };
+                            }
+                        };
+                    }
+                };
+
+                List<String> options = List.of(
+                    "-classpath", getClasspath(),
+                    "-d", compiledDir.toString(),
+                    "-proc:none"
+                );
+
+                JavaCompiler.CompilationTask task = compiler.getTask(
+                    null, virtualFileManager, diagnostics, options, null, sources
+                );
+
+                boolean success = task.call();
+                if (success) {
+                    compiledClasses.putAll(classBytesHolder);
+
+                    for (Map.Entry<String, byte[]> entry : classBytesHolder.entrySet()) {
+                        saveToCache(entry.getKey(), entry.getValue());
+                        saveToCompiledDir(entry.getKey(), entry.getValue());
+                    }
+
+                    for (PreparedSource p : prepared) {
+                        addToResult(result, p.fullClassName, p.classType);
+                    }
+                    return true;
+                } else {
+                    return false;
+                }
+            } finally {
+                try {
+                    fileManager.close();
+                } catch (Exception ignored) {
+                }
+            }
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private static class PreparedSource {
+        final File file;
+        final String generatedClassName;
+        final String fullClassName;
+        final ClassType classType;
+        final String finalSourceCode;
+
+        PreparedSource(File file, String generatedClassName, String fullClassName, ClassType classType, String finalSourceCode) {
+            this.file = file;
+            this.generatedClassName = generatedClassName;
+            this.fullClassName = fullClassName;
+            this.classType = classType;
+            this.finalSourceCode = finalSourceCode;
+        }
     }
 
     private boolean compileFile(File javaFile, CompileResult result) {

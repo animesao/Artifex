@@ -471,7 +471,7 @@ public class RecipeManager {
     }
 
     private NamespacedKey recipeKey(String itemId, String type, int index) {
-        return new NamespacedKey(plugin, itemId + "_" + type + "_" + index);
+        return new NamespacedKey(plugin, (itemId + "_" + type + "_" + index).toLowerCase(Locale.ROOT));
     }
 
     /**

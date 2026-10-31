@@ -142,6 +142,20 @@ public final class CommandMapAccessor {
     }
 
     /**
+     * Synchronizes commands with players and Brigadier if supported (e.g. Paper).
+     */
+    public static void syncCommands() {
+        Object server = Bukkit.getServer();
+        if (server == null) return;
+        try {
+            Method syncMethod = server.getClass().getMethod("syncCommands");
+            syncMethod.invoke(server);
+        } catch (Throwable ignored) {
+            // Not supported on this server software or version
+        }
+    }
+
+    /**
      * Reset the cache (in case the server is swapped in the tests).
      */
     public static synchronized void reset() {

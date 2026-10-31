@@ -147,6 +147,7 @@ public final class EnumCache {
 
     private static final Map<String, Object> ENCHANTMENT_CACHE = new ConcurrentHashMap<>();
 
+    @SuppressWarnings("deprecation")
     public static Enchantment getEnchantment(String name) {
         if (name == null || name.isEmpty()) return null;
         String key = name.toLowerCase(Locale.ROOT).replace('-', '_');
@@ -159,7 +160,14 @@ public final class EnumCache {
         try {
             ench = Enchantment.getByKey(NamespacedKey.minecraft(key));
         } catch (Exception ignored) {
-            // Unknown enchantment — return null
+            // Fall through to getByName
+        }
+        if (ench == null) {
+            try {
+                ench = Enchantment.getByName(key.toUpperCase(Locale.ROOT));
+            } catch (Exception ignored) {
+                // Unknown enchantment — return null
+            }
         }
         ENCHANTMENT_CACHE.put(key, ench == null ? NULL : ench);
         return ench;

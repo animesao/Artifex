@@ -42,7 +42,7 @@ public class PlayerListener implements Listener {
     // blocked another item with a different cooldown.
     private final Map<UUID, Map<String, Long>> playerCooldowns = new HashMap<>();
 
-    private static final long MIN_CLICK_DELAY = 200L;
+    private static final long MIN_CLICK_DELAY = 50L;
 
     public PlayerListener(Main plugin) {
         this.plugin = plugin;
@@ -61,10 +61,8 @@ public class PlayerListener implements Listener {
         // The global task will handle it on the next tick
         getChecker().markForRecalculation(player);
 
-        if ((player.isOp() || player.hasPermission("customitems.admin") || player.hasPermission("*")) && plugin.getConfig().getBoolean("update-available", false)) {
-            String latest = plugin.getConfig().getString("latest-version", "unknown");
-            player.sendMessage(plugin.getMessageManager().getMessage("plugin.update-available", "&e[CustomItems] &fA new version is available: &b{version}").replace("{version}", latest));
-            player.sendMessage(plugin.getMessageManager().getMessage("plugin.update-download", "&e[CustomItems] &fDownload the update from the plugin page"));
+        if (plugin.getUpdateChecker() != null) {
+            plugin.getUpdateChecker().notifyPlayer(player);
         }
     }
 
@@ -154,10 +152,7 @@ public class PlayerListener implements Listener {
                 }
                 return;
             }
-            setCooldownTime(playerId, customItemId, currentTime);
         }
-
-        boolean consumable = "CONSUMABLE".equals(customItem.getType());
 
         if (customItem.hasMaxUses()) {
             int currentUses = plugin.getItemHandler().getItemUses(actualItem);
@@ -174,7 +169,27 @@ public class PlayerListener implements Listener {
                 player.sendMessage(msg);
                 return;
             }
+        }
 
+        // Use event — third-party plugins can cancel the click before cooldown & uses are deducted
+        me.dcplugin.dcustomitems.events.CustomItemUseEvent useEvent = new me.dcplugin.dcustomitems.events.CustomItemUseEvent(
+                player, customItem,
+                isRightClick
+                        ? me.dcplugin.dcustomitems.events.CustomItemUseEvent.UseType.RIGHT_CLICK
+                        : me.dcplugin.dcustomitems.events.CustomItemUseEvent.UseType.LEFT_CLICK);
+        plugin.getServer().getPluginManager().callEvent(useEvent);
+        if (useEvent.isCancelled()) {
+            event.setCancelled(true);
+            return;
+        }
+
+        if (cooldown > 0) {
+            setCooldownTime(playerId, customItemId, currentTime);
+        }
+
+        boolean consumable = "CONSUMABLE".equals(customItem.getType());
+
+        if (customItem.hasMaxUses()) {
             plugin.getItemHandler().decrementItemUses(actualItem);
 
             if (hand == EquipmentSlot.HAND) {
@@ -185,8 +200,6 @@ public class PlayerListener implements Listener {
 
             int newUses = plugin.getItemHandler().getItemUses(actualItem);
             if (newUses <= 0) {
-                // Last use: the consumable effect is applied anyway —
-                // previously the item disappeared before the effect was applied.
                 if (consumable) {
                     plugin.getEffectManager().applyEffects(player, customItem);
                 }
@@ -202,18 +215,6 @@ public class PlayerListener implements Listener {
                 player.sendMessage(msg);
                 return;
             }
-        }
-
-        // Use event — third-party plugins can cancel the click entirely
-        me.dcplugin.dcustomitems.events.CustomItemUseEvent useEvent = new me.dcplugin.dcustomitems.events.CustomItemUseEvent(
-                player, customItem,
-                isRightClick
-                        ? me.dcplugin.dcustomitems.events.CustomItemUseEvent.UseType.RIGHT_CLICK
-                        : me.dcplugin.dcustomitems.events.CustomItemUseEvent.UseType.LEFT_CLICK);
-        plugin.getServer().getPluginManager().callEvent(useEvent);
-        if (useEvent.isCancelled()) {
-            event.setCancelled(true);
-            return;
         }
 
         if (consumable) {
@@ -333,7 +334,9 @@ public class PlayerListener implements Listener {
             CustomItem customItem = plugin.getItemHandler().getCustomItem(itemId);
             if (customItem != null) {
                 // Set the acquisition time for duration items
-                plugin.getItemHandler().ensureAcquiredTime(pickedItem);
+                if (plugin.getItemHandler().ensureAcquiredTime(pickedItem)) {
+                    event.getItem().setItemStack(pickedItem);
+                }
 
                 // Check the world restrictions
                 if (!customItem.isAllowedInWorld(player.getWorld().getName())) {
@@ -350,7 +353,9 @@ public class PlayerListener implements Listener {
                 me.dcplugin.dcustomitems.api.AbstractCustomItem javaItem =
                         plugin.getApiItemRegistry().getItem(itemId);
                 if (javaItem != null) {
-                    plugin.getItemHandler().ensureAcquiredTime(pickedItem);
+                    if (plugin.getItemHandler().ensureAcquiredTime(pickedItem)) {
+                        event.getItem().setItemStack(pickedItem);
+                    }
                     if (!javaItem.isAllowedInWorld(player.getWorld().getName())) {
                         event.setCancelled(true);
                         player.sendMessage(me.dcplugin.dcustomitems.utils.ColorUtils.processMessage(player,
@@ -366,4 +371,4 @@ public class PlayerListener implements Listener {
         }
         getChecker().markForRecalculation(player);
     }
-}
+}

@@ -78,6 +78,7 @@ public final class PluginLogManager {
             fileHandler.close();
             fileHandler = null;
         }
+        logger.setUseParentHandlers(true);
     }
 
     private void removeExistingHandlers(Logger logger) {
