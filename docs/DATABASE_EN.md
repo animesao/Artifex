@@ -1,4 +1,4 @@
-# Data Storage: SQLite, MySQL, and YAML
+﻿# Data Storage: SQLite, MySQL, and YAML
 
 This guide explains where to store data for promo codes, balances, quests, statistics, and settings.
 
@@ -6,9 +6,9 @@ This guide explains where to store data for promo codes, balances, quests, stati
 
 | Option | Best for | Location |
 |---|---|---|
-| SQLite | One server, small data, easiest setup | `plugins/DC-CustomItems/data.db` |
+| SQLite | One server, small data, easiest setup | `plugins/Artifex/data.db` |
 | MySQL | Multiple servers, shared balances, many players | Separate MySQL server |
-| YAML | Small editable settings and lists | `plugins/DC-CustomItems/storage/*.yml` |
+| YAML | Small editable settings and lists | `plugins/Artifex/storage/*.yml` |
 
 **Beginner recommendation:** start with SQLite. Java mechanics use the same `DatabaseManager` API, so moving to MySQL normally only requires changing `config.yml`.
 
@@ -43,7 +43,7 @@ For a remote MySQL server, use an allowed address or a restricted user. Do not e
 Open:
 
 ```text
-plugins/DC-CustomItems/config.yml
+plugins/Artifex/config.yml
 ```
 
 Set:
@@ -96,8 +96,8 @@ If it fails, check the host, port, database name, password, firewall, and user g
 Get the manager:
 
 ```java
-import me.dcplugin.dcustomitems.Main;
-import me.dcplugin.dcustomitems.api.database.DatabaseManager;
+import me.dcplugin.artifex.Main;
+import me.dcplugin.artifex.api.database.DatabaseManager;
 
 DatabaseManager db = Main.getInstance().getDatabaseManager();
 ```
@@ -165,7 +165,7 @@ samples/EXAMPLE-promo-code.java
 Copy it to the server without the `EXAMPLE-` prefix:
 
 ```text
-plugins/DC-CustomItems/items/promo-code.java
+plugins/Artifex/items/promo-code.java
 ```
 
 Run:
@@ -194,8 +194,8 @@ This is a foundation example. For a production system, add a redemption table ke
 For small data, use:
 
 ```java
-import me.dcplugin.dcustomitems.Main;
-import me.dcplugin.dcustomitems.api.database.YamlStorage;
+import me.dcplugin.artifex.Main;
+import me.dcplugin.artifex.api.database.YamlStorage;
 
 YamlStorage storage = Main.getInstance().createYamlStorage("promo.yml");
 storage.set("codes.DEMO2026.reward", "diamond:3");
@@ -208,7 +208,7 @@ String reward = storage.getString("codes.DEMO2026.reward", "");
 The file is created at:
 
 ```text
-plugins/DC-CustomItems/storage/promo.yml
+plugins/Artifex/storage/promo.yml
 ```
 
 YAML is convenient for manual editing, but it is not suitable for frequent writes, high player counts, or complex statistics. `YamlStorage` is synchronous, so do not call `save()` every tick.

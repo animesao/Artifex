@@ -1,6 +1,6 @@
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-import me.dcplugin.dcustomitems.api.ItemAPI;
-import me.dcplugin.dcustomitems.api.RecipeDef;
+﻿import me.dcplugin.artifex.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.ItemAPI;
+import me.dcplugin.artifex.api.RecipeDef;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -20,7 +20,7 @@ import java.util.Map;
  *
  * The file is in items/EXAMPLES/ — the folder is NOT copied to the server and is NOT
  * compiled at runtime (see DefaultContentExtractor / ItemRegistry).
- * To enable it: copy it into plugins/DC-CustomItems/items/ and /ci reload,
+ * To enable it: copy it into plugins/Artifex/items/ and /ci reload,
  * then /api-item give frostblade.
  *
  * What the example shows:

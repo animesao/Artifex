@@ -1,5 +1,5 @@
-import me.dcplugin.dcustomitems.api.modules.Module;
-import me.dcplugin.dcustomitems.Main;
+﻿import me.dcplugin.artifex.api.modules.Module;
+import me.dcplugin.artifex.Main;
 import org.bukkit.*;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;

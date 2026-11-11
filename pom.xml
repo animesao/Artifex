@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.dcplugin</groupId>
-    <artifactId>dcustomitems</artifactId>
-    <version>1.339.0</version>
+    <artifactId>artifex</artifactId>
+    <version>1.340.0</version>
     <packaging>jar</packaging>
 
-    <name>DC-CustomItems</name>
+    <name>Artifex</name>
     <description>Custom Items plugin for Bukkit/Spigot</description>
 
     <properties>
@@ -145,7 +145,7 @@
                             <relocations>
                                 <relocation>
                                     <pattern>com.zaxxer.hikari</pattern>
-                                    <shadedPattern>me.dcplugin.dcustomitems.libs.hikari</shadedPattern>
+                                    <shadedPattern>me.dcplugin.artifex.libs.hikari</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

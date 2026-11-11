@@ -1,6 +1,6 @@
-import me.dcplugin.dcustomitems.api.commands.CustomCommand;
-import me.dcplugin.dcustomitems.Main;
-import me.dcplugin.dcustomitems.api.modules.Module;
+﻿import me.dcplugin.artifex.api.commands.CustomCommand;
+import me.dcplugin.artifex.Main;
+import me.dcplugin.artifex.api.modules.Module;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

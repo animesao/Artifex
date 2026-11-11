@@ -1,4 +1,4 @@
-# 📚 Reference Java examples (the `EXAMPLES/` folder)
+﻿# 📚 Reference Java examples (the `EXAMPLES/` folder)
 
 This folder contains **complete reference Java items** for learning the Java API.
 
@@ -11,13 +11,13 @@ This folder contains **complete reference Java items** for learning the Java API
 ## 📋 The `EXAMPLE-*` sample rule
 
 Files with the `EXAMPLE-*` prefix in the root of `items/` are samples: on the first
-launch the plugin copies them into `plugins/DC-CustomItems/items/` as reference
+launch the plugin copies them into `plugins/Artifex/items/` as reference
 material, but the compiler and the loaders ignore them.
 
 ## ▶️ How to enable an example
 
 1. Copy the needed file from this folder (or from `items/` in the jar)
-   into `plugins/DC-CustomItems/items/`.
+   into `plugins/Artifex/items/`.
 2. Remove the `EXAMPLE-` prefix from the file name (or the folder).
 3. Run `/ci reload`.
 4. Check: `api-item list` → the item ID should appear.

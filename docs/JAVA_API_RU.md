@@ -1,4 +1,4 @@
-# Руководство по Java API
+﻿# Руководство по Java API
 
 ## 📚 Полный Справочник
 
@@ -22,11 +22,11 @@ Java API позволяет создавать продвинутые касто
 
 ### Шаг 1: Создайте Класс Предмета
 
-Создайте новый Java файл в `plugins/DC-CustomItems/items/`:
+Создайте новый Java файл в `plugins/Artifex/items/`:
 
 ```java
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-import me.dcplugin.dcustomitems.api.ItemAPI;
+import me.dcplugin.artifex.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.ItemAPI;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -378,8 +378,8 @@ ItemAPI.giveItem(player, Material.DIAMOND, 5);
 ### Огненный Меч
 
 ```java
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-import me.dcplugin.dcustomitems.api.ItemAPI;
+import me.dcplugin.artifex.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.ItemAPI;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -450,8 +450,8 @@ public class FireSword extends AbstractCustomItem {
 ### Посох Телепортации
 
 ```java
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-import me.dcplugin.dcustomitems.api.ItemAPI;
+import me.dcplugin.artifex.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.ItemAPI;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -523,8 +523,8 @@ public class TeleportStaff extends AbstractCustomItem {
 ### Лечащий Шлем
 
 ```java
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-import me.dcplugin.dcustomitems.api.ItemAPI;
+import me.dcplugin.artifex.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.ItemAPI;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -600,7 +600,7 @@ public class HealingHelmet extends AbstractCustomItem {
 Java-предмет может объявить крафт-рецепты — переопределите `getRecipes()`:
 
 ```java
-import me.dcplugin.dcustomitems.api.RecipeDef;
+import me.dcplugin.artifex.api.RecipeDef;
 
 @Override
 public List<RecipeDef> getRecipes() {

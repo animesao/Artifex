@@ -6,15 +6,15 @@
   <img src="https://img.shields.io/github/license/animesao/dcustomitems-purple?style=for-the-badge" alt="License">
 </p>
 
-<h1 align="center">⚔️ DC-CustomItems</h1>
+<h1 align="center">⚔️ Artifex</h1>
 
 <p align="center">
-  <b>Модульный плагин кастомных предметов для Minecraft 1.21.8+ (Paper/Spigot)</b><br>
+  <b>Модульный плагин кастомных предметов и механик для Minecraft 1.21.8+ (Paper/Spigot)</b><br>
   Создавай, настраивай и расширяй кастомные предметы без ограничений!
 </p>
 
 <p align="center">
-  <a href="#что-такое-dc-customitems">О плагине</a> •
+  <a href="#что-такое-artifex">О плагине</a> •
   <a href="#установка">Установка</a> •
   <a href="#быстрый-старт">Быстрый старт</a> •
   <a href="#модульная-архитектура">Модули</a> •
@@ -25,9 +25,9 @@
 
 ---
 
-## 📖 Что такое DC-CustomItems
+## 📖 Что такое Artifex
 
-**DC-CustomItems** — это модульный плагин для Minecraft 1.21.8+, который позволяет создавать кастомные предметы с уникальными механиками.
+**Artifex** — это модульный плагин для Minecraft 1.21.8+, который позволяет создавать кастомные предметы с уникальными механиками.
 
 ### Ключевые особенности
 
@@ -49,10 +49,10 @@
 
 ## 🏗️ Модульная архитектура
 
-DC-CustomItems построен по принципу **"ядро + модули"**. Ядро плагина минимально — вся функциональность в модулях.
+Artifex построен по принципу **"ядро + модули"**. Ядро плагина минимально — вся функциональность в модулях.
 
 ```
-plugins/DC-CustomItems/
+plugins/Artifex/
 ├── items/                      # Все модули, предметы и образцы
 │   ├── EXAMPLE-vault/          # 💰 Модуль экономики (Vault) — образец
 │   │   ├── config.yml          # Настройки модуля
@@ -125,7 +125,7 @@ vim items/my-module/config.yml
 ```bash
 # Скачать последний релиз
 cd ~/server/plugins
-curl -L -o dcustomitems.jar https://github.com/animesao/dcustomitems/releases/download/v1.334.0/DC-CustomItems-1.334.0.jar
+curl -L -o artifex.jar https://github.com/animesao/dcustomitems/releases/download/v1.339.0/Artifex-1.339.0.jar
 
 # Перезапустить сервер
 ./restart.sh
@@ -133,12 +133,12 @@ curl -L -o dcustomitems.jar https://github.com/animesao/dcustomitems/releases/do
 
 ### Ручная установка
 
-1. Скачай `DC-CustomItems-1.334.0.jar` из [Releases](https://github.com/animesao/dcustomitems/releases/tag/v1.334.0)
+1. Скачай `Artifex-1.339.0.jar` из [Releases](https://github.com/animesao/dcustomitems/releases)
 2. Помести в папку `plugins/`
 3. Перезапусти сервер
-4. Настрой `plugins/DC-CustomItems/config.yml`
+4. Настрой `plugins/Artifex/config.yml`
 
-> 🧩 При установке плагин создаёт **ровно один файл** — `plugins/DC-CustomItems/items/messages.java` (все сообщения плагина, их можно менять). Больше ничего не копируется: примеры лежат в репозитории ([`samples/`](samples/)), а не внутри jar. Включи нужный пример: скопируй файл/папку из `samples/` в `items/` и убери префикс `EXAMPLE-` из имени (`EXAMPLE-give-command.java` → `give-command.java`, `EXAMPLE-vault/` → `vault/`), затем `/ci reload`. Контент отключается удалением файла/папки из `items/`.
+> 🧩 При установке плагин создаёт **ровно один файл** — `plugins/Artifex/items/messages.java` (все сообщения плагина, их можно менять). Больше ничего не копируется: примеры лежат в репозитории ([`samples/`](samples/)), а не внутри jar. Включи нужный пример: скопируй файл/папку из `samples/` в `items/` и убери префикс `EXAMPLE-` из имени (`EXAMPLE-give-command.java` → `give-command.java`, `EXAMPLE-vault/` → `vault/`), затем `/artifex reload`. Контент отключается удалением файла/папки из `items/`.
 
 > ⚠️ О безопасности Java API: плагин компилирует `.java`-файлы из `items/` прямо
 > на сервере — это выполнение произвольного кода. Если доступ к файлам плагина
@@ -172,7 +172,7 @@ curl -L -o dcustomitems.jar https://github.com/animesao/dcustomitems/releases/do
 
 ### 2. Создай свой предмет
 
-Создай файл `plugins/DC-CustomItems/items/my-sword.yml`:
+Создай файл `plugins/Artifex/items/my-sword.yml`:
 
 ```yaml
 my-sword:
@@ -604,8 +604,8 @@ items/my-module/
 ## 🏗️ Архитектура
 
 ```
-DC-CustomItems/
-├── src/main/java/me/dcplugin/dcustomitems/
+Artifex/
+├── src/main/java/me/dcplugin/artifex/
 │   ├── Main.java                    # Точка входа (делегирует в PluginBootstrap)
 │   ├── bootstrap/
 │   │   ├── PluginBootstrap.java     # Инициализация всех компонентов
@@ -634,13 +634,7 @@ DC-CustomItems/
 │       └── ItemBuilder.java         # Билдер предметов
 ├── src/main/resources/
 │   ├── plugin.yml                   # Конфигурация плагина
-│   ├── config.yml                   # Настройки
-│   └── items/                   # Образцы EXAMPLE-* (копируются в items/ при первом запуске)
-│       ├── EXAMPLE-*.yml        # Предметы
-│       ├── EXAMPLE-*.java       # Java API модули
-│       ├── EXAMPLE-vault/       # Модуль экономики — образец
-│       ├── EXAMPLE-deluxemenux/ # Модуль GUI — образец
-│       └── _template/           # Шаблон для новых модулей (в jar)
+│   └── config.yml                   # Настройки
 ```
 
 ---
@@ -663,8 +657,8 @@ DC-CustomItems/
 |-------|--------------|----------|
 | `java-compilation` | `true` | Runtime-компиляция `.java` из `items/` (выполнение произвольного кода) |
 | `debug-mode` | `false` | Подробное логирование |
-| `file-logging` | `false` | Логи плагина в `plugins/DC-CustomItems/logs/latest.log` вместо консоли |
-| `backup.on-reload` / `backup.keep` | `true` / `5` | Бэкап `items/` перед `/ci reload` |
+| `file-logging` | `false` | Логи плагина в `plugins/Artifex/logs/latest.log` вместо консоли |
+| `backup.on-reload` / `backup.keep` | `true` / `5` | Бэкап `items/` перед `/artifex reload` |
 
 ---
 

@@ -1,4 +1,4 @@
-import me.dcplugin.dcustomitems.api.placeholders.CustomPlaceholder;
+﻿import me.dcplugin.artifex.api.placeholders.CustomPlaceholder;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import java.util.UUID;
  *
  * Ranks: Novice(1) → Player(2) → VIP(3) → Premium(4) → Legendary(5)
  *
- * Put this file in plugins/DC-CustomItems/items/
+ * Put this file in plugins/Artifex/items/
  * Run /ci reload
  *
  * Examples:

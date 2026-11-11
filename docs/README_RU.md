@@ -1,10 +1,10 @@
-# DC-CustomItems — полная документация
+﻿# Artifex — полная документация
 
 **Версия документации:** 1.325.0
 **Minecraft:** Paper/Spigot 1.21.x
 **Java для сервера:** Java 21+ требуется для Paper 1.21.8+ и для сборки проекта.
 
-DC-CustomItems позволяет создавать кастомные предметы, способности, команды, плейсхолдеры и GUI. Начать можно **без знания Java**: обычные предметы создаются в YAML. Java нужна только для сложных механик, собственных команд и модулей.
+Artifex позволяет создавать кастомные предметы, способности, команды, плейсхолдеры и GUI. Начать можно **без знания Java**: обычные предметы создаются в YAML. Java нужна только для сложных механик, собственных команд и модулей.
 
 ---
 
@@ -58,7 +58,7 @@ DC-CustomItems позволяет создавать кастомные пред
 - модули со своими `config.yml`, `items.yml` и GUI;
 - хранение прогресса в SQLite или MySQL;
 
-Важно: DC-CustomItems компилирует пользовательские Java-файлы во время работы сервера. Поэтому запускайте только код, которому доверяете, и делайте резервную копию перед изменениями.
+Важно: Artifex компилирует пользовательские Java-файлы во время работы сервера. Поэтому запускайте только код, которому доверяете, и делайте резервную копию перед изменениями.
 
 ---
 
@@ -75,7 +75,7 @@ DC-CustomItems позволяет создавать кастомные пред
 
 ```bash
 cd ~/test/plugins
-curl -fL -o dcustomitems.jar "https://github.com/animesao/dcustomitems/releases/download/v1.320.282/DC-CustomItems-1.320.282.jar"
+curl -fL -o dcustomitems.jar "https://github.com/animesao/dcustomitems/releases/download/v1.320.282/Artifex-1.320.282.jar"
 ```
 
 Для обычного сервера замените `~/test/plugins` на путь к своей папке `plugins/`.
@@ -85,13 +85,13 @@ curl -fL -o dcustomitems.jar "https://github.com/animesao/dcustomitems/releases/
 1. Положите `dcustomitems.jar` в `plugins/`.
 2. Запустите сервер.
 3. Дождитесь сообщения `CustomItems enabled!`.
-4. Плагин создаст папку `plugins/DC-CustomItems/`.
-5. Проверьте версию командой `/version DC-CustomItems` или по консоли.
+4. Плагин создаст папку `plugins/Artifex/`.
+5. Проверьте версию командой `/version Artifex` или по консоли.
 
 При первом запуске создаются примерно такие файлы:
 
 ```text
-plugins/DC-CustomItems/
+plugins/Artifex/
 ├── config.yml       # настройки плагина
 ├── data.db          # SQLite-база (если выбран sqlite)
 ├── storage/         # небольшие YAML-хранилища
@@ -109,7 +109,7 @@ plugins/DC-CustomItems/
 Создайте файл:
 
 ```text
-plugins/DC-CustomItems/items/hello-sword.yml
+plugins/Artifex/items/hello-sword.yml
 ```
 
 Содержимое:
@@ -278,7 +278,7 @@ triggers:
 События срабатывают и для YAML-предметов, и для Java API-предметов (`AbstractCustomItem`):
 
 ```java
-import me.dcplugin.dcustomitems.events.CustomItemUseEvent;
+import me.dcplugin.artifex.events.CustomItemUseEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -545,8 +545,8 @@ Java-файл — это инструкция для сервера. В нём �
 Минимальный Java-предмет:
 
 ```java
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-import me.dcplugin.dcustomitems.api.ItemAPI;
+import me.dcplugin.artifex.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.ItemAPI;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -597,7 +597,7 @@ public class WelcomeItem extends AbstractCustomItem {
 Наследуйте `CustomCommand`:
 
 ```java
-import me.dcplugin.dcustomitems.api.commands.CustomCommand;
+import me.dcplugin.artifex.api.commands.CustomCommand;
 import org.bukkit.command.CommandSender;
 
 public class PingCommand extends CustomCommand {
@@ -629,7 +629,7 @@ public class PingCommand extends CustomCommand {
 Минимальный плейсхолдер:
 
 ```java
-import me.dcplugin.dcustomitems.api.placeholders.CustomPlaceholder;
+import me.dcplugin.artifex.api.placeholders.CustomPlaceholder;
 import org.bukkit.entity.Player;
 
 public class ServerNamePlaceholder extends CustomPlaceholder {
@@ -644,7 +644,7 @@ public class ServerNamePlaceholder extends CustomPlaceholder {
 }
 ```
 
-Значение запрашивается как `%server_name%` в системах, которые вызывают PlaceholderManager. Сам DC-CustomItems не является полноценным PlaceholderAPI-адаптером для всех сторонних плагинов, поэтому совместимость конкретного места использования нужно проверять.
+Значение запрашивается как `%server_name%` в системах, которые вызывают PlaceholderManager. Сам Artifex не является полноценным PlaceholderAPI-адаптером для всех сторонних плагинов, поэтому совместимость конкретного места использования нужно проверять.
 
 ---
 
@@ -653,7 +653,7 @@ public class ServerNamePlaceholder extends CustomPlaceholder {
 Модуль находится в:
 
 ```text
-plugins/DC-CustomItems/items/deluxemenux/   # после включения EXAMPLE-deluxemenux/ → deluxemenux/
+plugins/Artifex/items/deluxemenux/   # после включения EXAMPLE-deluxemenux/ → deluxemenux/
 ├── config.yml
 ├── deluxemenux.java
 ├── menu-command.java
@@ -757,7 +757,7 @@ Java-модуль наследует `Module` и реализует `onEnable()`
 Плагин подключает базу:
 
 ```text
-plugins/DC-CustomItems/data.db
+plugins/Artifex/data.db
 ```
 
 Java API предоставляет `DatabaseManager`:
@@ -853,7 +853,7 @@ protected String message(String path, String defaultMessage) { ... }
 Перед обновлением:
 
 ```bash
-cp -a plugins/DC-CustomItems plugins/DC-CustomItems.backup
+cp -a plugins/Artifex plugins/Artifex.backup
 cp server.properties server.properties.backup
 ```
 
@@ -862,14 +862,14 @@ cp server.properties server.properties.backup
 ```bash
 dck stop test2
 cd ~/test/plugins
-curl -fL -o dcustomitems.jar "https://github.com/animesao/dcustomitems/releases/download/v1.320.282/DC-CustomItems-1.320.282.jar"
+curl -fL -o dcustomitems.jar "https://github.com/animesao/dcustomitems/releases/download/v1.320.282/Artifex-1.320.282.jar"
 # очищайте cache/compiled только если менялась система Java-компиляции
-rm -rf DC-CustomItems/cache DC-CustomItems/compiled
+rm -rf Artifex/cache Artifex/compiled
 dck start test2
 dck attach test2
 ```
 
-Не удаляйте `DC-CustomItems/` целиком, если хотите сохранить свои предметы, меню и базу.
+Не удаляйте `Artifex/` целиком, если хотите сохранить свои предметы, меню и базу.
 
 ---
 
@@ -879,7 +879,7 @@ dck attach test2
 
 - версию Paper;
 - версию Java;
-- версию DC-CustomItems;
+- версию Artifex;
 - имя изменённого файла;
 - полную первую ошибку из консоли;
 - результат `/ci list`, `/api-item list` и `/plugins`.

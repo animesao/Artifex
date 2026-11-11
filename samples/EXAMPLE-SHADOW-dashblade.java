@@ -1,4 +1,4 @@
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
+﻿import me.dcplugin.artifex.api.AbstractCustomItem;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
@@ -223,7 +223,7 @@ public class ShadowDashblade extends AbstractCustomItem {
 
         // Fast teleportation (via scheduler for the animation)
         Bukkit.getScheduler().runTaskLater(
-            Bukkit.getPluginManager().getPlugin("DC-CustomItems"),
+            Bukkit.getPluginManager().getPlugin("Artifex"),
             () -> {
                 player.teleport(target.add(0, 0, 0));
                 player.getWorld().spawnParticle(Particle.LARGE_SMOKE, player.getLocation().add(0, 1, 0), 50);

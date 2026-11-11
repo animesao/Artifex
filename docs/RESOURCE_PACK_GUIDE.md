@@ -1,8 +1,8 @@
-# 🎨 DC-CustomItems — Руководство по Resource Pack
+﻿# 🎨 Artifex — Руководство по Resource Pack
 
 ## Описание
 
-DC-CustomItems поддерживает три способа кастомизации внешнего вида предметов:
+Artifex поддерживает три способа кастомизации внешнего вида предметов:
 
 1. **`item-model`** — имя модели (1.21.4+, Unicode textures)
 2. **`custom-model-data`** — числовая модель (legacy, работает во всех версиях)
@@ -254,7 +254,7 @@ dcustomitems-resourcepack/
 {
   "pack": {
     "pack_format": 46,
-    "description": "DC-CustomItems Resource Pack"
+    "description": "Artifex Resource Pack"
   }
 }
 ```

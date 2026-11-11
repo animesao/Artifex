@@ -1,13 +1,13 @@
-# Модули и GUI — русский справочник
+﻿# Модули и GUI — русский справочник
 
 ## 1. Что такое модуль
 
-Модуль — отдельная функция внутри DC-CustomItems. Он может иметь свои Java-файлы, `config.yml`, `items.yml`, команды и меню.
+Модуль — отдельная функция внутри Artifex. Он может иметь свои Java-файлы, `config.yml`, `items.yml`, команды и меню.
 
 Пример структуры:
 
 ```text
-plugins/DC-CustomItems/items/my-feature/
+plugins/Artifex/items/my-feature/
 ├── config.yml
 ├── items.yml
 ├── my-feature.java
@@ -16,7 +16,7 @@ plugins/DC-CustomItems/items/my-feature/
     └── main.yml
 ```
 
-Java-модуль должен наследовать `me.dcplugin.dcustomitems.api.modules.Module` и иметь конструктор:
+Java-модуль должен наследовать `me.dcplugin.artifex.api.modules.Module` и иметь конструктор:
 
 ```java
 public MyFeatureModule(Main plugin, String id, File folder) {
@@ -63,12 +63,12 @@ permissions:
 ## 3. DeluxeMenuX
 
 Готовый модуль в jar/repository лежит как образец `EXAMPLE-deluxemenux/`.
-Включите его: скопируйте папку в `plugins/DC-CustomItems/items/` и уберите
+Включите его: скопируйте папку в `plugins/Artifex/items/` и уберите
 префикс `EXAMPLE-` из имени (`EXAMPLE-deluxemenux/` → `deluxemenux/`),
 затем `/ci reload`. После этого модуль находится в:
 
 ```text
-plugins/DC-CustomItems/items/deluxemenux/
+plugins/Artifex/items/deluxemenux/
 ├── config.yml
 ├── deluxemenux.java
 ├── menu-command.java
@@ -138,7 +138,7 @@ items:
 
 ## 5. Как добавить своё меню
 
-1. Создайте `plugins/DC-CustomItems/items/deluxemenux/menus/quests.yml`.
+1. Создайте `plugins/Artifex/items/deluxemenux/menus/quests.yml`.
 2. Добавьте настройки `title`, `size` и `items`.
 3. Выполните `/ci reload`.
 4. Откройте `/menu quests`.

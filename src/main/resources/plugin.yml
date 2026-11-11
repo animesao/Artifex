@@ -1,6 +1,6 @@
-name: DC-CustomItems
-version: 1.339.0
-main: me.dcplugin.dcustomitems.Main
+name: Artifex
+version: 1.340.0
+main: me.dcplugin.artifex.Main
 api-version: '1.21'
 description: Modular custom items plugin with Java API
 author: animesao
@@ -10,13 +10,22 @@ softdepend:
   - Vault
 
 commands:
-  customitems:
-    description: Reload plugin
-    usage: /customitems reload
-    aliases: [ci]
-    permission: dcustomitems.reload
+  artifex:
+    description: Reload Artifex plugin
+    usage: /artifex reload
+    aliases: [af, art, ci, customitems]
+    permission: artifex.reload
 
 permissions:
-  dcustomitems.reload:
+  artifex.reload:
     description: Reload plugin
+    default: op
+  dcustomitems.reload:
+    description: Legacy reload permission
+    default: op
+  artifex.update:
+    description: Receive update notifications
+    default: op
+  customitems.update:
+    description: Legacy update notification permission
     default: op

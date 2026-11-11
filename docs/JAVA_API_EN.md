@@ -1,4 +1,4 @@
-# Java API Guide
+﻿# Java API Guide
 
 ## 📚 Complete Reference
 
@@ -22,11 +22,11 @@ The Java API allows you to create advanced custom items with full Java code supp
 
 ### Step 1: Create Item Class
 
-Create a new Java file in `plugins/DC-CustomItems/items/`:
+Create a new Java file in `plugins/Artifex/items/`:
 
 ```java
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-import me.dcplugin.dcustomitems.api.ItemAPI;
+import me.dcplugin.artifex.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.ItemAPI;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -378,8 +378,8 @@ ItemAPI.giveItem(player, Material.DIAMOND, 5);
 ### Fire Sword
 
 ```java
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-import me.dcplugin.dcustomitems.api.ItemAPI;
+import me.dcplugin.artifex.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.ItemAPI;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -448,8 +448,8 @@ public class FireSword extends AbstractCustomItem {
 ### Teleport Staff
 
 ```java
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-import me.dcplugin.dcustomitems.api.ItemAPI;
+import me.dcplugin.artifex.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.ItemAPI;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -520,8 +520,8 @@ public class TeleportStaff extends AbstractCustomItem {
 ### Healing Armor
 
 ```java
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-import me.dcplugin.dcustomitems.api.ItemAPI;
+import me.dcplugin.artifex.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.ItemAPI;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -597,7 +597,7 @@ public class HealingHelmet extends AbstractCustomItem {
 A Java item can declare crafting recipes by overriding `getRecipes()`:
 
 ```java
-import me.dcplugin.dcustomitems.api.RecipeDef;
+import me.dcplugin.artifex.api.RecipeDef;
 
 @Override
 public List<RecipeDef> getRecipes() {

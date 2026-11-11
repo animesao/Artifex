@@ -1,4 +1,4 @@
-import me.dcplugin.dcustomitems.api.placeholders.CustomPlaceholder;
+﻿import me.dcplugin.artifex.api.placeholders.CustomPlaceholder;
 import org.bukkit.entity.Player;
 
 import java.time.LocalDate;
@@ -15,7 +15,7 @@ import java.util.UUID;
  *   %streak_best%      → "12" (best streak)
  *   %streak_status%    → "🔥 Active" / "❌ Broken"
  *
- * Put this file in plugins/DC-CustomItems/items/
+ * Put this file in plugins/Artifex/items/
  * Run /ci reload
  *
  * Examples:

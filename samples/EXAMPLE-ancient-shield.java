@@ -1,5 +1,5 @@
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-import me.dcplugin.dcustomitems.api.ItemAPI;
+﻿import me.dcplugin.artifex.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.ItemAPI;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
@@ -52,7 +52,7 @@ public class AncientShield extends AbstractCustomItem {
     public void onEquip(Player player) {
         // Increase maximum health ( NamespacedKey method)
         if (player.getAttribute(Attribute.MAX_HEALTH) != null) {
-            NamespacedKey key = new NamespacedKey("dcustomitems", "ancient_shield_health");
+            NamespacedKey key = new NamespacedKey("artifex", "ancient_shield_health");
             AttributeModifier modifier = new AttributeModifier(
                 key,
                 8, // +4 hearts = +8 HP

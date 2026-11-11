@@ -1,10 +1,10 @@
-import me.dcplugin.dcustomitems.api.placeholders.CustomPlaceholder;
+﻿import me.dcplugin.artifex.api.placeholders.CustomPlaceholder;
 import org.bukkit.entity.Player;
 
 /**
  * %kills% placeholder - kill count
  * 
- * Put this file in plugins/DC-CustomItems/items/
+ * Put this file in plugins/Artifex/items/
  * Run /ci reload
  * Use %kills% in any text!
  * 

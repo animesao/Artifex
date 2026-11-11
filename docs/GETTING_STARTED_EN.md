@@ -1,4 +1,4 @@
-# Getting Started with DC-CustomItems
+﻿# Getting Started with Artifex
 
 ## 🎯 Welcome!
 
@@ -23,7 +23,7 @@ Before we start, make sure you have:
 
 Open your server folder and go to:
 ```
-plugins/DC-CustomItems/items/
+plugins/Artifex/items/
 ```
 
 ### Create a New File
@@ -56,7 +56,7 @@ hello_sword:
 
 You should see:
 ```
-[DC-CustomItems] Loaded 1 custom items
+[Artifex] Loaded 1 custom items
 ```
 
 ---
@@ -262,7 +262,7 @@ If something doesn't work, check the server console for errors!
 
 ## 🎉 Congratulations!
 
-You've learned the basics of DC-CustomItems!
+You've learned the basics of Artifex!
 
 ### What You Can Do Now:
 

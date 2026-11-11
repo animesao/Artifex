@@ -1,4 +1,4 @@
-import me.dcplugin.dcustomitems.api.placeholders.CustomPlaceholder;
+﻿import me.dcplugin.artifex.api.placeholders.CustomPlaceholder;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import java.util.UUID;
  * Every kill increases the combo by 1.
  * Damage multiplier = 1 + (combo * 0.1), maximum 3.0x
  *
- * Put this file in plugins/DC-CustomItems/items/
+ * Put this file in plugins/Artifex/items/
  * Run /ci reload
  *
  * Examples:

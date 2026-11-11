@@ -1,8 +1,8 @@
-import me.dcplugin.dcustomitems.Main;
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-import me.dcplugin.dcustomitems.api.commands.CustomCommand;
-import me.dcplugin.dcustomitems.models.CustomItem;
-import me.dcplugin.dcustomitems.utils.EnumCache;
+﻿import me.dcplugin.artifex.Main;
+import me.dcplugin.artifex.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.commands.CustomCommand;
+import me.dcplugin.artifex.models.CustomItem;
+import me.dcplugin.artifex.utils.EnumCache;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -33,7 +33,7 @@ public class GiveCommand extends CustomCommand {
 
     public GiveCommand() {
         super("give", "Give an item (custom or vanilla)",
-              "/give <id|material> [player] [amount]", "dcustomitems.give");
+              "/give <id|material> [player] [amount]", "artifex.give");
         setAliases("g");
     }
 

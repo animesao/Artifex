@@ -1,4 +1,4 @@
-import me.dcplugin.dcustomitems.api.commands.CustomCommand;
+﻿import me.dcplugin.artifex.api.commands.CustomCommand;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.command.*;
@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 /**
  * /heal command - Healing
  * 
- * Put this file in plugins/DC-CustomItems/items/
+ * Put this file in plugins/Artifex/items/
  * Run /ci reload
  * The command will be available!
  */

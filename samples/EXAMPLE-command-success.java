@@ -1,4 +1,4 @@
-import me.dcplugin.dcustomitems.api.commands.CustomCommand;
+﻿import me.dcplugin.artifex.api.commands.CustomCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.command.*;
 

@@ -1,4 +1,4 @@
-# ==========================================
+﻿# ==========================================
 # 📔 Module: Player Diary
 # ==========================================
 #
@@ -21,7 +21,7 @@ name: "Player Diary"
 version: "1.0"
 enabled: true
 description: "Player diary — a kills/deaths/playtime tracker"
-author: "DC-CustomItems"
+author: "Artifex"
 
 commands:
   - diary

@@ -1,4 +1,4 @@
-import me.dcplugin.dcustomitems.api.placeholders.CustomPlaceholder;
+﻿import me.dcplugin.artifex.api.placeholders.CustomPlaceholder;
 import org.bukkit.entity.Player;
 
 /**
@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
  *   %playtime_minutes%  → "135"
  *   %playtime_seconds%  → "8130"
  *
- * Put this file in plugins/DC-CustomItems/items/
+ * Put this file in plugins/Artifex/items/
  * Run /ci reload
  * Use it in any text!
  *

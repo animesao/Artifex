@@ -1,4 +1,4 @@
-# DC-CustomItems - Complete documentation on actions and triggers
+﻿# Artifex - Complete documentation on actions and triggers
 
 ## 📋 YAML format (v1.320.225+)
 

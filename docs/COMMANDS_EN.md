@@ -1,8 +1,8 @@
-# Commands Reference
+﻿# Commands Reference
 
 ## 📚 Complete Command List
 
-This guide covers all available commands in DC-CustomItems.
+This guide covers all available commands in Artifex.
 
 ---
 
@@ -86,7 +86,7 @@ List all available custom items.
 
 **Output:**
 ```
-[DC-CustomItems] Available items: my_sword, my_armor, fire_sword
+[Artifex] Available items: my_sword, my_armor, fire_sword
 ```
 
 **Permissions:**
@@ -111,8 +111,8 @@ Reload all items and configurations.
 
 **Output:**
 ```
-[DC-CustomItems] Reloaded 53 custom items
-[DC-CustomItems] [API] Loaded 2 Java API items
+[Artifex] Reloaded 53 custom items
+[Artifex] [API] Loaded 2 Java API items
 ```
 
 **Permissions:**
@@ -168,7 +168,7 @@ List all available Java API items.
 
 **Output:**
 ```
-[DC-CustomItems] Java API items: fire_sword, teleport_staff
+[Artifex] Java API items: fire_sword, teleport_staff
 ```
 
 **Permissions:**
@@ -198,10 +198,10 @@ Get information about a Java API item.
 
 **Output:**
 ```
-[DC-CustomItems] Item: fire_sword
-[DC-CustomItems] Name: Fire Sword
-[DC-CustomItems] Material: NETHERITE_SWORD
-[DC-CustomItems] Type: TOOL
+[Artifex] Item: fire_sword
+[Artifex] Name: Fire Sword
+[Artifex] Material: NETHERITE_SWORD
+[Artifex] Type: TOOL
 ```
 
 **Permissions:**
@@ -228,13 +228,13 @@ Show help message.
 
 **Output:**
 ```
-[DC-CustomItems] Available commands:
-[DC-CustomItems] /ci give <item> [player] - Give custom item
-[DC-CustomItems] /give list - List all items
-[DC-CustomItems] /ci reload - Reload plugin
-[DC-CustomItems] /api-item give <id> [player] - Give API item
-[DC-CustomItems] /api-item list - List API items
-[DC-CustomItems] /api-item info <id> - Item information
+[Artifex] Available commands:
+[Artifex] /ci give <item> [player] - Give custom item
+[Artifex] /give list - List all items
+[Artifex] /ci reload - Reload plugin
+[Artifex] /api-item give <id> [player] - Give API item
+[Artifex] /api-item list - List API items
+[Artifex] /api-item info <id> - Item information
 ```
 
 **Permissions:**

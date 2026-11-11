@@ -1,15 +1,15 @@
-# DC-CustomItems — Samples
+﻿# Artifex — Samples
 
 Ready-made examples for the plugin. **They are not installed and are not
 shipped inside the plugin jar** — a fresh install contains exactly one file:
-`plugins/DC-CustomItems/items/messages.java`.
+`plugins/Artifex/items/messages.java`.
 
 Everything here is meant to be copied into your server's `items/` folder.
 
 ## How to use a sample
 
 1. Copy the file (or the whole folder) you need into
-   `plugins/DC-CustomItems/items/`
+   `plugins/Artifex/items/`
 2. Remove the `EXAMPLE-` prefix from the name
    - `EXAMPLE-runes.yml` → `runes.yml`
    - `EXAMPLE-vault/` → `vault/`

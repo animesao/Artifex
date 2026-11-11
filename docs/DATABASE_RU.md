@@ -1,4 +1,4 @@
-# Хранение данных: SQLite, MySQL и YAML
+﻿# Хранение данных: SQLite, MySQL и YAML
 
 Этот раздел объясняет, где хранить данные механики: промокоды, балансы, квесты, статистику и настройки.
 
@@ -6,9 +6,9 @@
 
 | Вариант | Когда использовать | Файл/сервер |
 |---|---|---|
-| SQLite | Один сервер, небольшие данные, самый простой старт | `plugins/DC-CustomItems/data.db` |
+| SQLite | Один сервер, небольшие данные, самый простой старт | `plugins/Artifex/data.db` |
 | MySQL | Несколько серверов, общий баланс, много игроков | Отдельный MySQL-сервер |
-| YAML | Небольшие настройки и списки, которые удобно редактировать вручную | `plugins/DC-CustomItems/storage/*.yml` |
+| YAML | Небольшие настройки и списки, которые удобно редактировать вручную | `plugins/Artifex/storage/*.yml` |
 
 **Рекомендация новичку:** начните с SQLite. Код Java использует один и тот же `DatabaseManager`, поэтому переход на MySQL обычно требует только изменения `config.yml`.
 
@@ -43,7 +43,7 @@ FLUSH PRIVILEGES;
 Откройте:
 
 ```text
-plugins/DC-CustomItems/config.yml
+plugins/Artifex/config.yml
 ```
 
 Укажите:
@@ -96,8 +96,8 @@ Database connected: MySQL (127.0.0.1:3306/dcustomitems)
 Получение менеджера:
 
 ```java
-import me.dcplugin.dcustomitems.Main;
-import me.dcplugin.dcustomitems.api.database.DatabaseManager;
+import me.dcplugin.artifex.Main;
+import me.dcplugin.artifex.api.database.DatabaseManager;
 
 DatabaseManager db = Main.getInstance().getDatabaseManager();
 ```
@@ -165,7 +165,7 @@ samples/EXAMPLE-promo-code.java
 Скопируйте его на сервер без префикса `EXAMPLE-`:
 
 ```text
-plugins/DC-CustomItems/items/promo-code.java
+plugins/Artifex/items/promo-code.java
 ```
 
 Выполните:
@@ -194,8 +194,8 @@ VALUES ('DEMO2026', 'give %player% diamond 3', 100, 0);
 Для маленьких данных можно использовать:
 
 ```java
-import me.dcplugin.dcustomitems.Main;
-import me.dcplugin.dcustomitems.api.database.YamlStorage;
+import me.dcplugin.artifex.Main;
+import me.dcplugin.artifex.api.database.YamlStorage;
 
 YamlStorage storage = Main.getInstance().createYamlStorage("promo.yml");
 storage.set("codes.DEMO2026.reward", "diamond:3");
@@ -208,7 +208,7 @@ String reward = storage.getString("codes.DEMO2026.reward", "");
 Файл будет создан здесь:
 
 ```text
-plugins/DC-CustomItems/storage/promo.yml
+plugins/Artifex/storage/promo.yml
 ```
 
 YAML удобен для ручного редактирования, но не подходит для частых записей, большого онлайна и сложной статистики. Методы `YamlStorage` синхронные, поэтому не вызывайте `save()` каждый тик.

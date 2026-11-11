@@ -1,8 +1,8 @@
-# Resource Pack Guide
+﻿# Resource Pack Guide
 
 ## 📚 Complete Reference
 
-This guide covers everything about creating and using resource packs with DC-CustomItems.
+This guide covers everything about creating and using resource packs with Artifex.
 
 ---
 

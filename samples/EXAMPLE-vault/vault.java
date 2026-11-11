@@ -1,7 +1,7 @@
-import me.dcplugin.dcustomitems.Main;
-import me.dcplugin.dcustomitems.api.database.DatabaseManager;
-import me.dcplugin.dcustomitems.api.modules.Module;
-import me.dcplugin.dcustomitems.api.placeholders.PlaceholderManager;
+﻿import me.dcplugin.artifex.Main;
+import me.dcplugin.artifex.api.database.DatabaseManager;
+import me.dcplugin.artifex.api.modules.Module;
+import me.dcplugin.artifex.api.placeholders.PlaceholderManager;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;

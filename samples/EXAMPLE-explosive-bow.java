@@ -1,5 +1,5 @@
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-import me.dcplugin.dcustomitems.api.ItemAPI;
+﻿import me.dcplugin.artifex.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.ItemAPI;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -67,7 +67,7 @@ public class ExplosiveBow extends AbstractCustomItem {
         ItemAPI.title(player, "&c🔥 &fPOWER!", "&7Arrows will become stronger!");
     }
 
-    private me.dcplugin.dcustomitems.Main getPlugin() {
-        return me.dcplugin.dcustomitems.Main.getInstance();
+    private me.dcplugin.artifex.Main getPlugin() {
+        return me.dcplugin.artifex.Main.getInstance();
     }
 }

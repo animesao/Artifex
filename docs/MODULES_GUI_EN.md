@@ -1,13 +1,13 @@
-# Modules and GUI — English Guide
+﻿# Modules and GUI — English Guide
 
 ## 1. What is a module?
 
-A module is a separate feature inside DC-CustomItems. It can contain Java sources, `config.yml`, `items.yml`, commands, and menus.
+A module is a separate feature inside Artifex. It can contain Java sources, `config.yml`, `items.yml`, commands, and menus.
 
 Example layout:
 
 ```text
-plugins/DC-CustomItems/items/my-feature/
+plugins/Artifex/items/my-feature/
 ├── config.yml
 ├── items.yml
 ├── my-feature.java
@@ -16,7 +16,7 @@ plugins/DC-CustomItems/items/my-feature/
     └── main.yml
 ```
 
-A Java module extends `me.dcplugin.dcustomitems.api.modules.Module` and has this constructor shape:
+A Java module extends `me.dcplugin.artifex.api.modules.Module` and has this constructor shape:
 
 ```java
 public MyFeatureModule(Main plugin, String id, File folder) {
@@ -63,12 +63,12 @@ After changing files, run:
 ## 3. DeluxeMenuX
 
 The module ships as the `EXAMPLE-deluxemenux/` sample in the jar/repository.
-Enable it by copying the folder into `plugins/DC-CustomItems/items/` and
+Enable it by copying the folder into `plugins/Artifex/items/` and
 removing the `EXAMPLE-` prefix from its name (`EXAMPLE-deluxemenux/` →
 `deluxemenux/`), then run `/ci reload`. After that it lives at:
 
 ```text
-plugins/DC-CustomItems/items/deluxemenux/
+plugins/Artifex/items/deluxemenux/
 ├── config.yml
 ├── deluxemenux.java
 ├── menu-command.java
@@ -138,7 +138,7 @@ The current implementation reads `close-sound`, but does not guarantee playing i
 
 ## 5. Add your own menu
 
-1. Create `plugins/DC-CustomItems/items/deluxemenux/menus/quests.yml`.
+1. Create `plugins/Artifex/items/deluxemenux/menus/quests.yml`.
 2. Add `title`, `size`, and `items`.
 3. Run `/ci reload`.
 4. Open `/menu quests`.

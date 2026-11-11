@@ -1,8 +1,8 @@
-# Справочник Команд
+﻿# Справочник Команд
 
 ## 📚 Полный Список Команд
 
-Это руководство описывает все доступные команды в DC-CustomItems.
+Это руководство описывает все доступные команды в Artifex.
 
 ---
 
@@ -88,7 +88,7 @@
 
 **Вывод:**
 ```
-[DC-CustomItems] Доступные предметы: my_sword, my_armor, fire_sword
+[Artifex] Доступные предметы: my_sword, my_armor, fire_sword
 ```
 
 **Права:**
@@ -113,8 +113,8 @@
 
 **Вывод:**
 ```
-[DC-CustomItems] Перезагружено 53 кастомных предметов
-[DC-CustomItems] [API] Загружено 2 Java API предмета
+[Artifex] Перезагружено 53 кастомных предметов
+[Artifex] [API] Загружено 2 Java API предмета
 ```
 
 **Права:**
@@ -170,7 +170,7 @@
 
 **Вывод:**
 ```
-[DC-CustomItems] Java API предметы: fire_sword, teleport_staff
+[Artifex] Java API предметы: fire_sword, teleport_staff
 ```
 
 **Права:**
@@ -200,10 +200,10 @@
 
 **Вывод:**
 ```
-[DC-CustomItems] Предмет: fire_sword
-[DC-CustomItems] Название: Огненный Меч
-[DC-CustomItems] Материал: NETHERITE_SWORD
-[DC-CustomItems] Тип: TOOL
+[Artifex] Предмет: fire_sword
+[Artifex] Название: Огненный Меч
+[Artifex] Материал: NETHERITE_SWORD
+[Artifex] Тип: TOOL
 ```
 
 **Права:**
@@ -230,13 +230,13 @@
 
 **Вывод:**
 ```
-[DC-CustomItems] Доступные команды:
-[DC-CustomItems] /ci give <предмет> [игрок] - Выдать предмет
-[DC-CustomItems] /give list - Список предметов
-[DC-CustomItems] /ci reload - Перезагрузить плагин
-[DC-CustomItems] /api-item give <id> [игрок] - Выдать API предмет
-[DC-CustomItems] /api-item list - Список API предметов
-[DC-CustomItems] /api-item info <id> - Информация о предмете
+[Artifex] Доступные команды:
+[Artifex] /ci give <предмет> [игрок] - Выдать предмет
+[Artifex] /give list - Список предметов
+[Artifex] /ci reload - Перезагрузить плагин
+[Artifex] /api-item give <id> [игрок] - Выдать API предмет
+[Artifex] /api-item list - Список API предметов
+[Artifex] /api-item info <id> - Информация о предмете
 ```
 
 **Права:**

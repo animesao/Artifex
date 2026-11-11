@@ -1,6 +1,6 @@
-# Contributing to DC-CustomItems
+# Contributing to Artifex
 
-Thank you for your interest in improving DC-CustomItems! This guide will help you contribute.
+Thank you for your interest in improving Artifex! This guide will help you contribute.
 
 ## How to Contribute
 
@@ -23,7 +23,7 @@ git checkout -b feature/your-feature
 mvn package
 ```
 
-The jar will be in `target/DC-CustomItems-*.jar`
+The jar will be in `target/Artifex-*.jar`
 
 ### 4. Make Changes
 

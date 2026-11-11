@@ -1,10 +1,10 @@
-import me.dcplugin.dcustomitems.Main;
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-import me.dcplugin.dcustomitems.api.RecipeDef;
-import me.dcplugin.dcustomitems.api.modules.Module;
-import me.dcplugin.dcustomitems.models.CustomItem;
-import me.dcplugin.dcustomitems.utils.ColorUtils;
-import me.dcplugin.dcustomitems.utils.EnumCache;
+﻿import me.dcplugin.artifex.Main;
+import me.dcplugin.artifex.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.RecipeDef;
+import me.dcplugin.artifex.api.modules.Module;
+import me.dcplugin.artifex.models.CustomItem;
+import me.dcplugin.artifex.utils.ColorUtils;
+import me.dcplugin.artifex.utils.EnumCache;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -276,10 +276,10 @@ public class customcraftModule extends Module implements Listener, CommandExecut
 
         // Bukkit event: third-party plugins can cancel the craft
         // or replace the item being given (getResult/setResult)
-        me.dcplugin.dcustomitems.events.CustomItemCraftEvent craftEvent =
+        me.dcplugin.artifex.events.CustomItemCraftEvent craftEvent =
                 recipe.javaItem != null
-                        ? new me.dcplugin.dcustomitems.events.CustomItemCraftEvent(player, recipe.javaItem, resultPreview.clone())
-                        : new me.dcplugin.dcustomitems.events.CustomItemCraftEvent(player, recipe.item, resultPreview.clone());
+                        ? new me.dcplugin.artifex.events.CustomItemCraftEvent(player, recipe.javaItem, resultPreview.clone())
+                        : new me.dcplugin.artifex.events.CustomItemCraftEvent(player, recipe.item, resultPreview.clone());
         plugin.getServer().getPluginManager().callEvent(craftEvent);
         if (craftEvent.isCancelled()) return; // the ingredients stay in the grid
         ItemStack result = craftEvent.getResult();

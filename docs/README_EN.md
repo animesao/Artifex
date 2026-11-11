@@ -1,10 +1,10 @@
-# DC-CustomItems — Complete Documentation
+﻿# Artifex — Complete Documentation
 
 **Documentation version:** 1.325.0
 **Minecraft:** Paper/Spigot 1.21.x
 **Server Java:** Java 21+ is required for Paper 1.21.8+ and to build the project.
 
-DC-CustomItems lets you create custom items, abilities, commands, placeholders, modules, and GUI menus. You can start with **no Java knowledge**: ordinary items are configured in YAML. Java is only needed for advanced mechanics, custom commands, and modules.
+Artifex lets you create custom items, abilities, commands, placeholders, modules, and GUI menus. You can start with **no Java knowledge**: ordinary items are configured in YAML. Java is only needed for advanced mechanics, custom commands, and modules.
 
 ---
 
@@ -58,7 +58,7 @@ Java files can create:
 - modules with their own `config.yml`, `items.yml`, and GUI;
 - persistent progress in SQLite or MySQL;
 
-Important: DC-CustomItems compiles user Java files while the server is running. Only use code you trust, and back up your server before editing files.
+Important: Artifex compiles user Java files while the server is running. Only use code you trust, and back up your server before editing files.
 
 ---
 
@@ -75,7 +75,7 @@ Important: DC-CustomItems compiles user Java files while the server is running. 
 
 ```bash
 cd ~/test/plugins
-curl -fL -o dcustomitems.jar "https://github.com/animesao/dcustomitems/releases/download/v1.320.282/DC-CustomItems-1.320.282.jar"
+curl -fL -o dcustomitems.jar "https://github.com/animesao/dcustomitems/releases/download/v1.320.282/Artifex-1.320.282.jar"
 ```
 
 Replace `~/test/plugins` with your server's `plugins/` directory when needed.
@@ -85,13 +85,13 @@ Replace `~/test/plugins` with your server's `plugins/` directory when needed.
 1. Put `dcustomitems.jar` in `plugins/`.
 2. Start the server.
 3. Wait for `CustomItems enabled!`.
-4. The plugin creates `plugins/DC-CustomItems/`.
-5. Check the version with `/version DC-CustomItems` or in the console.
+4. The plugin creates `plugins/Artifex/`.
+5. Check the version with `/version Artifex` or in the console.
 
 The first run creates approximately:
 
 ```text
-plugins/DC-CustomItems/
+plugins/Artifex/
 ├── config.yml       # plugin settings
 ├── data.db          # SQLite database (when sqlite is selected)
 ├── storage/         # small YAML storage files
@@ -109,7 +109,7 @@ The plugin automatically creates `items/messages.java` when it does not exist. K
 Create:
 
 ```text
-plugins/DC-CustomItems/items/hello-sword.yml
+plugins/Artifex/items/hello-sword.yml
 ```
 
 Content:
@@ -278,8 +278,8 @@ The plugin publishes its own Bukkit events so other plugins can react to custom 
 The events fire for both YAML items and Java API items (`AbstractCustomItem`):
 
 ```java
-import me.dcplugin.dcustomitems.events.CustomItemEquipEvent;
-import me.dcplugin.dcustomitems.events.CustomItemUseEvent;
+import me.dcplugin.artifex.events.CustomItemEquipEvent;
+import me.dcplugin.artifex.events.CustomItemUseEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -546,8 +546,8 @@ A Java file is a set of instructions for the server. Common concepts:
 Minimal Java item:
 
 ```java
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-import me.dcplugin.dcustomitems.api.ItemAPI;
+import me.dcplugin.artifex.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.ItemAPI;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -598,7 +598,7 @@ More details: [JAVA_API_EN.md](JAVA_API_EN.md).
 Extend `CustomCommand`:
 
 ```java
-import me.dcplugin.dcustomitems.api.commands.CustomCommand;
+import me.dcplugin.artifex.api.commands.CustomCommand;
 import org.bukkit.command.CommandSender;
 
 public class PingCommand extends CustomCommand {
@@ -630,7 +630,7 @@ Do not use a command name already owned by Paper or another plugin. Do not regis
 Minimal placeholder:
 
 ```java
-import me.dcplugin.dcustomitems.api.placeholders.CustomPlaceholder;
+import me.dcplugin.artifex.api.placeholders.CustomPlaceholder;
 import org.bukkit.entity.Player;
 
 public class ServerNamePlaceholder extends CustomPlaceholder {
@@ -645,7 +645,7 @@ public class ServerNamePlaceholder extends CustomPlaceholder {
 }
 ```
 
-Its value is requested as `%server_name%` by systems that call PlaceholderManager. DC-CustomItems is not automatically a complete PlaceholderAPI adapter for every third-party plugin, so verify compatibility where you intend to display the placeholder.
+Its value is requested as `%server_name%` by systems that call PlaceholderManager. Artifex is not automatically a complete PlaceholderAPI adapter for every third-party plugin, so verify compatibility where you intend to display the placeholder.
 
 ---
 
@@ -654,7 +654,7 @@ Its value is requested as `%server_name%` by systems that call PlaceholderManage
 The module lives at:
 
 ```text
-plugins/DC-CustomItems/items/deluxemenux/   # after enabling EXAMPLE-deluxemenux/ → deluxemenux/
+plugins/Artifex/items/deluxemenux/   # after enabling EXAMPLE-deluxemenux/ → deluxemenux/
 ├── config.yml
 ├── deluxemenux.java
 ├── menu-command.java
@@ -758,7 +758,7 @@ SQLite is enabled by default. To use MySQL, set `database.type: mysql` in `confi
 The plugin connects to:
 
 ```text
-plugins/DC-CustomItems/data.db
+plugins/Artifex/data.db
 ```
 
 Java API example:
@@ -854,7 +854,7 @@ To keep the server healthy:
 Before updating:
 
 ```bash
-cp -a plugins/DC-CustomItems plugins/DC-CustomItems.backup
+cp -a plugins/Artifex plugins/Artifex.backup
 cp server.properties server.properties.backup
 ```
 
@@ -863,14 +863,14 @@ Update the JAR:
 ```bash
 dck stop test2
 cd ~/test/plugins
-curl -fL -o dcustomitems.jar "https://github.com/animesao/dcustomitems/releases/download/v1.320.282/DC-CustomItems-1.320.282.jar"
+curl -fL -o dcustomitems.jar "https://github.com/animesao/dcustomitems/releases/download/v1.320.282/Artifex-1.320.282.jar"
 # clear cache/compiled only when the Java compiler system changed
-rm -rf DC-CustomItems/cache DC-CustomItems/compiled
+rm -rf Artifex/cache Artifex/compiled
 dck start test2
 dck attach test2
 ```
 
-Do not delete the entire `DC-CustomItems/` directory if you want to keep your items, menus, and database.
+Do not delete the entire `Artifex/` directory if you want to keep your items, menus, and database.
 
 ---
 
@@ -880,7 +880,7 @@ When reporting a problem, include:
 
 - Paper version;
 - Java version;
-- DC-CustomItems version;
+- Artifex version;
 - the file you edited;
 - the first complete console error;
 - results of `/ci list`, `/api-item list`, and `/plugins`.

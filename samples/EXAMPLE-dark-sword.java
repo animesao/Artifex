@@ -1,11 +1,11 @@
-/**
+﻿/**
  * ============================================================
  * EXAMPLE: DARK BLADE - Java item with a custom model
  * ============================================================
  *
  * 📁 File structure:
  *
- * plugins/DC-CustomItems/
+ * plugins/Artifex/
  * └── items/
  *     └── dark-sword.java          ← this file
  *
@@ -17,8 +17,8 @@
  * ============================================================
  */
 
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-import me.dcplugin.dcustomitems.api.ItemAPI;
+import me.dcplugin.artifex.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.ItemAPI;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;

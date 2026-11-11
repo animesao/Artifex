@@ -1,13 +1,13 @@
-# 📦 Module Template
+﻿# 📦 Module Template
 
-A template for creating DC-CustomItems modules.
+A template for creating Artifex modules.
 
 ## 🚀 Quick start
 
 ### 1. Copy the template
 
 ```bash
-cd plugins/DC-CustomItems/items/
+cd plugins/Artifex/items/
 cp -r _template/ my-module/
 ```
 
@@ -155,7 +155,7 @@ plugin.getDatabaseManager().execute(
 Just delete the folder:
 
 ```bash
-rm -rf plugins/DC-CustomItems/items/my-module/
+rm -rf plugins/Artifex/items/my-module/
 /ci reload
 ```
 

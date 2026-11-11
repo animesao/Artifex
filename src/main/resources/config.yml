@@ -1,5 +1,5 @@
 # ==========================================
-# DC-CustomItems - Plugin settings
+# Artifex - Plugin settings
 # ==========================================
 #
 # All items live in separate files in the items/ folder.
@@ -24,11 +24,11 @@ java-compilation: true
 # Debug logging (turn off in production)
 debug-mode: false
 
-# Plugin logs to plugins/DC-CustomItems/logs/latest.log instead of the console.
+# Plugin logs to plugins/Artifex/logs/latest.log instead of the console.
 # Disabled by default - the plugin messages go to the server console.
 file-logging: false
 
-# Backups of items/ + config.yml + data.db before every /ci reload.
+# Backups of items/ + config.yml + data.db before every /artifex reload.
 backup:
   on-reload: true
   keep: 5
@@ -51,7 +51,7 @@ cooldowns:
 # ==========================================
 # CONTENT
 # ==========================================
-# The plugin installs exactly ONE file: plugins/DC-CustomItems/items/messages.java
+# The plugin installs exactly ONE file: plugins/Artifex/items/messages.java
 # (all plugin messages, editable by you).
 #
 # Everything else is optional and created by you:
@@ -62,7 +62,7 @@ cooldowns:
 # Ready-made examples are NOT installed and are not shipped inside the jar.
 # They live in the repository (samples/) — copy the file or folder you need
 # into items/ and remove the EXAMPLE- prefix from its name, then run
-# /ci reload.
+# /artifex reload.
 #
 #   EXAMPLE-runes.yml -> runes.yml
 #   EXAMPLE-vault/    -> vault/
@@ -80,10 +80,10 @@ database:
   mysql:
     host: 127.0.0.1
     port: 3306
-    database: dcustomitems
-    username: dcustomitems
+    database: artifex
+    username: artifex
     # The password is stored in plain text here. Override it with the
-    # DCI_MYSQL_PASSWORD environment variable on a shared server.
+    # ARTIFEX_MYSQL_PASSWORD environment variable on a shared server.
     password: 'change-me'
     # TLS. With false the password and the game data travel in plain text.
     use-ssl: false

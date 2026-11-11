@@ -1,4 +1,4 @@
-import me.dcplugin.dcustomitems.api.commands.CustomCommand;
+﻿import me.dcplugin.artifex.api.commands.CustomCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

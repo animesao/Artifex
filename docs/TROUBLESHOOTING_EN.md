@@ -1,8 +1,8 @@
-# Troubleshooting Guide
+﻿# Troubleshooting Guide
 
 ## 📚 Common Issues and Solutions
 
-This guide helps you solve common problems with DC-CustomItems.
+This guide helps you solve common problems with Artifex.
 
 ---
 
@@ -258,8 +258,8 @@ This guide helps you solve common problems with DC-CustomItems.
 
 2. **Check Imports:**
    ```java
-   import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-   import me.dcplugin.dcustomitems.api.ItemAPI;
+   import me.dcplugin.artifex.api.AbstractCustomItem;
+   import me.dcplugin.artifex.api.ItemAPI;
    ```
 
 3. **Check Methods:**

@@ -1,8 +1,8 @@
-# Руководство по Решению Проблем
+﻿# Руководство по Решению Проблем
 
 ## 📚 Частые Проблемы и Решения
 
-Это руководство поможет вам решить распространённые проблемы с DC-CustomItems.
+Это руководство поможет вам решить распространённые проблемы с Artifex.
 
 ---
 
@@ -258,8 +258,8 @@
 
 2. **Проверьте Импорты:**
    ```java
-   import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-   import me.dcplugin.dcustomitems.api.ItemAPI;
+   import me.dcplugin.artifex.api.AbstractCustomItem;
+   import me.dcplugin.artifex.api.ItemAPI;
    ```
 
 3. **Проверьте Методы:**

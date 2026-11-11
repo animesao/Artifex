@@ -1,4 +1,4 @@
-# Сообщения и база данных — русский справочник
+﻿# Сообщения и база данных — русский справочник
 
 ## 1. Сообщения в версии 1.320.282
 
@@ -11,14 +11,14 @@ src/main/java/me/dcplugin/dcustomitems/api/config/MessagesConfig.java
 При первом запуске плагин создаёт:
 
 ```text
-plugins/DC-CustomItems/items/messages.java
+plugins/Artifex/items/messages.java
 ```
 
 Этот файл — рабочий конфиг сообщений: плагин компилирует его вместе с остальными Java-файлами и вызывает статический `load()` при старте и при каждом `/ci reload`. Изменения вступают в силу без пересборки JAR.
 
 ### Как изменить сообщение
 
-1. Откройте `plugins/DC-CustomItems/items/messages.java`.
+1. Откройте `plugins/Artifex/items/messages.java`.
 2. Измените нужное поле внутри метода `load()` (например `MessagesConfig.PREFIX = "...";`).
 3. Выполните `/ci reload`.
 4. Проверьте результат; при ошибке компиляции плагин сообщит об этом в консоли и оставит стандартные сообщения.
@@ -59,13 +59,13 @@ MessagesConfig.CI_GIVE_SELF = MessagesConfig.PREFIX + "&aПолучено: &e{it
 По умолчанию плагин использует SQLite-файл:
 
 ```text
-plugins/DC-CustomItems/data.db
+plugins/Artifex/data.db
 ```
 
 Не редактируйте его обычным текстовым редактором. Перед экспериментами остановите сервер и скопируйте файл:
 
 ```bash
-cp plugins/DC-CustomItems/data.db plugins/DC-CustomItems/data.db.backup
+cp plugins/Artifex/data.db plugins/Artifex/data.db.backup
 ```
 
 Не удаляйте `data.db`, если нужно сохранить прогресс игроков.
@@ -75,8 +75,8 @@ cp plugins/DC-CustomItems/data.db plugins/DC-CustomItems/data.db.backup
 В Java-механике можно получить менеджер через главный класс плагина:
 
 ```java
-import me.dcplugin.dcustomitems.Main;
-import me.dcplugin.dcustomitems.api.database.DatabaseManager;
+import me.dcplugin.artifex.Main;
+import me.dcplugin.artifex.api.database.DatabaseManager;
 
 DatabaseManager db = Main.getInstance().getDatabaseManager();
 ```
@@ -130,7 +130,7 @@ int kills = db.queryInt(
 ## 6. Резервная копия перед обновлением
 
 ```bash
-cp -a plugins/DC-CustomItems plugins/DC-CustomItems.backup
+cp -a plugins/Artifex plugins/Artifex.backup
 ```
 
 Сохраняйте отдельно:

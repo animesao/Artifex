@@ -1,9 +1,25 @@
 # Changelog
 
-All DC-CustomItems changes by version.
+All Artifex (formerly DC-CustomItems) changes by version.
 
 Section format: `## v<version>` — the release script (`.github/workflows/build.yml`)
 extracts the section of the needed version for the GitHub Release notes.
+
+---
+
+## v1.340.0
+
+### 🏛️ Complete Rebranding to Artifex
+- **Plugin Rebranding:** Rebranded the entire project from **DC-CustomItems** (`dcustomitems`) to **Artifex** (`artifex`).
+- **Java Package Migration:** Moved all classes from `me.dcplugin.dcustomitems` to `me.dcplugin.artifex`.
+- **Runtime Script Backward Compatibility:** `JavaItemCompiler` automatically rewrites legacy `import me.dcplugin.dcustomitems` statements to `me.dcplugin.artifex` so existing custom `.java` scripts in `items/` continue to compile seamlessly.
+- **PDC & NBT Backward Compatibility:** Custom item identifiers and counters (`custom_item_id`, `item_uses`, `acquired_time`) transparently read legacy namespaces (`dcustomitems:`, `dc-customitems:`) ensuring that existing items on servers remain 100% functional.
+- **Command & Permission Compatibility:**
+  - Primary command is `/artifex` (with aliases `/af`, `/art`, `/ci`, `/customitems`).
+  - Commands check both `artifex.reload` and `dcustomitems.reload`.
+- **PlaceholderAPI Multi-Identifier Support:** Registered `%artifex_...%` as the primary placeholder prefix while preserving `%dcustomitems_...%` and `%dci_...%` aliases.
+- **Database Reconfiguration:** Default database name updated to `artifex`, connection pool to `Artifex-MySQL`, and environment variable support for `ARTIFEX_MYSQL_PASSWORD` (with fallback to `DCI_MYSQL_PASSWORD`).
+- **Build & CI Artifacts:** Maven artifact and JAR renamed to `Artifex-${version}.jar`. Updated `build.sh` and GitHub Actions workflow accordingly.
 
 ---
 

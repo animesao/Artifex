@@ -67,7 +67,7 @@ jobs:
     - name: Verify JAR exists
       run: |
         VERSION="${{ steps.version.outputs.version }}"
-        JAR="target/DC-CustomItems-${VERSION}.jar"
+        JAR="target/Artifex-${VERSION}.jar"
         if [ ! -f "$JAR" ]; then
           echo "❌ JAR not found: $JAR"
           ls -la target/
@@ -79,8 +79,8 @@ jobs:
     - name: Upload JAR artifact
       uses: actions/upload-artifact@v4
       with:
-        name: DC-CustomItems-${{ steps.version.outputs.version }}
-        path: target/DC-CustomItems-${{ steps.version.outputs.version }}.jar
+        name: Artifex-${{ steps.version.outputs.version }}
+        path: target/Artifex-${{ steps.version.outputs.version }}.jar
         retention-days: 7
 
   release:
@@ -97,7 +97,7 @@ jobs:
     - name: Download JAR
       uses: actions/download-artifact@v4
       with:
-        name: DC-CustomItems-${{ env.VERSION }}
+        name: Artifex-${{ env.VERSION }}
 
     - name: Generate release notes
       run: |
@@ -115,7 +115,7 @@ jobs:
           : > changelog-section.txt
         fi
 
-        echo "## 🚀 DC-CustomItems v${VERSION}" > notes.md
+        echo "## 🚀 Artifex v${VERSION}" > notes.md
         echo "" >> notes.md
 
         if [ -s changelog-section.txt ]; then
@@ -139,7 +139,7 @@ jobs:
         echo "---" >> notes.md
         echo "" >> notes.md
         echo "### 📦 Installation" >> notes.md
-        echo "1. Download \`DC-CustomItems-${VERSION}.jar\` from Assets" >> notes.md
+        echo "1. Download \`Artifex-${VERSION}.jar\` from Assets" >> notes.md
         echo "2. Place in your server's \`plugins/\` folder" >> notes.md
         echo "3. Restart the server" >> notes.md
         echo "" >> notes.md
@@ -150,9 +150,9 @@ jobs:
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2
       with:
-        name: "DC-CustomItems v${{ env.VERSION }}"
+        name: "Artifex v${{ env.VERSION }}"
         body_path: notes.md
-        files: DC-CustomItems-${{ env.VERSION }}.jar
+        files: Artifex-${{ env.VERSION }}.jar
         draft: false
         prerelease: false
       env:

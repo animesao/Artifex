@@ -3,10 +3,10 @@ set -euo pipefail
 
 # Версия читается из файла VERSION — единый источник правды (используется и CI).
 VERSION=$(tr -d '[:space:]' < VERSION)
-JAR="target/DC-CustomItems-${VERSION}.jar"
+JAR="target/Artifex-${VERSION}.jar"
 
 echo "==========================================="
-echo "  DC-CustomItems v${VERSION} Build Script"
+echo "  Artifex v${VERSION} Build Script"
 echo "==========================================="
 echo ""
 

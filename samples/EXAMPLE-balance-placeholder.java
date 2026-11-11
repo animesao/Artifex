@@ -1,4 +1,4 @@
-import me.dcplugin.dcustomitems.api.placeholders.CustomPlaceholder;
+﻿import me.dcplugin.artifex.api.placeholders.CustomPlaceholder;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import java.util.UUID;
  *   %balance_short%    → "1.2K" (short format)
  *   %balance_formatted%→ "$1,250" (with the currency symbol)
  *
- * Put this file in plugins/DC-CustomItems/items/
+ * Put this file in plugins/Artifex/items/
  * Run /ci reload
  *
  * Examples:

@@ -1,5 +1,5 @@
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-import me.dcplugin.dcustomitems.api.ItemAPI;
+﻿import me.dcplugin.artifex.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.ItemAPI;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -51,14 +51,14 @@ public class RoyalHelmet extends AbstractCustomItem {
     public String getType() { return "ARMOR"; }
 
     @Override
-    public java.util.List<me.dcplugin.dcustomitems.api.RecipeDef> getRecipes() {
+    public java.util.List<me.dcplugin.artifex.api.RecipeDef> getRecipes() {
         // The recipe works both in the regular crafting table and in the GUI craft (/craft).
         // Ingredients: a material (NETHERITE_INGOT) or the ID of another custom
         // item — YAML or Java (for example "vampire-blade").
         java.util.Map<Character, String> keys = new java.util.HashMap<>();
         keys.put('N', "NETHERITE_INGOT");
         return java.util.List.of(
-            me.dcplugin.dcustomitems.api.RecipeDef.shaped(
+            me.dcplugin.artifex.api.RecipeDef.shaped(
                 java.util.List.of("NNN", "N N"), keys)
         );
     }

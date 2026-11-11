@@ -1,6 +1,6 @@
-import me.dcplugin.dcustomitems.Main;
-import me.dcplugin.dcustomitems.api.modules.Module;
-import me.dcplugin.dcustomitems.api.placeholders.PlaceholderManager;
+﻿import me.dcplugin.artifex.Main;
+import me.dcplugin.artifex.api.modules.Module;
+import me.dcplugin.artifex.api.placeholders.PlaceholderManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

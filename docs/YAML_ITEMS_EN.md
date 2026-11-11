@@ -1,4 +1,4 @@
-# YAML Items Configuration Guide
+﻿# YAML Items Configuration Guide
 
 ## 📚 Complete Reference
 
@@ -11,7 +11,7 @@ This guide covers everything you need to know about configuring items using YAML
 ### Where to Place Files
 
 ```
-plugins/DC-CustomItems/
+plugins/Artifex/
 ├── items/
 │   ├── my-sword.yml
 │   ├── my-armor.yml

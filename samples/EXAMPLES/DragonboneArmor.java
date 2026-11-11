@@ -1,6 +1,6 @@
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-import me.dcplugin.dcustomitems.api.ItemAPI;
-import me.dcplugin.dcustomitems.api.RecipeDef;
+﻿import me.dcplugin.artifex.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.ItemAPI;
+import me.dcplugin.artifex.api.RecipeDef;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * The file is in items/EXAMPLES/ — this folder is NOT loaded and NOT copied
  * to the server (see DefaultContentExtractor and ItemRegistry). To enable
- * the item: copy the file into plugins/DC-CustomItems/items/ (or into any
+ * the item: copy the file into plugins/Artifex/items/ (or into any
  * other subfolder) and run /ci reload.
  *
  * What the example shows:

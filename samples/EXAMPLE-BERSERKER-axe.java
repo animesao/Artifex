@@ -1,4 +1,4 @@
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
+﻿import me.dcplugin.artifex.api.AbstractCustomItem;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;

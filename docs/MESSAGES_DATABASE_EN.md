@@ -1,4 +1,4 @@
-# Messages and Database — English Guide
+﻿# Messages and Database — English Guide
 
 ## 1. Messages in version 1.320.282
 
@@ -11,14 +11,14 @@ src/main/java/me/dcplugin/dcustomitems/api/config/MessagesConfig.java
 On first start, the plugin creates:
 
 ```text
-plugins/DC-CustomItems/items/messages.java
+plugins/Artifex/items/messages.java
 ```
 
 That file is a working message config: the plugin compiles it together with the other Java files and calls its static `load()` on startup and on every `/ci reload`. Changes take effect without rebuilding the JAR.
 
 ### How to change a message
 
-1. Open `plugins/DC-CustomItems/items/messages.java`.
+1. Open `plugins/Artifex/items/messages.java`.
 2. Change the desired field inside the `load()` method (e.g. `MessagesConfig.PREFIX = "...";`).
 3. Run `/ci reload`.
 4. Verify the result; on a compile error the plugin reports it in the console and keeps the built-in messages.
@@ -59,13 +59,13 @@ For the complete SQLite/MySQL/YAML, MySQL setup, and promo-code guide, see [DATA
 By default, the plugin uses:
 
 ```text
-plugins/DC-CustomItems/data.db
+plugins/Artifex/data.db
 ```
 
 Do not edit it with a normal text editor. Stop the server before experimenting and make a copy:
 
 ```bash
-cp plugins/DC-CustomItems/data.db plugins/DC-CustomItems/data.db.backup
+cp plugins/Artifex/data.db plugins/Artifex/data.db.backup
 ```
 
 Do not delete `data.db` if player progress must be preserved.
@@ -75,8 +75,8 @@ Do not delete `data.db` if player progress must be preserved.
 A Java mechanic can access the manager through the plugin instance:
 
 ```java
-import me.dcplugin.dcustomitems.Main;
-import me.dcplugin.dcustomitems.api.database.DatabaseManager;
+import me.dcplugin.artifex.Main;
+import me.dcplugin.artifex.api.database.DatabaseManager;
 
 DatabaseManager db = Main.getInstance().getDatabaseManager();
 ```
@@ -130,7 +130,7 @@ Do not query SQLite every tick or write on every player movement. Prefer to:
 ## 6. Backup before an update
 
 ```bash
-cp -a plugins/DC-CustomItems plugins/DC-CustomItems.backup
+cp -a plugins/Artifex plugins/Artifex.backup
 ```
 
 Keep separate backups of:

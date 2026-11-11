@@ -1,7 +1,7 @@
-import me.dcplugin.dcustomitems.Main;
-import me.dcplugin.dcustomitems.api.modules.Module;
-import me.dcplugin.dcustomitems.api.placeholders.PlaceholderManager;
-import me.dcplugin.dcustomitems.models.CustomItem;
+﻿import me.dcplugin.artifex.Main;
+import me.dcplugin.artifex.api.modules.Module;
+import me.dcplugin.artifex.api.placeholders.PlaceholderManager;
+import me.dcplugin.artifex.models.CustomItem;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,7 +21,7 @@ import java.io.File;
 import java.util.*;
 
 /**
- * 📦 Template Module — a template of a DC-CustomItems module
+ * 📦 Template Module — a template of a Artifex module
  *
  * ==========================================
  * HOW TO CREATE YOUR OWN MODULE:

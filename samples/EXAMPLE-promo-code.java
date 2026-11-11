@@ -1,6 +1,6 @@
-import me.dcplugin.dcustomitems.Main;
-import me.dcplugin.dcustomitems.api.database.DatabaseManager;
-import me.dcplugin.dcustomitems.api.commands.CustomCommand;
+﻿import me.dcplugin.artifex.Main;
+import me.dcplugin.artifex.api.database.DatabaseManager;
+import me.dcplugin.artifex.api.commands.CustomCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -10,7 +10,7 @@ import java.util.concurrent.CompletableFuture;
 /**
  * Example of promo codes with storage in SQLite or MySQL.
  *
- * This file can be copied into plugins/DC-CustomItems/items/ as promo-code.java.
+ * This file can be copied into plugins/Artifex/items/ as promo-code.java.
  * After that run /ci reload and use /promo DEMO2026.
  *
  * In config.yml:

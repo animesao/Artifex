@@ -1,9 +1,9 @@
-import me.dcplugin.dcustomitems.api.config.MessagesConfig;
+﻿import me.dcplugin.artifex.api.config.MessagesConfig;
 
 /**
  * 🔧 CONFIGURATION OF ALL PLUGIN MESSAGES (SAMPLE)
  *
- * The plugin creates plugins/DC-CustomItems/items/messages.java on the first
+ * The plugin creates plugins/Artifex/items/messages.java on the first
  * start - this file is the documented version of it.
  * To use it, copy it over items/messages.java (or just edit the file the
  * plugin created) and run /ci reload.
@@ -66,7 +66,7 @@ public class EXAMPLEmessages {
         // ══════════════════════════════════════════════════════════════
         // /ci COMMAND
         // ══════════════════════════════════════════════════════════════
-        MessagesConfig.CI_HEADER = "&6=== DC-CustomItems ===";
+        MessagesConfig.CI_HEADER = "&6=== Artifex ===";
         MessagesConfig.CI_HELP_RELOAD = "&e/ci reload &7- Reload the plugin";
         MessagesConfig.CI_HELP_VALIDATE = "&7/ci validate &8- validate YAML recipes";
         MessagesConfig.CI_HELP_DEBUG = "&7/ci debug <id> &8- dump item + PDC";
@@ -93,7 +93,7 @@ public class EXAMPLEmessages {
         MessagesConfig.UPDATE_AVAILABLE = "&e[CustomItems] &fA new version is available: &b{version}";
         MessagesConfig.UPDATE_DOWNLOAD = "&e[CustomItems] &fDownload the update from the plugin page";
         MessagesConfig.UPDATE_NOTIFICATION_HEADER = "&8&m                                                    ";
-        MessagesConfig.UPDATE_NOTIFICATION_TITLE = "&6&lDC-CustomItems &7- &aUpdate available!";
+        MessagesConfig.UPDATE_NOTIFICATION_TITLE = "&6&lArtifex &7- &aUpdate available!";
         MessagesConfig.UPDATE_NOTIFICATION_CURRENT = "&7Current version: &e{version}";
         MessagesConfig.UPDATE_NOTIFICATION_LATEST = "&7New version: &a{version}";
         MessagesConfig.UPDATE_NOTIFICATION_DOWNLOAD = "&7Download: &b{url}";
