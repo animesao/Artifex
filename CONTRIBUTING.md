@@ -7,8 +7,8 @@ Thank you for your interest in improving Artifex! This guide will help you contr
 ### 1. Fork and Clone
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/dcustomitems.git
-cd dcustomitems
+git clone https://github.com/YOUR_USERNAME/Artifex.git
+cd Artifex
 ```
 
 ### 2. Create a Branch

@@ -144,8 +144,8 @@ jobs:
         echo "3. Restart the server" >> notes.md
         echo "" >> notes.md
         echo "### 📚 Documentation" >> notes.md
-        echo "- [README](https://github.com/animesao/dcustomitems#readme)" >> notes.md
-        echo "- [Full Documentation](https://github.com/animesao/dcustomitems/tree/main/docs)" >> notes.md
+        echo "- [README](https://github.com/animesao/Artifex#readme)" >> notes.md
+        echo "- [Full Documentation](https://github.com/animesao/Artifex/tree/main/docs)" >> notes.md
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v2

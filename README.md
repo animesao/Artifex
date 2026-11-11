@@ -3,7 +3,7 @@
   <img src="https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=openjdk" alt="Java">
   <img src="https://img.shields.io/badge/Version-1.328.0-blue?style=for-the-badge" alt="Version">
   <img src="https://img.shields.io/badge/Modules-5-purple?style=for-the-badge" alt="Modules">
-  <img src="https://img.shields.io/github/license/animesao/dcustomitems-purple?style=for-the-badge" alt="License">
+  <img src="https://img.shields.io/github/license/animesao/Artifex-purple?style=for-the-badge" alt="License">
 </p>
 
 <h1 align="center">⚔️ Artifex</h1>
@@ -125,7 +125,7 @@ vim items/my-module/config.yml
 ```bash
 # Скачать последний релиз
 cd ~/server/plugins
-curl -L -o artifex.jar https://github.com/animesao/dcustomitems/releases/download/v1.339.0/Artifex-1.339.0.jar
+curl -L -o artifex.jar https://github.com/animesao/Artifex/releases/download/v1.340.0/Artifex-1.340.0.jar
 
 # Перезапустить сервер
 ./restart.sh
@@ -133,7 +133,7 @@ curl -L -o artifex.jar https://github.com/animesao/dcustomitems/releases/downloa
 
 ### Ручная установка
 
-1. Скачай `Artifex-1.339.0.jar` из [Releases](https://github.com/animesao/dcustomitems/releases)
+1. Скачай `Artifex-1.340.0.jar` из [Releases](https://github.com/animesao/Artifex/releases)
 2. Помести в папку `plugins/`
 3. Перезапусти сервер
 4. Настрой `plugins/Artifex/config.yml`
@@ -692,9 +692,9 @@ Artifex/
 
 ## 🔗 Ссылки
 
-- [GitHub Repository](https://github.com/animesao/dcustomitems)
-- [Releases](https://github.com/animesao/dcustomitems/releases)
-- [Issues](https://github.com/animesao/dcustomitems/issues)
+- [GitHub Repository](https://github.com/animesao/Artifex)
+- [Releases](https://github.com/animesao/Artifex/releases)
+- [Issues](https://github.com/animesao/Artifex/issues)
 
 ---
 

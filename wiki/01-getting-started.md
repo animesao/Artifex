@@ -1,4 +1,4 @@
-# 01. Установка
+﻿# 01. Установка
 
 > **Что ты узнаешь:** какие требования нужны, как поставить плагин, что должно
 > появиться на сервере и как убедиться, что всё работает.
@@ -69,7 +69,7 @@ java-compilation: false
 ## Установка
 
 **Шаг 1. Скачайте jar.**
-Откройте [Releases](https://github.com/animesao/dcustomitems/releases) и
+Откройте [Releases](https://github.com/animesao/Artifex/releases) и
 скачайте последний `DC-CustomItems-<версия>.jar`.
 
 **Шаг 2. Положите его в `plugins/`.**
@@ -112,7 +112,7 @@ plugins/DC-CustomItems/
 
 **Плагин создаёт ровно ОДИН файл** — `items/messages.java`. Никаких
 «образцов» в `items/` не появляется: все примеры лежат в репозитории
-([`samples/`](https://github.com/animesao/dcustomitems/tree/main/samples))
+([`samples/`](https://github.com/animesao/Artifex/tree/main/samples))
 и копируются вручную, когда понадобятся.
 
 Это сделано намеренно: новичок не должен получать 90 файлов, о которых он

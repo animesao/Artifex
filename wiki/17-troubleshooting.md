@@ -1,4 +1,4 @@
-# Решение проблем
+﻿# Решение проблем
 
 ## Что ты узнаешь
 
@@ -79,7 +79,7 @@
 | Сообщение | Причина | Решение |
 |-----------|---------|---------|
 | `Unsupported API version` | Плагин требует Minecraft 1.21 или новее (`api-version: '1.21'` в `plugin.yml`) | Обновите сервер до 1.21+ |
-| `Invalid plugin.yml` | Повреждённый jar — файл докачался не полностью | Скачайте jar заново с [GitHub Releases](https://github.com/animesao/dcustomitems/releases) |
+| `Invalid plugin.yml` | Повреждённый jar — файл докачался не полностью | Скачайте jar заново с [GitHub Releases](https://github.com/animesao/Artifex/releases) |
 | `UnsupportedClassVersionError` | На сервере старая Java | Нужна Java 21 — см. ниже |
 | `NoSuchMethodError` / `NoClassDefFoundError` | Несовместимость версий Paper и плагина | Обновите Paper или возьмите подходящую версию плагина |
 | Плагин включился и сразу выключился | Ошибка при инициализации | Смотрите строки выше в консоли — плагин пишет точную причину (`Error enabling plugin: ...`) |

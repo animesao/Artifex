@@ -1,4 +1,4 @@
-# DC-CustomItems — Вики
+﻿# DC-CustomItems — Вики
 
 Полное руководство по плагину **DC-CustomItems**: от установки до собственных
 модулей. Написано для новичка — можно читать с начала и не пропускать.
@@ -117,7 +117,7 @@ plugins/DC-CustomItems/
 сделайте `/ci reload`. Подробно — в [Сообщениях](11-messages.md).
 
 **Где взять примеры?**
-В репозитории, в папке [`samples/`](https://github.com/animesao/dcustomitems/tree/main/samples).
+В репозитории, в папке [`samples/`](https://github.com/animesao/Artifex/tree/main/samples).
 Скопируйте нужный файл в `items/`, уберите префикс `EXAMPLE-` и сделайте
 `/ci reload`.
 
@@ -125,9 +125,9 @@ plugins/DC-CustomItems/
 
 ## Связи
 
-- [Репозиторий](https://github.com/animesao/dcustomitems) ·
-  [Релизы](https://github.com/animesao/dcustomitems/releases) ·
-  [Issues](https://github.com/animesao/dcustomitems/issues)
-- Документация в репозитории: [`docs/`](https://github.com/animesao/dcustomitems/tree/main/docs)
+- [Репозиторий](https://github.com/animesao/Artifex) ·
+  [Релизы](https://github.com/animesao/Artifex/releases) ·
+  [Issues](https://github.com/animesao/Artifex/issues)
+- Документация в репозитории: [`docs/`](https://github.com/animesao/Artifex/tree/main/docs)
   (есть английская и русская версии)
-- Примеры: [`samples/`](https://github.com/animesao/dcustomitems/tree/main/samples)
+- Примеры: [`samples/`](https://github.com/animesao/Artifex/tree/main/samples)

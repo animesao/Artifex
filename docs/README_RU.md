@@ -75,7 +75,7 @@ Artifex позволяет создавать кастомные предмет�
 
 ```bash
 cd ~/test/plugins
-curl -fL -o dcustomitems.jar "https://github.com/animesao/dcustomitems/releases/download/v1.320.282/Artifex-1.320.282.jar"
+curl -fL -o dcustomitems.jar "https://github.com/animesao/Artifex/releases/download/v1.320.282/Artifex-1.320.282.jar"
 ```
 
 Для обычного сервера замените `~/test/plugins` на путь к своей папке `plugins/`.
@@ -862,7 +862,7 @@ cp server.properties server.properties.backup
 ```bash
 dck stop test2
 cd ~/test/plugins
-curl -fL -o dcustomitems.jar "https://github.com/animesao/dcustomitems/releases/download/v1.320.282/Artifex-1.320.282.jar"
+curl -fL -o dcustomitems.jar "https://github.com/animesao/Artifex/releases/download/v1.320.282/Artifex-1.320.282.jar"
 # очищайте cache/compiled только если менялась система Java-компиляции
 rm -rf Artifex/cache Artifex/compiled
 dck start test2
@@ -923,7 +923,7 @@ dck attach test2
 
 ## Ссылки
 
-- [Репозиторий GitHub](https://github.com/animesao/dcustomitems)
-- [Релизы](https://github.com/animesao/dcustomitems/releases)
-- [Issues](https://github.com/animesao/dcustomitems/issues)
+- [Репозиторий GitHub](https://github.com/animesao/Artifex)
+- [Релизы](https://github.com/animesao/Artifex/releases)
+- [Issues](https://github.com/animesao/Artifex/issues)
 - [English documentation](README_EN.md)

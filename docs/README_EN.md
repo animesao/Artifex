@@ -75,7 +75,7 @@ Important: Artifex compiles user Java files while the server is running. Only us
 
 ```bash
 cd ~/test/plugins
-curl -fL -o dcustomitems.jar "https://github.com/animesao/dcustomitems/releases/download/v1.320.282/Artifex-1.320.282.jar"
+curl -fL -o dcustomitems.jar "https://github.com/animesao/Artifex/releases/download/v1.320.282/Artifex-1.320.282.jar"
 ```
 
 Replace `~/test/plugins` with your server's `plugins/` directory when needed.
@@ -863,7 +863,7 @@ Update the JAR:
 ```bash
 dck stop test2
 cd ~/test/plugins
-curl -fL -o dcustomitems.jar "https://github.com/animesao/dcustomitems/releases/download/v1.320.282/Artifex-1.320.282.jar"
+curl -fL -o dcustomitems.jar "https://github.com/animesao/Artifex/releases/download/v1.320.282/Artifex-1.320.282.jar"
 # clear cache/compiled only when the Java compiler system changed
 rm -rf Artifex/cache Artifex/compiled
 dck start test2
@@ -924,7 +924,7 @@ If you do not know Java, stay with YAML. Once YAML feels comfortable, move to Ja
 
 ## Links
 
-- [GitHub repository](https://github.com/animesao/dcustomitems)
-- [Releases](https://github.com/animesao/dcustomitems/releases)
-- [Issues](https://github.com/animesao/dcustomitems/issues)
+- [GitHub repository](https://github.com/animesao/Artifex)
+- [Releases](https://github.com/animesao/Artifex/releases)
+- [Issues](https://github.com/animesao/Artifex/issues)
 - [Русская документация](README_RU.md)

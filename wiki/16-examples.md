@@ -1,4 +1,4 @@
-# 16. Примеры
+﻿# 16. Примеры
 
 > **Что ты узнаешь:** готовые рабочие рецепты, которые можно скопировать и
 > сразу использовать — от простейшего предмета до собственного модуля.
@@ -627,9 +627,9 @@ public class Stats extends Module {
 
 | Что | Где |
 |-----|-----|
-| Все примеры | [`samples/`](https://github.com/animesao/dcustomitems/tree/main/samples) |
-| Список действий | [`samples/EXAMPLE-README-ACTIONS.md`](https://github.com/animesao/dcustomitems/blob/main/samples/EXAMPLE-README-ACTIONS.md) |
-| Шаблон модуля | [`samples/_template/`](https://github.com/animesao/dcustomitems/tree/main/samples/_template) |
+| Все примеры | [`samples/`](https://github.com/animesao/Artifex/tree/main/samples) |
+| Список действий | [`samples/EXAMPLE-README-ACTIONS.md`](https://github.com/animesao/Artifex/blob/main/samples/EXAMPLE-README-ACTIONS.md) |
+| Шаблон модуля | [`samples/_template/`](https://github.com/animesao/Artifex/tree/main/samples/_template) |
 | Магазин | `samples/EXAMPLE-shop/` |
 | Экономика | `samples/EXAMPLE-vault/` |
 | GUI-крафт | `samples/EXAMPLE-customcraft/` |

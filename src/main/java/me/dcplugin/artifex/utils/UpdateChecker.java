@@ -28,8 +28,8 @@ public class UpdateChecker {
 
     public UpdateChecker(Main plugin) {
         this.plugin = plugin;
-        this.githubApiUrl = "https://api.github.com/repos/animesao/dcustomitems/releases/latest";
-        this.githubReleasesUrl = "https://github.com/animesao/dcustomitems/releases";
+        this.githubApiUrl = "https://api.github.com/repos/animesao/Artifex/releases/latest";
+        this.githubReleasesUrl = "https://github.com/animesao/Artifex/releases";
         this.updateAvailable = false;
     }
 

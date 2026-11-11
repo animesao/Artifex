@@ -11,7 +11,7 @@
 
 **Не создавай публичный Issue для уязвимостей.** Вместо этого:
 
-1. Используй [Private vulnerability reporting](https://github.com/animesao/dcustomitems/security/advisories/new)
+1. Используй [Private vulnerability reporting](https://github.com/animesao/Artifex/security/advisories/new)
    на GitHub (вкладка Security → Report a vulnerability).
 2. Если это невозможно — свяжись с автором напрямую.
 
