@@ -1,15 +1,24 @@
 package me.dcplugin.dcustomitems.api.modules;
 
 import me.dcplugin.dcustomitems.Main;
+import me.dcplugin.dcustomitems.utils.ColorUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Simple YAML-based module
@@ -34,7 +43,7 @@ import java.util.*;
  *     13:
  *       item: diamond
  */
-public class SimpleModule extends Module {
+public class SimpleModule extends Module implements InventoryHolder, Listener {
 
     private Inventory menu;
 
@@ -44,15 +53,22 @@ public class SimpleModule extends Module {
     }
 
     @Override
+    public Inventory getInventory() {
+        return menu;
+    }
+
+    @Override
     protected void onEnable() {
         // Create the menu if the setting is present
         if (config.contains("menu")) {
             createMenu();
+            plugin.getServer().getPluginManager().registerEvents(this, plugin);
         }
     }
 
     @Override
     protected void onDisable() {
+        HandlerList.unregisterAll(this);
         menu = null;
     }
 
@@ -63,7 +79,7 @@ public class SimpleModule extends Module {
         String title = colorize(config.getString("menu.title", "Menu"));
         int size = config.getInt("menu.size", 27);
         
-        menu = plugin.getServer().createInventory(null, size, title);
+        menu = plugin.getServer().createInventory(this, size, ColorUtils.colorize(title));
         
         // Fill the background
         if (config.contains("menu.fill")) {
@@ -132,8 +148,24 @@ public class SimpleModule extends Module {
         String message = (String) itemData.get("message");
         if (message != null) {
             message = message.replace("%player%", player.getName());
-            player.sendMessage(colorize(message));
+            player.sendMessage(ColorUtils.colorize(message));
         }
+    }
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        if (event.getInventory().getHolder() != this) return;
+        event.setCancelled(true);
+        if (!(event.getWhoClicked() instanceof Player player)) return;
+        if (event.getClickedInventory() == null || event.getClickedInventory().getHolder() != this) return;
+
+        handleMenuClick(player, event.getSlot());
+    }
+
+    @EventHandler
+    public void onInventoryDrag(InventoryDragEvent event) {
+        if (event.getInventory().getHolder() != this) return;
+        event.setCancelled(true);
     }
 
     /**

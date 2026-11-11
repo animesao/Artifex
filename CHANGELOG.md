@@ -7,6 +7,23 @@ extracts the section of the needed version for the GitHub Release notes.
 
 ---
 
+## v1.339.0
+
+### 🛡️ Bug Fixes & Exploits
+- **SimpleModule Item Theft Fix:** `SimpleModule` now implements `InventoryHolder` and registers `InventoryClickEvent` and `InventoryDragEvent` handlers to prevent players from taking GUI items from the menu, and correctly dispatches `handleMenuClick` when slots are clicked.
+- **Vanilla Crafting Protection:** Added `PrepareItemCraftEvent` listener to prevent vanilla recipes (e.g. torches, blocks, sticks) from accidentally or maliciously consuming custom items as raw ingredients. Configurable via `crafting.protect-custom-items-in-vanilla-recipes: true`.
+- **Command Sequence Colon Parsing:** Fixed `ActionParser` command parsing in `command_sequence` to split on the last colon (`lastIndexOf(':')`), preventing commands with namespaces (`minecraft:give`, NBT tags, etc.) from being truncated.
+- **Shutdown Task Safety:** Guarded `ActionParser.scheduleLater` with `plugin.isEnabled()` check to eliminate `IllegalPluginAccessException` when triggers fire during server shutdown or reload.
+
+### ✨ Features & Modern Paper 1.21.4+ Upgrades
+- **MiniMessage & Adventure Support:** `ColorUtils` now supports modern Adventure MiniMessage formatting (`<gradient:...>`, `<rainbow>`, `<hover:...>`, `<click:...>`) while preserving backward compatibility with legacy `&` color codes and HEX formats.
+- **Modern Item Model Components:** Added native support for Mojang's 1.21.4+ `minecraft:item_model` data component via `meta.setItemModel(NamespacedKey)` across `ItemLoader`, `ItemAPI`, and `ItemBuilder`. Configurable via `item-model` or `model` in YAML.
+- **Visual Hotbar Cooldown Animation:** Player client now displays native Minecraft cooldown overlay swipe (`player.setCooldown(material, ticks)`) when using items with click cooldowns. Configurable via `items.visual-cooldown-animation: true`.
+- **Persistent Cooldowns (`CooldownStore`):** Integrated `CooldownStore` into `PlayerListener`, `TriggerListener`, and `PluginBootstrap` to persist player click and trigger cooldowns to `cooldowns.yml` across server restarts and reloads (`cooldowns.persistent: true`).
+- **Maven Release 21:** Configured `<release>21</release>` in `maven-compiler-plugin` to eliminate Java 21 system module warnings during build.
+
+---
+
 ## v1.338.0
 
 ### ⚡ Performance & Runtime Java Compiler

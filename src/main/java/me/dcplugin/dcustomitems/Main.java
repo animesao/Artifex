@@ -62,6 +62,7 @@ public class Main extends JavaPlugin {
     public me.dcplugin.dcustomitems.listeners.PlayerListener getPlayerListener() { return bootstrap.getPlayerListener(); }
     public me.dcplugin.dcustomitems.listeners.TriggerListener getTriggerListener() { return bootstrap.getTriggerListener(); }
     public me.dcplugin.dcustomitems.handlers.EquippedItemsChecker getEquippedItemsChecker() { return bootstrap.getEquippedItemsChecker(); }
+    public me.dcplugin.dcustomitems.utils.CooldownStore getCooldownStore() { return bootstrap.getCooldownStore(); }
 
     // Delegate methods for backward compatibility
     public void registerCustomCommands() { bootstrap.getCommandRegistrar().registerAll(bootstrap.getApiItemRegistry()); }

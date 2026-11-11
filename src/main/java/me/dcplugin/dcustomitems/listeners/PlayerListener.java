@@ -185,6 +185,10 @@ public class PlayerListener implements Listener {
 
         if (cooldown > 0) {
             setCooldownTime(playerId, customItemId, currentTime);
+            if (plugin.getConfig().getBoolean("items.visual-cooldown-animation", true)) {
+                int cdTicks = (int) Math.max(1, cooldown / 50L);
+                player.setCooldown(actualItem.getType(), cdTicks);
+            }
         }
 
         boolean consumable = "CONSUMABLE".equals(customItem.getType());
@@ -255,12 +259,27 @@ public class PlayerListener implements Listener {
     // ===== Cooldown helpers =====
 
     private Long getCooldownTime(UUID playerId, String itemId) {
+        if (plugin.getConfig().getBoolean("cooldowns.persistent", true) && plugin.getCooldownStore() != null) {
+            long remaining = plugin.getCooldownStore().remaining(playerId.toString(), itemId, System.currentTimeMillis());
+            if (remaining > 0) {
+                CustomItem item = plugin.getItemHandler().getCustomItem(itemId);
+                long totalCd = item != null ? item.getClickCooldown() : remaining;
+                return System.currentTimeMillis() - (totalCd - remaining);
+            }
+        }
         Map<String, Long> items = playerCooldowns.get(playerId);
         return items == null ? null : items.get(itemId);
     }
 
     private void setCooldownTime(UUID playerId, String itemId, long time) {
         playerCooldowns.computeIfAbsent(playerId, k -> new HashMap<>()).put(itemId, time);
+        if (plugin.getConfig().getBoolean("cooldowns.persistent", true) && plugin.getCooldownStore() != null) {
+            CustomItem item = plugin.getItemHandler().getCustomItem(itemId);
+            long cooldown = item != null ? item.getClickCooldown() : 0;
+            if (cooldown > 0) {
+                plugin.getCooldownStore().put(playerId.toString(), itemId, time + cooldown);
+            }
+        }
     }
 
     /**

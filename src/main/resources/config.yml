@@ -33,6 +33,21 @@ backup:
   on-reload: true
   keep: 5
 
+# Crafting protections
+crafting:
+  # Protect custom items from being accidentally consumed in vanilla recipes
+  protect-custom-items-in-vanilla-recipes: true
+
+# General items behavior
+items:
+  # Native Minecraft swipe animation on the hotbar icon for items with cooldown
+  visual-cooldown-animation: true
+
+# Cooldown persistence
+cooldowns:
+  # Save player cooldowns to disk (cooldowns.yml) across server reloads and restarts
+  persistent: true
+
 # ==========================================
 # CONTENT
 # ==========================================

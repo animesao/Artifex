@@ -59,6 +59,10 @@ class ActionParserTest {
         String[] parsed = ActionParser.splitAction("title:&6Title|&7Sub:10:40:10");
         assertEquals("title", parsed[0]);
         assertEquals("&6Title|&7Sub:10:40:10", parsed[1]);
+
+        String[] cmdSeq = ActionParser.splitAction("command_sequence:minecraft:give %player% diamond 1:100;minecraft:say hello:50");
+        assertEquals("command_sequence", cmdSeq[0]);
+        assertEquals("minecraft:give %player% diamond 1:100;minecraft:say hello:50", cmdSeq[1]);
     }
 
     /**
@@ -70,5 +74,10 @@ class ActionParserTest {
         assertDoesNotThrow(() -> ActionParser.execute(null, "   "));
         assertDoesNotThrow(() -> ActionParser.execute(null, ""));
         assertDoesNotThrow(() -> ActionParser.execute(null, null));
+    }
+
+    @Test
+    void commandSequenceWithColonsDoesNotThrow() {
+        assertDoesNotThrow(() -> ActionParser.execute(null, "command_sequence:minecraft:give %player% diamond 1:100"));
     }
 }

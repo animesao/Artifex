@@ -891,12 +891,26 @@ public class ActionParser {
         String[] commands = value.split(";");
         long delay = 0;
         for (String cmdStr : commands) {
-            String[] parts = cmdStr.split(":");
-            if (parts.length < 1) continue;
+            String trimmed = cmdStr.trim();
+            if (trimmed.isEmpty()) continue;
 
-            String command = parts[0].replace("%player%", player.getName());
-            long cmdDelay = parts.length > 1 ? parseLong(parts[1], 0) : 0;
+            int lastColon = trimmed.lastIndexOf(':');
+            String rawCommand;
+            long cmdDelay = 0;
+            if (lastColon > 0) {
+                String delayStr = trimmed.substring(lastColon + 1).trim();
+                try {
+                    cmdDelay = Long.parseLong(delayStr);
+                    rawCommand = trimmed.substring(0, lastColon).trim();
+                } catch (NumberFormatException e) {
+                    rawCommand = trimmed;
+                }
+            } else {
+                rawCommand = trimmed;
+            }
+            if (rawCommand.isEmpty()) continue;
 
+            String command = rawCommand.replace("%player%", player.getName());
             final long finalDelay = delay;
             scheduleLater(() ->
                 Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), command),
@@ -1068,8 +1082,7 @@ public class ActionParser {
 
     private static void scheduleLater(Runnable task, long delayMs) {
         Main plugin = Main.getInstance();
-        if (plugin == null) {
-            task.run();
+        if (plugin == null || !plugin.isEnabled()) {
             return;
         }
         org.bukkit.Bukkit.getScheduler().runTaskLater(plugin, task, Math.max(1L, delayMs / 50));

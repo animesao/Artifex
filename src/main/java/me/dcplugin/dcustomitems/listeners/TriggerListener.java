@@ -323,6 +323,11 @@ public class TriggerListener implements Listener {
     }
 
     private boolean isTriggerOnCooldown(UUID playerId, String key, long now) {
+        if (plugin.getConfig().getBoolean("cooldowns.persistent", true) && plugin.getCooldownStore() != null) {
+            if (plugin.getCooldownStore().isOnCooldown(playerId.toString(), key, now)) {
+                return true;
+            }
+        }
         Map<String, Long> playerCooldowns = triggerCooldowns.get(playerId);
         if (playerCooldowns == null) return false;
         Long expiry = playerCooldowns.get(key);
@@ -336,6 +341,9 @@ public class TriggerListener implements Listener {
 
     private void setTriggerExpiry(UUID playerId, String key, long expiry) {
         triggerCooldowns.computeIfAbsent(playerId, k -> new HashMap<>()).put(key, expiry);
+        if (plugin.getConfig().getBoolean("cooldowns.persistent", true) && plugin.getCooldownStore() != null) {
+            plugin.getCooldownStore().put(playerId.toString(), key, expiry);
+        }
     }
 
     // === PUBLIC COOLDOWN API ===
@@ -353,6 +361,10 @@ public class TriggerListener implements Listener {
      */
     public long getCooldownRemaining(Player player, CustomItem item) {
         if (player == null || item == null) return 0;
+        if (plugin.getConfig().getBoolean("cooldowns.persistent", true) && plugin.getCooldownStore() != null) {
+            long rem = plugin.getCooldownStore().remaining(player.getUniqueId().toString(), item.getId() + ":cooldown", System.currentTimeMillis());
+            if (rem > 0) return rem;
+        }
         Map<String, Long> playerCooldowns = triggerCooldowns.get(player.getUniqueId());
         if (playerCooldowns == null) return 0;
         Long expiry = playerCooldowns.get(item.getId() + ":cooldown");

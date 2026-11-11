@@ -49,6 +49,7 @@ public class PluginBootstrap {
     private PlaceholderManager placeholderManager;
     private UpdateChecker updateChecker;
     private PluginLogManager pluginLogManager;
+    private me.dcplugin.dcustomitems.utils.CooldownStore cooldownStore;
 
     public PluginBootstrap(Main plugin) {
         this.plugin = plugin;
@@ -156,6 +157,10 @@ public class PluginBootstrap {
             pluginLogManager = null;
         }
 
+        if (cooldownStore != null) {
+            try { cooldownStore.save(); } catch (Exception ignored) {}
+        }
+
         plugin.getLogger().info("CustomItems disabled!");
     }
 
@@ -163,6 +168,7 @@ public class PluginBootstrap {
 
     private void initManagers() {
         configManager = new ConfigManager(plugin);
+        cooldownStore = new me.dcplugin.dcustomitems.utils.CooldownStore(plugin.getDataFolder());
         messageManager = new MessageManager(plugin);
         effectManager = new EffectManager(plugin);
         attributeManager = new AttributeManager(plugin);
@@ -258,4 +264,5 @@ public class PluginBootstrap {
     public EquippedItemsChecker getEquippedItemsChecker() { return equippedItemsChecker; }
     public CommandRegistrar getCommandRegistrar() { return commandRegistrar; }
     public ConfigMigrator getConfigMigrator() { return configMigrator; }
+    public me.dcplugin.dcustomitems.utils.CooldownStore getCooldownStore() { return cooldownStore; }
 }

@@ -209,7 +209,7 @@ public class ItemLoader {
 
             // === Model data ===
             int customModelData = itemSection.getInt("custom-model-data", -1);
-            String itemModel = itemSection.getString("item-model", null);
+            String itemModel = itemSection.getString("item-model", itemSection.getString("model", null));
             String itemModelVariant = itemSection.getString("item-model-variant", null);
             applyModelData(itemStack, customModelData, itemModel, itemId, itemModelVariant);
 
@@ -374,6 +374,18 @@ public class ItemLoader {
         boolean hasVariant = itemModelVariant != null && !itemModelVariant.isEmpty();
 
         if (hasModel || hasVariant) {
+            if (hasModel) {
+                try {
+                    NamespacedKey modelKey = itemModel.contains(":")
+                        ? NamespacedKey.fromString(itemModel)
+                        : new NamespacedKey("minecraft", itemModel.toLowerCase(java.util.Locale.ROOT));
+                    if (modelKey != null) {
+                        meta.setItemModel(modelKey);
+                    }
+                } catch (Throwable ignored) {
+                    // Fallback for non-Paper or older version
+                }
+            }
             CustomModelDataComponent cmdComponent = meta.getCustomModelDataComponent();
             List<String> strings = new ArrayList<>();
             if (hasModel) strings.add(itemModel);

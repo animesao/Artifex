@@ -51,6 +51,9 @@ public class CustomItemsCommand implements CommandExecutor, TabCompleter {
         }
 
         try {
+            if (plugin.getCooldownStore() != null) {
+                try { plugin.getCooldownStore().save(); } catch (Exception ignored) {}
+            }
             if (plugin.getConfig().getBoolean("backup.on-reload", true)) {
                 try {
                     me.dcplugin.dcustomitems.utils.BackupManager.backup(

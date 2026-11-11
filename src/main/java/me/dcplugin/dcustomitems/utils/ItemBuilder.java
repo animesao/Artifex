@@ -183,6 +183,29 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder setItemModel(String itemModel) {
+        if (itemMeta != null && itemModel != null && !itemModel.isEmpty()) {
+            try {
+                NamespacedKey modelKey = itemModel.contains(":")
+                    ? NamespacedKey.fromString(itemModel)
+                    : new NamespacedKey("minecraft", itemModel.toLowerCase(Locale.ROOT));
+                if (modelKey != null) {
+                    itemMeta.setItemModel(modelKey);
+                }
+            } catch (Throwable ignored) {}
+        }
+        return this;
+    }
+
+    public ItemBuilder setItemModel(NamespacedKey key) {
+        if (itemMeta != null && key != null) {
+            try {
+                itemMeta.setItemModel(key);
+            } catch (Throwable ignored) {}
+        }
+        return this;
+    }
+
     public ItemBuilder addAttribute(String attributeName, double value, AttributeModifier.Operation operation) {
         if (itemMeta == null || attributeName == null) {
             return this;

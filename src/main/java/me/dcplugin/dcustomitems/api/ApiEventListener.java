@@ -68,6 +68,11 @@ public class ApiEventListener implements Listener {
         if (cooldown > 0) {
             UUID playerId = player.getUniqueId();
             long now = System.currentTimeMillis();
+            if (plugin.getConfig().getBoolean("cooldowns.persistent", true) && plugin.getCooldownStore() != null) {
+                if (plugin.getCooldownStore().isOnCooldown(playerId.toString(), customItem.getId(), now)) {
+                    return;
+                }
+            }
             Long lastClick = lastClicks
                     .computeIfAbsent(playerId, k -> new HashMap<>())
                     .get(customItem.getId());
@@ -75,6 +80,13 @@ public class ApiEventListener implements Listener {
                 return;
             }
             lastClicks.computeIfAbsent(playerId, k -> new HashMap<>()).put(customItem.getId(), now);
+            if (plugin.getConfig().getBoolean("cooldowns.persistent", true) && plugin.getCooldownStore() != null) {
+                plugin.getCooldownStore().put(playerId.toString(), customItem.getId(), now + cooldown);
+            }
+            if (plugin.getConfig().getBoolean("items.visual-cooldown-animation", true)) {
+                int cdTicks = (int) Math.max(1, cooldown / 50L);
+                player.setCooldown(item.getType(), cdTicks);
+            }
         }
 
         // Use limit (getMaxUses()), same as for YAML items

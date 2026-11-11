@@ -87,9 +87,17 @@ public class ItemAPI {
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
 
-        // Item Model (1.21.11)
+        // Item Model (1.21.4+)
         String itemModel = item.getItemModel();
         if (itemModel != null && !itemModel.isEmpty()) {
+            try {
+                NamespacedKey modelKey = itemModel.contains(":")
+                    ? NamespacedKey.fromString(itemModel)
+                    : new NamespacedKey("minecraft", itemModel.toLowerCase(java.util.Locale.ROOT));
+                if (modelKey != null) {
+                    meta.setItemModel(modelKey);
+                }
+            } catch (Throwable ignored) {}
             org.bukkit.inventory.meta.components.CustomModelDataComponent cmd = meta.getCustomModelDataComponent();
             cmd.setStrings(List.of(itemModel));
             meta.setCustomModelDataComponent(cmd);

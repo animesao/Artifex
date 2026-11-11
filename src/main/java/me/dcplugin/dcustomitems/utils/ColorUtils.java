@@ -14,11 +14,21 @@ public class ColorUtils {
             java.util.regex.Pattern.compile("&#([A-Fa-f0-9]{6})|<#([A-Fa-f0-9]{6})>|\\{#([A-Fa-f0-9]{6})\\}");
 
     /**
-     * Replaces color codes (& -> §) and hex color formats (&#RRGGBB, <#RRGGBB>, {#RRGGBB}).
+     * Replaces color codes (& -> §), hex color formats (&#RRGGBB, <#RRGGBB>, {#RRGGBB}),
+     * and Adventure MiniMessage tags (<gradient:...>, <rainbow>, <color:...>).
      */
     public static String colorize(String message) {
         if (message == null) {
             return "";
+        }
+        if (message.contains("<") && message.contains(">")) {
+            try {
+                net.kyori.adventure.text.Component component =
+                        net.kyori.adventure.text.minimessage.MiniMessage.miniMessage().deserialize(message);
+                message = net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.legacySection().serialize(component);
+            } catch (Throwable ignored) {
+                // If MiniMessage parsing fails (e.g. raw mathematical < >), proceed to HEX and legacy formatting
+            }
         }
         try {
             java.util.regex.Matcher matcher = HEX_PATTERN.matcher(message);
