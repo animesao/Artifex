@@ -1,4 +1,4 @@
-# События и API
+﻿# События и API
 
 ## Что ты узнаешь
 
@@ -11,7 +11,7 @@
 
 ## Предусловия
 
-- Плагин DC-CustomItems установлен — см. [Установка](01-getting-started.md).
+- Плагин Artifex установлен — см. [Установка](01-getting-started.md).
 - Вы умеете писать плагины на Bukkit/Paper и знаете, что такое `Listener` и `@EventHandler` — иначе сначала посмотрите [События и API](13-events-api.md) на любом Bukkit-гайде.
 - Вы прочитали [Предметы в YAML](03-yaml-items.md) и [Предметы в Java](04-java-items.md) — события относятся к обоим видам предметов.
 - Сервер работает на Paper/Spigot версии 1.21, Java 21 — см. [Установка](01-getting-started.md).
@@ -40,7 +40,7 @@
 
 Плагин умеет отменять обычные Bukkit-события — например, запретить установку блока кастомным предметом. Но как **вашему** плагину узнать, что игрок именно что-то сделал с кастомным предметом?
 
-Для этого DC-CustomItems отдаёт наружу собственные Bukkit-события. Ваш плагин подписывается на них и решает, что делать:
+Для этого Artifex отдаёт наружу собственные Bukkit-события. Ваш плагин подписывается на них и решает, что делать:
 
 - запретить определённый предмет в своей зоне;
 - посчитать использования в своей статистике;
@@ -52,7 +52,7 @@
 
 | Правило | Значение |
 |---------|---------|
-| Базовый класс | Все события наследуют `me.dcplugin.dcustomitems.events.CustomItemEvent` |
+| Базовый класс | Все события наследуют `me.dcplugin.artifex.events.CustomItemEvent` |
 | Поток | События вызываются в основном потоке сервера, синхронно |
 | Предмет | В событии может быть **и YAML-предмет, и Java-предмет** — проверяйте `getCustomItem()` и `getJavaItem()` |
 | Отмена | `event.setCancelled(true)` отменяет стандартное поведение |
@@ -354,11 +354,11 @@ public void onPeriodic(CustomItemPeriodicEvent event) {
 ```java
 package com.example.dci;
 
-import me.dcplugin.dcustomitems.events.CustomItemCraftEvent;
-import me.dcplugin.dcustomitems.events.CustomItemUseEvent;
-import me.dcplugin.dcustomitems.events.CustomItemDamageDealtEvent;
-import me.dcplugin.dcustomitems.models.CustomItem;
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
+import me.dcplugin.artifex.events.CustomItemCraftEvent;
+import me.dcplugin.artifex.events.CustomItemUseEvent;
+import me.dcplugin.artifex.events.CustomItemDamageDealtEvent;
+import me.dcplugin.artifex.models.CustomItem;
+import me.dcplugin.artifex.api.AbstractCustomItem;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -459,15 +459,15 @@ version: 1.0.0
 main: com.example.dci.MyPlugin
 api-version: '1.21'
 depend:
-  - DC-CustomItems
+  - Artifex
 ```
 
 | Строка | Зачем |
 |--------|-------|
-| `depend` | DC-CustomItems должен запуститься раньше вашего плагина |
-| `softdepend` | Подойдёт, если ваш плагин умеет работать и без DC-CustomItems |
+| `depend` | Artifex должен запуститься раньше вашего плагина |
+| `softdepend` | Подойдёт, если ваш плагин умеет работать и без Artifex |
 
-Классы лежат в пакете `me.dcplugin.dcustomitems.events`, базовый класс — `me.dcplugin.dcustomitems.events.CustomItemEvent`.
+Классы лежат в пакете `me.dcplugin.artifex.events`, базовый класс — `me.dcplugin.artifex.events.CustomItemEvent`.
 
 ## Как отмена события влияет на предмет
 

@@ -70,12 +70,12 @@ java-compilation: false
 
 **Шаг 1. Скачайте jar.**
 Откройте [Releases](https://github.com/animesao/Artifex/releases) и
-скачайте последний `DC-CustomItems-<версия>.jar`.
+скачайте последний `Artifex-<версия>.jar`.
 
 **Шаг 2. Положите его в `plugins/`.**
 
 ```
-/path/to/server/plugins/DC-CustomItems-1.333.0.jar
+/path/to/server/plugins/Artifex-2.0.0.jar
 ```
 
 **Шаг 3. Перезапустите сервер.**
@@ -83,13 +83,13 @@ java-compilation: false
 **Шаг 4. Проверьте консоль.** Должно быть примерно так:
 
 ```
-[DC-CustomItems] CustomItems starting...
+[Artifex] CustomItems starting...
 [Config] Created default messages.java
 [CustomItems] Loaded 0 custom items
 [JavaCompiler] Compiled: 1, Skipped: 0 (0ms)
 [API] Loaded: 0 items, 0 commands, 0 placeholders, 0 modules
 [Messages] items/messages.java applied (runtime load())
-[DC-CustomItems] CustomItems enabled!
+[Artifex] CustomItems enabled!
 ```
 
 Строка `Compiled: 1` — это и есть ваш единственный файл `messages.java`.
@@ -100,7 +100,7 @@ java-compilation: false
 ## Что должно появиться на сервере
 
 ```
-plugins/DC-CustomItems/
+plugins/Artifex/
 ├── config.yml            # настройки плагина
 ├── items/                # ваш контент
 │   └── messages.java     # все тексты плагина
@@ -133,7 +133,7 @@ plugins/DC-CustomItems/
 Должно прийти:
 
 ```
-=== DC-CustomItems ===
+=== Artifex ===
 /ci reload - Reload the plugin
 ```
 
@@ -141,7 +141,7 @@ plugins/DC-CustomItems/
 
 **2. Создайте первый предмет.**
 
-Откройте `plugins/DC-CustomItems/items/` и создайте файл `test-sword.yml`:
+Откройте `plugins/Artifex/items/` и создайте файл `test-sword.yml`:
 
 ```yaml
 test-sword:
@@ -223,7 +223,7 @@ FROM eclipse-temurin:21-jdk
 
 ```bash
 # что новые ключи появились (в старом config.yml их не будет)
-grep -E "file-logging|backup" plugins/DC-CustomItems/config.yml
+grep -E "file-logging|backup" plugins/Artifex/config.yml
 ```
 
 Отсутствие ключа — не ошибка: плагин использует значение по умолчанию.
@@ -249,8 +249,8 @@ grep -E "file-logging|backup" plugins/DC-CustomItems/config.yml
 
 1. `/ci backup` (если хотите сохранить контент).
 2. Остановите сервер.
-3. Удалите `plugins/DC-CustomItems-*.jar`.
-4. Удалите папку `plugins/DC-CustomItems/` — **если не хотите её сохранить**.
+3. Удалите `plugins/Artifex-*.jar`.
+4. Удалите папку `plugins/Artifex/` — **если не хотите её сохранить**.
 
 При удалении плагина с работающего сервера (без рестарта) из инвентарей
 могут остаться «пустые» предметы с PDC-метками. Это нормально: при
@@ -264,7 +264,7 @@ grep -E "file-logging|backup" plugins/DC-CustomItems/config.yml
 |---------|-----------|
 | Плагин не включается | Читайте [Решение проблем](17-troubleshooting.md) → «Плагин не включается» |
 | `JavaCompiler not found` | Нужен JDK, а не JRE — [см. выше](#нужен-ли-jdk-а-не-jre) |
-| `/ci` не отвечает | Нет права `dcustomitems.reload` — [Права](15-permissions.md) |
+| `/ci` не отвечает | Нет права `artifex.reload` — [Права](15-permissions.md) |
 | Предмет не появляется в игре | `/ci reload`, затем `/ci debug <id>` |
 | Ошибки в консоли при старте | Скопируйте их — почти всегда это опечатка в YAML |
 

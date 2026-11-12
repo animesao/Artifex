@@ -1,4 +1,4 @@
-# Конфигурация
+﻿# Конфигурация
 
 ## Что ты узнаешь
 
@@ -12,7 +12,7 @@
 
 ## Предусловия
 
-- Плагин DC-CustomItems установлен, сервер запускается — см. [Установка](01-getting-started.md).
+- Плагин Artifex установлен, сервер запускается — см. [Установка](01-getting-started.md).
 - Вы понимаете, что такое YAML-файл конфигурации и как в нём записываются ключи.
 - Для предметов и модулей есть отдельные страницы: [Предметы в YAML](03-yaml-items.md), [Модули](10-modules.md).
 - Общий список страниц — в [Содержании вики](README.md).
@@ -41,7 +41,7 @@
 ## Где лежит config.yml
 
 ```text
-plugins/DC-CustomItems/
+plugins/Artifex/
 ├── config.yml        ← этот файл
 ├── items/            ← предметы, модули и сообщения
 │   ├── messages.java
@@ -53,7 +53,7 @@ plugins/DC-CustomItems/
 └── logs/             ← логи плагина (если включён file-logging)
 ```
 
-Открыть: `plugins/DC-CustomItems/config.yml`.
+Открыть: `plugins/Artifex/config.yml`.
 
 После правки — `/ci reload`. Исключение: **тип базы данных** (`database.type`) меняется только при полном перезапуске сервера.
 
@@ -77,7 +77,7 @@ plugins/DC-CustomItems/
 |------|-----|--------------|------------|--------------|
 | `java-compilation` | булево | `true` | Компилировать `.java`-файлы из `items/` прямо на сервере | Выключите (`false`), если доступ к файлам плагина есть у недоверенных людей. Подробнее — [Безопасность](#безопасность-java-compilation) |
 | `debug-mode` | булево | `false` | Подробное логирование: показывает статистику кэша перечислений (`EnumCache`) после `/ci reload` | Включайте на время отладки. На рабочем сервере — выключено |
-| `file-logging` | булево | `false` | Писать логи плагина в `plugins/DC-CustomItems/logs/latest.log` **вместо** консоли | Включите, если консоль забита сообщениями плагина. Подробнее — [Решение проблем](17-troubleshooting.md) |
+| `file-logging` | булево | `false` | Писать логи плагина в `plugins/Artifex/logs/latest.log` **вместо** консоли | Включите, если консоль забита сообщениями плагина. Подробнее — [Решение проблем](17-troubleshooting.md) |
 
 ### Резервные копии
 
@@ -86,7 +86,7 @@ plugins/DC-CustomItems/
 | `backup.on-reload` | булево | `true` | Создавать копию `items/` + `config.yml` + `data.db` перед каждым `/ci reload` | Выключите, если бэкапы не нужны или их слишком много |
 | `backup.keep` | число | `5` | Сколько последних копий хранить. Минимум 1, лишние (самые старые) удаляются | Поставьте больше, если хотите длинную историю |
 
-Копии лежат в `plugins/DC-CustomItems/backups/`. Подробнее — [База данных](12-database.md#резервные-копии).
+Копии лежат в `plugins/Artifex/backups/`. Подробнее — [База данных](12-database.md#резервные-копии).
 
 ### База данных
 
@@ -95,8 +95,8 @@ plugins/DC-CustomItems/
 | `database.type` | строка | `sqlite` | `sqlite` (файл `data.db`) или `mysql` | Когда нужен общий доступ к данным с нескольких серверов. **Требует перезапуска сервера** |
 | `database.mysql.host` | строка | `127.0.0.1` | Адрес сервера MySQL | Если база на другой машине |
 | `database.mysql.port` | число | `3306` | Порт MySQL | Если он нестандартный |
-| `database.mysql.database` | строка | `dcustomitems` | Имя базы данных | Согласуйте с тем, что вы создали в MySQL |
-| `database.mysql.username` | строка | `dcustomitems` | Пользователь MySQL | Создайте отдельного пользователя с правами только на свою базу |
+| `database.mysql.database` | строка | `artifex` | Имя базы данных | Согласуйте с тем, что вы создали в MySQL |
+| `database.mysql.username` | строка | `artifex` | Пользователь MySQL | Создайте отдельного пользователя с правами только на свою базу |
 | `database.mysql.password` | строка | `'change-me'` | Пароль пользователя | Замените заглушку. Лучше — через `DCI_MYSQL_PASSWORD` |
 | `database.mysql.use-ssl` | булево | `false` | Шифрование соединения с MySQL | `true` для удалённой базы |
 | `database.mysql.pool-size` | число | `5` | Сколько соединений держать открытыми | Больше — если много одновременных запросов |
@@ -132,7 +132,7 @@ plugins/DC-CustomItems/
 
 Когда `java-compilation: true`, плагин берёт каждый `.java`-файл из `items/` и **компилирует его на сервере**, а потом выполняет. Это значит:
 
-> Тот, кто может положить файл в `plugins/DC-CustomItems/items/`, получает контроль над сервером.
+> Тот, кто может положить файл в `plugins/Artifex/items/`, получает контроль над сервером.
 
 | Что может сделать такой файл | Пример |
 |------------------------------|--------|
@@ -180,8 +180,8 @@ plugins/DC-CustomItems/
 
 ```bash
 # 1. Скопировать нужный файл или папку из репозитория (samples/)
-cp samples/EXAMPLE-runes.yml plugins/DC-CustomItems/items/runes.yml
-cp -r samples/EXAMPLE-vault plugins/DC-CustomItems/items/vault
+cp samples/EXAMPLE-runes.yml plugins/Artifex/items/runes.yml
+cp -r samples/EXAMPLE-vault plugins/Artifex/items/vault
 
 # 2. Убрать префикс EXAMPLE- (если он остался в имени)
 #    EXAMPLE-runes.yml -> runes.yml
@@ -195,12 +195,12 @@ cp -r samples/EXAMPLE-vault plugins/DC-CustomItems/items/vault
 
 | Файл | Что это |
 |------|---------|
-| `plugins/DC-CustomItems/items/messages.java` | **Единственный** файл, который плагин создаёт сам. Все тексты плагина — здесь |
+| `plugins/Artifex/items/messages.java` | **Единственный** файл, который плагин создаёт сам. Все тексты плагина — здесь |
 
 То есть чистая установка выглядит так:
 
 ```text
-plugins/DC-CustomItems/
+plugins/Artifex/
 ├── config.yml
 ├── items/
 │   └── messages.java
@@ -430,7 +430,7 @@ attributes:
 
 ```yaml
 # ==========================================
-# DC-CustomItems — минимальная настройка
+# Artifex — минимальная настройка
 # ==========================================
 
 # Компиляция .java-файлов из items/. Выключите, если файлы плагина
@@ -454,8 +454,8 @@ database:
   mysql:
     host: 127.0.0.1
     port: 3306
-    database: dcustomitems
-    username: dcustomitems
+    database: artifex
+    username: artifex
     password: 'change-me'
     use-ssl: false
     pool-size: 5
@@ -476,7 +476,7 @@ set-bonuses: {}
 | `Set bonuses for 'x' were not found in the config!` | В `config.yml` нет секции `set-bonuses.x` | Добавьте её. ID должен совпадать с `armor-set` у предметов |
 | Атрибут не применяется | `attributes:` лежит на верхнем уровне предмета, а не внутри `item:` | Перенесите блок внутрь секции `item:` |
 | Предмет не загрузился, в лог `Section 'item' not found` | Нет секции `item:` | Добавьте `item:` с `type:` материала |
-| Лог плагина пропал из консоли | Включён `file-logging: true` | Смотрите `plugins/DC-CustomItems/logs/latest.log` или выключите ключ |
+| Лог плагина пропал из консоли | Включён `file-logging: true` | Смотрите `plugins/Artifex/logs/latest.log` или выключите ключ |
 | Плагин ругается на незнакомый ключ | Ключ верхнего уровня, которого нет в справочнике, плагин считает **предметом** | Уберите ключ или оформите его как предмет (с секцией `item:`) |
 | `.java`-файлы перестали работать | `java-compilation: false` | Включите обратно, если сервером управляете только вы |
 | `extract-default-modules` в файле остался | Ключ удалён в 1.332 | Удалите строку — на работу не влияет |

@@ -1,4 +1,4 @@
-# Предметы в Java
+﻿# Предметы в Java
 
 ## Что ты узнаешь
 
@@ -13,7 +13,7 @@
 
 ## Предусловия
 
-- Плагин DC-CustomItems установлен — см. [Установка](01-getting-started.md).
+- Плагин Artifex установлен — см. [Установка](01-getting-started.md).
 - Вы понимаете, как устроена папка плагина и как выполняется `/ci reload` — см. [Как это работает](02-how-it-works.md) и [Команды](08-commands.md).
 - Вы прочитали [Предметы в YAML](03-yaml-items.md) и знаете, что умеет YAML.
 - На сервере установлен **JDK 21** (Java Development Kit), а не только JRE. Компилятор нужен плагину, чтобы собрать ваш `.java` в байт-код. Если стоит только JRE, в консоль уйдёт `JavaCompiler not found! JDK required.`
@@ -58,7 +58,7 @@ YAML покрывает большинство задач: эффекты, ат�
 
 Порядок действий:
 
-1. Кладёте файл `.java` в `plugins/DC-CustomItems/items/`.
+1. Кладёте файл `.java` в `plugins/Artifex/items/`.
 2. Выполняете `/ci reload`.
 3. Плагин находит файл, компилирует его в байт-код (`.class`) в памяти и загружает класс.
 4. Класс, который наследует `AbstractCustomItem`, регистрируется как предмет с ID из `getId()`.
@@ -110,12 +110,12 @@ YAML покрывает большинство задач: эффекты, ат�
 
 ## Полный рабочий пример
 
-Скопируйте этот файл в `plugins/DC-CustomItems/items/storm-blade.java` и выполните `/ci reload`.
+Скопируйте этот файл в `plugins/Artifex/items/storm-blade.java` и выполните `/ci reload`.
 
 ```java
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-import me.dcplugin.dcustomitems.api.ItemAPI;
-import me.dcplugin.dcustomitems.api.RecipeDef;
+import me.dcplugin.artifex.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.ItemAPI;
+import me.dcplugin.artifex.api.RecipeDef;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -715,12 +715,12 @@ public void onRightClick(PlayerInteractEvent event, Player player) {
 
 ## Система сообщений
 
-Все тексты, которые видит игрок, живут в **одном месте** — файле `plugins/DC-CustomItems/items/messages.java`. Подробнее — в разделе [Сообщения](11-messages.md).
+Все тексты, которые видит игрок, живут в **одном месте** — файле `plugins/Artifex/items/messages.java`. Подробнее — в разделе [Сообщения](11-messages.md).
 
 Java-предмет может пользоваться этой системой: зарегистрировать свой текст под своим путём и затем брать его через `getMessage()`.
 
 ```java
-import me.dcplugin.dcustomitems.Main;
+import me.dcplugin.artifex.Main;
 
 // 1. Зарегистрировать свой текст (обычно в конструкторе или в статическом load()).
 Main plugin = Main.getInstance();
@@ -749,7 +749,7 @@ ItemAPI.message(player, text);
 |----------|---------|-----------|
 | `error: class X is public, should be declared in a file named X.java` | Класс не `public` или не совпадает с переименованным файлом | Сделайте класс `public` и не переименовывайте его вручную — компилятор переименует сам |
 | В консоли `JavaCompiler not found! JDK required.` | На сервере JRE, а не JDK | Поставьте JDK 21 |
-| `error: cannot find symbol` на `AbstractCustomItem` | Нет импорта | Добавьте `import me.dcplugin.dcustomitems.api.AbstractCustomItem;` (обычно компилятор добавляет сам) |
+| `error: cannot find symbol` на `AbstractCustomItem` | Нет импорта | Добавьте `import me.dcplugin.artifex.api.AbstractCustomItem;` (обычно компилятор добавляет сам) |
 | Предмет загрузился, но не выдаётся | Встроенной команды выдачи нет | Используйте модуль-магазин или свою команду (образец — `samples/EXAMPLE-give-command.java`) |
 | `onPickup` не вызывается | В текущей версии плагин не вызывает этот хук | Используйте YAML-предмет с триггером `on_pickup` |
 | Предмет работает, но эффекты не наносятся | Предмет не в слоте активации | Проверьте `getActivationSlot()` |

@@ -61,7 +61,8 @@ public class ItemLoader {
             "debug-mode", "database", "set-bonuses",
             "update-available", "latest-version",
             "disable-worlds", "whitelist-blocks",
-            "java-compilation", "backup", "extract-default-modules"
+            "java-compilation", "backup", "extract-default-modules",
+            "file-logging", "crafting", "items", "cooldowns", "security"
     );
 
     private void loadFromConfig(Map<String, CustomItem> items) {

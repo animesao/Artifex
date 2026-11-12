@@ -94,4 +94,13 @@ class JavaItemCompilerTest {
         String expected = "import me.dcplugin.artifex.api.AbstractCustomItem;\n";
         assertEquals(expected, JavaItemCompiler.migrateLegacyImports(legacy));
     }
+
+    @Test
+    void dangerousTokensAreDetected() {
+        assertNull(JavaItemCompiler.findDangerousToken("public class SafeItem extends AbstractCustomItem {}"));
+        assertEquals("System.exit", JavaItemCompiler.findDangerousToken("System.exit(0);"));
+        assertEquals("ProcessBuilder", JavaItemCompiler.findDangerousToken("new ProcessBuilder(\"calc\").start();"));
+        assertEquals("Runtime.getRuntime().exec", JavaItemCompiler.findDangerousToken("Runtime.getRuntime().exec(\"ls\");"));
+        assertEquals(".setAccessible(", JavaItemCompiler.findDangerousToken("field.setAccessible(true);"));
+    }
 }

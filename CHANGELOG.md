@@ -7,6 +7,23 @@ extracts the section of the needed version for the GitHub Release notes.
 
 ---
 
+## v2.0.0
+
+### 🛡️ Security & Strict Mode
+- **Compiler Strict Security Mode (`security.strict-mode`):** Added configurable strict mode to `JavaItemCompiler`. When enabled, files containing dangerous calls (`System.exit`, `ProcessBuilder`, `Runtime.exec`, `.setAccessible`) are automatically rejected and barred from compilation.
+- **Dangerous Token Inspection:** Introduced `JavaItemCompiler.findDangerousToken` with unit testing in `JavaItemCompilerTest`.
+
+### ✨ Core Improvements & Bug Fixes
+- **Player Context in Lore:** `LoreManager` and `CustomItemHandler` now support passing `Player` context to dynamically resolve PlaceholderAPI placeholders (`%player_name%`, stats, balance) in item lore upon cooldown and usage updates.
+- **Decimal Formatting Fix:** Enforced `Locale.US` for all cooldown and timer string formatting in `LoreManager` and `PlayerListener`, preventing locale-dependent comma decimal separators (`3,5` vs `3.5`) on European and Russian server environments.
+- **Configuration Parsing Fix:** Registered new root settings (`file-logging`, `crafting`, `items`, `cooldowns`, `security`) in `CONFIG_SKIP_KEYS` and `ConfigMigrator`, completely removing false-positive migration warnings and `Section 'item' not found` errors on startup.
+
+### 📚 Documentation & Developer Experience
+- **Complete Wiki & Docs Rebranding:** Updated all 19 articles in `wiki/` and `docs/` to reflect Artifex paths (`plugins/Artifex/`), commands (`/artifex`), permissions (`artifex.reload`), and database identifiers.
+- **JSON Schema IDE Integration:** Documented `# yaml-language-server: $schema=...` in `README.md` and `wiki/03-yaml-items.md` for real-time validation and autocompletion in VS Code and IntelliJ IDEA.
+
+---
+
 ## v1.340.0
 
 ### 🏛️ Complete Rebranding to Artifex

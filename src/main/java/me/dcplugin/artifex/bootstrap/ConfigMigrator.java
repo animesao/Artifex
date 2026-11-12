@@ -52,7 +52,8 @@ public class ConfigMigrator {
                 "debug-mode", "database", "set-bonuses",
                 "update-available", "latest-version",
                 "disable-worlds", "whitelist-blocks",
-                "java-compilation", "backup", "extract-default-modules"
+                "java-compilation", "backup", "extract-default-modules",
+                "file-logging", "crafting", "items", "cooldowns", "security"
         );
         List<String> itemKeys = new ArrayList<>();
         for (String key : configKeys) {

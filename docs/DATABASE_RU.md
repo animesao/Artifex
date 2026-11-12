@@ -30,9 +30,9 @@ database:
 Пример SQL для администратора MySQL:
 
 ```sql
-CREATE DATABASE dcustomitems CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'dcustomitems'@'localhost' IDENTIFIED BY 'СЛОЖНЫЙ_ПАРОЛЬ';
-GRANT ALL PRIVILEGES ON dcustomitems.* TO 'dcustomitems'@'localhost';
+CREATE DATABASE artifex CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'artifex'@'localhost' IDENTIFIED BY 'СЛОЖНЫЙ_ПАРОЛЬ';
+GRANT ALL PRIVILEGES ON artifex.* TO 'artifex'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
@@ -54,8 +54,8 @@ database:
   mysql:
     host: 127.0.0.1
     port: 3306
-    database: dcustomitems
-    username: dcustomitems
+    database: artifex
+    username: artifex
     password: 'СЛОЖНЫЙ_ПАРОЛЬ'
     use-ssl: false
     pool-size: 5
@@ -76,7 +76,7 @@ use-ssl: true
 При успешном подключении будет сообщение примерно такого вида:
 
 ```text
-Database connected: MySQL (127.0.0.1:3306/dcustomitems)
+Database connected: MySQL (127.0.0.1:3306/artifex)
 ```
 
 Если подключение не удалось, проверьте host, порт, имя базы, пароль, firewall и права пользователя.

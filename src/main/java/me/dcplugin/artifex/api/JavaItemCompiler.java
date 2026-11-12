@@ -47,6 +47,24 @@ public class JavaItemCompiler {
     };
 
     /**
+     * Checks if source code contains any known dangerous calls.
+     * Returns the detected token, or null if none found.
+     */
+    public static String findDangerousToken(String sourceCode) {
+        if (sourceCode == null) return null;
+        for (String token : DANGEROUS_TOKENS) {
+            if (sourceCode.contains(token)) {
+                return token;
+            }
+        }
+        return null;
+    }
+
+    private boolean isStrictMode() {
+        return plugin != null && plugin.getConfig() != null && plugin.getConfig().getBoolean("security.strict-mode", false);
+    }
+
+    /**
      * The imports that are added automatically if they are missing in the source.
      * They are checked by name: previously the import block was only added if
      * the file did not contain the line "import me.dcplugin.artifex.api" at all,
@@ -244,11 +262,17 @@ public class JavaItemCompiler {
                 String sourceCode = readFileContent(javaFile);
                 sourceCode = stripPackageDeclaration(sourceCode);
                 sourceCode = migrateLegacyImports(sourceCode);
-                for (String token : DANGEROUS_TOKENS) {
-                    if (sourceCode.contains(token)) {
-                        plugin.getLogger().warning("[JavaCompiler] ⚠ " + javaFile.getName() + " contains a dangerous call '" + token + "' - check the file manually (java-compilation executes arbitrary code).");
-                        break;
+                String dangerousToken = findDangerousToken(sourceCode);
+                if (dangerousToken != null) {
+                    if (isStrictMode()) {
+                        String err = "Strict security mode rejected " + javaFile.getName()
+                                + ": dangerous call '" + dangerousToken + "' detected.";
+                        plugin.getLogger().severe("[JavaCompiler] ❌ " + err);
+                        result.errors.add(err);
+                        return false;
                     }
+                    plugin.getLogger().warning("[JavaCompiler] ⚠ " + javaFile.getName()
+                            + " contains a dangerous call '" + dangerousToken + "' - check the file manually (java-compilation executes arbitrary code).");
                 }
 
                 sourceCode = injectDefaultImports(sourceCode);
@@ -367,11 +391,17 @@ public class JavaItemCompiler {
             // contain two package statements and javac would refuse to build it.
             sourceCode = stripPackageDeclaration(sourceCode);
             sourceCode = migrateLegacyImports(sourceCode);
-            for (String token : DANGEROUS_TOKENS) {
-                if (sourceCode.contains(token)) {
-                    plugin.getLogger().warning("[JavaCompiler] ⚠ " + javaFile.getName() + " contains a dangerous call '" + token + "' - check the file manually (java-compilation executes arbitrary code).");
-                    break;
+            String dangerousToken = findDangerousToken(sourceCode);
+            if (dangerousToken != null) {
+                if (isStrictMode()) {
+                    String err = "Strict security mode rejected " + javaFile.getName()
+                            + ": dangerous call '" + dangerousToken + "' detected.";
+                    plugin.getLogger().severe("[JavaCompiler] ❌ " + err);
+                    result.errors.add(err);
+                    return false;
                 }
+                plugin.getLogger().warning("[JavaCompiler] ⚠ " + javaFile.getName()
+                        + " contains a dangerous call '" + dangerousToken + "' - check the file manually (java-compilation executes arbitrary code).");
             }
             String fileName = javaFile.getName().replace(".java", "");
 

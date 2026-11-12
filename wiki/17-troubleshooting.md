@@ -9,8 +9,8 @@
 
 ## Предусловия
 
-- Плагин DC-CustomItems установлен, сервер запускается — см. [Установка](01-getting-started.md).
-- Вы умеете читать консоль сервера и находить папку `plugins/DC-CustomItems/`.
+- Плагин Artifex установлен, сервер запускается — см. [Установка](01-getting-started.md).
+- Вы умеете читать консоль сервера и находить папку `plugins/Artifex/`.
 - Основные страницы: [Предметы в YAML](03-yaml-items.md), [Предметы в Java](04-java-items.md), [Конфигурация](14-configuration.md).
 - Общий список страниц — в [Содержании вики](README.md).
 
@@ -49,7 +49,7 @@
 | Зелье не наложилось | Предмет не в слоте активации | [Эффекты не применяются](#эффекты-не-применяются) |
 | Кликнул — ничего не произошло | Ошибка в действии или предмет типа `CONSUMABLE` | [Действие не выполняется](#действие-не-выполняется) |
 | Триггер `on_kill` не сработал | Опечатка в имени триггера или сработал кулдаун | [Триггер не срабатывает](#триггер-не-срабатывает) |
-| `/ci reload` отвечает «No permission» | Нет права `dcustomitems.reload` | [Команда /ci не работает](#команда-ci-не-работает) |
+| `/ci reload` отвечает «No permission» | Нет права `artifex.reload` | [Команда /ci не работает](#команда-ci-не-работает) |
 | `/mymodule` — «Unknown command» | Класс не скомпилировался или не extends `CustomCommand` | [Команда на Java не появилась](#команда-на-java-не-появилась) |
 | `%player_name%` в чате как обычный текст | Не установлен PlaceholderAPI | [Плейсхолдеры](#плейсхолдеры-показываются-буквально) |
 | Тексты плагина старые, хотя `messages.java` изменён | Файл не скомпилировался или нет `/ci reload` | [Сообщения не изменились](#сообщения-не-изменились-после-правки-messagesjava) |
@@ -65,13 +65,13 @@
 В консоли при старте сервера:
 
 ```text
-[Server] DC-CustomItems v1.333.0 could not be loaded (Unsupported API version)
+[Server] Artifex v1.333.0 could not be loaded (Unsupported API version)
 ```
 
 или
 
 ```text
-[Server] Could not load plugin 'DC-CustomItems.jar' in folder 'plugins'
+[Server] Could not load plugin 'Artifex.jar' in folder 'plugins'
 ```
 
 ### Причины и решения
@@ -88,10 +88,10 @@
 
 ```bash
 # Версия плагина
-java -jar plugins/DC-CustomItems.jar --version   # не у всех сборок работает
+java -jar plugins/Artifex.jar --version   # не у всех сборок работает
 
 # Надёжнее — посмотреть в plugin.yml внутри jar
-unzip -p plugins/DC-CustomItems.jar plugin.yml
+unzip -p plugins/Artifex.jar plugin.yml
 ```
 
 Требования к серверу:
@@ -196,7 +196,7 @@ java-compilation: false
 | `cannot find symbol` | Нет класса, метода или **поля**, которое вы используете | Проверьте имя. Частая ошибка: в `messages.java` написано поле, которого нет в `MessagesConfig` (например, `CI_HELP_GIVE`) |
 | `';' expected` | Пропущена `;` или потеряна скобка | Пересчитайте скобки и точки с запятой |
 | `class, interface, enum, or record expected` | Класс не на верхнем уровне или перед ним лишний текст | В файле должен быть ровно один `public class` |
-| `does not exist` (пакет) | Неверный `import` | Проверьте путь: `me.dcplugin.dcustomitems.api.AbstractCustomItem` |
+| `does not exist` (пакет) | Неверный `import` | Проверьте путь: `me.dcplugin.artifex.api.AbstractCustomItem` |
 | `cannot find symbol: method ...` | Метода нет в API | Сверьтесь со [Справочником API](18-api-reference.md) |
 | `duplicate class` | Два файла с одинаковым именем класса | Переименуйте один из файлов |
 | `class X is public, should be declared in a file named X.java` | Имя публичного класса не совпадает с именем файла | Переименуйте файл так, чтобы он совпадал с классом |
@@ -206,7 +206,7 @@ java-compilation: false
 Скомпилируйте файл локально, чтобы увидеть ошибки с подсветкой:
 
 ```bash
-javac -cp "путь/к/DC-CustomItems.jar" my-item.java
+javac -cp "путь/к/Artifex.jar" my-item.java
 ```
 
 ### Что ещё стоит знать
@@ -233,7 +233,7 @@ javac -cp "путь/к/DC-CustomItems.jar" my-item.java
 | Причина | Как проверить | Решение |
 |---------|---------------|---------|
 | Неправильное расширение файла | Файл называется `runes.yaml` — это нормально, а вот `runes.txt` — нет | Расширение должно быть `.yml` или `.yaml` |
-| Файл не в папке `items/` | Файл лежит в корне папки плагина | Перенесите в `plugins/DC-CustomItems/items/` |
+| Файл не в папке `items/` | Файл лежит в корне папки плагина | Перенесите в `plugins/Artifex/items/` |
 | Префикс `EXAMPLE-` | Файл называется `EXAMPLE-runes.yml` | Такие файлы **всегда** игнорируются. Переименуйте, убрав префикс |
 | ID предмета — это не имя файла | В файле `runes.yml` предмет называется `fire_rune`, а вы ищете `runes` | ID = **верхний ключ** в YAML |
 | Нет секции `item:` | В предмете нет блока `item:` с `type:` | Добавьте `item:` и `type: DIAMOND_SWORD` |
@@ -251,7 +251,7 @@ javac -cp "путь/к/DC-CustomItems.jar" my-item.java
 /ci validate
 ```
 
-Команда `/ci debug` требует права `dcustomitems.reload`.
+Команда `/ci debug` требует права `artifex.reload`.
 
 ## Бонус за набор и атрибуты не работают
 
@@ -425,7 +425,7 @@ triggers:
 ### Симптом
 
 ```text
-[DC-CustomItems] No permission!
+[Artifex] No permission!
 ```
 
 или команда вообще не находится.
@@ -434,7 +434,7 @@ triggers:
 
 | Причина | Решение |
 |---------|---------|
-| Нет права `dcustomitems.reload` | Выдайте право или сделайте игрока оператором (`/op Steve`) |
+| Нет права `artifex.reload` | Выдайте право или сделайте игрока оператором (`/op Steve`) |
 | Плагин не загрузился | Смотрите [Плагин не включается](#плагин-не-включается) |
 | Команда перехвачена другим плагином | Проверьте, не зарегистрировал ли кто-то команду `ci` или `customitems` |
 
@@ -445,7 +445,7 @@ triggers:
 | `/ci` | То же самое, что `/customitems` |
 | `/customitems` | Полное имя |
 
-Право `dcustomitems.reload` объявлено с `default: op` — то есть у операторов оно есть сразу, а обычным игрокам нужно выдавать отдельно.
+Право `artifex.reload` объявлено с `default: op` — то есть у операторов оно есть сразу, а обычным игрокам нужно выдавать отдельно.
 
 ## Команда на Java не появилась
 
@@ -486,8 +486,8 @@ public class MyModule extends CustomCommand {   // ← именно так
 **2. Файл должен быть в `items/`.** Вложенные папки тоже работают:
 
 ```text
-plugins/DC-CustomItems/items/my-module.java
-plugins/DC-CustomItems/items/my-module/my-module.java
+plugins/Artifex/items/my-module.java
+plugins/Artifex/items/my-module/my-module.java
 ```
 
 **3. Сделайте `/ci reload`.** Команды регистрируются при загрузке Java API — без перезагрузки новый файл не подхватится.
@@ -542,7 +542,7 @@ plugins/DC-CustomItems/items/my-module/my-module.java
 
 ### Симптом
 
-Вы поменяли `plugins/DC-CustomItems/items/messages.java`, сделали `/ci reload`, а тексты остались прежними.
+Вы поменяли `plugins/Artifex/items/messages.java`, сделали `/ci reload`, а тексты остались прежними.
 
 ### Проверьте по порядку
 
@@ -560,8 +560,8 @@ plugins/DC-CustomItems/items/my-module/my-module.java
 
 | Что нужно | Где смотреть |
 |-----------|--------------|
-| Список полей `MessagesConfig` | Файл `src/main/java/me/dcplugin/dcustomitems/api/config/MessagesConfig.java` |
-| Готовый рабочий файл | `plugins/DC-CustomItems/items/messages.java` (тот, что создал плагин) |
+| Список полей `MessagesConfig` | Файл `src/main/java/me/dcplugin/artifex/api/config/MessagesConfig.java` |
+| Готовый рабочий файл | `plugins/Artifex/items/messages.java` (тот, что создал плагин) |
 | Пути сообщений (например `items.expired`) | Там же, в блоке `BUILT_IN` |
 
 **3. Проверьте приоритет.** Текст берётся из первого источника, который что-то вернул:
@@ -597,19 +597,19 @@ plugins/DC-CustomItems/items/my-module/my-module.java
 ### Симптом
 
 ```text
-[DC-CustomItems] MySQL connection error: Communications link failure
+[Artifex] MySQL connection error: Communications link failure
 ```
 
 или
 
 ```text
-MySQL connection error: Access denied for user 'dcustomitems'@'localhost' (using password: YES)
+MySQL connection error: Access denied for user 'artifex'@'localhost' (using password: YES)
 ```
 
 или
 
 ```text
-[DC-CustomItems] SQLite connection error: ...
+[Artifex] SQLite connection error: ...
 ```
 
 ### Разбор по сообщениям
@@ -617,7 +617,7 @@ MySQL connection error: Access denied for user 'dcustomitems'@'localhost' (using
 | Сообщение | Причина | Решение |
 |-----------|---------|---------|
 | `Access denied for user` | Неверный пароль или у пользователя нет прав на базу | Проверьте `username`/`password`, пересоздайте пользователя с `GRANT` |
-| `Unknown database 'dcustomitems'` | База не создана | Создайте её: `CREATE DATABASE dcustomitems;` |
+| `Unknown database 'artifex'` | База не создана | Создайте её: `CREATE DATABASE artifex;` |
 | `Communications link failure` | Неверный хост/порт, или MySQL не слушает этот адрес | Проверьте `host`, `port`, firewall, `bind-address` в MySQL |
 | `Connection refused` | MySQL не запущен или слушает только localhost | Запустите MySQL, проверьте адрес |
 | `Public Key Retrieval is not allowed` | Несовместимая аутентификация MySQL 8 | Добавьте к JDBC-URL параметр `allowPublicKeyRetrieval=true` — скажите разработчику, если это нужно |
@@ -625,7 +625,7 @@ MySQL connection error: Access denied for user 'dcustomitems'@'localhost' (using
 ### Проверка доступа вручную
 
 ```bash
-mysql -h 127.0.0.1 -P 3306 -u dcustomitems -p dcustomitems
+mysql -h 127.0.0.1 -P 3306 -u artifex -p artifex
 ```
 
 Если подключение проходит — проблема в настройках плагина, а не в MySQL.
@@ -635,7 +635,7 @@ mysql -h 127.0.0.1 -P 3306 -u dcustomitems -p dcustomitems
 Тип базы читается **только при старте**. После правки `database.type` нужен полный перезапуск, а не `/ci reload`:
 
 ```text
-Database connected: MySQL (127.0.0.1:3306/dcustomitems)   ← успех
+Database connected: MySQL (127.0.0.1:3306/artifex)   ← успех
 Database connected: SQLite (.../data.db)                   ← SQLite
 ```
 
@@ -656,8 +656,8 @@ Database connected: SQLite (.../data.db)                   ← SQLite
 
 ```bash
 # Проверка прав
-ls -la plugins/DC-CustomItems/
-chown -R <пользователь сервера> plugins/DC-CustomItems/
+ls -la plugins/Artifex/
+chown -R <пользователь сервера> plugins/Artifex/
 ```
 
 ## Ошибка database is locked
@@ -685,10 +685,10 @@ SQL error: database is locked
 
 ```bash
 # Кто ещё открывает data.db
-lsof plugins/DC-CustomItems/data.db
+lsof plugins/Artifex/data.db
 
 # Windows
-handle.exe plugins/DC-CustomItems\data.db
+handle.exe plugins/Artifex\data.db
 ```
 
 ### Решение для своего кода
@@ -736,7 +736,7 @@ TPS просел, на сервере «пики» (lag spike) — игроки 
 | `spark` | Профилирование сервера |
 | `debug-mode: true` + `/ci reload` | Статистика кэша перечислений плагина |
 
-Проверьте, что дело не в плагине: временно выгрузите `DC-CustomItems.jar` и посмотрите, изменились ли TPS.
+Проверьте, что дело не в плагине: временно выгрузите `Artifex.jar` и посмотрите, изменились ли TPS.
 
 ## Предмет исчез
 
@@ -779,7 +779,7 @@ file-logging: true
 После этого:
 
 ```text
-plugins/DC-CustomItems/logs/
+plugins/Artifex/logs/
 ├── latest.log          ← текущий лог
 └── archive/
     ├── 2026-10-20_22-15-30.log
@@ -826,13 +826,13 @@ plugins/DC-CustomItems/logs/
 
 ```bash
 # Последние 50 строк
-tail -n 50 plugins/DC-CustomItems/logs/latest.log
+tail -n 50 plugins/Artifex/logs/latest.log
 
 # Искать ошибки
-grep -i "severe\|error\|❌" plugins/DC-CustomItems/logs/latest.log
+grep -i "severe\|error\|❌" plugins/Artifex/logs/latest.log
 
 # Следить за логом в реальном времени
-tail -f plugins/DC-CustomItems/logs/latest.log
+tail -f plugins/Artifex/logs/latest.log
 ```
 
 ## Как просить о помощи
@@ -841,9 +841,9 @@ tail -f plugins/DC-CustomItems/logs/latest.log
 
 | Что | Зачем | Как получить |
 |-----|-------|--------------|
-| Версия плагина | Разные версии ведут себя по-разному | `plugins/DC-CustomItems/logs/latest.log` или `plugin.yml` |
+| Версия плагина | Разные версии ведут себя по-разному | `plugins/Artifex/logs/latest.log` или `plugin.yml` |
 | Версия сервера и Java | Часто причина в несовместимости | В консоли при старте сервера |
-| Вывод консоли | Главный источник ошибок | Скопируйте **всё** от строки с `[DC-CustomItems]` до конца ошибки |
+| Вывод консоли | Главный источник ошибок | Скопируйте **всё** от строки с `[Artifex]` до конца ошибки |
 | YAML-предмет | Показывает, что не так с описанием | Пришлите **весь файл**, а не кусок |
 | Файл `.java` | Если не компилируется | Пришлите файл и текст ошибки из лога |
 | Значение `java-compilation` | Влияет на то, что вообще может работать | `config.yml` |
@@ -864,7 +864,7 @@ java-compilation: true
     symbol:   method getPerk()
     location: class myItem
 
-Файл: plugins/DC-CustomItems/items/my-item.java
+Файл: plugins/Artifex/items/my-item.java
 ```
 
 И ещё одно: перед вопросом попробуйте включить `debug-mode: true`, сделать `/ci reload` и приложить вывод — так в логе будет видно больше деталей.

@@ -18,13 +18,13 @@ Artifex поддерживает три способа кастомизации 
 my-item:
   item:
     type: NETHERITE_SWORD
-    item-model: 'dcustomitems:flame_sword'
+    item-model: 'artifex:flame_sword'
 ```
 
 ### Структура Resource Pack
 
 ```
-assets/dcustomitems/
+assets/artifex/
 └── items/
     └── flame_sword.json
 ```
@@ -35,7 +35,7 @@ assets/dcustomitems/
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "dcustomitems:item/flame_sword"
+    "layer0": "artifex:item/flame_sword"
   }
 }
 ```
@@ -43,7 +43,7 @@ assets/dcustomitems/
 ### Текстура
 
 ```
-assets/dcustomitems/textures/item/flame_sword.png
+assets/artifex/textures/item/flame_sword.png
 ```
 
 ---
@@ -76,7 +76,7 @@ assets/minecraft/
     "layer0": "minecraft:item/netherite_sword"
   },
   "overrides": [
-    { "predicate": { "custom_model_data": 1001 }, "model": "dcustomitems:item/flame_sword" }
+    { "predicate": { "custom_model_data": 1001 }, "model": "artifex:item/flame_sword" }
   ]
 }
 ```
@@ -91,14 +91,14 @@ assets/minecraft/
 my-item:
   item:
     type: NETHERITE_SWORD
-    item-model: 'dcustomitems:flame_sword'
+    item-model: 'artifex:flame_sword'
     item-model-variant: 'flame_sword_animated'
 ```
 
 ### Структура Resource Pack
 
 ```
-assets/dcustomitems/
+assets/artifex/
 ├── items/
 │   ├── flame_sword.json
 │   └── flame_sword_animated.json
@@ -172,7 +172,7 @@ assets/dcustomitems/
 my-3d-item:
   item:
     type: NETHERITE_SWORD
-    item-model: 'dcustomitems:3d_sword'
+    item-model: 'artifex:3d_sword'
     # Для 3D-моделей через Blockbench
 ```
 
@@ -187,7 +187,7 @@ my-3d-item:
 ### Структура
 
 ```
-assets/dcustomitems/
+assets/artifex/
 ├── items/
 │   └── 3d_sword.json
 ├── models/
@@ -204,8 +204,8 @@ assets/dcustomitems/
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "0": "dcustomitems:item/3d_sword",
-    "particle": "dcustomitems:item/3d_sword"
+    "0": "artifex:item/3d_sword",
+    "particle": "artifex:item/3d_sword"
   },
   "elements": [
     {
@@ -229,13 +229,13 @@ assets/dcustomitems/
 ### Структура пакета
 
 ```
-dcustomitems-resourcepack/
+artifex-resourcepack/
 ├── pack.mcmeta
 └── assets/
     ├── minecraft/
     │   └── items/
     │       └── netherite_sword.json    # Legacy overrides
-    └── dcustomitems/
+    └── artifex/
         ├── items/
         │   ├── flame_sword.json
         │   ├── flame_sword_animated.json
@@ -278,7 +278,7 @@ animated-sword:
   item:
     type: NETHERITE_SWORD
     title: '&c🔥 Анимированный Клинок'
-    item-model: 'dcustomitems:animated_sword'
+    item-model: 'artifex:animated_sword'
     item-model-variant: 'animated_sword_glow'
 ```
 
@@ -303,7 +303,7 @@ legacy-sword:
   item:
     type: NETHERITE_AXE
     title: '&43D Топор'
-    item-model: 'dcustomitems:3d_axe'
+    item-model: 'artifex:3d_axe'
 ```
 
 ---

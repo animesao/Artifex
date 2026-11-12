@@ -1,4 +1,4 @@
-# База данных
+﻿# База данных
 
 ## Что ты узнаешь
 
@@ -14,7 +14,7 @@
 
 ## Предусловия
 
-- Плагин DC-CustomItems установлен, сервер запускается — см. [Установка](01-getting-started.md).
+- Плагин Artifex установлен, сервер запускается — см. [Установка](01-getting-started.md).
 - Вы понимаете, что такое SQL-запрос и таблица — хотя бы на уровне `SELECT` и `INSERT`.
 - Для модулей на Java вам понадобится [Предметы в Java](04-java-items.md) и [Модули](10-modules.md).
 - Общий список страниц — в [Содержании вики](README.md).
@@ -47,7 +47,7 @@
 
 ## Зачем плагину база данных
 
-Само ядро DC-CustomItems **не хранит** данные игроков. Предметы лежат в YAML-файлах, сообщения — в `items/messages.java`, кулдауны — в `cooldowns.yml`. Ядро работает как «правила»: оно читает описания предметов и реагирует на события.
+Само ядро Artifex **не хранит** данные игроков. Предметы лежат в YAML-файлах, сообщения — в `items/messages.java`, кулдауны — в `cooldowns.yml`. Ядро работает как «правила»: оно читает описания предметов и реагирует на события.
 
 База данных нужна **вам** — авторам модулей и Java-предметов. Типичные задачи:
 
@@ -74,7 +74,7 @@ database:
 
 | Что | Подробности |
 |-----|--------------|
-| Файл базы | `plugins/DC-CustomItems/data.db` |
+| Файл базы | `plugins/Artifex/data.db` |
 | Когда создаётся | Автоматически при первом подключении |
 | Что нужно ставить | Ничего — драйвер SQLite уже лежит внутри jar плагина |
 | Где живёт | Рядом с плагином, на том же диске |
@@ -94,15 +94,15 @@ database:
 
 ### Ключи database.mysql
 
-Все ключи лежат в секции `database.mysql` файла `plugins/DC-CustomItems/config.yml`.
+Все ключи лежат в секции `database.mysql` файла `plugins/Artifex/config.yml`.
 
 | Ключ | Тип | По умолчанию | Что делает |
 |------|-----|--------------|------------|
 | `database.type` | строка | `sqlite` | `sqlite` или `mysql`. Выбор хранилища |
 | `database.mysql.host` | строка | `127.0.0.1` | Адрес сервера MySQL. `127.0.0.1` — тот же компьютер |
 | `database.mysql.port` | число | `3306` | Порт MySQL |
-| `database.mysql.database` | строка | `dcustomitems` | Имя базы данных (её нужно создать заранее) |
-| `database.mysql.username` | строка | `dcustomitems` | Логин пользователя MySQL |
+| `database.mysql.database` | строка | `artifex` | Имя базы данных (её нужно создать заранее) |
+| `database.mysql.username` | строка | `artifex` | Логин пользователя MySQL |
 | `database.mysql.password` | строка | `'change-me'` | Пароль пользователя. **Замените** на свой |
 | `database.mysql.use-ssl` | булево | `false` | Шифровать соединение. Для удалённой базы — `true` |
 | `database.mysql.verify-server-certificate` | булево | `false` | Проверять сертификат сервера MySQL (и имя хоста). Включай вместе с `use-ssl: true` |
@@ -128,8 +128,8 @@ database:
   mysql:
     host: 127.0.0.1
     port: 3306
-    database: dcustomitems
-    username: dcustomitems
+    database: artifex
+    username: artifex
     password: 'change-me'
     use-ssl: true
     verify-server-certificate: true
@@ -141,9 +141,9 @@ database:
 Базу и пользователя создаёт администратор MySQL:
 
 ```sql
-CREATE DATABASE dcustomitems CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'dcustomitems'@'localhost' IDENTIFIED BY 'СЛОЖНЫЙ_ПАРОЛЬ';
-GRANT ALL PRIVILEGES ON dcustomitems.* TO 'dcustomitems'@'localhost';
+CREATE DATABASE artifex CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'artifex'@'localhost' IDENTIFIED BY 'СЛОЖНЫЙ_ПАРОЛЬ';
+GRANT ALL PRIVILEGES ON artifex.* TO 'artifex'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
@@ -204,7 +204,7 @@ this.type = plugin.getConfig().getString("database.type", "sqlite").toLowerCase(
 3. Создайте базу MySQL и пользователя.
 4. Поменяйте `database.type: mysql` и заполните `database.mysql.*`.
 5. Запустите сервер.
-6. Проверьте в консоли: `Database connected: MySQL (127.0.0.1:3306/dcustomitems)`.
+6. Проверьте в консоли: `Database connected: MySQL (127.0.0.1:3306/artifex)`.
 
 Данные из старой SQLite-базы **не переносятся автоматически**. Если они нужны, переносите их скриптом (экспорт в CSV/SQL, импорт в MySQL).
 
@@ -220,9 +220,9 @@ this.type = plugin.getConfig().getString("database.type", "sqlite").toLowerCase(
 | Описания YAML-предметов | Файлы | `items/*.yml` |
 | Java-предметы, команды, плейсхолдеры | Файлы + скомпилированные классы | `items/*.java`, `compiled/`, `cache/` |
 | Тексты сообщений | Файл | `items/messages.java` |
-| Кулдауны игроков | YAML-файл | `plugins/DC-CustomItems/cooldowns.yml` |
+| Кулдауны игроков | YAML-файл | `plugins/Artifex/cooldowns.yml` |
 | Настройки плагина | YAML-файл | `config.yml` |
-| Мелкие данные модуля (списки, промо-настройки) | YAML-файл | `plugins/DC-CustomItems/storage/*.yml` |
+| Мелкие данные модуля (списки, промо-настройки) | YAML-файл | `plugins/Artifex/storage/*.yml` |
 
 Про **кулдауны** стоит знать отдельно. Их плагин хранит не в базе, а в `cooldowns.yml`: файл читается при старте сервера, а записи с истёкшим временем (`expires`) отбрасываются. Поэтому после перезапуска сервера активные кулдауны сохраняются, а просроченные — нет.
 
@@ -231,8 +231,8 @@ this.type = plugin.getConfig().getString("database.type", "sqlite").toLowerCase(
 Менеджер базы доступен из любого места:
 
 ```java
-import me.dcplugin.dcustomitems.Main;
-import me.dcplugin.dcustomitems.api.database.DatabaseManager;
+import me.dcplugin.artifex.Main;
+import me.dcplugin.artifex.api.database.DatabaseManager;
 
 DatabaseManager db = Main.getInstance().getDatabaseManager();
 ```
@@ -335,7 +335,7 @@ for (Map<String, Object> row : top) {
 
 ### Асинхронные методы
 
-JDBC-запросы нельзя выполнять в главном потоке Paper — сервер начнёт «дёргаться». Для этого есть асинхронные варианты: SQL выполняется в отдельном потоке `DC-CustomItems-Database`.
+JDBC-запросы нельзя выполнять в главном потоке Paper — сервер начнёт «дёргаться». Для этого есть асинхронные варианты: SQL выполняется в отдельном потоке `Artifex-Database`.
 
 | Метод | Возвращает |
 |-------|------------|
@@ -436,8 +436,8 @@ db.queryAll("SELECT * FROM dci_vault_balances");
 Когда база лучше: много игроков, частые записи, сложная статистика.
 
 ```java
-import me.dcplugin.dcustomitems.Main;
-import me.dcplugin.dcustomitems.api.database.YamlStorage;
+import me.dcplugin.artifex.Main;
+import me.dcplugin.artifex.api.database.YamlStorage;
 
 YamlStorage storage = new YamlStorage(Main.getInstance(), "promo.yml");
 
@@ -451,7 +451,7 @@ boolean enabled = storage.getBoolean("codes.DEMO2026.enabled", false);
 
 | Метод | Возвращает | Что делает |
 |-------|------------|------------|
-| `new YamlStorage(Main plugin, String fileName)` | — | Создаёт объект. Файл лежит в `plugins/DC-CustomItems/storage/<fileName>` |
+| `new YamlStorage(Main plugin, String fileName)` | — | Создаёт объект. Файл лежит в `plugins/Artifex/storage/<fileName>` |
 | `reload()` | — | Перечитывает файл с диска |
 | `contains(String path)` | `boolean` | Есть ли путь |
 | `getString(String path, String def)` | `String` | Значение или `def` |
@@ -471,8 +471,8 @@ boolean enabled = storage.getBoolean("codes.DEMO2026.enabled", false);
 ### Версия для SQLite
 
 ```java
-import me.dcplugin.dcustomitems.Main;
-import me.dcplugin.dcustomitems.api.database.DatabaseManager;
+import me.dcplugin.artifex.Main;
+import me.dcplugin.artifex.api.database.DatabaseManager;
 
 import java.util.UUID;
 
@@ -587,7 +587,7 @@ db.execute(sql, uuid.toString(), name, 0);
 Куда складываются копии:
 
 ```text
-plugins/DC-CustomItems/backups/
+plugins/Artifex/backups/
 ├── items-20261021-142530/
 │   ├── runes.yml
 │   ├── armor.yml
@@ -605,7 +605,7 @@ plugins/DC-CustomItems/backups/
 ```bash
 # 1. Остановите сервер
 # 2. Скопируйте нужную папку обратно
-cp -r plugins/DC-CustomItems/backups/items-20261021-142530/items/. plugins/DC-CustomItems/items/
+cp -r plugins/Artifex/backups/items-20261021-142530/items/. plugins/Artifex/items/
 # 3. Запустите сервер
 ```
 
@@ -623,7 +623,7 @@ cp -r plugins/DC-CustomItems/backups/items-20261021-142530/items/. plugins/DC-Cu
 | Проблема | Причина | Что делать |
 |----------|---------|------------|
 | `MySQL connection error: ...` | Неверные хост, порт, база, пользователь или пароль | Проверьте `database.mysql.*`, firewall и права пользователя MySQL |
-| `Unknown database 'dcustomitems'` | База не создана | Создайте её через SQL-команду администратора |
+| `Unknown database 'artifex'` | База не создана | Создайте её через SQL-команду администратора |
 | `Access denied for user` | Неверный пароль или нет `GRANT` | Пересоздайте пользователя и выдайте права на базу |
 | После смены `database.type` ничего не изменилось | Тип базы читается только при старте | Перезапустите сервер полностью |
 | `Table 'x' doesn't exist` | Таблицу создают один раз, при старте модуля | Вызовите `createTable()` до первого запроса |

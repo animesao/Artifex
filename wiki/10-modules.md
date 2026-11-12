@@ -1,4 +1,4 @@
-# 10 — Модули
+﻿# 10 — Модули
 
 ## Что ты узнаешь
 
@@ -64,7 +64,7 @@
 ## Структура папки модуля
 
 ```text
-plugins/DC-CustomItems/items/
+plugins/Artifex/items/
 ├── messages.java          ← сообщения плагина (не модуль)
 ├── my-item.yml            ← обычный предмет (не модуль)
 └── shop/                  ← а вот это модуль
@@ -146,7 +146,7 @@ settings:
 
 ## Класс Module
 
-Базовый класс: `me.dcplugin.dcustomitems.api.modules.Module`.
+Базовый класс: `me.dcplugin.artifex.api.modules.Module`.
 
 ### Конструктор
 
@@ -166,7 +166,7 @@ public Module(Main plugin, String id, File folder) {
 
 | Параметр | Что это |
 |----------|---------|
-| `plugin` | Главный класс плагина (`me.dcplugin.dcustomitems.Main`) |
+| `plugin` | Главный класс плагина (`me.dcplugin.artifex.Main`) |
 | `id` | id модуля = имя папки |
 | `folder` | Папка модуля на диске |
 
@@ -255,7 +255,7 @@ private void registerPlaceholders() {
     PlaceholderManager pm = plugin.getPlaceholderManager();
     if (pm == null) return;
 
-    pm.register("shop_balance", player -> "1000");   // %dcustomitems_shop_balance%
+    pm.register("shop_balance", player -> "1000");   // %artifex_shop_balance%
 }
 ```
 
@@ -273,11 +273,11 @@ private void registerPlaceholders() {
 
 ## Полный рабочий пример модуля
 
-Файл `plugins/DC-CustomItems/items/my-module/my-module.java`:
+Файл `plugins/Artifex/items/my-module/my-module.java`:
 
 ```java
-import me.dcplugin.dcustomitems.Main;
-import me.dcplugin.dcustomitems.api.modules.Module;
+import me.dcplugin.artifex.Main;
+import me.dcplugin.artifex.api.modules.Module;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -377,7 +377,7 @@ settings:
 
 Общее правило для всех образцов:
 
-1. Скопируйте нужную папку в `plugins/DC-CustomItems/items/`.
+1. Скопируйте нужную папку в `plugins/Artifex/items/`.
 2. Уберите префикс `EXAMPLE-` из имени папки.
 3. Выполните `/ci reload`.
 
@@ -603,7 +603,7 @@ samples/_template/
 Как использовать:
 
 ```bash
-cd plugins/DC-CustomItems/items/
+cd plugins/Artifex/items/
 cp -r _template/ my-module/
 cd my-module/
 mv template.java my-module.java
@@ -646,7 +646,7 @@ mv template.java my-module.java
 | Как читать | `plugin.getDatabaseManager().queryString(...)` |
 | Как писать | `plugin.getDatabaseManager().execute(...)` |
 | Как часто сохранять | По таймеру — в `config.yml` есть `settings.save-interval` |
-| Плейсхолдеры | `%dcustomitems_diary_kills%`, `%dcustomitems_diary_deaths%`, `%dcustomitems_diary_playtime%` |
+| Плейсхолдеры | `%artifex_diary_kills%`, `%artifex_diary_deaths%`, `%artifex_diary_playtime%` |
 
 Подробнее про базу — [База данных](12-database.md).
 

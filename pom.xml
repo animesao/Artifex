@@ -6,7 +6,7 @@
 
     <groupId>me.dcplugin</groupId>
     <artifactId>artifex</artifactId>
-    <version>1.340.0</version>
+    <version>2.0.0</version>
     <packaging>jar</packaging>
 
     <name>Artifex</name>

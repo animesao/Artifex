@@ -5,6 +5,7 @@ import me.dcplugin.artifex.models.CustomItem;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -150,9 +151,9 @@ public class CustomItemHandler {
     // ===== Lore =====
 
     /**
-     * Update the item lore with the %cooldown% and %uses% placeholders
+     * Update the item lore with the %cooldown% and %uses% placeholders and player PAPI context
      */
-    public ItemStack updateItemWithCooldown(ItemStack itemStack, long lastClickTime, long cooldownMs) {
+    public ItemStack updateItemWithCooldown(Player player, ItemStack itemStack, long lastClickTime, long cooldownMs) {
         String customItemId = getCustomItemId(itemStack);
         if (customItemId == null) return itemStack;
 
@@ -166,13 +167,20 @@ public class CustomItemHandler {
             remaining = Math.max(0, cooldownMs - elapsed);
         }
 
-        return loreManager.applyCooldownLore(itemStack, customItem, remaining);
+        return loreManager.applyCooldownLore(player, itemStack, customItem, remaining);
     }
 
     /**
-     * Update the item lore with the %uses% placeholder
+     * Update the item lore with the %cooldown% and %uses% placeholders
      */
-    public ItemStack updateItemWithUses(ItemStack itemStack) {
+    public ItemStack updateItemWithCooldown(ItemStack itemStack, long lastClickTime, long cooldownMs) {
+        return updateItemWithCooldown(null, itemStack, lastClickTime, cooldownMs);
+    }
+
+    /**
+     * Update the item lore with the %uses% placeholder and player PAPI context
+     */
+    public ItemStack updateItemWithUses(Player player, ItemStack itemStack) {
         String customItemId = getCustomItemId(itemStack);
         if (customItemId == null) return itemStack;
 
@@ -185,7 +193,14 @@ public class CustomItemHandler {
             setItemUses(itemStack, uses);
         }
 
-        return loreManager.applyUsesLore(itemStack, customItem, uses);
+        return loreManager.applyUsesLore(player, itemStack, customItem, uses);
+    }
+
+    /**
+     * Update the item lore with the %uses% placeholder
+     */
+    public ItemStack updateItemWithUses(ItemStack itemStack) {
+        return updateItemWithUses(null, itemStack);
     }
 
     // ===== Uses =====
@@ -239,7 +254,7 @@ public class CustomItemHandler {
         return uses;
     }
 
-    public void decrementItemUses(ItemStack itemStack) {
+    public void decrementItemUses(Player player, ItemStack itemStack) {
         String customItemId = getCustomItemId(itemStack);
         if (customItemId == null) return;
 
@@ -248,8 +263,12 @@ public class CustomItemHandler {
 
         int uses = usesManager.decrementUses(itemStack, customItem);
         if (uses >= 0) {
-            loreManager.applyUsesLore(itemStack, customItem, uses);
+            loreManager.applyUsesLore(player, itemStack, customItem, uses);
         }
+    }
+
+    public void decrementItemUses(ItemStack itemStack) {
+        decrementItemUses(null, itemStack);
     }
 
     // ===== Duration =====

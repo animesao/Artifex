@@ -31,7 +31,7 @@
 
 ## Как пользоваться примерами
 
-1. Создайте файл в `plugins/DC-CustomItems/items/`.
+1. Создайте файл в `plugins/Artifex/items/`.
 2. Вставьте пример.
 3. Выполните `/ci reload`.
 4. Проверьте в консоли, что предмет загрузился:
@@ -361,7 +361,7 @@ spirit-wand:
 `items/heal.java`
 
 ```java
-import me.dcplugin.dcustomitems.api.commands.CustomCommand;
+import me.dcplugin.artifex.api.commands.CustomCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -396,7 +396,7 @@ public class Heal extends CustomCommand {
 `items/kills.java`
 
 ```java
-import me.dcplugin.dcustomitems.api.placeholders.CustomPlaceholder;
+import me.dcplugin.artifex.api.placeholders.CustomPlaceholder;
 import org.bukkit.entity.Player;
 
 public class Kills extends CustomPlaceholder {
@@ -418,7 +418,7 @@ public class Kills extends CustomPlaceholder {
 }
 ```
 
-Использование: `%dci_kills%` (или `%dcustomitems_kills%`).
+Использование: `%dci_kills%` (или `%artifex_kills%`).
 
 ---
 
@@ -439,8 +439,8 @@ permissions:
 `items/duels/duel.java`:
 
 ```java
-import me.dcplugin.dcustomitems.Main;
-import me.dcplugin.dcustomitems.api.modules.Module;
+import me.dcplugin.artifex.Main;
+import me.dcplugin.artifex.api.modules.Module;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -491,7 +491,7 @@ public class Duel extends Module {
 `items/lightning-staff.java`
 
 ```java
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.AbstractCustomItem;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -562,8 +562,8 @@ enabled: true
 `items/stats/stats.java`:
 
 ```java
-import me.dcplugin.dcustomitems.Main;
-import me.dcplugin.dcustomitems.api.modules.Module;
+import me.dcplugin.artifex.Main;
+import me.dcplugin.artifex.api.modules.Module;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

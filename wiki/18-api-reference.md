@@ -1,4 +1,4 @@
-# 18. Справочник API
+﻿# 18. Справочник API
 
 > **Что ты узнаешь:** полный список классов и методов, доступных из ваших
 > `.java`-файлов, модулей и сторонних плагинов.
@@ -32,12 +32,12 @@
 Из файла в `items/`:
 
 ```java
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
-import me.dcplugin.dcustomitems.api.ItemAPI;
-import me.dcplugin.dcustomitems.api.commands.CustomCommand;
-import me.dcplugin.dcustomitems.api.placeholders.CustomPlaceholder;
-import me.dcplugin.dcustomitems.api.modules.Module;
-import me.dcplugin.dcustomitems.api.RecipeDef;
+import me.dcplugin.artifex.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.ItemAPI;
+import me.dcplugin.artifex.api.commands.CustomCommand;
+import me.dcplugin.artifex.api.placeholders.CustomPlaceholder;
+import me.dcplugin.artifex.api.modules.Module;
+import me.dcplugin.artifex.api.RecipeDef;
 ```
 
 Из модуля или другого плагина — через `Main`:
@@ -61,16 +61,16 @@ plugin.getApiItemRegistry().getCompiler(); // компилятор
 
 | Пакет | Что внутри |
 |-------|-----------|
-| `me.dcplugin.dcustomitems.api` | `AbstractCustomItem`, `ItemAPI`, `ItemRegistry`, `RecipeDef`, `JavaItemCompiler` |
-| `me.dcplugin.dcustomitems.api.commands` | `CustomCommand`, `CustomCommandExecutor` |
-| `me.dcplugin.dcustomitems.api.config` | `MessagesConfig` |
-| `me.dcplugin.dcustomitems.api.database` | `DatabaseManager`, `YamlStorage` |
-| `me.dcplugin.dcustomitems.api.modules` | `Module`, `ModuleManager`, `SimpleModule` |
-| `me.dcplugin.dcustomitems.api.placeholders` | `CustomPlaceholder`, `PlaceholderManager`, `DCIPlaceholderExpansion` |
-| `me.dcplugin.dcustomitems.events` | 8 событий плагина |
-| `me.dcplugin.dcustomitems.managers` | `EffectManager`, `AttributeManager`, `MessageManager`, `ConfigManager`, `ArmorSetManager` |
-| `me.dcplugin.dcustomitems.models` | `CustomItem` (модель YAML-предмета) |
-| `me.dcplugin.dcustomitems.utils` | `ActionParser`, `ColorUtils`, `EnumCache`, `ItemBuilder`, `ItemFX`, `CooldownStore`, `UpdateChecker` |
+| `me.dcplugin.artifex.api` | `AbstractCustomItem`, `ItemAPI`, `ItemRegistry`, `RecipeDef`, `JavaItemCompiler` |
+| `me.dcplugin.artifex.api.commands` | `CustomCommand`, `CustomCommandExecutor` |
+| `me.dcplugin.artifex.api.config` | `MessagesConfig` |
+| `me.dcplugin.artifex.api.database` | `DatabaseManager`, `YamlStorage` |
+| `me.dcplugin.artifex.api.modules` | `Module`, `ModuleManager`, `SimpleModule` |
+| `me.dcplugin.artifex.api.placeholders` | `CustomPlaceholder`, `PlaceholderManager`, `DCIPlaceholderExpansion` |
+| `me.dcplugin.artifex.events` | 8 событий плагина |
+| `me.dcplugin.artifex.managers` | `EffectManager`, `AttributeManager`, `MessageManager`, `ConfigManager`, `ArmorSetManager` |
+| `me.dcplugin.artifex.models` | `CustomItem` (модель YAML-предмета) |
+| `me.dcplugin.artifex.utils` | `ActionParser`, `ColorUtils`, `EnumCache`, `ItemBuilder`, `ItemFX`, `CooldownStore`, `UpdateChecker` |
 
 ---
 
@@ -383,7 +383,7 @@ plugin.getApiItemRegistry().getCompiler(); // компилятор
 
 | Метод | Что делает |
 |-------|-----------|
-| `YamlStorage(Main plugin, String fileName)` | конструктор (файл в `plugins/DC-CustomItems/storage/`) |
+| `YamlStorage(Main plugin, String fileName)` | конструктор (файл в `plugins/Artifex/storage/`) |
 | `void reload()` | перечитать файл |
 | `boolean contains(String path)` | есть ли путь |
 | `String getString(String path, String def)` | строка |
@@ -398,7 +398,7 @@ plugin.getApiItemRegistry().getCompiler(); // компилятор
 
 ## События
 
-Все — в пакете `me.dcplugin.dcustomitems.events`, все отменяемые
+Все — в пакете `me.dcplugin.artifex.events`, все отменяемые
 (`setCancelled(true)`), наследуют `CustomItemEvent`.
 
 | Событие | Когда |

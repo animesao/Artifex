@@ -30,9 +30,9 @@ The plugin creates `data.db` automatically. SQLite is suitable for local promo c
 Example SQL for a MySQL administrator:
 
 ```sql
-CREATE DATABASE dcustomitems CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'dcustomitems'@'localhost' IDENTIFIED BY 'A_STRONG_PASSWORD';
-GRANT ALL PRIVILEGES ON dcustomitems.* TO 'dcustomitems'@'localhost';
+CREATE DATABASE artifex CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'artifex'@'localhost' IDENTIFIED BY 'A_STRONG_PASSWORD';
+GRANT ALL PRIVILEGES ON artifex.* TO 'artifex'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
@@ -54,8 +54,8 @@ database:
   mysql:
     host: 127.0.0.1
     port: 3306
-    database: dcustomitems
-    username: dcustomitems
+    database: artifex
+    username: artifex
     password: 'A_STRONG_PASSWORD'
     use-ssl: false
     pool-size: 5
@@ -76,7 +76,7 @@ Changing the database type requires a full server restart. `/ci reload` does not
 A successful connection looks like:
 
 ```text
-Database connected: MySQL (127.0.0.1:3306/dcustomitems)
+Database connected: MySQL (127.0.0.1:3306/artifex)
 ```
 
 If it fails, check the host, port, database name, password, firewall, and user grants.

@@ -1,4 +1,4 @@
-# 11 — Сообщения
+﻿# 11 — Сообщения
 
 ## Что ты узнаешь
 
@@ -55,7 +55,7 @@
 
 Сейчас работает просто:
 
-> **Каждый текст, который видит игрок, определён в одном файле — `plugins/DC-CustomItems/items/messages.java`.**
+> **Каждый текст, который видит игрок, определён в одном файле — `plugins/Artifex/items/messages.java`.**
 
 Что это даёт:
 
@@ -76,7 +76,7 @@
 
 При первом запуске плагин:
 
-1. Создаёт папку `plugins/DC-CustomItems/items/`, если её нет.
+1. Создаёт папку `plugins/Artifex/items/`, если её нет.
 2. Проверяет, есть ли `items/messages.java`.
 3. Если файла нет — создаёт его с рабочим содержимым по умолчанию (на английском) и пишет в консоль:
 
@@ -128,7 +128,7 @@ messagesItem.load()                   messagesItem.load()
 |------------|--------|-------|
 | Класс `public` | `public class messages {` | Плагин переименовывает класс по имени файла и обращается к нему напрямую |
 | Статический метод `load()` без аргументов | `public static void load() { ... }` | Именно его плагин вызывает: `clazz.getMethod("load").invoke(null)` |
-| Импорт класса сообщений | `import me.dcplugin.dcustomitems.api.config.MessagesConfig;` | Чтобы обращаться к полям |
+| Импорт класса сообщений | `import me.dcplugin.artifex.api.config.MessagesConfig;` | Чтобы обращаться к полям |
 
 Имя класса в файле (`messages`) не обязано совпадать с именем файла — но так привычнее, и именно так создаёт сам плагин.
 
@@ -182,7 +182,7 @@ messagesItem.load()                   messagesItem.load()
 
 | Поле | Значение по умолчанию | Что это |
 |------|----------------------|---------|
-| `CI_HEADER` | `&6=== DC-CustomItems ===` | Заголовок встроенной справки `/ci` |
+| `CI_HEADER` | `&6=== Artifex ===` | Заголовок встроенной справки `/ci` |
 | `CI_HELP_RELOAD` | `&e/ci reload &7- Reload the plugin` | Строка справки про `/ci reload` |
 | `CI_HELP_VALIDATE` | `&7/ci validate &8- validate YAML recipes` | Строка справки про `/ci validate` |
 | `CI_HELP_DEBUG` | `&7/ci debug <id> &8- dump item + PDC` | Строка справки про `/ci debug` |
@@ -202,7 +202,7 @@ messagesItem.load()                   messagesItem.load()
 | `UPDATE_AVAILABLE` | `&e[CustomItems] &fA new version is available: &b{version}` | Есть новая версия. `{version}` — номер версии |
 | `UPDATE_DOWNLOAD` | `&e[CustomItems] &fDownload the update from the plugin page` | Где скачать обновление |
 | `UPDATE_NOTIFICATION_HEADER` | `&8&m …` | Разделительная линия в уведомлении |
-| `UPDATE_NOTIFICATION_TITLE` | `&6&lDC-CustomItems &7- &aUpdate available!` | Заголовок уведомления |
+| `UPDATE_NOTIFICATION_TITLE` | `&6&lArtifex &7- &aUpdate available!` | Заголовок уведомления |
 | `UPDATE_NOTIFICATION_CURRENT` | `&7Current version: &e{version}` | Текущая версия. `{version}` — номер |
 | `UPDATE_NOTIFICATION_LATEST` | `&7New version: &a{version}` | Новая версия. `{version}` — номер |
 | `UPDATE_NOTIFICATION_DOWNLOAD` | `&7Download: &b{url}` | Ссылка на загрузку. `{url}` — адрес |
@@ -468,13 +468,13 @@ clazz.getMethod("load").invoke(null);   // перезаписывает те п�
 
 ## Полный пример переписанного messages.java
 
-Файл `plugins/DC-CustomItems/items/messages.java`:
+Файл `plugins/Artifex/items/messages.java`:
 
 ```java
-import me.dcplugin.dcustomitems.api.config.MessagesConfig;
+import me.dcplugin.artifex.api.config.MessagesConfig;
 
 /**
- * Все сообщения DC-CustomItems.
+ * Все сообщения Artifex.
  *
  * Это единственный файл, который плагин создаёт при установке.
  * Меняйте значения и выполняйте /ci reload — изменения применятся сразу.
@@ -512,7 +512,7 @@ public class messages {
         MessagesConfig.COMMAND_SPECIFY_PLAYER = "&cУкажите игрока: &e{usage}";
 
         // ===== Команда /ci =====
-        MessagesConfig.CI_HEADER = "&6=== DC-CustomItems ===";
+        MessagesConfig.CI_HEADER = "&6=== Artifex ===";
         MessagesConfig.CI_HELP_RELOAD = "&e/ci reload &7- Перезагрузить плагин";
         MessagesConfig.CI_HELP_VALIDATE = "&7/ci validate &8- Проверить рецепты YAML";
         MessagesConfig.CI_HELP_DEBUG = "&7/ci debug <id> &8- Данные предмета";
@@ -538,7 +538,7 @@ public class messages {
         MessagesConfig.UPDATE_AVAILABLE = "&e[CustomItems] &fДоступна новая версия: &b{version}";
         MessagesConfig.UPDATE_DOWNLOAD = "&e[CustomItems] &fОбновление — на странице плагина";
         MessagesConfig.UPDATE_NOTIFICATION_HEADER = "&8&m                                                    ";
-        MessagesConfig.UPDATE_NOTIFICATION_TITLE = "&6&lDC-CustomItems &7- &aДоступно обновление!";
+        MessagesConfig.UPDATE_NOTIFICATION_TITLE = "&6&lArtifex &7- &aДоступно обновление!";
         MessagesConfig.UPDATE_NOTIFICATION_CURRENT = "&7Текущая версия: &e{version}";
         MessagesConfig.UPDATE_NOTIFICATION_LATEST = "&7Новая версия: &a{version}";
         MessagesConfig.UPDATE_NOTIFICATION_DOWNLOAD = "&7Загрузка: &b{url}";

@@ -21,6 +21,13 @@
 # (YAML items still work).
 java-compilation: true
 
+# Strict security mode for runtime Java compilation.
+# When enabled, any .java file containing dangerous system calls
+# (System.exit, ProcessBuilder, Runtime.exec, .setAccessible) is rejected
+# and will not be compiled or executed.
+security:
+  strict-mode: false
+
 # Debug logging (turn off in production)
 debug-mode: false
 

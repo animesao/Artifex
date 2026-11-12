@@ -1,4 +1,4 @@
-# 06 — Триггеры
+﻿# 06 — Триггеры
 
 ## Что ты узнаешь
 
@@ -438,7 +438,7 @@ guardian-shield:
 Сообщения об ошибках в действиях пишутся в консоль сервера:
 
 ```text
-[DC-CustomItems] Error executing action: effect:SPED:10 - ...
+[Artifex] Error executing action: effect:SPED:10 - ...
 ```
 
 Проверить состояние предмета можно командой:

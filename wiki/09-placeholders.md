@@ -1,10 +1,10 @@
-# 09 — Плейсхолдеры
+﻿# 09 — Плейсхолдеры
 
 ## Что ты узнаешь
 
 - Что такое **плейсхолдер** (*placeholder*) и зачем он нужен.
 - Что такое **PlaceholderAPI**, зачем ставить отдельный плагин и что будет, если его не поставить.
-- Полный список плейсхолдеров DC-CustomItems: про игрока, про плагин и про конкретные предметы.
+- Полный список плейсхолдеров Artifex: про игрока, про плагин и про конкретные предметы.
 - Как точно записывается предметный плейсхолдер и как плагин разбирает id, в котором есть подчёркивания.
 - Какие плейсхолдеры работают **без** игрока (глобальные).
 - Как написать свой плейсхолдер — класс `CustomPlaceholder` с примером.
@@ -78,7 +78,7 @@ DeluxeMenus (или любая табличка)   →   «Дай мне тек�
                      «Дай мне текст, где %dci_health% = 15»
 ```
 
-PlaceholderAPI не знает про DC-CustomItems и наоборот. Он просто спрашивает у всех установленных плагинов: «что такое %dci_health%?», и возвращает ответ.
+PlaceholderAPI не знает про Artifex и наоборот. Он просто спрашивает у всех установленных плагинов: «что такое %dci_health%?», и возвращает ответ.
 
 ### Установка
 
@@ -91,7 +91,7 @@ PlaceholderAPI не знает про DC-CustomItems и наоборот. Он �
 /papi
 ```
 
-— команда покажет список подключённых расширений. В нём должно быть **DC-CustomItems**.
+— команда покажет список подключённых расширений. В нём должно быть **Artifex**.
 
 ### Почему PlaceholderAPI необязателен
 
@@ -108,7 +108,7 @@ softdepend:
 Но без него:
 
 - плейсхолдеры **не будут** подставляться в чужих плагинах (табличках, меню, чат-плагинах);
-- плейсхолдеры **не будут** подставляться в сообщениях самого DC-CustomItems.
+- плейсхолдеры **не будут** подставляться в сообщениях самого Artifex.
 
 Если PlaceholderAPI установлен, в консоли при старте вы увидите:
 
@@ -125,7 +125,7 @@ PlaceholderAPI found!
 
 | Что | Значение |
 |-----|----------|
-| Идентификатор расширения | `dcustomitems` — именно под этим именем расширение регистрируется в PlaceholderAPI |
+| Идентификатор расширения | `artifex` — именно под этим именем расширение регистрируется в PlaceholderAPI |
 | Автор | `animesao` |
 | Версия | берётся из версии плагина |
 | `persist()` | `true` — расширение остаётся зарегистрированным, даже если PlaceholderAPI перезагрузится |
@@ -138,18 +138,18 @@ PlaceholderAPI found!
 | Форма | Пример | Комментарий |
 |-------|--------|-------------|
 | Короткая | `%dci_health%` | Так плейсхолдеры записаны в README плагина и в примерах |
-| Полная | `%dcustomitems_health%` | Под этой формой расширение реально зарегистрировано в PlaceholderAPI |
+| Полная | `%artifex_health%` | Под этой формой расширение реально зарегистрировано в PlaceholderAPI |
 
-Почему так: PlaceholderAPI ищет расширение по первой части имени до подчёркивания. Расширение зарегистрировано под именем `dcustomitems`, поэтому подставляется `%dcustomitems_health%`. Короткая запись `%dci_health%` требует расширения с именем `dci`.
+Почему так: PlaceholderAPI ищет расширение по первой части имени до подчёркивания. Расширение зарегистрировано под именем `artifex`, поэтому подставляется `%artifex_health%`. Короткая запись `%dci_health%` требует расширения с именем `dci`.
 
 Проверить, какая форма работает у вас, можно прямо на сервере:
 
 ```bash
-/papi parse %dcustomitems_health%
+/papi parse %artifex_health%
 /papi parse %dci_health%
 ```
 
-Если команда вернула `15` — форма работает. Если вернула сам текст `%dci_health%` — используйте полную форму `%dcustomitems_health%`.
+Если команда вернула `15` — форма работает. Если вернула сам текст `%dci_health%` — используйте полную форму `%artifex_health%`.
 
 > **Совет.** В своих конфигах безопаснее писать полную форму — она работает всегда. Короткую удобно использовать в текстах, где вы точно знаете, что она подставится.
 
@@ -284,10 +284,10 @@ PlaceholderAPI found!
 
 ### Полный рабочий пример
 
-Файл `plugins/DC-CustomItems/items/kills-placeholder.java`:
+Файл `plugins/Artifex/items/kills-placeholder.java`:
 
 ```java
-import me.dcplugin.dcustomitems.api.placeholders.CustomPlaceholder;
+import me.dcplugin.artifex.api.placeholders.CustomPlaceholder;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -297,9 +297,9 @@ import java.util.UUID;
 /**
  * Счётчик убийств игрока.
  *
- * Плейсхолдер: %dcustomitems_kills% (короткая запись — %dci_kills%)
+ * Плейсхолдер: %artifex_kills% (короткая запись — %dci_kills%)
  *
- * Что делать: положите файл в plugins/DC-CustomItems/items/
+ * Что делать: положите файл в plugins/Artifex/items/
  * и выполните /ci reload.
  */
 public class KillsPlaceholder extends CustomPlaceholder {
@@ -332,7 +332,7 @@ public class KillsPlaceholder extends CustomPlaceholder {
 [API] Loaded: 0 items, 0 commands, 1 placeholders, 0 modules
 ```
 
-И плейсхолдер станет доступен как `%dcustomitems_kills%`.
+И плейсхолдер станет доступен как `%artifex_kills%`.
 
 ### Правило getIdentifier
 
@@ -340,7 +340,7 @@ public class KillsPlaceholder extends CustomPlaceholder {
 |---------|--------|
 | Идентификатор задаётся в конструкторе: `super("имя")` | `super("kills")` |
 | Он автоматически приводится к нижнему регистру | `super("Kills")` → `kills` |
-| В идентификатор **не** добавляется префикс `dci_` | `super("dci_kills")` — неправильно, получится `%dcustomitems_dci_kills%` |
+| В идентификатор **не** добавляется префикс `dci_` | `super("dci_kills")` — неправильно, получится `%artifex_dci_kills%` |
 | Идентификатор не должен быть пустым | `super("")` — плейсхолдер работать не будет |
 | Метод `getIdentifier()` можно переопределить, но обычно не нужно | — |
 
@@ -373,7 +373,7 @@ public abstract String getValue(Player player);
 
 ### В сообщениях плагина
 
-Сообщения DC-CustomItems проходят через `ColorUtils.processMessage(player, text)` — а он подставляет плейсхолдеры PlaceholderAPI **автоматически**. Ничего дополнительно делать не нужно.
+Сообщения Artifex проходят через `ColorUtils.processMessage(player, text)` — а он подставляет плейсхолдеры PlaceholderAPI **автоматически**. Ничего дополнительно делать не нужно.
 
 Так работают, например:
 
@@ -418,10 +418,10 @@ title: "&6Мой профиль"
 items:
   13:
     material: PLAYER_HEAD
-    name: "&a%dcustomitems_player%"
+    name: "&a%artifex_player%"
     lore:
-      - "&7Здоровье: &e%dcustomitems_health%&7/&e%dcustomitems_max_health%"
-      - "&7Онлайн: &e%dcustomitems_online%"
+      - "&7Здоровье: &e%artifex_health%&7/&e%artifex_max_health%"
+      - "&7Онлайн: &e%artifex_online%"
 ```
 
 Тот же принцип работает в:
@@ -437,7 +437,7 @@ items:
 | Симптом | Причина | Что делать |
 |---------|---------|------------|
 | Плейсхолдер остался текстом `%dci_health%` | Нет PlaceholderAPI | Поставьте PlaceholderAPI и перезапустите сервер |
-| Плейсхолдер остался текстом | Неправильный префикс | Попробуйте полную форму `%dcustomitems_health%` |
+| Плейсхолдер остался текстом | Неправильный префикс | Попробуйте полную форму `%artifex_health%` |
 | Плейсхолдер остался текстом | Опечатка в имени | Имена регистронезависимы, но пишутся через `_`: `%dci_health_percent%`, а не `%dci_healthPercent%` |
 | `%dci_has_что-то%` остался текстом | Предмета с таким id нет | Проверьте id предмета; чужие id (не из `items/`) так не работают |
 | Плейсхолдер не подставляется в лоре | Лор статичный | Перенесите текст в `equip-message` или другое сообщение |

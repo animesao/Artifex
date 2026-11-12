@@ -23,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -139,12 +140,12 @@ public class PlayerListener implements Listener {
                 long remaining = cooldown - (currentTime - lastClickTime);
                 double secondsLeft = remaining / 1000.0;
                 if (customItem.hasCooldownMessage()) {
-                    String cdMsg = ColorUtils.processMessage(player, customItem.getCooldownMessage().replace("{seconds}", String.format("%.1f", secondsLeft)));
+                    String cdMsg = ColorUtils.processMessage(player, customItem.getCooldownMessage().replace("{seconds}", String.format(Locale.US, "%.1f", secondsLeft)));
                     if (!cdMsg.trim().isEmpty()) {
                         player.sendMessage(cdMsg);
                     }
                 }
-                ItemStack updated = plugin.getItemHandler().updateItemWithCooldown(actualItem, lastClickTime, cooldown);
+                ItemStack updated = plugin.getItemHandler().updateItemWithCooldown(player, actualItem, lastClickTime, cooldown);
                 if (hand == EquipmentSlot.HAND) {
                     player.getInventory().setItemInMainHand(updated);
                 } else if (hand == EquipmentSlot.OFF_HAND) {
@@ -194,7 +195,7 @@ public class PlayerListener implements Listener {
         boolean consumable = "CONSUMABLE".equals(customItem.getType());
 
         if (customItem.hasMaxUses()) {
-            plugin.getItemHandler().decrementItemUses(actualItem);
+            plugin.getItemHandler().decrementItemUses(player, actualItem);
 
             if (hand == EquipmentSlot.HAND) {
                 player.getInventory().setItemInMainHand(actualItem);
@@ -247,7 +248,7 @@ public class PlayerListener implements Listener {
         }
 
         if (cooldown > 0) {
-            ItemStack updated = plugin.getItemHandler().updateItemWithCooldown(actualItem, currentTime, cooldown);
+            ItemStack updated = plugin.getItemHandler().updateItemWithCooldown(player, actualItem, currentTime, cooldown);
             if (hand == EquipmentSlot.HAND) {
                 player.getInventory().setItemInMainHand(updated);
             } else if (hand == EquipmentSlot.OFF_HAND) {

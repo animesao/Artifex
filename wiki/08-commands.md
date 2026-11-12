@@ -1,4 +1,4 @@
-# 08 — Команды
+﻿# 08 — Команды
 
 ## Что ты узнаешь
 
@@ -51,7 +51,7 @@
 
 **Команда** — это то, что игрок пишет в чат, чтобы что-то сделать: `/ci`, `/shop`, `/heal`.
 
-В DC-CustomItems команды бывают двух видов:
+В Artifex команды бывают двух видов:
 
 | Вид | Где живёт | Пример |
 |-----|-----------|--------|
@@ -72,21 +72,21 @@ commands:
     description: Reload plugin
     usage: /customitems reload
     aliases: [ci]
-    permission: dcustomitems.reload
+    permission: artifex.reload
 ```
 
 Значит:
 
 - Основное имя — `/customitems`, короткое — `/ci`.
-- Право — `dcustomitems.reload` (по умолчанию выдаётся операторам).
+- Право — `artifex.reload` (по умолчанию выдаётся операторам).
 - Если у игрока нет права, он вообще не видит команду в подсказках и не может её вызвать.
 
 | Подкоманда | Что делает | Право |
 |------------|-----------|-------|
-| `/ci reload` | Перечитывает всё: `config.yml`, YAML-предметы, бонусы комплектов, `.java`-файлы (предметы, команды, плейсхолдеры) и модули | `dcustomitems.reload` |
-| `/ci validate` | Проверяет рецепты YAML-предметов (`shaped` и `shapeless`) и печатает список найденных проблем | `dcustomitems.reload` |
-| `/ci debug <id>` | Печатает техническую информацию о YAML-предмете: тип, слот активации, материал, заряды, кулдаун, рецепты, число ключей NBT | `dcustomitems.reload` |
-| `/ci backup` | Создаёт резервную копию папки `items/` (а также `config.yml` и `data.db`) в `plugins/DC-CustomItems/backups/` | `dcustomitems.reload` |
+| `/ci reload` | Перечитывает всё: `config.yml`, YAML-предметы, бонусы комплектов, `.java`-файлы (предметы, команды, плейсхолдеры) и модули | `artifex.reload` |
+| `/ci validate` | Проверяет рецепты YAML-предметов (`shaped` и `shapeless`) и печатает список найденных проблем | `artifex.reload` |
+| `/ci debug <id>` | Печатает техническую информацию о YAML-предмете: тип, слот активации, материал, заряды, кулдаун, рецепты, число ключей NBT | `artifex.reload` |
+| `/ci backup` | Создаёт резервную копию папки `items/` (а также `config.yml` и `data.db`) в `plugins/Artifex/backups/` | `artifex.reload` |
 
 **`/ci` без аргументов** — это то же самое, что `/ci reload`.
 
@@ -160,7 +160,7 @@ pdc-keys=1
 
 ### Подкоманда backup
 
-Создаёт папку `plugins/DC-CustomItems/backups/items-YYYYMMDD-HHMMSS/` и копирует туда:
+Создаёт папку `plugins/Artifex/backups/items-YYYYMMDD-HHMMSS/` и копирует туда:
 
 - всю папку `items/` (включая вложенные папки модулей);
 - `config.yml`;
@@ -177,7 +177,7 @@ pdc-keys=1
 Своя команда — это обычный `.java`-файл в папке `items/`:
 
 ```text
-plugins/DC-CustomItems/items/
+plugins/Artifex/items/
 ├── messages.java
 ├── heal-command.java      ← ваша команда
 └── my-item.yml
@@ -196,10 +196,10 @@ plugins/DC-CustomItems/items/
 
 ### Полный рабочий пример
 
-Файл `plugins/DC-CustomItems/items/heal-command.java`:
+Файл `plugins/Artifex/items/heal-command.java`:
 
 ```java
-import me.dcplugin.dcustomitems.api.commands.CustomCommand;
+import me.dcplugin.artifex.api.commands.CustomCommand;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -211,7 +211,7 @@ import java.util.List;
 /**
  * /heal — полностью лечит игрока.
  *
- * Что делать: положите файл в plugins/DC-CustomItems/items/
+ * Что делать: положите файл в plugins/Artifex/items/
  * и выполните /ci reload.
  */
 public class HealCommand extends CustomCommand {
@@ -434,7 +434,7 @@ CustomCommand.execute(sender, args)   ← ваш код
 
 1. Для каждой зарегистрированной команды создаёт объект Bukkit `Command` с именем, описанием, использованием и альтернативными именами.
 2. Задаёт ему право (`setPermission`).
-3. Регистрирует в `CommandMap` с префиксом-запасным вариантом — именем плагина (`dcustomitems`). Это значит, что команда доступна и как `/dcustomitems:heal`.
+3. Регистрирует в `CommandMap` с префиксом-запасным вариантом — именем плагина (`artifex`). Это значит, что команда доступна и как `/artifex:heal`.
 4. Запоминает созданный объект, чтобы потом убрать его.
 
 Обработчик (одна на все команды — `CustomCommandExecutor`) делает три вещи:
@@ -511,7 +511,7 @@ public List<String> tabComplete(CommandSender sender, String[] args, int cursor)
 
 | # | Проверьте | Как проверить | Что делать |
 |---|-----------|---------------|------------|
-| 1 | Файл лежит в `items/` | Путь `plugins/DC-CustomItems/items/файл.java` | Перенесите файл в `items/` |
+| 1 | Файл лежит в `items/` | Путь `plugins/Artifex/items/файл.java` | Перенесите файл в `items/` |
 | 2 | Папка/файл не называется `EXAMPLE-…` | Плагин пропускает `EXAMPLE-*`, `EXAMPLES` и `_template` | Уберите префикс `EXAMPLE-` |
 | 3 | Класс `public` и наследует `CustomCommand` | Открыть файл | `public class HealCommand extends CustomCommand` |
 | 4 | Есть публичный конструктор без аргументов | Открыть файл | `public HealCommand() { super(...); }` |
