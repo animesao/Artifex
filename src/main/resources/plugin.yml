@@ -31,6 +31,9 @@ permissions:
   artifex.save:
     description: Export held item into plugin configuration
     default: op
+  artifex.menu:
+    description: Open the interactive item catalog GUI
+    default: op
   artifex.update:
     description: Receive update notifications
     default: op

@@ -303,6 +303,21 @@ public class ActionParser {
                     executeHealCustom(player, actionValue);
                     return true;
 
+                // === CONDITIONS & CONTROL FLOW ===
+                case "condition":
+                case "if":
+                    return executeCondition(player, actionValue);
+                case "chance":
+                    return executeChance(player, actionValue);
+                case "biome":
+                    return executeBiome(player, actionValue);
+                case "world":
+                    return executeWorld(player, actionValue);
+                case "permission":
+                    return executePermission(player, actionValue);
+                case "sneaking":
+                    return executeSneaking(player, actionValue);
+
                 default:
                     return false;
             }
@@ -1086,5 +1101,189 @@ public class ActionParser {
             return;
         }
         org.bukkit.Bukkit.getScheduler().runTaskLater(plugin, task, Math.max(1L, delayMs / 50));
+    }
+
+    // === CONDITIONS & CONTROL FLOW ===
+
+    private static boolean executeCondition(Player player, String value) {
+        if (value == null || value.isEmpty()) return false;
+        String[] parts = value.contains("->") ? value.split("->", 2) : value.split(":", 2);
+        if (parts.length < 2) return false;
+        String condition = parts[0].trim();
+        String subAction = parts[1].trim();
+        if (evaluateCondition(player, condition)) {
+            return execute(player, subAction);
+        }
+        return false;
+    }
+
+    private static boolean executeChance(Player player, String value) {
+        if (value == null || value.isEmpty()) return false;
+        String[] parts = value.split(":", 2);
+        if (parts.length < 2) return false;
+        String chanceStr = parts[0].trim();
+        String subAction = parts[1].trim();
+        double prob = 0.0;
+        try {
+            if (chanceStr.endsWith("%")) {
+                prob = Double.parseDouble(chanceStr.substring(0, chanceStr.length() - 1).trim()) / 100.0;
+            } else {
+                prob = Double.parseDouble(chanceStr);
+            }
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        if (java.util.concurrent.ThreadLocalRandom.current().nextDouble() <= prob) {
+            return execute(player, subAction);
+        }
+        return false;
+    }
+
+    private static boolean executeBiome(Player player, String value) {
+        if (value == null || value.isEmpty()) return false;
+        String[] parts = value.split(":", 2);
+        if (parts.length < 2) return false;
+        String biomeName = parts[0].trim().toUpperCase(java.util.Locale.ROOT);
+        String subAction = parts[1].trim();
+        String currentBiome = player.getLocation().getBlock().getBiome().name().toUpperCase(java.util.Locale.ROOT);
+        if (currentBiome.equals(biomeName) || currentBiome.contains(biomeName)) {
+            return execute(player, subAction);
+        }
+        return false;
+    }
+
+    private static boolean executeWorld(Player player, String value) {
+        if (value == null || value.isEmpty()) return false;
+        String[] parts = value.split(":", 2);
+        if (parts.length < 2) return false;
+        String worldName = parts[0].trim();
+        String subAction = parts[1].trim();
+        if (player.getWorld().getName().equalsIgnoreCase(worldName)) {
+            return execute(player, subAction);
+        }
+        return false;
+    }
+
+    private static boolean executePermission(Player player, String value) {
+        if (value == null || value.isEmpty()) return false;
+        String[] parts = value.split(":", 2);
+        if (parts.length < 2) return false;
+        String perm = parts[0].trim();
+        String subAction = parts[1].trim();
+        if (player.hasPermission(perm)) {
+            return execute(player, subAction);
+        }
+        return false;
+    }
+
+    private static boolean executeSneaking(Player player, String value) {
+        if (value == null || value.isEmpty()) return false;
+        if (player.isSneaking()) {
+            return execute(player, value.trim());
+        }
+        return false;
+    }
+
+    /**
+     * Evaluates a condition string against player context and Placeholders.
+     */
+    public static boolean evaluateCondition(Player player, String condition) {
+        if (condition == null || condition.isBlank()) return false;
+        String expr = condition.trim();
+
+        if (player != null) {
+            expr = expr.replace("%player%", player.getName())
+                       .replace("%health%", String.valueOf((int) player.getHealth()))
+                       .replace("%food%", String.valueOf(player.getFoodLevel()))
+                       .replace("%level%", String.valueOf(player.getLevel()))
+                       .replace("%world%", player.getWorld().getName())
+                       .replace("%biome%", player.getLocation().getBlock().getBiome().name());
+
+            try {
+                Attribute maxHp = EnumCache.getAttribute("max_health");
+                if (maxHp != null && player.getAttribute(maxHp) != null) {
+                    expr = expr.replace("%max_health%", String.valueOf((int) player.getAttribute(maxHp).getValue()));
+                }
+            } catch (Throwable ignored) {}
+
+            try {
+                if (ColorUtils.isPlaceholderApiAvailable()) {
+                    expr = me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(player, expr);
+                }
+            } catch (Throwable ignored) {}
+        }
+
+        String op = null;
+        if (expr.contains(">=")) op = ">=";
+        else if (expr.contains("<=")) op = "<=";
+        else if (expr.contains("!=")) op = "!=";
+        else if (expr.contains("==")) op = "==";
+        else if (expr.contains("=")) op = "==";
+        else if (expr.contains(">")) op = ">";
+        else if (expr.contains("<")) op = "<";
+
+        if (op == null) {
+            if (expr.equalsIgnoreCase("true") || expr.equalsIgnoreCase("yes")) return true;
+            if (expr.equalsIgnoreCase("false") || expr.equalsIgnoreCase("no")) return false;
+            if (expr.startsWith("has_permission:") && player != null) {
+                return player.hasPermission(expr.substring("has_permission:".length()).trim());
+            }
+            return false;
+        }
+
+        String[] parts = expr.split(java.util.regex.Pattern.quote(op), 2);
+        String left = parts[0].trim();
+        String right = parts[1].trim();
+
+        try {
+            double leftNum = Double.parseDouble(left);
+            double rightNum = Double.parseDouble(right);
+            return switch (op) {
+                case ">=" -> leftNum >= rightNum;
+                case "<=" -> leftNum <= rightNum;
+                case ">" -> leftNum > rightNum;
+                case "<" -> leftNum < rightNum;
+                case "==" -> Math.abs(leftNum - rightNum) < 0.0001;
+                case "!=" -> Math.abs(leftNum - rightNum) >= 0.0001;
+                default -> false;
+            };
+        } catch (NumberFormatException e) {
+            return switch (op) {
+                case "==" -> left.equalsIgnoreCase(right);
+                case "!=" -> !left.equalsIgnoreCase(right);
+                default -> false;
+            };
+        }
+    }
+
+    /**
+     * Sends a visual cooldown progress HUD on the Action Bar with a visual bar meter.
+     */
+    public static void sendCooldownActionBar(Player player, String itemName, long remainingMs, long totalMs) {
+        if (player == null) return;
+        double seconds = remainingMs / 1000.0;
+        int totalBars = 10;
+        double progress = totalMs > 0 ? (double) (totalMs - remainingMs) / totalMs : 0;
+        progress = Math.max(0.0, Math.min(1.0, progress));
+        int readyBars = (int) Math.round(progress * totalBars);
+        int unreadyBars = totalBars - readyBars;
+
+        String cleanName = itemName != null && !itemName.isEmpty() ? itemName : "Item";
+        StringBuilder bar = new StringBuilder("§8[");
+        bar.append("§a").append("■".repeat(readyBars));
+        bar.append("§c").append("■".repeat(unreadyBars));
+        bar.append("§8]");
+
+        String msg = String.format(java.util.Locale.US, "§c⏳ %s §7(%.1fs) %s", cleanName, seconds, bar);
+        try {
+            player.spigot().sendMessage(
+                net.md_5.bungee.api.ChatMessageType.ACTION_BAR,
+                net.md_5.bungee.api.chat.TextComponent.fromLegacyText(ColorUtils.colorize(msg))
+            );
+        } catch (Exception ignored) {
+            try {
+                player.sendMessage(ColorUtils.colorize(msg));
+            } catch (Exception ignored2) {}
+        }
     }
 }

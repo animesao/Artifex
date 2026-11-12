@@ -54,6 +54,7 @@ public class Main extends JavaPlugin {
     public AttributeManager getAttributeManager() { return bootstrap.getAttributeManager(); }
     public CustomItemHandler getItemHandler() { return bootstrap.getItemHandler(); }
     public ArmorSetManager getArmorSetManager() { return bootstrap.getArmorSetManager(); }
+    public me.dcplugin.artifex.managers.GemSocketManager getGemSocketManager() { return bootstrap.getGemSocketManager(); }
     public ItemRegistry getApiItemRegistry() { return bootstrap.getApiItemRegistry(); }
     public DatabaseManager getDatabaseManager() { return bootstrap.getDatabaseManager(); }
     public PlaceholderManager getPlaceholderManager() { return bootstrap.getPlaceholderManager(); }

@@ -36,6 +36,7 @@ public class PluginBootstrap {
     private AttributeManager attributeManager;
     private CustomItemHandler itemHandler;
     private ArmorSetManager armorSetManager;
+    private me.dcplugin.artifex.managers.GemSocketManager gemSocketManager;
 
     // Listeners
     private PlayerListener playerListener;
@@ -174,6 +175,7 @@ public class PluginBootstrap {
         attributeManager = new AttributeManager(plugin);
         itemHandler = new CustomItemHandler(plugin);
         armorSetManager = new ArmorSetManager(plugin);
+        gemSocketManager = new me.dcplugin.artifex.managers.GemSocketManager(plugin);
     }
 
     private void registerBukkitCommand() {
@@ -209,6 +211,8 @@ public class PluginBootstrap {
         pm.registerEvents(triggerListener, plugin);
         pm.registerEvents(new ApiEventListener(plugin, apiItemRegistry), plugin);
         pm.registerEvents(new me.dcplugin.artifex.listeners.CraftItemListener(plugin), plugin);
+        pm.registerEvents(gemSocketManager, plugin);
+        pm.registerEvents(new me.dcplugin.artifex.handlers.ItemCatalogGui(plugin, "ALL", 0), plugin);
     }
 
     private void initDatabase() {
@@ -263,6 +267,7 @@ public class PluginBootstrap {
     public AttributeManager getAttributeManager() { return attributeManager; }
     public CustomItemHandler getItemHandler() { return itemHandler; }
     public ArmorSetManager getArmorSetManager() { return armorSetManager; }
+    public me.dcplugin.artifex.managers.GemSocketManager getGemSocketManager() { return gemSocketManager; }
     public PlayerListener getPlayerListener() { return playerListener; }
     public TriggerListener getTriggerListener() { return triggerListener; }
     public ItemRegistry getApiItemRegistry() { return apiItemRegistry; }

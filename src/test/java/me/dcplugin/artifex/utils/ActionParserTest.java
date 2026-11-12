@@ -80,4 +80,23 @@ class ActionParserTest {
     void commandSequenceWithColonsDoesNotThrow() {
         assertDoesNotThrow(() -> ActionParser.execute(null, "command_sequence:minecraft:give %player% diamond 1:100"));
     }
+
+    @Test
+    void testEvaluateCondition() {
+        assertTrue(ActionParser.evaluateCondition(null, "10 >= 5"));
+        assertTrue(ActionParser.evaluateCondition(null, "20 == 20"));
+        assertTrue(ActionParser.evaluateCondition(null, "5 < 10"));
+        assertTrue(ActionParser.evaluateCondition(null, "3.5 <= 3.5"));
+        assertTrue(ActionParser.evaluateCondition(null, "true"));
+        assertTrue(ActionParser.evaluateCondition(null, "yes"));
+        assertTrue(ActionParser.evaluateCondition(null, "apple != banana"));
+        assertTrue(ActionParser.evaluateCondition(null, "WORLD == world"));
+
+        assertFalse(ActionParser.evaluateCondition(null, "10 < 5"));
+        assertFalse(ActionParser.evaluateCondition(null, "15 != 15"));
+        assertFalse(ActionParser.evaluateCondition(null, "false"));
+        assertFalse(ActionParser.evaluateCondition(null, "no"));
+        assertFalse(ActionParser.evaluateCondition(null, ""));
+        assertFalse(ActionParser.evaluateCondition(null, null));
+    }
 }

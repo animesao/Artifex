@@ -24,6 +24,12 @@ Files and folders that still carry it are ignored by the loaders.
 |------|---------------|
 | `EXAMPLE-*.yml` | YAML items: effects, attributes, armor sets, uses, duration, recipes, triggers |
 | `EXAMPLE-*.java` | Java API items, commands and placeholders |
+| `EXAMPLE-gui-browser.java` | Interactive chest GUI catalog `/itembrowser` (categories, pagination, item giving) |
+| `EXAMPLE-socket-gem.java` | Socketable gem (`ruby_gem`) for drag & drop socketing onto items |
+| `EXAMPLE-socketable-blade.java` | Runebound greatsword initialized with 3 open gem sockets |
+| `EXAMPLE-custom-drops.java` | Drop tables artifact (`echo_shard`) dropping from Warden, Enderman and Sculk |
+| `EXAMPLE-cooldown-hud.java` | Mjolnir with visual Action Bar Cooldown HUD progress meter |
+| `EXAMPLE-conditioned-blade.java` | Celestial Blade with day/night, storm and emergency health condition checks |
 | `EXAMPLE-README-ACTIONS.md` | Full list of the actions you can use in `left-click-actions` / `right-click-actions` / `triggers` |
 | `EXAMPLE-customcraft/` | GUI crafting module (`/craft`) |
 | `EXAMPLE-deluxemenux/` | Menu module (kits, shop) |

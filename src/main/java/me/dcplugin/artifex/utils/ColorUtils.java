@@ -136,7 +136,7 @@ public class ColorUtils {
     /**
      * Checks for the presence of PlaceholderAPI (the result is cached).
      */
-    private static boolean isPlaceholderApiAvailable() {
+    public static boolean isPlaceholderApiAvailable() {
         if (placeholderApiAvailable == null) {
             try {
                 Class.forName("me.clip.placeholderapi.PlaceholderAPI");
@@ -153,5 +153,55 @@ public class ColorUtils {
      */
     public static void resetCache() {
         placeholderApiAvailable = null;
+    }
+
+    /**
+     * Parses a string representation of color (hex "#RRGGBB", RGB "r,g,b", or color name).
+     */
+    public static org.bukkit.Color parseColor(String colorStr) {
+        if (colorStr == null || colorStr.isBlank()) return null;
+        String s = colorStr.trim();
+        if (s.startsWith("#")) {
+            s = s.substring(1);
+        } else if (s.startsWith("&#")) {
+            s = s.substring(2);
+        }
+        if (s.length() == 6) {
+            try {
+                int rgb = Integer.parseInt(s, 16);
+                return org.bukkit.Color.fromRGB(rgb);
+            } catch (NumberFormatException ignored) {}
+        }
+        if (s.contains(",")) {
+            String[] parts = s.split(",");
+            if (parts.length == 3) {
+                try {
+                    int r = Math.max(0, Math.min(255, Integer.parseInt(parts[0].trim())));
+                    int g = Math.max(0, Math.min(255, Integer.parseInt(parts[1].trim())));
+                    int b = Math.max(0, Math.min(255, Integer.parseInt(parts[2].trim())));
+                    return org.bukkit.Color.fromRGB(r, g, b);
+                } catch (NumberFormatException ignored) {}
+            }
+        }
+        return switch (s.toUpperCase(java.util.Locale.ROOT)) {
+            case "RED" -> org.bukkit.Color.RED;
+            case "BLUE" -> org.bukkit.Color.BLUE;
+            case "GREEN" -> org.bukkit.Color.GREEN;
+            case "YELLOW" -> org.bukkit.Color.YELLOW;
+            case "PURPLE" -> org.bukkit.Color.PURPLE;
+            case "ORANGE" -> org.bukkit.Color.ORANGE;
+            case "WHITE" -> org.bukkit.Color.WHITE;
+            case "BLACK" -> org.bukkit.Color.BLACK;
+            case "AQUA" -> org.bukkit.Color.AQUA;
+            case "FUCHSIA" -> org.bukkit.Color.FUCHSIA;
+            case "GRAY", "GREY" -> org.bukkit.Color.GRAY;
+            case "LIME" -> org.bukkit.Color.LIME;
+            case "MAROON" -> org.bukkit.Color.MAROON;
+            case "NAVY" -> org.bukkit.Color.NAVY;
+            case "OLIVE" -> org.bukkit.Color.OLIVE;
+            case "SILVER" -> org.bukkit.Color.SILVER;
+            case "TEAL" -> org.bukkit.Color.TEAL;
+            default -> null;
+        };
     }
 }

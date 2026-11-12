@@ -104,6 +104,58 @@ public class TriggerListener implements Listener {
         }
     }
 
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+    public void onEntityDeath(org.bukkit.event.entity.EntityDeathEvent event) {
+        if (event.getEntity() instanceof Player) return;
+        Player killer = event.getEntity().getKiller();
+        if (plugin.getItemHandler() == null) return;
+
+        int lootingLevel = 0;
+        if (killer != null && killer.getInventory().getItemInMainHand() != null) {
+            try {
+                lootingLevel = killer.getInventory().getItemInMainHand().getEnchantmentLevel(org.bukkit.enchantments.Enchantment.LOOTING);
+            } catch (Throwable ignored) {}
+        }
+
+        org.bukkit.entity.EntityType entityType = event.getEntityType();
+        for (CustomItem customItem : plugin.getItemHandler().getAllCustomItems().values()) {
+            if (customItem.hasMobDrops() && customItem.getMobDrops().containsKey(entityType)) {
+                double chance = customItem.getMobDrops().get(entityType);
+                double totalChance = Math.min(1.0, chance + (lootingLevel * 0.015));
+                if (java.util.concurrent.ThreadLocalRandom.current().nextDouble() <= totalChance) {
+                    ItemStack dropStack = customItem.getItemStack().clone();
+                    event.getDrops().add(dropStack);
+                }
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+    public void onBlockBreak(org.bukkit.event.block.BlockBreakEvent event) {
+        Player player = event.getPlayer();
+        if (player.getGameMode() == org.bukkit.GameMode.CREATIVE) return;
+        if (plugin.getItemHandler() == null) return;
+
+        Material blockType = event.getBlock().getType();
+        int fortuneLevel = 0;
+        if (player.getInventory().getItemInMainHand() != null) {
+            try {
+                fortuneLevel = player.getInventory().getItemInMainHand().getEnchantmentLevel(org.bukkit.enchantments.Enchantment.FORTUNE);
+            } catch (Throwable ignored) {}
+        }
+
+        for (CustomItem customItem : plugin.getItemHandler().getAllCustomItems().values()) {
+            if (customItem.hasBlockDrops() && customItem.getBlockDrops().containsKey(blockType)) {
+                double chance = customItem.getBlockDrops().get(blockType);
+                double totalChance = Math.min(1.0, chance + (fortuneLevel * 0.015));
+                if (java.util.concurrent.ThreadLocalRandom.current().nextDouble() <= totalChance) {
+                    ItemStack dropStack = customItem.getItemStack().clone();
+                    event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), dropStack);
+                }
+            }
+        }
+    }
+
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();

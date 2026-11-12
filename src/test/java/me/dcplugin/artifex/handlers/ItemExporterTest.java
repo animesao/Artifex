@@ -115,4 +115,32 @@ class ItemExporterTest {
         assertTrue(yaml.contains("PROTECTION: 4"));
         assertTrue(yaml.contains("GENERIC_ARMOR: 8.0"));
     }
+
+    @Test
+    void testGenerateYamlModernComponents() {
+        String yaml = ItemExporter.generateYaml("champion_chestplate", "DIAMOND_CHESTPLATE", 1, "&6Champion Plate",
+                java.util.List.of("&7Imbued with royal dyes"),
+                null,
+                null,
+                true,
+                -1,
+                null,
+                null,
+                null,
+                true,
+                "#FF5500",
+                "silence",
+                "redstone",
+                "ARMOR",
+                "CHEST",
+                null);
+
+        assertNotNull(yaml);
+        assertTrue(yaml.contains("champion_chestplate:"));
+        assertTrue(yaml.contains("glint: true"));
+        assertTrue(yaml.contains("color: \"#FF5500\""));
+        assertTrue(yaml.contains("trim:"));
+        assertTrue(yaml.contains("pattern: \"silence\""));
+        assertTrue(yaml.contains("material: \"redstone\""));
+    }
 }

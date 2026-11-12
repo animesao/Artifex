@@ -206,6 +206,54 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder setArmorTrim(String patternName, String materialName) {
+        if (itemMeta instanceof org.bukkit.inventory.meta.ArmorMeta armorMeta && patternName != null && materialName != null) {
+            try {
+                org.bukkit.inventory.meta.trim.TrimPattern pattern = null;
+                org.bukkit.inventory.meta.trim.TrimMaterial material = null;
+
+                try {
+                    NamespacedKey pKey = patternName.contains(":") ? NamespacedKey.fromString(patternName.toLowerCase(Locale.ROOT)) : NamespacedKey.minecraft(patternName.toLowerCase(Locale.ROOT));
+                    if (pKey != null) pattern = org.bukkit.Registry.TRIM_PATTERN.get(pKey);
+                } catch (Throwable ignored) {}
+
+                try {
+                    NamespacedKey mKey = materialName.contains(":") ? NamespacedKey.fromString(materialName.toLowerCase(Locale.ROOT)) : NamespacedKey.minecraft(materialName.toLowerCase(Locale.ROOT));
+                    if (mKey != null) material = org.bukkit.Registry.TRIM_MATERIAL.get(mKey);
+                } catch (Throwable ignored) {}
+
+                if (pattern != null && material != null) {
+                    armorMeta.setTrim(new org.bukkit.inventory.meta.trim.ArmorTrim(material, pattern));
+                }
+            } catch (Throwable ignored) {}
+        }
+        return this;
+    }
+
+    public ItemBuilder setGlintOverride(Boolean glint) {
+        if (itemMeta != null && glint != null) {
+            try {
+                itemMeta.setEnchantmentGlintOverride(glint);
+            } catch (Throwable ignored) {}
+        }
+        return this;
+    }
+
+    public ItemBuilder setColor(org.bukkit.Color color) {
+        if (itemMeta != null && color != null) {
+            if (itemMeta instanceof org.bukkit.inventory.meta.LeatherArmorMeta leatherMeta) {
+                leatherMeta.setColor(color);
+            } else if (itemMeta instanceof org.bukkit.inventory.meta.PotionMeta potionMeta) {
+                potionMeta.setColor(color);
+            }
+        }
+        return this;
+    }
+
+    public ItemBuilder setColor(String colorStr) {
+        return setColor(ColorUtils.parseColor(colorStr));
+    }
+
     public ItemBuilder addAttribute(String attributeName, double value, AttributeModifier.Operation operation) {
         if (itemMeta == null || attributeName == null) {
             return this;

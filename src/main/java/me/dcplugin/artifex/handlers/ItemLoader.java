@@ -253,6 +253,31 @@ public class ItemLoader {
                 recipes = toPlainMap(recipesSection);
             }
 
+            // === Mob & Block Drops ===
+            Map<org.bukkit.entity.EntityType, Double> mobDrops = new HashMap<>();
+            Map<Material, Double> blockDrops = new HashMap<>();
+            ConfigurationSection dropsSec = section.getConfigurationSection("drops");
+            if (dropsSec != null) {
+                ConfigurationSection mobsSec = dropsSec.getConfigurationSection("mobs");
+                if (mobsSec != null) {
+                    for (String mobName : mobsSec.getKeys(false)) {
+                        try {
+                            org.bukkit.entity.EntityType et = org.bukkit.entity.EntityType.valueOf(mobName.toUpperCase(Locale.ROOT));
+                            mobDrops.put(et, mobsSec.getDouble(mobName, 0.0));
+                        } catch (Exception ignored) {}
+                    }
+                }
+                ConfigurationSection blocksSec = dropsSec.getConfigurationSection("blocks");
+                if (blocksSec != null) {
+                    for (String blkName : blocksSec.getKeys(false)) {
+                        Material mat = EnumCache.getMaterial(blkName);
+                        if (mat != null) {
+                            blockDrops.put(mat, blocksSec.getDouble(blkName, 0.0));
+                        }
+                    }
+                }
+            }
+
             // === Build CustomItem ===
             if (section.contains("buy-price") || section.contains("sell-price")) {
                 plugin.getLogger().warning("[LOAD] '" + itemId + "': buy-price/sell-price were removed in 1.328 - the key is ignored.");
@@ -290,6 +315,8 @@ public class ItemLoader {
                     .disabledWorlds(disabledWorlds)
                     .itemModelVariant(itemModelVariant)
                     .recipes(recipes)
+                    .mobDrops(mobDrops)
+                    .blockDrops(blockDrops)
                     .build();
 
             // Parse effects
@@ -358,6 +385,27 @@ public class ItemLoader {
         String texture = itemSection.getString("texture");
         if (texture != null && material == Material.PLAYER_HEAD) {
             builder.setSkullTexture(texture);
+        }
+
+        // Armor trim (1.20+)
+        if (itemSection.isConfigurationSection("trim")) {
+            ConfigurationSection trimSec = itemSection.getConfigurationSection("trim");
+            String pattern = trimSec != null ? trimSec.getString("pattern") : null;
+            String trimMat = trimSec != null ? trimSec.getString("material") : null;
+            if (pattern != null && trimMat != null) {
+                builder.setArmorTrim(pattern, trimMat);
+            }
+        }
+
+        // Glint override (1.20.5+)
+        if (itemSection.contains("glint")) {
+            builder.setGlintOverride(itemSection.getBoolean("glint"));
+        }
+
+        // Color (Leather armor / Potion)
+        String colorStr = itemSection.getString("color");
+        if (colorStr != null && !colorStr.isBlank()) {
+            builder.setColor(colorStr);
         }
 
         return builder.build();

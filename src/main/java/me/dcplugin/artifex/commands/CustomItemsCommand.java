@@ -47,12 +47,16 @@ public class CustomItemsCommand implements CommandExecutor, TabCompleter {
         if (args[0].equalsIgnoreCase("save") || args[0].equalsIgnoreCase("export") || args[0].equalsIgnoreCase("create")) {
             return handleSave(sender, args, label);
         }
+        if (args[0].equalsIgnoreCase("menu") || args[0].equalsIgnoreCase("gui")) {
+            return handleMenu(sender);
+        }
         if (args[0].equalsIgnoreCase("validate")) return handleValidate(sender);
         if (args[0].equalsIgnoreCase("debug")) return handleDebug(sender, args, label);
         if (args[0].equalsIgnoreCase("backup")) return handleBackup(sender);
 
         sender.sendMessage(MessagesConfig.colorize(MessagesConfig.CI_HEADER));
         sender.sendMessage(MessagesConfig.colorize(MessagesConfig.CI_HELP_RELOAD));
+        sender.sendMessage(msg("artifex.help.menu", "&7/" + label + " menu &8- open interactive item catalog"));
         sender.sendMessage(msg("artifex.help.save", "&7/" + label + " save <id> [--force] &8- export held item to config"));
         sender.sendMessage(msg("artifex.help.validate", "&7/" + label + " validate &8- validate YAML recipes"));
         sender.sendMessage(msg("artifex.help.debug", "&7/" + label + " debug <id> &8- dump item + PDC"));
@@ -164,7 +168,7 @@ public class CustomItemsCommand implements CommandExecutor, TabCompleter {
         }
         if (args.length == 1) {
             List<String> out = new ArrayList<>();
-            for (String s : new String[]{"reload", "save", "validate", "debug", "backup"}) {
+            for (String s : new String[]{"reload", "menu", "gui", "save", "validate", "debug", "backup"}) {
                 if (s.startsWith(args[0].toLowerCase())) out.add(s);
             }
             return out;
@@ -327,6 +331,19 @@ public class CustomItemsCommand implements CommandExecutor, TabCompleter {
             sender.sendMessage(msg("ci.backup.failed", "&cBackup failed: {error}")
                 .replace("{error}", String.valueOf(e.getMessage())));
         }
+        return true;
+    }
+
+    private boolean handleMenu(CommandSender sender) {
+        if (!(sender instanceof org.bukkit.entity.Player player)) {
+            sender.sendMessage(MessagesConfig.colorize("&cThis command can only be used by players!"));
+            return true;
+        }
+        if (!hasSavePermission(sender) && !sender.hasPermission("artifex.menu")) {
+            sender.sendMessage(MessagesConfig.colorize(MessagesConfig.NO_PERMISSION));
+            return false;
+        }
+        me.dcplugin.artifex.handlers.ItemCatalogGui.open(player, "ALL", 0);
         return true;
     }
 }

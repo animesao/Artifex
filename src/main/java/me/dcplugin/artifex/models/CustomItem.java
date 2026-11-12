@@ -47,6 +47,8 @@ public class CustomItem {
     private final List<String> disabledWorlds;       // Disabled worlds
     private final String itemModelVariant;           // Model variant (for animated textures)
     private final Map<String, Object> recipes;        // The recipes section from YAML (shaped/shapeless/furnace)
+    private final Map<org.bukkit.entity.EntityType, Double> mobDrops;   // Mob drop chances (0.0 to 1.0)
+    private final Map<org.bukkit.Material, Double> blockDrops;          // Block break drop chances (0.0 to 1.0)
 
     private CustomItem(Builder b) {
         this.id = b.id;
@@ -89,6 +91,8 @@ public class CustomItem {
         this.disabledWorlds = immutableList(b.disabledWorlds);
         this.itemModelVariant = b.itemModelVariant;
         this.recipes = b.recipes == null ? null : immutableMap(b.recipes);
+        this.mobDrops = immutableMap(b.mobDrops);
+        this.blockDrops = immutableMap(b.blockDrops);
     }
 
     // Collections.copyOf/List.copyOf forbid null elements, while in YAML
@@ -152,6 +156,8 @@ public class CustomItem {
         private List<String> disabledWorlds = new ArrayList<>();
         private String itemModelVariant = null;
         private Map<String, Object> recipes = null;
+        private Map<org.bukkit.entity.EntityType, Double> mobDrops = new HashMap<>();
+        private Map<org.bukkit.Material, Double> blockDrops = new HashMap<>();
 
         private Builder(String id, ItemStack itemStack) {
             this.id = id;
@@ -190,6 +196,8 @@ public class CustomItem {
         public Builder disabledWorlds(List<String> worlds) { this.disabledWorlds = worlds != null ? worlds : new ArrayList<>(); return this; }
         public Builder itemModelVariant(String variant) { this.itemModelVariant = variant; return this; }
         public Builder recipes(Map<String, Object> recipes) { this.recipes = recipes != null ? recipes : new HashMap<>(); return this; }
+        public Builder mobDrops(Map<org.bukkit.entity.EntityType, Double> drops) { this.mobDrops = drops != null ? drops : new HashMap<>(); return this; }
+        public Builder blockDrops(Map<org.bukkit.Material, Double> drops) { this.blockDrops = drops != null ? drops : new HashMap<>(); return this; }
 
         public CustomItem build() {
             return new CustomItem(this);
@@ -200,6 +208,12 @@ public class CustomItem {
 
     public String getId() { return id; }
     public ItemStack getItemStack() { return itemStack; }
+    public boolean hasDisplayName() {
+        return itemStack != null && itemStack.hasItemMeta() && itemStack.getItemMeta().hasDisplayName();
+    }
+    public String getDisplayName() {
+        return hasDisplayName() ? itemStack.getItemMeta().getDisplayName() : id;
+    }
     public String getType() { return type; }
     public String getActivationSlot() { return activationSlot; }
     public boolean isPlaceable() { return placeable; }
@@ -286,6 +300,10 @@ public class CustomItem {
     public boolean hasItemModelVariant() { return itemModelVariant != null && !itemModelVariant.trim().isEmpty(); }
     public Map<String, Object> getRecipes() { return recipes; }
     public boolean hasRecipes() { return recipes != null && !recipes.isEmpty(); }
+    public Map<org.bukkit.entity.EntityType, Double> getMobDrops() { return mobDrops; }
+    public boolean hasMobDrops() { return mobDrops != null && !mobDrops.isEmpty(); }
+    public Map<org.bukkit.Material, Double> getBlockDrops() { return blockDrops; }
+    public boolean hasBlockDrops() { return blockDrops != null && !blockDrops.isEmpty(); }
 
     /**
      * Checks whether the item is allowed in the given world

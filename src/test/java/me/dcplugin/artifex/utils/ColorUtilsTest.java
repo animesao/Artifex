@@ -52,4 +52,16 @@ class ColorUtilsTest {
         assertEquals("", ColorUtils.decolorize(null));
         assertEquals("", ColorUtils.decolorize(""));
     }
+
+    @Test
+    void testParseColor() {
+        assertEquals(org.bukkit.Color.fromRGB(0xFF0000), ColorUtils.parseColor("#FF0000"));
+        assertEquals(org.bukkit.Color.fromRGB(0x00FF00), ColorUtils.parseColor("00FF00"));
+        assertEquals(org.bukkit.Color.fromRGB(255, 128, 0), ColorUtils.parseColor("255,128,0"));
+        assertEquals(org.bukkit.Color.RED, ColorUtils.parseColor("RED"));
+        assertEquals(org.bukkit.Color.BLUE, ColorUtils.parseColor("blue"));
+        assertNull(ColorUtils.parseColor(null));
+        assertNull(ColorUtils.parseColor(""));
+        assertNull(ColorUtils.parseColor("INVALID_COLOR"));
+    }
 }

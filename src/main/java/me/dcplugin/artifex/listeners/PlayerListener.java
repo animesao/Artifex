@@ -145,6 +145,10 @@ public class PlayerListener implements Listener {
                         player.sendMessage(cdMsg);
                     }
                 }
+                ActionParser.sendCooldownActionBar(player, customItem.hasDisplayName() ? customItem.getDisplayName() : customItemId, remaining, cooldown);
+                try {
+                    player.playSound(player.getLocation(), org.bukkit.Sound.UI_BUTTON_CLICK, 0.4f, 0.5f);
+                } catch (Throwable ignored) {}
                 ItemStack updated = plugin.getItemHandler().updateItemWithCooldown(player, actualItem, lastClickTime, cooldown);
                 if (hand == EquipmentSlot.HAND) {
                     player.getInventory().setItemInMainHand(updated);

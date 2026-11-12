@@ -178,17 +178,63 @@ public class ItemExporter {
             attributes.putAll(existing.getAttributes());
         }
 
+        Boolean glintOverride = null;
+        if (meta != null) {
+            try {
+                if (meta.hasEnchantmentGlintOverride()) {
+                    glintOverride = meta.getEnchantmentGlintOverride();
+                }
+            } catch (Throwable ignored) {}
+        }
+
+        String colorHex = null;
+        if (meta instanceof org.bukkit.inventory.meta.LeatherArmorMeta lm) {
+            try {
+                colorHex = String.format("#%06X", (lm.getColor().asRGB() & 0xFFFFFF));
+            } catch (Throwable ignored) {}
+        } else if (meta instanceof org.bukkit.inventory.meta.PotionMeta pm) {
+            try {
+                if (pm.hasColor() && pm.getColor() != null) {
+                    colorHex = String.format("#%06X", (pm.getColor().asRGB() & 0xFFFFFF));
+                }
+            } catch (Throwable ignored) {}
+        }
+
+        String trimPattern = null;
+        String trimMaterial = null;
+        if (meta instanceof org.bukkit.inventory.meta.ArmorMeta am) {
+            try {
+                if (am.hasTrim() && am.getTrim() != null) {
+                    trimPattern = am.getTrim().getPattern().getKey().getKey();
+                    trimMaterial = am.getTrim().getMaterial().getKey().getKey();
+                }
+            } catch (Throwable ignored) {}
+        }
+
         return generateYaml(itemId, material.name(), itemStack.getAmount(), displayName, lore,
-                enchants, flags, unbreakable, customModelData, itemModel, texture, attributes, type, slot, existing);
+                enchants, flags, unbreakable, customModelData, itemModel, texture, attributes,
+                glintOverride, colorHex, trimPattern, trimMaterial, type, slot, existing);
     }
 
     /**
-     * Core YAML generator method from pure data values.
+     * Backward-compatible overload from pure data values.
      */
     public static String generateYaml(String itemId, String materialName, int amount, String displayName,
                                       List<String> lore, Map<String, Integer> enchants, List<String> flags,
                                       boolean unbreakable, int customModelData, String itemModel, String texture,
                                       Map<String, Double> attributes, String type, String slot, CustomItem existing) {
+        return generateYaml(itemId, materialName, amount, displayName, lore, enchants, flags, unbreakable,
+                customModelData, itemModel, texture, attributes, null, null, null, null, type, slot, existing);
+    }
+
+    /**
+     * Core YAML generator method from pure data values including modern components.
+     */
+    public static String generateYaml(String itemId, String materialName, int amount, String displayName,
+                                      List<String> lore, Map<String, Integer> enchants, List<String> flags,
+                                      boolean unbreakable, int customModelData, String itemModel, String texture,
+                                      Map<String, Double> attributes, Boolean glintOverride, String colorHex,
+                                      String trimPattern, String trimMaterial, String type, String slot, CustomItem existing) {
         StringBuilder sb = new StringBuilder();
         sb.append("# yaml-language-server: $schema=https://raw.githubusercontent.com/animesao/Artifex/main/schema/items.schema.json\n");
         sb.append(itemId).append(":\n");
@@ -251,6 +297,23 @@ public class ItemExporter {
         // Skull texture
         if (texture != null && !texture.isEmpty()) {
             sb.append("    texture: ").append(yamlQuote(texture)).append("\n");
+        }
+
+        // Glint override (1.20.5+)
+        if (glintOverride != null) {
+            sb.append("    glint: ").append(glintOverride).append("\n");
+        }
+
+        // Color (Leather / Potion)
+        if (colorHex != null && !colorHex.isEmpty()) {
+            sb.append("    color: ").append(yamlQuote(colorHex)).append("\n");
+        }
+
+        // Armor trim (1.20+)
+        if (trimPattern != null && trimMaterial != null) {
+            sb.append("    trim:\n");
+            sb.append("      pattern: ").append(yamlQuote(trimPattern)).append("\n");
+            sb.append("      material: ").append(yamlQuote(trimMaterial)).append("\n");
         }
 
         // Attributes

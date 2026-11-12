@@ -1,5 +1,6 @@
 package me.dcplugin.artifex.api;
 
+import me.dcplugin.artifex.Main;
 import me.dcplugin.artifex.utils.ColorUtils;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -362,6 +363,20 @@ public class ItemAPI {
     }
 
     /**
+     * Sends a visual cooldown progress bar HUD on the player's action bar.
+     */
+    public static void sendCooldownBar(Player player, String itemName, long remainingMs, long totalMs) {
+        me.dcplugin.artifex.utils.ActionParser.sendCooldownActionBar(player, itemName, remainingMs, totalMs);
+    }
+
+    /**
+     * Evaluates a condition string (e.g. "%health% < 10", "%level% >= 50") against player context.
+     */
+    public static boolean checkCondition(Player player, String condition) {
+        return me.dcplugin.artifex.utils.ActionParser.evaluateCondition(player, condition);
+    }
+
+    /**
      * Broadcasts a message to all players (with PlaceholderAPI for each player).
      */
     public static void broadcast(String msg) {
@@ -535,5 +550,42 @@ public class ItemAPI {
                 entity.setFireTicks(ticks);
             }
         }
+    }
+
+    // ===== GEM SOCKETS =====
+
+    public static int getMaxSockets(ItemStack item) {
+        return Main.getInstance() != null && Main.getInstance().getGemSocketManager() != null
+                ? Main.getInstance().getGemSocketManager().getMaxSockets(item) : 0;
+    }
+
+    public static int getUsedSockets(ItemStack item) {
+        return Main.getInstance() != null && Main.getInstance().getGemSocketManager() != null
+                ? Main.getInstance().getGemSocketManager().getUsedSockets(item) : 0;
+    }
+
+    public static ItemStack setSockets(ItemStack item, int maxSockets) {
+        return Main.getInstance() != null && Main.getInstance().getGemSocketManager() != null
+                ? Main.getInstance().getGemSocketManager().setSockets(item, maxSockets) : item;
+    }
+
+    public static ItemStack makeGem(ItemStack item, String gemName, String bonusDescription) {
+        return Main.getInstance() != null && Main.getInstance().getGemSocketManager() != null
+                ? Main.getInstance().getGemSocketManager().makeGem(item, gemName, bonusDescription) : item;
+    }
+
+    public static boolean isGem(ItemStack item) {
+        return Main.getInstance() != null && Main.getInstance().getGemSocketManager() != null
+                && Main.getInstance().getGemSocketManager().isGem(item);
+    }
+
+    public static boolean canInsertGem(ItemStack target, ItemStack gem) {
+        return Main.getInstance() != null && Main.getInstance().getGemSocketManager() != null
+                && Main.getInstance().getGemSocketManager().canInsertGem(target, gem);
+    }
+
+    public static ItemStack insertGem(Player player, ItemStack target, ItemStack gem) {
+        return Main.getInstance() != null && Main.getInstance().getGemSocketManager() != null
+                ? Main.getInstance().getGemSocketManager().insertGem(player, target, gem) : null;
     }
 }
