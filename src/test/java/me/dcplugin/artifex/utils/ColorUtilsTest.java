@@ -44,4 +44,12 @@ class ColorUtilsTest {
         String colored = "§cRed §6Gold";
         assertEquals("Red Gold", ColorUtils.stripColor(colored));
     }
+
+    @Test
+    void testDecolorize() {
+        assertEquals("&cRed &6Gold", ColorUtils.decolorize("§cRed §6Gold"));
+        assertEquals("&#ff5555Custom Sword", ColorUtils.decolorize("§x§f§f§5§5§5§5Custom Sword"));
+        assertEquals("", ColorUtils.decolorize(null));
+        assertEquals("", ColorUtils.decolorize(""));
+    }
 }

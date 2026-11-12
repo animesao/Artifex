@@ -189,7 +189,13 @@ public class PluginBootstrap {
             CustomItemsCommand command = new CustomItemsCommand(plugin);
             cmd.setExecutor(command);
             cmd.setTabCompleter(command);
-            plugin.getLogger().info("[Command] /artifex reload registered successfully");
+
+            var saveCmd = plugin.getCommand("saveitem");
+            if (saveCmd != null) {
+                saveCmd.setExecutor(command);
+                saveCmd.setTabCompleter(command);
+            }
+            plugin.getLogger().info("[Command] /artifex commands registered successfully");
         }, 1L);
     }
 

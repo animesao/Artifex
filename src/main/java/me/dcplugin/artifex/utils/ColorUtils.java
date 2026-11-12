@@ -13,6 +13,26 @@ public class ColorUtils {
     private static final java.util.regex.Pattern HEX_PATTERN =
             java.util.regex.Pattern.compile("&#([A-Fa-f0-9]{6})|<#([A-Fa-f0-9]{6})>|\\{#([A-Fa-f0-9]{6})\\}");
 
+    private static final java.util.regex.Pattern SECTION_HEX_PATTERN =
+            java.util.regex.Pattern.compile("§x§([0-9a-fA-F])§([0-9a-fA-F])§([0-9a-fA-F])§([0-9a-fA-F])§([0-9a-fA-F])§([0-9a-fA-F])");
+
+    /**
+     * Converts formatted Minecraft text back into config format (& color codes and &#RRGGBB).
+     */
+    public static String decolorize(String text) {
+        if (text == null || text.isEmpty()) {
+            return "";
+        }
+        java.util.regex.Matcher matcher = SECTION_HEX_PATTERN.matcher(text);
+        StringBuffer buffer = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(buffer, "&#" + matcher.group(1) + matcher.group(2) + matcher.group(3)
+                    + matcher.group(4) + matcher.group(5) + matcher.group(6));
+        }
+        matcher.appendTail(buffer);
+        return buffer.toString().replace('§', '&');
+    }
+
     /**
      * Replaces color codes (& -> §), hex color formats (&#RRGGBB, <#RRGGBB>, {#RRGGBB}),
      * and Adventure MiniMessage tags (<gradient:...>, <rainbow>, <color:...>).

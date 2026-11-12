@@ -11,10 +11,15 @@ softdepend:
 
 commands:
   artifex:
-    description: Reload Artifex plugin
-    usage: /artifex reload
+    description: Primary Artifex plugin command
+    usage: /artifex <reload|save|validate|debug|backup>
     aliases: [af, art, ci, customitems]
     permission: artifex.reload
+  saveitem:
+    description: Export held item to Artifex YAML configuration
+    usage: /saveitem <id> [--force]
+    aliases: [ci-save, artifex-save]
+    permission: artifex.save
 
 permissions:
   artifex.reload:
@@ -22,6 +27,9 @@ permissions:
     default: op
   dcustomitems.reload:
     description: Legacy reload permission
+    default: op
+  artifex.save:
+    description: Export held item into plugin configuration
     default: op
   artifex.update:
     description: Receive update notifications

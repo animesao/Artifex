@@ -2,6 +2,7 @@ package me.dcplugin.artifex.commands;
 
 import me.dcplugin.artifex.Main;
 import me.dcplugin.artifex.api.config.MessagesConfig;
+import me.dcplugin.artifex.handlers.ItemExporter;
 import me.dcplugin.artifex.utils.EnumCache;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -31,10 +32,20 @@ public class CustomItemsCommand implements CommandExecutor, TabCompleter {
         return sender.hasPermission("artifex.reload") || sender.hasPermission("dcustomitems.reload");
     }
 
+    private boolean hasSavePermission(CommandSender sender) {
+        return sender.hasPermission("artifex.save") || sender.hasPermission("artifex.reload") || sender.hasPermission("dcustomitems.reload");
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (command != null && command.getName().equalsIgnoreCase("saveitem")) {
+            return handleSave(sender, args, label);
+        }
         if (args.length == 0 || args[0].equalsIgnoreCase("reload")) {
             return handleReloadCommand(sender);
+        }
+        if (args[0].equalsIgnoreCase("save") || args[0].equalsIgnoreCase("export") || args[0].equalsIgnoreCase("create")) {
+            return handleSave(sender, args, label);
         }
         if (args[0].equalsIgnoreCase("validate")) return handleValidate(sender);
         if (args[0].equalsIgnoreCase("debug")) return handleDebug(sender, args, label);
@@ -42,6 +53,7 @@ public class CustomItemsCommand implements CommandExecutor, TabCompleter {
 
         sender.sendMessage(MessagesConfig.colorize(MessagesConfig.CI_HEADER));
         sender.sendMessage(MessagesConfig.colorize(MessagesConfig.CI_HELP_RELOAD));
+        sender.sendMessage(msg("artifex.help.save", "&7/" + label + " save <id> [--force] &8- export held item to config"));
         sender.sendMessage(msg("artifex.help.validate", "&7/" + label + " validate &8- validate YAML recipes"));
         sender.sendMessage(msg("artifex.help.debug", "&7/" + label + " debug <id> &8- dump item + PDC"));
         sender.sendMessage(msg("artifex.help.backup", "&7/" + label + " backup &8- back up items/"));
@@ -144,9 +156,15 @@ public class CustomItemsCommand implements CommandExecutor, TabCompleter {
     }
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        if (command != null && command.getName().equalsIgnoreCase("saveitem")) {
+            if (args.length == 2 && "--force".startsWith(args[1].toLowerCase())) {
+                return List.of("--force");
+            }
+            return new ArrayList<>();
+        }
         if (args.length == 1) {
             List<String> out = new ArrayList<>();
-            for (String s : new String[]{"reload", "validate", "debug", "backup"}) {
+            for (String s : new String[]{"reload", "save", "validate", "debug", "backup"}) {
                 if (s.startsWith(args[0].toLowerCase())) out.add(s);
             }
             return out;
@@ -159,7 +177,62 @@ public class CustomItemsCommand implements CommandExecutor, TabCompleter {
             }
             return out;
         }
+        if (args.length == 3 && (args[0].equalsIgnoreCase("save") || args[0].equalsIgnoreCase("export") || args[0].equalsIgnoreCase("create"))) {
+            if ("--force".startsWith(args[2].toLowerCase())) {
+                return List.of("--force");
+            }
+        }
         return new ArrayList<>();
+    }
+
+    private boolean handleSave(CommandSender sender, String[] args, String label) {
+        if (!hasSavePermission(sender)) {
+            sender.sendMessage(MessagesConfig.colorize(MessagesConfig.NO_PERMISSION));
+            return false;
+        }
+
+        if (!(sender instanceof org.bukkit.entity.Player player)) {
+            sender.sendMessage(MessagesConfig.colorize("&cOnly players in-game can use this command."));
+            return false;
+        }
+
+        // If called as /saveitem <id> [--force], args[0] is the item ID
+        // If called as /artifex save <id> [--force], args[1] is the item ID
+        int idIndex = (label.equalsIgnoreCase("saveitem") || label.equalsIgnoreCase("ci-save") || label.equalsIgnoreCase("artifex-save")) ? 0 : 1;
+
+        if (args.length <= idIndex) {
+            String cmdExample = idIndex == 0 ? "/" + label + " <id> [--force]" : "/" + label + " save <id> [--force]";
+            player.sendMessage(MessagesConfig.colorize("&cUsage: " + cmdExample));
+            return false;
+        }
+
+        String rawId = args[idIndex];
+        boolean force = false;
+        for (int i = idIndex + 1; i < args.length; i++) {
+            if (args[i].equalsIgnoreCase("--force") || args[i].equalsIgnoreCase("-f")) {
+                force = true;
+                break;
+            }
+        }
+
+        org.bukkit.inventory.ItemStack heldItem = player.getInventory().getItemInMainHand();
+        if (heldItem == null || heldItem.getType() == org.bukkit.Material.AIR) {
+            player.sendMessage(MessagesConfig.colorize("&cYou must be holding an item in your main hand!"));
+            return false;
+        }
+
+        ItemExporter exporter = new ItemExporter(plugin);
+        ItemExporter.ExportResult result = exporter.exportItem(heldItem, rawId, force);
+
+        if (result.success()) {
+            player.sendMessage(MessagesConfig.colorize("&a[Artifex] Item '&e" + result.itemId() + "&a' successfully exported to &eitems/" + result.itemId() + ".yml&a!"));
+            player.sendMessage(MessagesConfig.colorize("&7Material: &f" + heldItem.getType().name() + " &8| &7Properties transferred to configuration."));
+            player.sendMessage(MessagesConfig.colorize("&7You can now edit its mechanics in &eitems/" + result.itemId() + ".yml&7 or give it via &e/give " + result.itemId() + "&7."));
+            return true;
+        } else {
+            player.sendMessage(MessagesConfig.colorize("&c[Artifex] " + result.message()));
+            return false;
+        }
     }
 
     private boolean handleValidate(CommandSender sender) {
