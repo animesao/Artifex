@@ -7,6 +7,29 @@ extracts the section of the needed version for the GitHub Release notes.
 
 ---
 
+## v2.1.0
+
+### 🚀 In-Game Item Exporter Component
+- **Export Held Item to Config (`/saveitem` & `/ci save`):** Added a component allowing administrators to hold any configured Minecraft item in hand and instantly serialize all of its properties into an editable YAML file under `plugins/Artifex/items/<id>.yml`.
+  - Supports `/artifex save <id> [--force]`, `/ci save <id>`, `/ci export <id>`, `/ci create <id>`, and `/saveitem <id> [--force]`.
+  - Guarded against accidental file overwriting with required `--force` flag.
+  - Automatically invokes `itemHandler.reloadItems()` upon export for zero-downtime hot-reloading.
+- **Deep Metadata Serialization (`ItemExporter`):**
+  - **Color & HEX Restoration:** Introduced `ColorUtils.decolorize(String)` which converts Minecraft section symbol colors (`§c`, `§l`) and BungeeCord RGB hex strings (`§x§r§r§g§g§b§b`) back into clean configuration markup (`&c` and `&#rrggbb`).
+  - **Full Enchantments & Flags:** Preserves all enchantments and `ItemFlag` attributes (`HIDE_ENCHANTS`, `HIDE_ATTRIBUTES`, etc.).
+  - **Custom Model Data & Modern Item Models:** Preserves both legacy `custom-model-data` and Paper 1.21.4+ `item-model` resource pack definitions.
+  - **Player Skull Textures:** Automatically extracts Base64 texture URLs from `SkullMeta` into `texture: "..."`.
+  - **Attribute Modifiers:** Exports custom attribute amounts (`GENERIC_ATTACK_DAMAGE`, `GENERIC_ARMOR`, etc.).
+  - **Smart Type & Slot Inference:** Automatically detects item category (`ARMOR`, `CONSUMABLE`, `TOOL`) and activation slot (`HEAD`, `CHEST`, `LEGS`, `FEET`, `OFFHAND`, `HAND`).
+  - **Action & Trigger Templates:** Appends commented-out action blocks (`right-click-actions`, `effects`, `sounds`) and binds JSON Schema `# yaml-language-server: $schema=...` for instant autocompletion in VS Code and IntelliJ IDEA.
+- **Permissions & Registration:**
+  - Registered `artifex.save` permission (defaults to OP).
+  - Registered `/saveitem` command with aliases `[ci-save, artifex-save]`.
+- **Automated Tests:**
+  - Added unit test suite `ItemExporterTest` and `ColorUtilsTest.testDecolorize`.
+
+---
+
 ## v2.0.0
 
 ### 🛡️ Security & Strict Mode
