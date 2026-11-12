@@ -7,6 +7,53 @@ extracts the section of the needed version for the GitHub Release notes.
 
 ---
 
+## v2.2.0
+
+### 🧭 Interactive GUI Catalog (`/ci menu` / `/ci gui`)
+- **Chest GUI Item Browser:** Added an interactive 54-slot chest interface allowing players and administrators to browse, inspect, and retrieve any custom item by category (`ALL`, `TOOL`, `ARMOR`, `CONSUMABLE`, `RUNE`) with paginated navigation (36 items per page).
+- **One-Click Item Delivery:** Supports giving 1 piece (Left-Click), giving a full stack of 64 (Right-Click), or dropping at player feet (Shift-Click).
+- **New Permission:** `artifex.menu` (default: op).
+
+### 💎 Gem Sockets & Rune Inlaying System
+- **In-Game Drag & Drop Inlaying:** Players can drag a gem/rune from the cursor onto an item with open sockets in their inventory to permanently inlay it, consuming the gem and unlocking its stats.
+- **Visual Socket Lore:** Sockets are displayed in item lore as graphical indicators (`&7Сокеты: &8[ &a● &7○ &8]`).
+- **Core Engine & API:** Added `GemSocketManager`, `CustomItemSocketEvent` (cancellable), and static methods in `ItemAPI` (`setSockets`, `makeGem`, `insertGem`, `getMaxSockets`, `getUsedSockets`).
+
+### ⏳ Live Action Bar Cooldown HUD
+- **Graphical Cooldown Progress Meter:** When an item is on cooldown, clicking it renders a live progress bar on the Action Bar (`⏳ [Item] (1.4s) [■■■■■■□□□□]`) with tactile audio feedback.
+- **Developer API:** Exposed `ItemAPI.sendCooldownBar(player, name, remainingMs, totalMs)`.
+
+### 🧠 Action Conditions & Control Flow
+- **Expression Evaluation:** Added condition syntax to `ActionParser`:
+  - `condition: <expr> -> <action>` and `if: <expr> -> <action>` supporting `>`, `<`, `>=`, `<=`, `==`, `!=` for both numbers and strings.
+  - Automatic placeholder resolution (`%player%`, `%health%`, `%food%`, `%level%`, `%world%`, `%biome%` and full PlaceholderAPI support).
+- **Condition Action Prefixes:**
+  - `chance:<0.0-1.0|X%>:<action>` — percentage or fractional chance execution.
+  - `biome:<BIOME>:<action>` — execution only in specified biomes.
+  - `world:<WORLD>:<action>` — execution restricted to a target world.
+  - `permission:<PERM>:<action>` — execution gated by player permissions.
+  - `sneaking:<action>` — execution triggered only while shifting/sneaking.
+
+### 🎲 Mob & Block Drop Tables
+- **Custom Drop Tables:** Configurable `drops.mobs` and `drops.blocks` sections for custom items.
+- **Looting & Fortune Synergy:** Drops dynamically scale with vanilla Looting (for mob kills) and Fortune (for block mining) enchantment levels.
+
+### 🎨 Modern 1.20.5+ / 1.21.x Item Components
+- **Armor Trims:** Added support for `trim: { pattern: ..., material: ... }` via Bukkit/Paper `ArmorMeta` registry.
+- **Glint Override:** Added `glint: true/false` directly controlling enchantment glint without dummy enchantments.
+- **Custom Dye Colors:** Added `color: "#rrggbb"` parsing for leather armor and potions.
+- **Item Exporter Support:** `/saveitem` automatically extracts trims, glint overrides, and colors into YAML.
+
+### 📦 New Sample Java Classes in `samples/`
+- `EXAMPLE-gui-browser.java`: Interactive catalog `/itembrowser` command.
+- `EXAMPLE-socket-gem.java`: Socketable ruby gem (`ruby_gem`).
+- `EXAMPLE-socketable-blade.java`: Runebound greatsword with 3 open sockets.
+- `EXAMPLE-custom-drops.java`: Echo shard with Warden and Sculk drop tables.
+- `EXAMPLE-cooldown-hud.java`: Mjolnir hammer with live Action Bar cooldown HUD.
+- `EXAMPLE-conditioned-blade.java`: Celestial blade with day/night and low-health conditions.
+
+---
+
 ## v2.1.0
 
 ### 🚀 In-Game Item Exporter Component
