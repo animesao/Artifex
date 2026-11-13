@@ -231,18 +231,21 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
                     return true;
                 }
                 if (args.length >= 2) {
-                    String targetId = args[1];
+                    String targetId = args[1].toLowerCase(Locale.ROOT);
                     CraftRecipe found = null;
                     for (CraftRecipe cr : virtualRecipes) {
-                        if (cr.id != null && cr.id.equalsIgnoreCase(targetId)) {
-                            found = cr;
-                            break;
+                        if (cr.id != null) {
+                            String lower = cr.id.toLowerCase(Locale.ROOT);
+                            if (lower.equals(targetId) || lower.startsWith(targetId)) {
+                                found = cr;
+                                break;
+                            }
                         }
                     }
                     if (found != null) {
                         deleteRecipe(player, found);
                     } else {
-                        player.sendMessage(colorize("&cРецепт с ID '&e" + targetId + "&c' не найден!"));
+                        player.sendMessage(colorize("&cРецепт с UUID/ID '&e" + targetId + "&c' не найден!"));
                     }
                     return true;
                 }
@@ -532,7 +535,7 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
                 lore.add("§7Тип: §e" + recipe.getStationDisplayName());
                 lore.add("§7Количество на выходе: §a" + recipe.amount);
                 if (recipe.id != null) {
-                    lore.add("§8ID: " + recipe.id);
+                    lore.add("§8UUID: §7" + recipe.id);
                 }
                 lore.add("§8§m------------------------");
                 lore.add("§e▶ [ЛКМ] Посмотреть рецепт");
@@ -559,7 +562,8 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
     // ===== GUI 6: ДЕТАЛИ И УДАЛЕНИЕ РЕЦЕПТА =====
 
     public void openRecipeDetails(Player player, CraftRecipe recipe, int fromPage) {
-        String title = colorize("&8🔍 &lДетали рецепта: &e" + (recipe.id != null ? recipe.id : "Рецепт"));
+        String shortId = recipe.id != null ? (recipe.id.length() > 13 ? recipe.id.substring(0, 8) + "..." : recipe.id) : "Рецепт";
+        String title = colorize("&8🔍 &lДетали: &e" + shortId);
         Inventory inv = Bukkit.createInventory(new CraftHolder(player.getUniqueId(), GuiType.RECIPE_DETAILS, recipe.stationType, fromPage, recipe), 54, title);
         fillBorder54(inv);
 
@@ -599,6 +603,7 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
             inv.setItem(49, createGuiItem(Material.BARRIER, "&4&l🗑 УДАЛИТЬ ЭТОТ РЕЦЕПТ",
                     "&7Нажмите, чтобы навсегда удалить этот рецепт",
                     "&7из игры и конфигурации recipes.yml.",
+                    "&8UUID: &7" + (recipe.id != null ? recipe.id : "—"),
                     "",
                     "&c▶ Нажмите для удаления"));
         }
@@ -733,6 +738,7 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
                 return;
             }
 
+            // Клик по карточке рецепта
             int indexInPage = getCatalogIndex(rawSlot);
             if (indexInPage >= 0) {
                 int globalIndex = holder.page * 28 + indexInPage;
@@ -746,6 +752,7 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
                         return;
                     }
 
+                    // Обычный клик открывает подробные детали рецепта
                     openRecipeDetails(player, clickedRecipe, holder.page);
                 }
             }
@@ -757,12 +764,12 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
             event.setCancelled(true);
             if (!isTop) return;
 
-            if (rawSlot == 45) {
+            if (rawSlot == 45) { // Назад в каталог
                 openRecipeCatalog(player, holder.page);
                 return;
             }
 
-            if (rawSlot == 49 && hasAdminPermission(player)) {
+            if (rawSlot == 49 && hasAdminPermission(player)) { // Удалить рецепт
                 if (holder.targetRecipe != null) {
                     deleteRecipe(player, holder.targetRecipe);
                     openRecipeCatalog(player, holder.page);
@@ -881,12 +888,14 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
     public void deleteRecipe(Player player, CraftRecipe recipe) {
         if (recipe == null) return;
 
+        // Если рецепт привязан к исходному YAML-предмету плагина
         if (recipe.id == null || recipe.id.startsWith("yaml_") || recipe.id.startsWith("java_")) {
             player.sendMessage(colorize("&eЭтот рецепт привязан к файлу предмета в items/. Для изменения удалите его в файле предмета."));
             playErrorSound(player);
             return;
         }
 
+        // 1. Снятие с регистрации в Bukkit
         if (recipe.namespacedKey != null) {
             try {
                 plugin.getServer().removeRecipe(recipe.namespacedKey);
@@ -894,13 +903,23 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
             registeredBukkitKeys.remove(recipe.namespacedKey);
         }
 
+        // 2. Удаление из списка виртуального верстака
         virtualRecipes.remove(recipe);
 
+        // 3. Удаление из recipes.yml
         File recipesFile = new File(folder, "recipes.yml");
         if (recipesFile.exists()) {
             YamlConfiguration yaml = YamlConfiguration.loadConfiguration(recipesFile);
             if (yaml.isConfigurationSection("recipes")) {
                 yaml.set("recipes." + recipe.id, null);
+                ConfigurationSection root = yaml.getConfigurationSection("recipes");
+                if (root != null) {
+                    for (String k : root.getKeys(false)) {
+                        if (recipe.id != null && recipe.id.equalsIgnoreCase(root.getString(k + ".uuid"))) {
+                            yaml.set("recipes." + k, null);
+                        }
+                    }
+                }
                 try {
                     yaml.save(recipesFile);
                 } catch (IOException e) {
@@ -955,7 +974,8 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
             return;
         }
 
-        String uniqueId = "custom_" + System.currentTimeMillis();
+        UUID recipeUuid = UUID.randomUUID();
+        String uniqueId = recipeUuid.toString().toLowerCase(Locale.ROOT);
 
         try {
             boolean registered = registerAndPersistRecipe(uniqueId, session, result);
@@ -988,6 +1008,7 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
         ConfigurationSection root = yaml.isConfigurationSection("recipes") ? yaml.getConfigurationSection("recipes") : yaml.createSection("recipes");
         ConfigurationSection sec = root.createSection(id);
 
+        sec.set("uuid", id);
         sec.set("station", station.name());
         serializeItemToConfig(sec.createSection("result"), result);
 
@@ -1152,6 +1173,7 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
             if (sec == null) continue;
 
             try {
+                String recipeId = sec.getString("uuid", keyStr);
                 NamespacedKey key = new NamespacedKey(plugin, keyStr);
                 StationType station = StationType.valueOf(sec.getString("station", "WORKBENCH_SHAPED"));
                 ItemStack result = deserializeItemFromConfig(sec.getConfigurationSection("result"));
@@ -1191,7 +1213,7 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
                     }
 
                     bukkitRecipe = shaped;
-                    virtualRecipes.add(new CraftRecipe(keyStr, key, plugin, null, null, result.getAmount(), true, matrix, keyChoices, null, null, result, station, 0, 0));
+                    virtualRecipes.add(new CraftRecipe(recipeId, key, plugin, null, null, result.getAmount(), true, matrix, keyChoices, null, null, result, station, 0, 0));
 
                 } else if (station == StationType.WORKBENCH_SHAPELESS) {
                     ConfigurationSection ingSec = sec.getConfigurationSection("ingredients");
@@ -1210,7 +1232,7 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
                         }
                     }
                     bukkitRecipe = shapeless;
-                    virtualRecipes.add(new CraftRecipe(keyStr, key, plugin, null, null, result.getAmount(), false, null, null, choices, rawIngredients, result, station, 0, 0));
+                    virtualRecipes.add(new CraftRecipe(recipeId, key, plugin, null, null, result.getAmount(), false, null, null, choices, rawIngredients, result, station, 0, 0));
 
                 } else if (station == StationType.FURNACE) {
                     ItemStack in = deserializeItemFromConfig(sec.getConfigurationSection("ingredient"));
@@ -1218,7 +1240,7 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
                         int ct = sec.getInt("cooking-time", 200);
                         float exp = (float) sec.getDouble("experience", 0.7);
                         bukkitRecipe = new FurnaceRecipe(key, result, toRecipeChoice(in), exp, ct);
-                        virtualRecipes.add(new CraftRecipe(keyStr, key, plugin, null, null, result.getAmount(), false, null, null, null, List.of(in), result, station, ct, exp));
+                        virtualRecipes.add(new CraftRecipe(recipeId, key, plugin, null, null, result.getAmount(), false, null, null, null, List.of(in), result, station, ct, exp));
                     }
                 } else if (station == StationType.BLAST_FURNACE) {
                     ItemStack in = deserializeItemFromConfig(sec.getConfigurationSection("ingredient"));
@@ -1226,7 +1248,7 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
                         int ct = sec.getInt("cooking-time", 100);
                         float exp = (float) sec.getDouble("experience", 0.7);
                         bukkitRecipe = new BlastingRecipe(key, result, toRecipeChoice(in), exp, ct);
-                        virtualRecipes.add(new CraftRecipe(keyStr, key, plugin, null, null, result.getAmount(), false, null, null, null, List.of(in), result, station, ct, exp));
+                        virtualRecipes.add(new CraftRecipe(recipeId, key, plugin, null, null, result.getAmount(), false, null, null, null, List.of(in), result, station, ct, exp));
                     }
                 } else if (station == StationType.SMOKER) {
                     ItemStack in = deserializeItemFromConfig(sec.getConfigurationSection("ingredient"));
@@ -1234,7 +1256,7 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
                         int ct = sec.getInt("cooking-time", 100);
                         float exp = (float) sec.getDouble("experience", 0.7);
                         bukkitRecipe = new SmokingRecipe(key, result, toRecipeChoice(in), exp, ct);
-                        virtualRecipes.add(new CraftRecipe(keyStr, key, plugin, null, null, result.getAmount(), false, null, null, null, List.of(in), result, station, ct, exp));
+                        virtualRecipes.add(new CraftRecipe(recipeId, key, plugin, null, null, result.getAmount(), false, null, null, null, List.of(in), result, station, ct, exp));
                     }
                 } else if (station == StationType.CAMPFIRE) {
                     ItemStack in = deserializeItemFromConfig(sec.getConfigurationSection("ingredient"));
@@ -1242,7 +1264,7 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
                         int ct = sec.getInt("cooking-time", 600);
                         float exp = (float) sec.getDouble("experience", 0.7);
                         bukkitRecipe = new CampfireRecipe(key, result, toRecipeChoice(in), exp, ct);
-                        virtualRecipes.add(new CraftRecipe(keyStr, key, plugin, null, null, result.getAmount(), false, null, null, null, List.of(in), result, station, ct, exp));
+                        virtualRecipes.add(new CraftRecipe(recipeId, key, plugin, null, null, result.getAmount(), false, null, null, null, List.of(in), result, station, ct, exp));
                     }
                 } else if (station == StationType.SMITHING) {
                     ItemStack t = deserializeItemFromConfig(sec.getConfigurationSection("template"));
@@ -1250,13 +1272,13 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
                     ItemStack a = deserializeItemFromConfig(sec.getConfigurationSection("addition"));
                     if (t != null && b != null && a != null) {
                         bukkitRecipe = new SmithingTransformRecipe(key, result, toRecipeChoice(t), toRecipeChoice(b), toRecipeChoice(a));
-                        virtualRecipes.add(new CraftRecipe(keyStr, key, plugin, null, null, result.getAmount(), false, null, null, null, List.of(t, b, a), result, station, 0, 0));
+                        virtualRecipes.add(new CraftRecipe(recipeId, key, plugin, null, null, result.getAmount(), false, null, null, null, List.of(t, b, a), result, station, 0, 0));
                     }
                 } else if (station == StationType.STONECUTTER) {
                     ItemStack in = deserializeItemFromConfig(sec.getConfigurationSection("ingredient"));
                     if (in != null) {
                         bukkitRecipe = new StonecuttingRecipe(key, result, toRecipeChoice(in));
-                        virtualRecipes.add(new CraftRecipe(keyStr, key, plugin, null, null, result.getAmount(), false, null, null, null, List.of(in), result, station, 0, 0));
+                        virtualRecipes.add(new CraftRecipe(recipeId, key, plugin, null, null, result.getAmount(), false, null, null, null, List.of(in), result, station, 0, 0));
                     }
                 }
 
@@ -1280,13 +1302,19 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
 
     // ===== СЕРИАЛИЗАЦИЯ И РАСПОЗНАВАНИЕ КАСТОМНЫХ ПРЕДМЕТОВ =====
 
+    public String getCustomId(ItemStack item) {
+        if (item == null || !item.hasItemMeta()) return null;
+        if (plugin.getItemHandler() != null) {
+            String id = plugin.getItemHandler().getCustomItemId(item);
+            if (id != null) return id;
+        }
+        return null;
+    }
+
     public RecipeChoice toRecipeChoice(ItemStack item) {
         if (item == null || item.getType() == Material.AIR) return null;
 
-        String customId = null;
-        if (plugin.getItemHandler() != null) {
-            customId = plugin.getItemHandler().getCustomItemId(item);
-        }
+        String customId = getCustomId(item);
 
         if (customId != null || item.hasItemMeta()) {
             ItemStack exact = item.clone();
@@ -1300,19 +1328,19 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
     private void serializeItemToConfig(ConfigurationSection sec, ItemStack item) {
         if (item == null || item.getType() == Material.AIR) return;
 
-        String customId = null;
-        if (plugin.getItemHandler() != null) {
-            customId = plugin.getItemHandler().getCustomItemId(item);
-        }
+        String customId = getCustomId(item);
 
         sec.set("amount", item.getAmount());
 
         if (customId != null) {
             sec.set("custom-id", customId);
-        } else if (!item.hasItemMeta()) {
+        }
+
+        // Нативная сериализация Bukkit сохраняет 100% данных предмета: NBT, PDC, текстуры, модель, чары
+        sec.set("item", item);
+
+        if (!item.hasItemMeta()) {
             sec.set("material", item.getType().name());
-        } else {
-            sec.set("item-data", item.serialize());
         }
     }
 
@@ -1321,6 +1349,7 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
 
         int amount = sec.getInt("amount", 1);
 
+        // 1. Поиск по ID кастомного предмета Artifex (YAML и Java)
         if (sec.contains("custom-id")) {
             String customId = sec.getString("custom-id");
             if (plugin.getItemHandler() != null) {
@@ -1341,6 +1370,17 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
             }
         }
 
+        // 2. Полное восстановление через нативную сериализацию Bukkit ItemStack (сохраняет NBT, PDC, Lore, Enchants)
+        if (sec.isItemStack("item")) {
+            ItemStack st = sec.getItemStack("item");
+            if (st != null) {
+                st = st.clone();
+                st.setAmount(amount);
+                return st;
+            }
+        }
+
+        // 3. Fallback: устаревший формат item-data
         if (sec.contains("item-data")) {
             try {
                 ConfigurationSection dataSec = sec.getConfigurationSection("item-data");
@@ -1351,6 +1391,13 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
                 }
             } catch (Exception ignored) {}
         }
+
+        // 4. Обычный ванильный материал
+        String matName = sec.getString("material", "STONE");
+        Material mat = EnumCache.getMaterial(matName);
+        if (mat == null) mat = Material.STONE;
+        return new ItemStack(mat, amount);
+    }
 
         String matName = sec.getString("material", "STONE");
         Material mat = EnumCache.getMaterial(matName);
@@ -1472,6 +1519,7 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
 
         CraftRecipe recipe = view.currentRecipe;
 
+        // Потребляем необходимое количество каждого ингредиента в сетке
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
                 int slot = gridSlot(r, c);
