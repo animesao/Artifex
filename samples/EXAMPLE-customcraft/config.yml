@@ -8,7 +8,7 @@
 # Отключение: удалите папку items/customcraft/ или установите enabled: false.
 
 name: "CustomCraft"
-version: "2.0"
+version: "2.1"
 enabled: true
 
 # Команды модуля
