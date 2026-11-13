@@ -12,13 +12,14 @@ version: "2.1"
 enabled: true
 
 # Команды модуля
-command: craft
+command: customcraft
 commands:
-  - craft
+  - customcraft
+  - ccraft
 
 # Права
-permission: dci.craft
-admin-permission: dci.craft.admin
+permission: dci.customcraft
+admin-permission: dci.customcraft.admin
 
 # Настройки GUI
 gui:
@@ -33,7 +34,7 @@ gui:
 
 # Сообщения
 messages:
-  no-permission: "&cУ вас нет прав для использования /craft!"
+  no-permission: "&cУ вас нет прав для использования /customcraft!"
   no-admin-permission: "&cУ вас нет прав для создания кастомных рецептов!"
   recipe-saved: "&a✔ Рецепт для станции &e{station} &aуспешно создан и добавлен на сервер!"
   recipe-error-no-ingredients: "&cОшибка: добавьте хотя бы один ингредиент в сетку!"

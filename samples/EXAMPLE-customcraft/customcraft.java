@@ -56,9 +56,9 @@ import java.util.*;
 public class customcraft extends Module implements Listener, CommandExecutor, TabCompleter {
 
     // ===== НАСТРОЙКИ =====
-    private String commandName = "craft";
-    private String commandPermission = "dci.craft";
-    private String adminPermission = "dci.craft.admin";
+    private String commandName = "customcraft";
+    private String commandPermission = "dci.customcraft";
+    private String adminPermission = "dci.customcraft.admin";
 
     private String mainTitle = "&8⚒ &lМастерская Крафта";
     private String stationChooserTitle = "&8⚙ &lВыберите станцию крафта";
@@ -95,6 +95,12 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
         Bukkit.getScheduler().runTask(plugin, () -> {
             if (!enabled) return;
             registerDynamicCommand(commandName, this, commandPermission);
+            List<String> extraCommands = config.getStringList("commands");
+            for (String cmd : extraCommands) {
+                if (cmd != null && !cmd.equalsIgnoreCase(commandName)) {
+                    registerDynamicCommand(cmd.toLowerCase(Locale.ROOT), this, commandPermission);
+                }
+            }
         });
 
         plugin.getLogger().info("[CustomCraft] Модуль успешно запущен. Доступно рецептов: " + virtualRecipes.size());
@@ -126,9 +132,9 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
     }
 
     private void loadSettings() {
-        commandName = config.getString("command", "craft");
-        commandPermission = config.getString("permission", "dci.craft");
-        adminPermission = config.getString("admin-permission", "dci.craft.admin");
+        commandName = config.getString("command", "customcraft");
+        commandPermission = config.getString("permission", "dci.customcraft");
+        adminPermission = config.getString("admin-permission", "dci.customcraft.admin");
 
         mainTitle = colorize(config.getString("gui.main-title", "&8⚒ &lМастерская Крафта"));
         stationChooserTitle = colorize(config.getString("gui.station-chooser-title", "&8⚙ &lВыберите станцию крафта"));
@@ -206,7 +212,7 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
         Player player = (Player) sender;
 
         if (!player.hasPermission(commandPermission) && !player.isOp()) {
-            player.sendMessage(colorize(config.getString("messages.no-permission", "&cУ вас нет прав для /craft!")));
+            player.sendMessage(colorize(config.getString("messages.no-permission", "&cУ вас нет прав для /customcraft!")));
             return true;
         }
 
