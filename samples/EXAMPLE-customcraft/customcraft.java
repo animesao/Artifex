@@ -71,7 +71,10 @@ public class customcraftModule extends Module implements Listener, CommandExecut
         loadSettings();
         reloadRecipes();
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
-        registerDynamicCommand(commandName, this, commandPermission);
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            if (!enabled) return;
+            registerDynamicCommand(commandName, this, commandPermission);
+        });
         plugin.getLogger().info("[CustomCraft] GUI crafting enabled. Recipes: " + recipes.size());
     }
 

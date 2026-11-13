@@ -84,6 +84,8 @@ public final class CommandMapAccessor {
         }
     }
 
+    private static final java.util.concurrent.atomic.AtomicBoolean syncScheduled = new java.util.concurrent.atomic.AtomicBoolean(false);
+
     /**
      * The map of the "known" commands of the CommandMap.
      *
@@ -95,23 +97,11 @@ public final class CommandMapAccessor {
         if (map == null) return null;
         if (knownCommands != null) return knownCommands;
 
-        // 1) The standard field SimpleCommandMap#knownCommands
-        try {
-            Field field = map.getClass().getDeclaredField("knownCommands");
-            field.setAccessible(true);
-            Object value = field.get(map);
-            if (value instanceof Map<?, ?> raw) {
-                knownCommands = castKnownCommands(raw);
-                return knownCommands;
-            }
-        } catch (Exception ignored) {
-            // Fall through to the field enumeration
-        }
-
-        // 2) Enumeration of all fields: Paper/Purpur may rename the field
-        for (Field field : map.getClass().getDeclaredFields()) {
-            if (!Map.class.isAssignableFrom(field.getType())) continue;
+        // 1) The standard field SimpleCommandMap#knownCommands (walking up the class hierarchy for Paper/Purpur subclasses)
+        Class<?> current = map.getClass();
+        while (current != null && current != Object.class) {
             try {
+                Field field = current.getDeclaredField("knownCommands");
                 field.setAccessible(true);
                 Object value = field.get(map);
                 if (value instanceof Map<?, ?> raw) {
@@ -122,8 +112,31 @@ public final class CommandMapAccessor {
                     }
                 }
             } catch (Exception ignored) {
-                // The next field
+                // Try superclass
             }
+            current = current.getSuperclass();
+        }
+
+        // 2) Enumeration of all fields across hierarchy in case Paper renames the field
+        current = map.getClass();
+        while (current != null && current != Object.class) {
+            for (Field field : current.getDeclaredFields()) {
+                if (!Map.class.isAssignableFrom(field.getType())) continue;
+                try {
+                    field.setAccessible(true);
+                    Object value = field.get(map);
+                    if (value instanceof Map<?, ?> raw) {
+                        Map<String, Command> commands = castKnownCommands(raw);
+                        if (commands != null) {
+                            knownCommands = commands;
+                            return knownCommands;
+                        }
+                    }
+                } catch (Exception ignored) {
+                    // Next field
+                }
+            }
+            current = current.getSuperclass();
         }
 
         Bukkit.getLogger().log(Level.WARNING,
@@ -133,7 +146,8 @@ public final class CommandMapAccessor {
 
     @SuppressWarnings("unchecked")
     private static Map<String, Command> castKnownCommands(Map<?, ?> raw) {
-        if (raw.isEmpty()) return null;
+        if (raw == null) return null;
+        if (raw.isEmpty()) return (Map<String, Command>) raw;
         Map.Entry<?, ?> first = raw.entrySet().iterator().next();
         if (!(first.getKey() instanceof String) || !(first.getValue() instanceof Command)) {
             return null;
@@ -143,10 +157,31 @@ public final class CommandMapAccessor {
 
     /**
      * Synchronizes commands with players and Brigadier if supported (e.g. Paper).
+     * Automatically debounced to the next tick to prevent racing with Paper's
+     * async command builder thread pool.
      */
     public static void syncCommands() {
         Object server = Bukkit.getServer();
         if (server == null) return;
+
+        try {
+            org.bukkit.plugin.Plugin plugin = Bukkit.getPluginManager().getPlugin("Artifex");
+            if (plugin != null && plugin.isEnabled() && Bukkit.isPrimaryThread()) {
+                if (syncScheduled.compareAndSet(false, true)) {
+                    Bukkit.getScheduler().runTask(plugin, () -> {
+                        syncScheduled.set(false);
+                        try {
+                            Method syncMethod = server.getClass().getMethod("syncCommands");
+                            syncMethod.invoke(server);
+                        } catch (Throwable ignored) {}
+                    });
+                }
+                return;
+            }
+        } catch (Throwable ignored) {
+            // Unit tests without full Bukkit scheduler mock
+        }
+
         try {
             Method syncMethod = server.getClass().getMethod("syncCommands");
             syncMethod.invoke(server);
