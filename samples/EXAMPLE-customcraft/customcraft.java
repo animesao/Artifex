@@ -1399,12 +1399,6 @@ public class customcraft extends Module implements Listener, CommandExecutor, Ta
         return new ItemStack(mat, amount);
     }
 
-        String matName = sec.getString("material", "STONE");
-        Material mat = EnumCache.getMaterial(matName);
-        if (mat == null) mat = Material.STONE;
-        return new ItemStack(mat, amount);
-    }
-
     private boolean isItemSimilarWithAmount(ItemStack a, ItemStack b) {
         if (a == null || b == null) return false;
         return a.isSimilar(b) && a.getAmount() == b.getAmount();
