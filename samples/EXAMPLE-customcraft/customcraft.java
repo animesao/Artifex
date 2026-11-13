@@ -1,4 +1,4 @@
-﻿import me.dcplugin.artifex.Main;
+import me.dcplugin.artifex.Main;
 import me.dcplugin.artifex.api.AbstractCustomItem;
 import me.dcplugin.artifex.api.RecipeDef;
 import me.dcplugin.artifex.api.modules.Module;
@@ -7,15 +7,19 @@ import me.dcplugin.artifex.utils.ColorUtils;
 import me.dcplugin.artifex.utils.EnumCache;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -23,112 +27,160 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.RecipeChoice;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.inventory.FurnaceRecipe;
+import org.bukkit.inventory.BlastingRecipe;
+import org.bukkit.inventory.SmokingRecipe;
+import org.bukkit.inventory.CampfireRecipe;
+import org.bukkit.inventory.SmithingTransformRecipe;
+import org.bukkit.inventory.StonecuttingRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.io.IOException;
+import java.util.*;
 
 /**
- * 🛠 CustomCraft — custom crafting through a GUI.
+ * 🛠 CustomCraft 2.0 — Мастерская кастомных крафтов и внутриигровой конструктор.
  *
- * Takes the recipes from the `recipes` YAML section of all custom items
- * (shaped / shapeless) and gives the player a virtual crafting table.
- *
- * Item identity is based on PDC (PersistentDataContainer / NBT):
- *  - custom items are matched by their ID (dcustomitems:<id>), not by name;
- *  - ingredients from other plugins are matched by material, their NBT is not changed;
- *  - the finished item goes through ItemHandler initialization
- *    (uses, duration, lore) — a stable result.
- *
- * Modularity: delete the items/customcraft/ folder — /craft disappears.
+ * Возможности:
+ *  - Интерактивное меню выбора рабочих станций крафта:
+ *      Верстак (3x3), Печь, Плавильня, Коптильня, Костёр, Кузнечный стол, Камнерез.
+ *  - Внутриигровой визуальный конструктор рецептов (Recipe Creator GUI)
+ *    с поддержкой кастомных предметов Artifex и предметов с кастомным NBT.
+ *  - Полноценный виртуальный верстак 3x3 для крафта кастомных рецептов в GUI.
+ *  - Автоматическая регистрация рецептов в Bukkit/Paper для крафта в ванильных блоках.
+ *  - Сохранение созданных рецептов в items/customcraft/recipes.yml.
+ *  - 100% защита от потери и дюпа предметов при закрытии меню или выходе.
  */
-public class customcraftModule extends Module implements Listener, CommandExecutor, TabCompleter {
+public class customcraft extends Module implements Listener, CommandExecutor, TabCompleter {
 
-    // Settings
+    // ===== НАСТРОЙКИ =====
     private String commandName = "craft";
     private String commandPermission = "dci.craft";
-    private String guiTitle = "§8⚒ CustomCraft";
+    private String adminPermission = "dci.craft.admin";
+
+    private String mainTitle = "&8⚒ &lМастерская Крафта";
+    private String stationChooserTitle = "&8⚙ &lВыберите станцию крафта";
+    private String builderTitleTemplate = "&8✨ &lКонструктор: &e{station}";
+    private String craftTitle = "&8⚒ &lВиртуальный верстак";
+    private String catalogTitle = "&8📖 &lКаталог рецептов";
     private Material fillerMaterial = Material.GRAY_STAINED_GLASS_PANE;
-    private int resultSlot = 15;
-    private boolean returnOnClose = true;
+    private int craftResultSlot = 15;
 
-    private List<CraftRecipe> recipes = new ArrayList<>();
-    private final Map<UUID, CraftView> openViews = new HashMap<>();
+    // Рецепты для виртуального верстака
+    private final List<CraftRecipe> virtualRecipes = new ArrayList<>();
+    // Ключи зарегистрированных в Bukkit рецептов
+    private final Set<NamespacedKey> registeredBukkitKeys = new HashSet<>();
 
-    public customcraftModule(Main plugin, String id, File folder) {
+    // Сессии игроков
+    private final Map<UUID, CraftView> openCraftViews = new HashMap<>();
+    private final Map<UUID, BuilderSession> activeBuilderSessions = new HashMap<>();
+
+    public customcraft(Main plugin, String id, File folder) {
         super(plugin, id, folder);
     }
 
-    // ===== LIFECYCLE =====
+    // ===== ЖИЗНЕННЫЙ ЦИКЛ =====
 
     @Override
     protected void onEnable() {
         loadSettings();
         reloadRecipes();
+        loadSavedRecipes();
+
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+
+        // Безопасная отложенная регистрация команды (для Paper Async Command Builder)
         Bukkit.getScheduler().runTask(plugin, () -> {
             if (!enabled) return;
             registerDynamicCommand(commandName, this, commandPermission);
         });
-        plugin.getLogger().info("[CustomCraft] GUI crafting enabled. Recipes: " + recipes.size());
+
+        plugin.getLogger().info("[CustomCraft] Модуль успешно запущен. Доступно рецептов: " + virtualRecipes.size());
     }
 
     @Override
     protected void onDisable() {
         HandlerList.unregisterAll(this);
-        // Return the items from the open windows
-        for (CraftView view : new ArrayList<>(openViews.values())) {
-            returnItems(view);
+
+        // Закрываем и возвращаем предметы из всех открытых окон
+        for (CraftView view : new ArrayList<>(openCraftViews.values())) {
+            returnCraftItems(view);
         }
-        openViews.clear();
-        recipes.clear();
-        plugin.getLogger().info("[CustomCraft] Module disabled");
+        openCraftViews.clear();
+
+        for (BuilderSession session : new ArrayList<>(activeBuilderSessions.values())) {
+            returnBuilderItems(session);
+        }
+        activeBuilderSessions.clear();
+
+        // Удаляем зарегистрированные в Bukkit рецепты
+        for (NamespacedKey key : registeredBukkitKeys) {
+            try {
+                plugin.getServer().removeRecipe(key);
+            } catch (Throwable ignored) {}
+        }
+        registeredBukkitKeys.clear();
+        virtualRecipes.clear();
+
+        plugin.getLogger().info("[CustomCraft] Модуль отключен");
     }
 
     private void loadSettings() {
         commandName = config.getString("command", "craft");
         commandPermission = config.getString("permission", "dci.craft");
-        guiTitle = colorize(config.getString("gui.title", "&8⚒ CustomCraft"));
+        adminPermission = config.getString("admin-permission", "dci.craft.admin");
+
+        mainTitle = colorize(config.getString("gui.main-title", "&8⚒ &lМастерская Крафта"));
+        stationChooserTitle = colorize(config.getString("gui.station-chooser-title", "&8⚙ &lВыберите станцию крафта"));
+        builderTitleTemplate = config.getString("gui.builder-title", "&8✨ &lКонструктор: &e{station}");
+        craftTitle = colorize(config.getString("gui.craft-title", "&8⚒ &lВиртуальный верстак"));
+        catalogTitle = colorize(config.getString("gui.catalog-title", "&8📖 &lКаталог рецептов"));
+
         String fillerName = config.getString("gui.filler", "GRAY_STAINED_GLASS_PANE");
         Material filler = EnumCache.getMaterial(fillerName);
         if (filler != null) fillerMaterial = filler;
-        resultSlot = config.getInt("gui.result-slot", 15);
-        returnOnClose = config.getBoolean("gui.return-items-on-close", true);
+
+        craftResultSlot = config.getInt("gui.result-slot", 15);
     }
 
-    /**
-     * Rebuild the recipes from all the custom items (YAML + Java API,
-     * including itself as an ingredient). Called on /ci reload
-     * through a module restart.
-     */
-    private void reloadRecipes() {
-        recipes.clear();
-        for (CustomItem item : plugin.getItemHandler().getAllCustomItems().values()) {
-            if (item == null || !item.hasRecipes()) continue;
-            collectRecipes(item);
+    // ===== ПЕРЕЗАГРУЗКА И СБОР РЕЦЕПТОВ =====
+
+    public void reloadRecipes() {
+        virtualRecipes.clear();
+
+        // 1. Рецепты из YAML кастомных предметов
+        if (plugin.getItemHandler() != null) {
+            for (CustomItem item : plugin.getItemHandler().getAllCustomItems().values()) {
+                if (item == null || !item.hasRecipes()) continue;
+                collectItemRecipes(item);
+            }
         }
-        for (AbstractCustomItem javaItem : plugin.getApiItemRegistry().getAllItems().values()) {
-            if (javaItem == null) continue;
-            try {
-                List<RecipeDef> defs = javaItem.getRecipes();
-                if (defs == null || defs.isEmpty()) continue;
-                for (RecipeDef def : defs) {
-                    CraftRecipe recipe = CraftRecipe.parseJava(plugin, javaItem, def);
-                    if (recipe != null) recipes.add(recipe);
+
+        // 2. Рецепты из Java API кастомных предметов
+        if (plugin.getApiItemRegistry() != null) {
+            for (AbstractCustomItem javaItem : plugin.getApiItemRegistry().getAllItems().values()) {
+                if (javaItem == null) continue;
+                try {
+                    List<RecipeDef> defs = javaItem.getRecipes();
+                    if (defs == null || defs.isEmpty()) continue;
+                    for (RecipeDef def : defs) {
+                        CraftRecipe recipe = CraftRecipe.parseJava(plugin, javaItem, def);
+                        if (recipe != null) virtualRecipes.add(recipe);
+                    }
+                } catch (Exception e) {
+                    plugin.getLogger().warning("[CustomCraft] Ошибка в рецепте Java-предмета '"
+                            + javaItem.getId() + "': " + e.getMessage());
                 }
-            } catch (Exception e) {
-                plugin.getLogger().warning("[CustomCraft] Error in the recipes of the Java item '"
-                        + javaItem.getId() + "': " + e.getMessage());
             }
         }
     }
 
-    private void collectRecipes(CustomItem item) {
+    private void collectItemRecipes(CustomItem item) {
         Map<String, Object> root = item.getRecipes();
         if (root == null) return;
 
@@ -136,7 +188,7 @@ public class customcraftModule extends Module implements Listener, CommandExecut
         if (shaped instanceof List) {
             for (Object recipeObj : (List<?>) shaped) {
                 CraftRecipe recipe = CraftRecipe.parseShaped(plugin, item, asMap(recipeObj));
-                if (recipe != null) recipes.add(recipe);
+                if (recipe != null) virtualRecipes.add(recipe);
             }
         }
 
@@ -144,166 +196,1150 @@ public class customcraftModule extends Module implements Listener, CommandExecut
         if (shapeless instanceof List) {
             for (Object recipeObj : (List<?>) shapeless) {
                 CraftRecipe recipe = CraftRecipe.parseShapeless(plugin, item, asMap(recipeObj));
-                if (recipe != null) recipes.add(recipe);
+                if (recipe != null) virtualRecipes.add(recipe);
             }
         }
-        // furnace recipes work in a normal furnace (RecipeManager), they are not needed in the GUI grid
     }
 
-    // ===== COMMAND =====
+    // ===== КОМАНДЫ =====
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(colorize("&cPlayers only!"));
+            sender.sendMessage(colorize("&cКоманда доступна только игрокам!"));
             return true;
         }
+
         Player player = (Player) sender;
-        if (recipes.isEmpty()) {
-            player.sendMessage(colorize(config.getString("messages.no-recipes", "&cYou have no available recipes.")));
+
+        if (!player.hasPermission(commandPermission) && !player.isOp()) {
+            player.sendMessage(colorize(config.getString("messages.no-permission", "&cУ вас нет прав для /craft!")));
             return true;
         }
-        openCraftGui(player);
+
+        if (args.length > 0) {
+            String sub = args[0].toLowerCase(Locale.ROOT);
+            if (sub.equals("create") || sub.equals("new")) {
+                if (!hasAdminPermission(player)) {
+                    player.sendMessage(colorize(config.getString("messages.no-admin-permission", "&cУ вас нет прав администратора!")));
+                    return true;
+                }
+                openStationChooser(player);
+                return true;
+            } else if (sub.equals("table") || sub.equals("bench") || sub.equals("grid")) {
+                openCraftGui(player);
+                return true;
+            } else if (sub.equals("list") || sub.equals("catalog")) {
+                openRecipeCatalog(player, 0);
+                return true;
+            } else if (sub.equals("reload") && hasAdminPermission(player)) {
+                reloadRecipes();
+                loadSavedRecipes();
+                player.sendMessage(colorize("&a[CustomCraft] Рецепты успешно перезагружены!"));
+                return true;
+            }
+        }
+
+        // По умолчанию открываем главное меню выбора станции
+        openMainMenu(player);
         return true;
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        return new ArrayList<>();
+        List<String> list = new ArrayList<>();
+        if (args.length == 1) {
+            list.add("table");
+            list.add("list");
+            if (sender.isOp() || sender.hasPermission(adminPermission)) {
+                list.add("create");
+                list.add("reload");
+            }
+            return filterPrefix(list, args[0]);
+        }
+        return Collections.emptyList();
     }
 
-    private void openCraftGui(Player player) {
-        Inventory inv = plugin.getServer().createInventory(new CraftHolder(player.getUniqueId()), 27, guiTitle);
-        CraftView view = new CraftView(player.getUniqueId(), inv);
-        openViews.put(player.getUniqueId(), view);
-        fillFiller(inv);
+    private boolean hasAdminPermission(Player player) {
+        return player.isOp() || player.hasPermission(adminPermission);
+    }
+
+    // ===== GUI 1: ГЛАВНОЕ МЕНЮ ВЫБОРА СТАНЦИИ =====
+
+    public void openMainMenu(Player player) {
+        Inventory inv = Bukkit.createInventory(new CraftHolder(player.getUniqueId(), GuiType.MAIN_MENU, null, 0), 36, mainTitle);
+        fillBorder(inv);
+
+        // Кнопки станций
+        inv.setItem(10, createGuiItem(Material.CRAFTING_TABLE, "&e&l⚒ Верстак (3x3)",
+                "&7Открыть интерактивный верстак 3x3",
+                "&7для крафта кастомных предметов.",
+                "",
+                "&e▶ Нажмите, чтобы открыть"));
+
+        inv.setItem(11, createGuiItem(Material.FURNACE, "&6&l🔥 Обычная печь",
+                "&7Рецепты плавки и обжига предметов.",
+                "&7Работает как в игре, так и в блоках печи.",
+                "",
+                "&e▶ Нажмите для просмотра рецептов"));
+
+        inv.setItem(12, createGuiItem(Material.BLAST_FURNACE, "&c&l⛏ Плавильня",
+                "&7Быстрая переплавка руд и металлов.",
+                "",
+                "&e▶ Нажмите для просмотра рецептов"));
+
+        inv.setItem(13, createGuiItem(Material.SMOKER, "&6&l🍖 Коптильня",
+                "&7Быстрое приготовление и копчение пищи.",
+                "",
+                "&e▶ Нажмите для просмотра рецептов"));
+
+        inv.setItem(14, createGuiItem(Material.CAMPFIRE, "&e&l🏕 Костёр",
+                "&7Рецепты жарки на костре.",
+                "",
+                "&e▶ Нажмите для просмотра рецептов"));
+
+        inv.setItem(15, createGuiItem(Material.SMITHING_TABLE, "&b&l🔨 Кузнечный стол",
+                "&7Улучшение и ковка кастомного снаряжения",
+                "&7по кузнечным шаблонам.",
+                "",
+                "&e▶ Нажмите для просмотра рецептов"));
+
+        inv.setItem(16, createGuiItem(Material.STONECUTTER, "&f&l🪨 Камнерез",
+                "&7Точная обработка камня и материалов.",
+                "",
+                "&e▶ Нажмите для просмотра рецептов"));
+
+        // Нижний ряд
+        inv.setItem(30, createGuiItem(Material.BOOK, "&a&l📖 Каталог всех рецептов",
+                "&7Посмотреть полный список всех",
+                "&7зарегистрированных кастомных рецептов.",
+                "",
+                "&e▶ Нажмите для перехода"));
+
+        if (hasAdminPermission(player)) {
+            inv.setItem(32, createGuiItem(Material.NETHER_STAR, "&d&l➕ Создать кастомный крафт",
+                    "&7Визуальный конструктор рецептов прямо в игре!",
+                    "&7Поддерживает кастомные предметы Artifex,",
+                    "&7предметы с NBT и ванильные материалы.",
+                    "",
+                    "&a▶ Нажмите для создания"));
+        }
+
         player.openInventory(inv);
     }
 
-    private void fillFiller(Inventory inv) {
-        ItemStack filler = new ItemStack(fillerMaterial);
-        ItemMeta meta = filler.getItemMeta();
-        if (meta != null) {
-            meta.setDisplayName(" ");
-            filler.setItemMeta(meta);
+    // ===== GUI 2: ВЫБОР СТАНЦИИ ДЛЯ СОЗДАНИЯ РЕЦЕПТА =====
+
+    public void openStationChooser(Player player) {
+        Inventory inv = Bukkit.createInventory(new CraftHolder(player.getUniqueId(), GuiType.STATION_CHOOSER, null, 0), 36, stationChooserTitle);
+        fillBorder(inv);
+
+        inv.setItem(10, createGuiItem(Material.CRAFTING_TABLE, "&e&l⚒ Верстак: Форменный (3x3)",
+                "&7Рецепт с точным расположением",
+                "&7ингредиентов в сетке 3х3.",
+                "",
+                "&a▶ Выбрать эту станцию"));
+
+        inv.setItem(11, createGuiItem(Material.FIREWORK_STAR, "&d&l🌀 Верстак: Бесформенный",
+                "&7Ингредиенты можно складывать",
+                "&7в любом порядке в верстаке.",
+                "",
+                "&a▶ Выбрать эту станцию"));
+
+        inv.setItem(12, createGuiItem(Material.FURNACE, "&6&l🔥 Печь (Smelting)",
+                "&7Плавление предметов в обычной печи",
+                "&7с настройкой времени и опыта.",
+                "",
+                "&a▶ Выбрать эту станцию"));
+
+        inv.setItem(13, createGuiItem(Material.BLAST_FURNACE, "&c&l⛏ Плавильня (Blasting)",
+                "&7Быстрое плавление в плавильне.",
+                "",
+                "&a▶ Выбрать эту станцию"));
+
+        inv.setItem(14, createGuiItem(Material.SMOKER, "&6&l🍖 Коптильня (Smoking)",
+                "&7Приготовление пищи в коптильне.",
+                "",
+                "&a▶ Выбрать эту станцию"));
+
+        inv.setItem(15, createGuiItem(Material.CAMPFIRE, "&e&l🏕 Костёр (Campfire)",
+                "&7Жарка на обычном костре.",
+                "",
+                "&a▶ Выбрать эту станцию"));
+
+        inv.setItem(16, createGuiItem(Material.SMITHING_TABLE, "&b&l🔨 Кузнечный стол (Smithing)",
+                "&7Кузнечное улучшение: Шаблон +",
+                "&7Основа + Материал = Результат.",
+                "",
+                "&a▶ Выбрать эту станцию"));
+
+        inv.setItem(22, createGuiItem(Material.STONECUTTER, "&f&l🪨 Камнерез (Stonecutting)",
+                "&7Один блок -> Кастомный результат.",
+                "",
+                "&a▶ Выбрать эту станцию"));
+
+        inv.setItem(31, createGuiItem(Material.ARROW, "&c&l⬅ Назад в главное меню",
+                "&7Вернуться к списку станций"));
+
+        player.openInventory(inv);
+    }
+
+    // ===== GUI 3: ВИЗУАЛЬНЫЙ КОНСТРУКТОР РЕЦЕПТОВ =====
+
+    public void openRecipeBuilder(Player player, StationType station) {
+        String title = colorize(builderTitleTemplate.replace("{station}", station.displayName));
+        Inventory inv = Bukkit.createInventory(new CraftHolder(player.getUniqueId(), GuiType.BUILDER, station, 0), 54, title);
+        BuilderSession session = new BuilderSession(player.getUniqueId(), station, inv);
+        activeBuilderSessions.put(player.getUniqueId(), session);
+
+        fillBorder54(inv);
+
+        // Разметка под тип станции
+        if (station == StationType.WORKBENCH_SHAPED || station == StationType.WORKBENCH_SHAPELESS) {
+            // Очищаем сетку 3x3
+            for (int slot : GRID_3X3_SLOTS) {
+                inv.setItem(slot, null);
+            }
+            inv.setItem(23, createGuiItem(Material.SPECTRAL_ARROW, "&e&l⟹ Результат ⟹", "&7Поместите результат крафта правее!"));
+            inv.setItem(25, null); // Слот результата
+        } else if (station == StationType.FURNACE || station == StationType.BLAST_FURNACE
+                || station == StationType.SMOKER || station == StationType.CAMPFIRE) {
+            inv.setItem(20, null); // Входной ингредиент
+            inv.setItem(23, createGuiItem(Material.SPECTRAL_ARROW, "&e&l⟹ Обжиг ⟹", "&7Поместите готовый результат правее!"));
+            inv.setItem(25, null); // Результат
+
+            // Кнопки времени и опыта
+            updateCookingButtons(session);
+        } else if (station == StationType.SMITHING) {
+            inv.setItem(19, null); // Шаблон
+            inv.setItem(20, null); // Основа
+            inv.setItem(21, null); // Дополнение
+            inv.setItem(23, createGuiItem(Material.SPECTRAL_ARROW, "&b&l⟹ Ковка ⟹", "&7Результат улучшения"));
+            inv.setItem(25, null); // Результат
+        } else if (station == StationType.STONECUTTER) {
+            inv.setItem(20, null); // Вход
+            inv.setItem(23, createGuiItem(Material.SPECTRAL_ARROW, "&f&l⟹ Резка ⟹", "&7Результат камнереза"));
+            inv.setItem(25, null); // Результат
         }
+
+        // Нижняя панель действий
+        inv.setItem(48, createGuiItem(Material.RED_STAINED_GLASS_PANE, "&c&l❌ Отмена", "&7Вернуть все предметы и выйти"));
+        inv.setItem(49, createGuiItem(Material.EMERALD_BLOCK, "&a&l💾 СОХРАНИТЬ РЕЦЕПТ",
+                "&7Сохраняет рецепт в игру и конфиг.",
+                "&7Поддерживает кастомные предметы,",
+                "&7NBT, текстуры и ванильные материалы!"));
+        inv.setItem(50, createGuiItem(Material.BOOK, "&e&lℹ Подсказка",
+                "&71. Положите ингредиенты в рабочие слоты.",
+                "&72. Положите результат в слот справа.",
+                "&73. Нажмите &a[СОХРАНИТЬ РЕЦЕПТ]&7."));
+
+        player.openInventory(inv);
+    }
+
+    private void updateCookingButtons(BuilderSession session) {
+        double seconds = session.cookingTime / 20.0;
+        session.inventory.setItem(29, createGuiItem(Material.CLOCK, "&e&l⏱ Время плавки: &a" + seconds + " сек",
+                "&7Текущее: &f" + session.cookingTime + " тиков",
+                "",
+                "&a[ЛКМ] &7+1 секунда (+20 тиков)",
+                "&c[ПКМ] &7-1 секунда (-20 тиков)"));
+
+        session.inventory.setItem(33, createGuiItem(Material.EXPERIENCE_BOTTLE, "&b&l✨ Опыт: &a" + String.format(Locale.ROOT, "%.2f", session.experience) + " XP",
+                "&7Опыт, выдаваемый за плавку предмета.",
+                "",
+                "&a[ЛКМ] &7+0.2 XP",
+                "&c[ПКМ] &7-0.2 XP"));
+    }
+
+    // ===== GUI 4: ВИРТУАЛЬНЫЙ ВЕРСТАК (3X3) =====
+
+    public void openCraftGui(Player player) {
+        Inventory inv = Bukkit.createInventory(new CraftHolder(player.getUniqueId(), GuiType.VIRTUAL_WORKBENCH, null, 0), 27, craftTitle);
+        CraftView view = new CraftView(player.getUniqueId(), inv);
+        openCraftViews.put(player.getUniqueId(), view);
+
+        fillCraftFiller(inv);
+        inv.setItem(craftResultSlot, null);
+
+        // Кнопка выхода в меню
+        inv.setItem(26, createGuiItem(Material.ARROW, "&c&l⬅ В меню", "&7Вернуться в главное меню"));
+
+        player.openInventory(inv);
+    }
+
+    private void fillCraftFiller(Inventory inv) {
+        ItemStack filler = createFiller();
         for (int slot = 0; slot < inv.getSize(); slot++) {
-            if (isGridSlot(slot) || slot == resultSlot) continue;
+            if (isGridSlot(slot) || slot == craftResultSlot || slot == 26) continue;
             inv.setItem(slot, filler);
         }
     }
 
-    /** The slots of the 3x3 grid in the 27-slot chest: (row*3) + column horizontally */
-    private boolean isGridSlot(int slot) {
-        int row = slot / 9;
-        int col = slot % 9;
-        return row >= 0 && row <= 2 && col >= 0 && col <= 2;
+    // ===== GUI 5: КАТАЛОГ РЕЦЕПТОВ =====
+
+    public void openRecipeCatalog(Player player, int page) {
+        Inventory inv = Bukkit.createInventory(new CraftHolder(player.getUniqueId(), GuiType.RECIPE_CATALOG, null, page), 54, catalogTitle);
+        fillBorder54(inv);
+
+        int pageSize = 28;
+        int total = virtualRecipes.size();
+        int maxPage = Math.max(0, (total - 1) / pageSize);
+        if (page < 0) page = 0;
+        if (page > maxPage) page = maxPage;
+
+        int start = page * pageSize;
+        int end = Math.min(start + pageSize, total);
+
+        int[] catalogSlots = {
+                10, 11, 12, 13, 14, 15, 16,
+                19, 20, 21, 22, 23, 24, 25,
+                28, 29, 30, 31, 32, 33, 34,
+                37, 38, 39, 40, 41, 42, 43
+        };
+
+        for (int i = 0; i < (end - start); i++) {
+            CraftRecipe recipe = virtualRecipes.get(start + i);
+            ItemStack result = recipe.getResultPreview();
+            if (result == null) continue;
+
+            ItemStack icon = result.clone();
+            ItemMeta meta = icon.getItemMeta();
+            if (meta != null) {
+                List<String> lore = meta.hasLore() ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
+                lore.add("§8§m------------------------");
+                lore.add("§7Тип: §e" + (recipe.isShaped ? "Форменный верстак" : "Бесформенный верстак"));
+                lore.add("§7Количество: §a" + recipe.amount);
+                lore.add("§8§m------------------------");
+                meta.setLore(lore);
+                icon.setItemMeta(meta);
+            }
+            inv.setItem(catalogSlots[i], icon);
+        }
+
+        // Кнопки пагинации
+        if (page > 0) {
+            inv.setItem(48, createGuiItem(Material.ARROW, "&a&l⬅ Страница " + page, "&7Перейти на предыдущую"));
+        }
+        inv.setItem(49, createGuiItem(Material.OAK_DOOR, "&c&l🏠 В главное меню", "&7Вернуться"));
+        if (page < maxPage) {
+            inv.setItem(50, createGuiItem(Material.ARROW, "&a&lСтраница " + (page + 2) + " ➡", "&7Перейти на следующую"));
+        }
+
+        player.openInventory(inv);
     }
 
-    private int gridRow(int slot) {
-        return slot / 9;
+    // ===== ОБРАБОТКА КЛИКОВ (EVENT HANDLERS) =====
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        if (!(event.getWhoClicked() instanceof Player)) return;
+        Player player = (Player) event.getWhoClicked();
+
+        Inventory top = event.getView().getTopInventory();
+        if (top == null || !(top.getHolder() instanceof CraftHolder)) return;
+
+        CraftHolder holder = (CraftHolder) top.getHolder();
+        int rawSlot = event.getRawSlot();
+        boolean isTop = rawSlot >= 0 && rawSlot < top.getSize();
+
+        // 1. ГЛАВНОЕ МЕНЮ
+        if (holder.guiType == GuiType.MAIN_MENU) {
+            event.setCancelled(true);
+            if (!isTop) return;
+
+            switch (rawSlot) {
+                case 10: // Верстак
+                    openCraftGui(player);
+                    break;
+                case 11: // Печь
+                case 12: // Плавильня
+                case 13: // Коптильня
+                case 14: // Костёр
+                case 15: // Кузнечный стол
+                case 16: // Камнерез
+                case 30: // Каталог
+                    openRecipeCatalog(player, 0);
+                    break;
+                case 32: // Создать рецепт
+                    if (hasAdminPermission(player)) {
+                        openStationChooser(player);
+                    }
+                    break;
+            }
+            return;
+        }
+
+        // 2. ВЫБОР СТАНЦИИ
+        if (holder.guiType == GuiType.STATION_CHOOSER) {
+            event.setCancelled(true);
+            if (!isTop) return;
+
+            StationType chosen = null;
+            switch (rawSlot) {
+                case 10: chosen = StationType.WORKBENCH_SHAPED; break;
+                case 11: chosen = StationType.WORKBENCH_SHAPELESS; break;
+                case 12: chosen = StationType.FURNACE; break;
+                case 13: chosen = StationType.BLAST_FURNACE; break;
+                case 14: chosen = StationType.SMOKER; break;
+                case 15: chosen = StationType.CAMPFIRE; break;
+                case 16: chosen = StationType.SMITHING; break;
+                case 22: chosen = StationType.STONECUTTER; break;
+                case 31: openMainMenu(player); return;
+            }
+
+            if (chosen != null) {
+                openRecipeBuilder(player, chosen);
+            }
+            return;
+        }
+
+        // 3. КОНСТРУКТОР РЕЦЕПТОВ (BUILDER)
+        if (holder.guiType == GuiType.BUILDER) {
+            BuilderSession session = activeBuilderSessions.get(player.getUniqueId());
+            if (session == null) return;
+
+            if (isTop) {
+                // Кнопки управления
+                if (rawSlot == 48) { // Отмена
+                    event.setCancelled(true);
+                    returnBuilderItems(session);
+                    player.sendMessage(colorize(config.getString("messages.recipe-canceled", "&eСоздание рецепта отменено.")));
+                    openMainMenu(player);
+                    return;
+                }
+                if (rawSlot == 49) { // Сохранить рецепт
+                    event.setCancelled(true);
+                    saveCreatedRecipe(player, session);
+                    return;
+                }
+                if (rawSlot == 50) { // Справка
+                    event.setCancelled(true);
+                    return;
+                }
+
+                // Регулировка времени/опыта для печей
+                if (session.station == StationType.FURNACE || session.station == StationType.BLAST_FURNACE
+                        || session.station == StationType.SMOKER || session.station == StationType.CAMPFIRE) {
+                    if (rawSlot == 29) { // Время
+                        event.setCancelled(true);
+                        if (event.isLeftClick()) session.cookingTime = Math.min(6000, session.cookingTime + 20);
+                        else if (event.isRightClick()) session.cookingTime = Math.max(20, session.cookingTime - 20);
+                        updateCookingButtons(session);
+                        return;
+                    }
+                    if (rawSlot == 33) { // Опыт
+                        event.setCancelled(true);
+                        if (event.isLeftClick()) session.experience = Math.min(100.0f, session.experience + 0.2f);
+                        else if (event.isRightClick()) session.experience = Math.max(0.0f, session.experience - 0.2f);
+                        updateCookingButtons(session);
+                        return;
+                    }
+                }
+
+                // Проверяем, разрешен ли этот слот для размещения предметов
+                if (!isAllowedBuilderSlot(session.station, rawSlot)) {
+                    event.setCancelled(true);
+                }
+            } else {
+                // Если клик в нижнем инвентаре с Shift — отменяем для простоты, чтобы предметы не летели в декоративные слоты
+                if (event.isShiftClick()) {
+                    event.setCancelled(true);
+                }
+            }
+            return;
+        }
+
+        // 4. КАТАЛОГ
+        if (holder.guiType == GuiType.RECIPE_CATALOG) {
+            event.setCancelled(true);
+            if (!isTop) return;
+            if (rawSlot == 48) {
+                openRecipeCatalog(player, holder.page - 1);
+            } else if (rawSlot == 49) {
+                openMainMenu(player);
+            } else if (rawSlot == 50) {
+                openRecipeCatalog(player, holder.page + 1);
+            }
+            return;
+        }
+
+        // 5. ВИРТУАЛЬНЫЙ ВЕРСТАК (VIRTUAL WORKBENCH)
+        if (holder.guiType == GuiType.VIRTUAL_WORKBENCH) {
+            CraftView view = openCraftViews.get(player.getUniqueId());
+            if (view == null) return;
+
+            if (isTop) {
+                if (rawSlot == 26) { // Назад в меню
+                    event.setCancelled(true);
+                    returnCraftItems(view);
+                    openMainMenu(player);
+                    return;
+                }
+
+                // Клик по результату крафта
+                if (rawSlot == craftResultSlot) {
+                    event.setCancelled(true);
+                    handleCraftResultClick(player, view, event.getClick());
+                    return;
+                }
+
+                // Запрет клика по рамке
+                if (!isGridSlot(rawSlot)) {
+                    event.setCancelled(true);
+                    return;
+                }
+            }
+
+            // Пересчитываем результат крафта в следующем тике
+            Bukkit.getScheduler().runTask(plugin, () -> {
+                if (view.inventory.getViewers().contains(player)) {
+                    updateCraftResult(view);
+                }
+            });
+        }
     }
 
-    private int gridCol(int slot) {
-        return slot % 9;
-    }
+    @EventHandler
+    public void onInventoryDrag(InventoryDragEvent event) {
+        Inventory top = event.getView().getTopInventory();
+        if (top == null || !(top.getHolder() instanceof CraftHolder)) return;
 
-    private int gridSlot(int row, int col) {
-        return row * 9 + col;
-    }
+        CraftHolder holder = (CraftHolder) top.getHolder();
 
-    // ===== VIEW HELPERS =====
+        // В главном меню, каталоге и выборе станции перетаскивание запрещено
+        if (holder.guiType == GuiType.MAIN_MENU || holder.guiType == GuiType.STATION_CHOOSER || holder.guiType == GuiType.RECIPE_CATALOG) {
+            event.setCancelled(true);
+            return;
+        }
 
-    private CraftView viewOf(Inventory inventory) {
-        if (inventory == null || !(inventory.getHolder() instanceof CraftHolder)) return null;
-        CraftHolder holder = (CraftHolder) inventory.getHolder();
-        return openViews.get(holder.playerId);
-    }
-
-    /** Build a 3x3 array from the grid items of the window. */
-    private ItemStack[][] readGrid(Inventory inv) {
-        ItemStack[][] grid = new ItemStack[3][3];
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-                grid[row][col] = inv.getItem(gridSlot(row, col));
+        // В билдере разрешено только в рабочие слоты
+        if (holder.guiType == GuiType.BUILDER) {
+            for (int rawSlot : event.getRawSlots()) {
+                if (rawSlot < top.getSize() && !isAllowedBuilderSlot(holder.stationType, rawSlot)) {
+                    event.setCancelled(true);
+                    return;
+                }
             }
         }
-        return grid;
-    }
 
-    private void writeGrid(Inventory inv, ItemStack[][] grid) {
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-                inv.setItem(gridSlot(row, col), grid[row][col]);
+        // В виртуальном верстаке
+        if (holder.guiType == GuiType.VIRTUAL_WORKBENCH) {
+            for (int rawSlot : event.getRawSlots()) {
+                if (rawSlot < top.getSize() && (!isGridSlot(rawSlot) || rawSlot == craftResultSlot)) {
+                    event.setCancelled(true);
+                    return;
+                }
+            }
+            CraftView view = openCraftViews.get(event.getWhoClicked().getUniqueId());
+            if (view != null) {
+                Bukkit.getScheduler().runTask(plugin, () -> updateCraftResult(view));
             }
         }
     }
 
-    /** Update the result slot based on the current grid. */
-    private void updateResult(CraftView view) {
-        ItemStack[][] grid = readGrid(view.inventory);
-        view.current = null;
+    @EventHandler
+    public void onInventoryClose(InventoryCloseEvent event) {
+        if (!(event.getPlayer() instanceof Player)) return;
+        Player player = (Player) event.getPlayer();
 
-        // Remove the result of the previous preview (it is virtual)
-        view.inventory.setItem(resultSlot, null);
+        Inventory top = event.getInventory();
+        if (top == null || !(top.getHolder() instanceof CraftHolder)) return;
 
-        if (isEmptyGrid(grid)) return;
+        CraftHolder holder = (CraftHolder) top.getHolder();
 
-        for (CraftRecipe recipe : recipes) {
-            if (recipe.matches(grid)) {
-                ItemStack result = recipe.buildResult();
-                if (result == null) continue; // the source item was removed from the registry
-                view.inventory.setItem(resultSlot, result);
-                view.current = recipe;
-                return;
+        // Безопасный возврат предметов из конструктора
+        if (holder.guiType == GuiType.BUILDER) {
+            BuilderSession session = activeBuilderSessions.remove(player.getUniqueId());
+            if (session != null) {
+                returnBuilderItems(session);
+            }
+        }
+
+        // Безопасный возврат предметов из виртуального верстака
+        if (holder.guiType == GuiType.VIRTUAL_WORKBENCH) {
+            CraftView view = openCraftViews.remove(player.getUniqueId());
+            if (view != null) {
+                returnCraftItems(view);
             }
         }
     }
 
-    private boolean isEmptyGrid(ItemStack[][] grid) {
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        UUID uid = event.getPlayer().getUniqueId();
+        BuilderSession bs = activeBuilderSessions.remove(uid);
+        if (bs != null) returnBuilderItems(bs);
+
+        CraftView cv = openCraftViews.remove(uid);
+        if (cv != null) returnCraftItems(cv);
+    }
+
+    // ===== СОХРАНЕНИЕ КАСТОМНОГО РЕЦЕПТА (BUILDER LOGIC) =====
+
+    private void saveCreatedRecipe(Player player, BuilderSession session) {
+        Inventory inv = session.inventory;
+        StationType station = session.station;
+
+        // Слот результата для всех типов станций находится в слоте 25
+        ItemStack result = inv.getItem(25);
+        if (result == null || result.getType() == Material.AIR) {
+            player.sendMessage(colorize(config.getString("messages.recipe-error-no-result", "&cОшибка: поместите результат в слот справа!")));
+            playErrorSound(player);
+            return;
+        }
+
+        // Проверяем наличие ингредиентов
+        boolean hasIngredients = false;
+        if (station == StationType.WORKBENCH_SHAPED || station == StationType.WORKBENCH_SHAPELESS) {
+            for (int slot : GRID_3X3_SLOTS) {
+                ItemStack item = inv.getItem(slot);
+                if (item != null && item.getType() != Material.AIR) {
+                    hasIngredients = true;
+                    break;
+                }
+            }
+        } else if (station == StationType.FURNACE || station == StationType.BLAST_FURNACE
+                || station == StationType.SMOKER || station == StationType.CAMPFIRE || station == StationType.STONECUTTER) {
+            ItemStack in = inv.getItem(20);
+            if (in != null && in.getType() != Material.AIR) hasIngredients = true;
+        } else if (station == StationType.SMITHING) {
+            ItemStack t = inv.getItem(19);
+            ItemStack b = inv.getItem(20);
+            ItemStack a = inv.getItem(21);
+            if (t != null && b != null && a != null
+                    && t.getType() != Material.AIR && b.getType() != Material.AIR && a.getType() != Material.AIR) {
+                hasIngredients = true;
+            }
+        }
+
+        if (!hasIngredients) {
+            player.sendMessage(colorize(config.getString("messages.recipe-error-no-ingredients", "&cОшибка: укажите ингредиенты!")));
+            playErrorSound(player);
+            return;
+        }
+
+        // Генерируем уникальный ключ рецепта
+        String uniqueId = "custom_" + System.currentTimeMillis();
+
+        try {
+            // Регистрация в Bukkit и сохранение в файл
+            boolean registered = registerAndPersistRecipe(uniqueId, session, result);
+            if (registered) {
+                player.sendMessage(colorize(config.getString("messages.recipe-saved", "&a✔ Рецепт успешно создан и добавлен на сервер!")
+                        .replace("{station}", station.displayName)));
+                player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.2f);
+
+                // Возвращаем предметы игроку и закрываем меню
+                returnBuilderItems(session);
+                activeBuilderSessions.remove(player.getUniqueId());
+                player.closeInventory();
+            } else {
+                player.sendMessage(colorize("&cНе удалось зарегистрировать рецепт в Bukkit!"));
+                playErrorSound(player);
+            }
+        } catch (Exception e) {
+            player.sendMessage(colorize("&cОшибка при сохранении: " + e.getMessage()));
+            plugin.getLogger().warning("[CustomCraft] Ошибка создания рецепта: " + e.getMessage());
+            playErrorSound(player);
+        }
+    }
+
+    private boolean registerAndPersistRecipe(String id, BuilderSession session, ItemStack result) throws IOException {
+        NamespacedKey key = new NamespacedKey(plugin, id);
+        StationType station = session.station;
+        Inventory inv = session.inventory;
+
+        File recipesFile = new File(folder, "recipes.yml");
+        YamlConfiguration yaml = recipesFile.exists() ? YamlConfiguration.loadConfiguration(recipesFile) : new YamlConfiguration();
+        ConfigurationSection root = yaml.isConfigurationSection("recipes") ? yaml.getConfigurationSection("recipes") : yaml.createSection("recipes");
+        ConfigurationSection sec = root.createSection(id);
+
+        sec.set("station", station.name());
+        serializeItemToConfig(sec.createSection("result"), result);
+
+        Recipe bukkitRecipe = null;
+
+        if (station == StationType.WORKBENCH_SHAPED) {
+            // Форменный 3x3
+            ItemStack[][] matrix = new ItemStack[3][3];
+            for (int r = 0; r < 3; r++) {
+                for (int c = 0; c < 3; c++) {
+                    matrix[r][c] = inv.getItem(GRID_3X3_SLOTS[r * 3 + c]);
+                }
+            }
+
+            // Создаем форму (pattern)
+            Map<Character, RecipeChoice> keyMap = new HashMap<>();
+            Map<Character, ItemStack> exampleKeyMap = new HashMap<>();
+            char currentKey = 'A';
+            List<String> patternLines = new ArrayList<>();
+
+            for (int r = 0; r < 3; r++) {
+                StringBuilder row = new StringBuilder();
+                for (int c = 0; c < 3; c++) {
+                    ItemStack st = matrix[r][c];
+                    if (st == null || st.getType() == Material.AIR) {
+                        row.append(' ');
+                    } else {
+                        char match = ' ';
+                        for (Map.Entry<Character, ItemStack> entry : exampleKeyMap.entrySet()) {
+                            if (isItemSimilar(entry.getValue(), st)) {
+                                match = entry.getKey();
+                                break;
+                            }
+                        }
+                        if (match == ' ') {
+                            match = currentKey++;
+                            exampleKeyMap.put(match, st.clone());
+                            keyMap.put(match, toRecipeChoice(st));
+                        }
+                        row.append(match);
+                    }
+                }
+                patternLines.add(row.toString());
+            }
+
+            ShapedRecipe shaped = new ShapedRecipe(key, result);
+            shaped.shape(patternLines.toArray(new String[0]));
+            for (Map.Entry<Character, RecipeChoice> entry : keyMap.entrySet()) {
+                shaped.setIngredient(entry.getKey(), entry.getValue());
+            }
+            bukkitRecipe = shaped;
+
+            sec.set("pattern", patternLines);
+            ConfigurationSection keysSec = sec.createSection("keys");
+            for (Map.Entry<Character, ItemStack> e : exampleKeyMap.entrySet()) {
+                serializeItemToConfig(keysSec.createSection(String.valueOf(e.getKey())), e.getValue());
+            }
+
+            // Добавляем в виртуальный верстак
+            virtualRecipes.add(new CraftRecipe(plugin, null, null, result.getAmount(), true, matrix, keyMap, null, result));
+
+        } else if (station == StationType.WORKBENCH_SHAPELESS) {
+            // Бесформенный
+            List<RecipeChoice> choices = new ArrayList<>();
+            List<ItemStack> rawIngredients = new ArrayList<>();
+            for (int slot : GRID_3X3_SLOTS) {
+                ItemStack st = inv.getItem(slot);
+                if (st != null && st.getType() != Material.AIR) {
+                    choices.add(toRecipeChoice(st));
+                    rawIngredients.add(st.clone());
+                }
+            }
+
+            ShapelessRecipe shapeless = new ShapelessRecipe(key, result);
+            for (RecipeChoice choice : choices) {
+                shapeless.addIngredient(choice);
+            }
+            bukkitRecipe = shapeless;
+
+            ConfigurationSection ingSec = sec.createSection("ingredients");
+            for (int i = 0; i < rawIngredients.size(); i++) {
+                serializeItemToConfig(ingSec.createSection("item_" + i), rawIngredients.get(i));
+            }
+
+            virtualRecipes.add(new CraftRecipe(plugin, null, null, result.getAmount(), false, null, null, choices, result));
+
+        } else if (station == StationType.FURNACE) {
+            ItemStack in = inv.getItem(20);
+            FurnaceRecipe fr = new FurnaceRecipe(key, result, toRecipeChoice(in), session.experience, session.cookingTime);
+            bukkitRecipe = fr;
+            serializeItemToConfig(sec.createSection("ingredient"), in);
+            sec.set("cooking-time", session.cookingTime);
+            sec.set("experience", session.experience);
+
+        } else if (station == StationType.BLAST_FURNACE) {
+            ItemStack in = inv.getItem(20);
+            BlastingRecipe br = new BlastingRecipe(key, result, toRecipeChoice(in), session.experience, session.cookingTime);
+            bukkitRecipe = br;
+            serializeItemToConfig(sec.createSection("ingredient"), in);
+            sec.set("cooking-time", session.cookingTime);
+            sec.set("experience", session.experience);
+
+        } else if (station == StationType.SMOKER) {
+            ItemStack in = inv.getItem(20);
+            SmokingRecipe sr = new SmokingRecipe(key, result, toRecipeChoice(in), session.experience, session.cookingTime);
+            bukkitRecipe = sr;
+            serializeItemToConfig(sec.createSection("ingredient"), in);
+            sec.set("cooking-time", session.cookingTime);
+            sec.set("experience", session.experience);
+
+        } else if (station == StationType.CAMPFIRE) {
+            ItemStack in = inv.getItem(20);
+            CampfireRecipe cr = new CampfireRecipe(key, result, toRecipeChoice(in), session.experience, session.cookingTime);
+            bukkitRecipe = cr;
+            serializeItemToConfig(sec.createSection("ingredient"), in);
+            sec.set("cooking-time", session.cookingTime);
+            sec.set("experience", session.experience);
+
+        } else if (station == StationType.SMITHING) {
+            ItemStack t = inv.getItem(19);
+            ItemStack b = inv.getItem(20);
+            ItemStack a = inv.getItem(21);
+            SmithingTransformRecipe str = new SmithingTransformRecipe(key, result, toRecipeChoice(t), toRecipeChoice(b), toRecipeChoice(a));
+            bukkitRecipe = str;
+            serializeItemToConfig(sec.createSection("template"), t);
+            serializeItemToConfig(sec.createSection("base"), b);
+            serializeItemToConfig(sec.createSection("addition"), a);
+
+        } else if (station == StationType.STONECUTTER) {
+            ItemStack in = inv.getItem(20);
+            StonecuttingRecipe scr = new StonecuttingRecipe(key, result, toRecipeChoice(in));
+            bukkitRecipe = scr;
+            serializeItemToConfig(sec.createSection("ingredient"), in);
+        }
+
+        if (bukkitRecipe != null) {
+            boolean added = plugin.getServer().addRecipe(bukkitRecipe);
+            if (added) {
+                registeredBukkitKeys.add(key);
+                yaml.save(recipesFile);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void loadSavedRecipes() {
+        File recipesFile = new File(folder, "recipes.yml");
+        if (!recipesFile.exists()) return;
+
+        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(recipesFile);
+        ConfigurationSection root = yaml.getConfigurationSection("recipes");
+        if (root == null) return;
+
+        int loadedCount = 0;
+        for (String keyStr : root.getKeys(false)) {
+            ConfigurationSection sec = root.getConfigurationSection(keyStr);
+            if (sec == null) continue;
+
+            try {
+                NamespacedKey key = new NamespacedKey(plugin, keyStr);
+                StationType station = StationType.valueOf(sec.getString("station", "WORKBENCH_SHAPED"));
+                ItemStack result = deserializeItemFromConfig(sec.getConfigurationSection("result"));
+                if (result == null) continue;
+
+                Recipe bukkitRecipe = null;
+
+                if (station == StationType.WORKBENCH_SHAPED) {
+                    List<String> pattern = sec.getStringList("pattern");
+                    ConfigurationSection keysSec = sec.getConfigurationSection("keys");
+                    if (pattern.isEmpty() || keysSec == null) continue;
+
+                    ShapedRecipe shaped = new ShapedRecipe(key, result);
+                    shaped.shape(pattern.toArray(new String[0]));
+
+                    Map<Character, RecipeChoice> keyChoices = new HashMap<>();
+                    ItemStack[][] matrix = new ItemStack[3][3];
+
+                    for (String k : keysSec.getKeys(false)) {
+                        char c = k.charAt(0);
+                        ItemStack ing = deserializeItemFromConfig(keysSec.getConfigurationSection(k));
+                        if (ing != null) {
+                            RecipeChoice choice = toRecipeChoice(ing);
+                            shaped.setIngredient(c, choice);
+                            keyChoices.put(c, choice);
+                        }
+                    }
+
+                    for (int r = 0; r < 3; r++) {
+                        String row = pattern.get(r);
+                        for (int c = 0; c < 3; c++) {
+                            char ch = row.charAt(c);
+                            if (ch != ' ' && keysSec.isConfigurationSection(String.valueOf(ch))) {
+                                matrix[r][c] = deserializeItemFromConfig(keysSec.getConfigurationSection(String.valueOf(ch)));
+                            }
+                        }
+                    }
+
+                    bukkitRecipe = shaped;
+                    virtualRecipes.add(new CraftRecipe(plugin, null, null, result.getAmount(), true, matrix, keyChoices, null, result));
+
+                } else if (station == StationType.WORKBENCH_SHAPELESS) {
+                    ConfigurationSection ingSec = sec.getConfigurationSection("ingredients");
+                    if (ingSec == null) continue;
+
+                    ShapelessRecipe shapeless = new ShapelessRecipe(key, result);
+                    List<RecipeChoice> choices = new ArrayList<>();
+                    for (String k : ingSec.getKeys(false)) {
+                        ItemStack ing = deserializeItemFromConfig(ingSec.getConfigurationSection(k));
+                        if (ing != null) {
+                            RecipeChoice rc = toRecipeChoice(ing);
+                            shapeless.addIngredient(rc);
+                            choices.add(rc);
+                        }
+                    }
+                    bukkitRecipe = shapeless;
+                    virtualRecipes.add(new CraftRecipe(plugin, null, null, result.getAmount(), false, null, null, choices, result));
+
+                } else if (station == StationType.FURNACE) {
+                    ItemStack in = deserializeItemFromConfig(sec.getConfigurationSection("ingredient"));
+                    if (in != null) {
+                        bukkitRecipe = new FurnaceRecipe(key, result, toRecipeChoice(in),
+                                (float) sec.getDouble("experience", 0.7), sec.getInt("cooking-time", 200));
+                    }
+                } else if (station == StationType.BLAST_FURNACE) {
+                    ItemStack in = deserializeItemFromConfig(sec.getConfigurationSection("ingredient"));
+                    if (in != null) {
+                        bukkitRecipe = new BlastingRecipe(key, result, toRecipeChoice(in),
+                                (float) sec.getDouble("experience", 0.7), sec.getInt("cooking-time", 100));
+                    }
+                } else if (station == StationType.SMOKER) {
+                    ItemStack in = deserializeItemFromConfig(sec.getConfigurationSection("ingredient"));
+                    if (in != null) {
+                        bukkitRecipe = new SmokingRecipe(key, result, toRecipeChoice(in),
+                                (float) sec.getDouble("experience", 0.7), sec.getInt("cooking-time", 100));
+                    }
+                } else if (station == StationType.CAMPFIRE) {
+                    ItemStack in = deserializeItemFromConfig(sec.getConfigurationSection("ingredient"));
+                    if (in != null) {
+                        bukkitRecipe = new CampfireRecipe(key, result, toRecipeChoice(in),
+                                (float) sec.getDouble("experience", 0.7), sec.getInt("cooking-time", 600));
+                    }
+                } else if (station == StationType.SMITHING) {
+                    ItemStack t = deserializeItemFromConfig(sec.getConfigurationSection("template"));
+                    ItemStack b = deserializeItemFromConfig(sec.getConfigurationSection("base"));
+                    ItemStack a = deserializeItemFromConfig(sec.getConfigurationSection("addition"));
+                    if (t != null && b != null && a != null) {
+                        bukkitRecipe = new SmithingTransformRecipe(key, result, toRecipeChoice(t), toRecipeChoice(b), toRecipeChoice(a));
+                    }
+                } else if (station == StationType.STONECUTTER) {
+                    ItemStack in = deserializeItemFromConfig(sec.getConfigurationSection("ingredient"));
+                    if (in != null) {
+                        bukkitRecipe = new StonecuttingRecipe(key, result, toRecipeChoice(in));
+                    }
+                }
+
+                if (bukkitRecipe != null) {
+                    try {
+                        plugin.getServer().removeRecipe(key);
+                    } catch (Throwable ignored) {}
+
+                    if (plugin.getServer().addRecipe(bukkitRecipe)) {
+                        registeredBukkitKeys.add(key);
+                        loadedCount++;
+                    }
+                }
+            } catch (Exception e) {
+                plugin.getLogger().warning("[CustomCraft] Ошибка загрузки сохранённого рецепта '" + keyStr + "': " + e.getMessage());
+            }
+        }
+
+        plugin.getLogger().info("[CustomCraft] Загружено кастомных рецептов из recipes.yml: " + loadedCount);
+    }
+
+    // ===== СЕРИАЛИЗАЦИЯ И РАСПОЗНАВАНИЕ КАСТОМНЫХ ПРЕДМЕТОВ =====
+
+    public RecipeChoice toRecipeChoice(ItemStack item) {
+        if (item == null || item.getType() == Material.AIR) return null;
+
+        String customId = null;
+        if (plugin.getItemHandler() != null) {
+            customId = plugin.getItemHandler().getCustomItemId(item);
+        }
+
+        // Если это кастомный предмет Artifex или предмет с кастомным NBT / метой
+        if (customId != null || item.hasItemMeta()) {
+            ItemStack exact = item.clone();
+            exact.setAmount(1);
+            return new RecipeChoice.ExactChoice(exact);
+        }
+
+        // Обычный ванильный материал
+        return new RecipeChoice.MaterialChoice(item.getType());
+    }
+
+    private void serializeItemToConfig(ConfigurationSection sec, ItemStack item) {
+        if (item == null || item.getType() == Material.AIR) return;
+
+        String customId = null;
+        if (plugin.getItemHandler() != null) {
+            customId = plugin.getItemHandler().getCustomItemId(item);
+        }
+
+        sec.set("amount", item.getAmount());
+
+        if (customId != null) {
+            sec.set("custom-id", customId);
+        } else if (!item.hasItemMeta()) {
+            sec.set("material", item.getType().name());
+        } else {
+            sec.set("item-data", item.serialize());
+        }
+    }
+
+    private ItemStack deserializeItemFromConfig(ConfigurationSection sec) {
+        if (sec == null) return null;
+
+        int amount = sec.getInt("amount", 1);
+
+        if (sec.contains("custom-id")) {
+            String customId = sec.getString("custom-id");
+            if (plugin.getItemHandler() != null) {
+                CustomItem ci = plugin.getItemHandler().getCustomItem(customId);
+                if (ci != null) {
+                    ItemStack st = ci.getItemStack().clone();
+                    st.setAmount(amount);
+                    return st;
+                }
+            }
+            if (plugin.getApiItemRegistry() != null) {
+                AbstractCustomItem ai = plugin.getApiItemRegistry().getItem(customId);
+                if (ai != null) {
+                    ItemStack st = ai.createItemStack();
+                    st.setAmount(amount);
+                    return st;
+                }
+            }
+        }
+
+        if (sec.contains("item-data")) {
+            try {
+                ConfigurationSection dataSec = sec.getConfigurationSection("item-data");
+                if (dataSec != null) {
+                    ItemStack st = ItemStack.deserialize(dataSec.getValues(true));
+                    st.setAmount(amount);
+                    return st;
+                }
+            } catch (Exception ignored) {}
+        }
+
+        String matName = sec.getString("material", "STONE");
+        Material mat = EnumCache.getMaterial(matName);
+        if (mat == null) mat = Material.STONE;
+        return new ItemStack(mat, amount);
+    }
+
+    private boolean isItemSimilar(ItemStack a, ItemStack b) {
+        if (a == null || b == null) return false;
+        return a.isSimilar(b);
+    }
+
+    // ===== БЕЗОПАСНЫЙ ВОЗВРАТ ПРЕДМЕТОВ =====
+
+    private void returnBuilderItems(BuilderSession session) {
+        Player player = Bukkit.getPlayer(session.playerId);
+        if (player == null) return;
+
+        Inventory inv = session.inventory;
+        List<ItemStack> toReturn = new ArrayList<>();
+
+        if (session.station == StationType.WORKBENCH_SHAPED || session.station == StationType.WORKBENCH_SHAPELESS) {
+            for (int s : GRID_3X3_SLOTS) {
+                ItemStack st = inv.getItem(s);
+                if (st != null && st.getType() != Material.AIR) {
+                    toReturn.add(st);
+                    inv.setItem(s, null);
+                }
+            }
+        } else if (session.station == StationType.SMITHING) {
+            int[] smithSlots = { 19, 20, 21 };
+            for (int s : smithSlots) {
+                ItemStack st = inv.getItem(s);
+                if (st != null && st.getType() != Material.AIR) {
+                    toReturn.add(st);
+                    inv.setItem(s, null);
+                }
+            }
+        } else {
+            ItemStack in = inv.getItem(20);
+            if (in != null && in.getType() != Material.AIR) {
+                toReturn.add(in);
+                inv.setItem(20, null);
+            }
+        }
+
+        // Результат
+        ItemStack res = inv.getItem(25);
+        if (res != null && res.getType() != Material.AIR) {
+            toReturn.add(res);
+            inv.setItem(25, null);
+        }
+
+        giveOrDropItems(player, toReturn);
+    }
+
+    private void returnCraftItems(CraftView view) {
+        Player player = Bukkit.getPlayer(view.playerId);
+        if (player == null) return;
+
+        List<ItemStack> toReturn = new ArrayList<>();
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
-                if (grid[r][c] != null) return false;
+                int slot = gridSlot(r, c);
+                ItemStack st = view.inventory.getItem(slot);
+                if (st != null && st.getType() != Material.AIR) {
+                    toReturn.add(st);
+                    view.inventory.setItem(slot, null);
+                }
             }
         }
-        return true;
+        view.inventory.setItem(craftResultSlot, null);
+        giveOrDropItems(player, toReturn);
     }
 
-    /** Take the ingredients according to the recipe and give the result to the cursor. */
-    private void doCraft(CraftView view, Player player) {
-        CraftRecipe recipe = view.current;
-        if (recipe == null) return;
+    private void giveOrDropItems(Player player, List<ItemStack> items) {
+        if (items.isEmpty()) return;
+        Map<Integer, ItemStack> overflow = player.getInventory().addItem(items.toArray(new ItemStack[0]));
+        if (!overflow.isEmpty()) {
+            for (ItemStack drop : overflow.values()) {
+                player.getWorld().dropItemNaturally(player.getLocation(), drop);
+            }
+            player.sendMessage(colorize(config.getString("messages.inventory-full", "&cИнвентарь полон, предметы сброшены!")));
+        }
+    }
 
-        ItemStack resultPreview = view.inventory.getItem(resultSlot);
-        if (resultPreview == null) return;
+    // ===== ЛОГИКА ВИРТУАЛЬНОГО ВЕРСТАКА 3X3 =====
 
-        // Bukkit event: third-party plugins can cancel the craft
-        // or replace the item being given (getResult/setResult)
-        me.dcplugin.artifex.events.CustomItemCraftEvent craftEvent =
-                recipe.javaItem != null
-                        ? new me.dcplugin.artifex.events.CustomItemCraftEvent(player, recipe.javaItem, resultPreview.clone())
-                        : new me.dcplugin.artifex.events.CustomItemCraftEvent(player, recipe.item, resultPreview.clone());
-        plugin.getServer().getPluginManager().callEvent(craftEvent);
-        if (craftEvent.isCancelled()) return; // the ingredients stay in the grid
-        ItemStack result = craftEvent.getResult();
+    private void updateCraftResult(CraftView view) {
+        ItemStack[][] grid = buildGridFromView(view);
+        CraftRecipe match = null;
+
+        for (CraftRecipe recipe : virtualRecipes) {
+            if (recipe.matches(grid)) {
+                match = recipe;
+                break;
+            }
+        }
+
+        view.currentRecipe = match;
+        if (match != null) {
+            view.inventory.setItem(craftResultSlot, match.createResult(plugin));
+        } else {
+            view.inventory.setItem(craftResultSlot, null);
+        }
+    }
+
+    private void handleCraftResultClick(Player player, CraftView view, ClickType click) {
+        if (view.currentRecipe == null) return;
+
+        ItemStack result = view.inventory.getItem(craftResultSlot);
+        if (result == null || result.getType() == Material.AIR) return;
 
         ItemStack cursor = player.getItemOnCursor();
         if (cursor != null && cursor.getType() != Material.AIR) {
-            if (!cursor.isSimilar(result) || cursor.getAmount() + result.getAmount() > cursor.getMaxStackSize()) {
-                player.sendMessage(colorize("&cFree up your cursor!"));
+            if (!isItemSimilar(cursor, result) || (cursor.getAmount() + result.getAmount() > cursor.getMaxStackSize())) {
                 return;
             }
         }
 
-        ItemStack[][] grid = readGrid(view.inventory);
-        // We try to consume the ingredients (it must match, since the recipe was found)
-        if (!recipe.consume(grid)) {
-            view.inventory.setItem(resultSlot, null);
-            view.current = null;
-            return;
+        // Потребляем 1 порцию каждого ингредиента в сетке
+        for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 3; c++) {
+                int slot = gridSlot(r, c);
+                ItemStack st = view.inventory.getItem(slot);
+                if (st != null && st.getType() != Material.AIR) {
+                    if (st.getAmount() > 1) {
+                        st.setAmount(st.getAmount() - 1);
+                    } else {
+                        view.inventory.setItem(slot, null);
+                    }
+                }
+            }
         }
-        writeGrid(view.inventory, grid);
 
+        // Выдаем результат
         if (cursor == null || cursor.getType() == Material.AIR) {
             player.setItemOnCursor(result.clone());
         } else {
@@ -311,327 +1347,251 @@ public class customcraftModule extends Module implements Listener, CommandExecut
             player.setItemOnCursor(cursor);
         }
 
-        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1.5f);
-        player.sendMessage(colorize(config.getString("messages.crafted", "&aItem crafted!")));
-        updateResult(view);
+        player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 0.8f, 1.3f);
+        updateCraftResult(view);
     }
 
-    private void returnItems(CraftView view) {
-        Player player = Bukkit.getPlayer(view.playerId);
-        if (player == null) return;
-        ItemStack[][] grid = readGrid(view.inventory);
+    private ItemStack[][] buildGridFromView(CraftView view) {
+        ItemStack[][] grid = new ItemStack[3][3];
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
-                if (grid[r][c] != null) {
-                    HashMap<Integer, ItemStack> left = player.getInventory().addItem(grid[r][c]);
-                    for (ItemStack drop : left.values()) {
-                        player.getWorld().dropItemNaturally(player.getLocation(), drop);
-                    }
-                    grid[r][c] = null;
-                }
+                grid[r][c] = view.inventory.getItem(gridSlot(r, c));
             }
         }
-        writeGrid(view.inventory, grid);
-        view.inventory.setItem(resultSlot, null);
+        return grid;
     }
 
-    // ===== EVENTS =====
+    // ===== СЛОТЫ И РАЗМЕТКА =====
 
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
-        if (!(event.getWhoClicked() instanceof Player)) return;
-        CraftView view = viewOf(event.getView().getTopInventory());
-        if (view == null) return;
+    private static final int[] GRID_3X3_SLOTS = { 10, 11, 12, 19, 20, 21, 28, 29, 30 };
 
-        Player player = (Player) event.getWhoClicked();
-        event.setCancelled(true); // full manual control (by cursor)
+    private boolean isAllowedBuilderSlot(StationType station, int slot) {
+        if (slot == 25) return true; // Слот результата разрешен для всех
 
-        int rawSlot = event.getRawSlot();
-        int topSize = event.getView().getTopInventory().getSize();
-        if (rawSlot < 0) return;
-
-        if (rawSlot < topSize) {
-            // Click on the top window: the grid or the result
-            if (isGridSlot(rawSlot)) {
-                handleSlotSwap(view.inventory, rawSlot);
-                updateResult(view);
-            } else if (rawSlot == resultSlot) {
-                doCraft(view, player);
+        if (station == StationType.WORKBENCH_SHAPED || station == StationType.WORKBENCH_SHAPELESS) {
+            for (int s : GRID_3X3_SLOTS) {
+                if (s == slot) return true;
             }
-            return;
-        }
-
-        // Click on the bottom (the player's inventory): we take/place items with the cursor
-        int rel = rawSlot - topSize;
-        if (rel >= 0 && rel < event.getView().getBottomInventory().getSize()) {
-            handleSlotSwap(event.getView().getBottomInventory(), rel);
-        }
-    }
-
-    @EventHandler
-    public void onInventoryDrag(InventoryDragEvent event) {
-        if (event.getWhoClicked() instanceof Player) {
-            CraftView view = viewOf(event.getView().getTopInventory());
-            if (view != null) event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onInventoryClose(InventoryCloseEvent event) {
-        if (!(event.getPlayer() instanceof Player)) return;
-        CraftView view = viewOf(event.getInventory());
-        if (view == null) return;
-        openViews.remove(view.playerId);
-        if (returnOnClose) {
-            returnItems(view);
+            return false;
+        } else if (station == StationType.SMITHING) {
+            return slot == 19 || slot == 20 || slot == 21;
         } else {
-            // We still clear the virtual result
-            view.inventory.setItem(resultSlot, null);
+            return slot == 20; // Одиночный входной слот
         }
     }
 
-    @EventHandler
-    public void onQuit(PlayerQuitEvent event) {
-        CraftView view = openViews.remove(event.getPlayer().getUniqueId());
-        if (view != null) returnItems(view);
+    private boolean isGridSlot(int slot) {
+        int row = slot / 9;
+        int col = slot % 9;
+        return row >= 0 && row <= 2 && col >= 0 && col <= 2;
     }
 
-    /**
-     * Universal cursor swap: take / place / stack / exchange.
-     * Works for the grid (top window) and for the player's inventory (bottom).
-     */
-    private void handleSlotSwap(Inventory inv, int slot) {
-        Player player = playerOf(inv);
-        if (player == null) return;
-        ItemStack cursor = player.getItemOnCursor();
-        ItemStack slotItem = inv.getItem(slot);
+    private int gridSlot(int row, int col) {
+        return row * 9 + col;
+    }
 
-        if (slotItem == null) {
-            if (cursor != null && cursor.getType() != Material.AIR) {
-                inv.setItem(slot, cursor.clone());
-                player.setItemOnCursor(null);
+    private void fillBorder(Inventory inv) {
+        ItemStack filler = createFiller();
+        for (int i = 0; i < inv.getSize(); i++) {
+            inv.setItem(i, filler);
+        }
+    }
+
+    private void fillBorder54(Inventory inv) {
+        ItemStack filler = createFiller();
+        for (int i = 0; i < inv.getSize(); i++) {
+            inv.setItem(i, filler);
+        }
+    }
+
+    private ItemStack createFiller() {
+        ItemStack item = new ItemStack(fillerMaterial);
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName(" ");
+            item.setItemMeta(meta);
+        }
+        return item;
+    }
+
+    private ItemStack createGuiItem(Material mat, String name, String... lore) {
+        ItemStack item = new ItemStack(mat != null ? mat : Material.STONE);
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName(colorize(name));
+            if (lore != null && lore.length > 0) {
+                List<String> list = new ArrayList<>();
+                for (String l : lore) list.add(colorize(l));
+                meta.setLore(list);
             }
-        } else if (cursor == null || cursor.getType() == Material.AIR) {
-            // Take the item onto the cursor
-            inv.setItem(slot, null);
-            player.setItemOnCursor(slotItem);
-        } else if (cursor.isSimilar(slotItem)
-                && cursor.getAmount() + slotItem.getAmount() <= cursor.getMaxStackSize()) {
-            // Stack the stacks
-            inv.setItem(slot, null);
-            cursor.setAmount(cursor.getAmount() + slotItem.getAmount());
-            player.setItemOnCursor(cursor);
-        } else {
-            // Swap the places
-            inv.setItem(slot, cursor.clone());
-            player.setItemOnCursor(slotItem);
+            item.setItemMeta(meta);
         }
+        return item;
     }
 
-    private Player playerOf(Inventory inv) {
-        if (inv.getHolder() instanceof CraftHolder) {
-            return Bukkit.getPlayer(((CraftHolder) inv.getHolder()).playerId);
-        }
-        // The player's bottom inventory: the holder is the Player itself
-        org.bukkit.inventory.InventoryHolder holder = inv.getHolder();
-        if (holder instanceof Player) return (Player) holder;
-        return null;
+    private void playErrorSound(Player player) {
+        try {
+            player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+        } catch (Throwable ignored) {}
     }
 
-    // ===== UTILS =====
+    private String colorize(String text) {
+        return ColorUtils.colorize(text);
+    }
 
-    private Map<String, Object> asMap(Object value) {
-        if (value instanceof Map) {
+    private Map<String, Object> asMap(Object obj) {
+        if (obj instanceof Map) {
             @SuppressWarnings("unchecked")
-            Map<String, Object> map = (Map<String, Object>) value;
+            Map<String, Object> map = (Map<String, Object>) obj;
             return map;
         }
         return null;
     }
 
-    private String colorize(String msg) {
-        return msg == null ? "" : msg.replace("&", "§");
+    private List<String> filterPrefix(List<String> list, String prefix) {
+        List<String> res = new ArrayList<>();
+        String lower = prefix.toLowerCase(Locale.ROOT);
+        for (String s : list) {
+            if (s.toLowerCase(Locale.ROOT).startsWith(lower)) res.add(s);
+        }
+        return res;
     }
 
-    // ===== RECIPE MODEL =====
+    // ===== ВСПОМОГАТЕЛЬНЫЕ КЛАССЫ И ENUM =====
 
-    static final class CraftRecipe {
-        final Main plugin;
-        final CustomItem item;              // null for Java API items
-        final AbstractCustomItem javaItem;  // null for YAML items
-        final int amount;
-        final boolean shaped;
-        // shaped: 3x3 character matrix (' ' = empty)
-        final char[][] matrix;
-        final Map<Character, String> keyMap;
-        // shapeless: a multiset of ingredients (identity -> count)
-        final Map<String, Integer> ingredients;
+    public enum GuiType {
+        MAIN_MENU,
+        STATION_CHOOSER,
+        BUILDER,
+        VIRTUAL_WORKBENCH,
+        RECIPE_CATALOG
+    }
 
-        private CraftRecipe(Main plugin, CustomItem item, AbstractCustomItem javaItem, int amount,
-                            boolean shaped, char[][] matrix, Map<Character, String> keyMap,
-                            Map<String, Integer> ingredients) {
+    public enum StationType {
+        WORKBENCH_SHAPED("Форменный верстак (3x3)", Material.CRAFTING_TABLE),
+        WORKBENCH_SHAPELESS("Бесформенный верстак", Material.FIREWORK_STAR),
+        FURNACE("Обычная печь", Material.FURNACE),
+        BLAST_FURNACE("Плавильня", Material.BLAST_FURNACE),
+        SMOKER("Коптильня", Material.SMOKER),
+        CAMPFIRE("Костёр", Material.CAMPFIRE),
+        SMITHING("Кузнечный стол", Material.SMITHING_TABLE),
+        STONECUTTER("Камнерез", Material.STONECUTTER);
+
+        public final String displayName;
+        public final Material icon;
+
+        StationType(String displayName, Material icon) {
+            this.displayName = displayName;
+            this.icon = icon;
+        }
+    }
+
+    public static class CraftHolder implements InventoryHolder {
+        public final UUID playerId;
+        public final GuiType guiType;
+        public final StationType stationType;
+        public final int page;
+
+        public CraftHolder(UUID playerId, GuiType guiType, StationType stationType, int page) {
+            this.playerId = playerId;
+            this.guiType = guiType;
+            this.stationType = stationType;
+            this.page = page;
+        }
+
+        @Override
+        public Inventory getInventory() { return null; }
+    }
+
+    public static class BuilderSession {
+        public final UUID playerId;
+        public final StationType station;
+        public final Inventory inventory;
+        public int cookingTime = 200; // 10 секунд
+        public float experience = 0.7f;
+
+        public BuilderSession(UUID playerId, StationType station, Inventory inventory) {
+            this.playerId = playerId;
+            this.station = station;
+            this.inventory = inventory;
+        }
+    }
+
+    public static class CraftView {
+        public final UUID playerId;
+        public final Inventory inventory;
+        public CraftRecipe currentRecipe = null;
+
+        public CraftView(UUID playerId, Inventory inventory) {
+            this.playerId = playerId;
+            this.inventory = inventory;
+        }
+    }
+
+    // ===== КЛАСС РЕЦЕПТА ДЛЯ ВИРТУАЛЬНОГО ВЕРСТАКА =====
+
+    public static class CraftRecipe {
+        public final Main plugin;
+        public final CustomItem customItem;
+        public final AbstractCustomItem javaItem;
+        public final int amount;
+        public final boolean isShaped;
+        public final ItemStack[][] shapedMatrix;
+        public final Map<Character, RecipeChoice> shapedKeys;
+        public final List<RecipeChoice> shapelessIngredients;
+        public final ItemStack customResult;
+
+        public CraftRecipe(Main plugin, CustomItem customItem, AbstractCustomItem javaItem,
+                           int amount, boolean isShaped, ItemStack[][] shapedMatrix,
+                           Map<Character, RecipeChoice> shapedKeys, List<RecipeChoice> shapelessIngredients,
+                           ItemStack customResult) {
             this.plugin = plugin;
-            this.item = item;
+            this.customItem = customItem;
             this.javaItem = javaItem;
-            this.amount = amount;
-            this.shaped = shaped;
-            this.matrix = matrix;
-            this.keyMap = keyMap;
-            this.ingredients = ingredients;
+            this.amount = Math.max(1, amount);
+            this.isShaped = isShaped;
+            this.shapedMatrix = shapedMatrix;
+            this.shapedKeys = shapedKeys;
+            this.shapelessIngredients = shapelessIngredients;
+            this.customResult = customResult;
         }
 
-        /**
-         * The crafting result: a stable ItemStack of the source item
-         * (YAML: uses + acquired-time; Java API: createItemStack).
-         * null, if the item disappeared from the registry after /ci reload.
-         */
-        ItemStack buildResult() {
-            if (javaItem != null) {
-                if (plugin.getApiItemRegistry().getItem(javaItem.getId()) == null) return null;
-                ItemStack result = javaItem.createItemStack();
-                result.setAmount(Math.max(1, amount));
-                return result;
-            }
-            if (item == null || plugin.getItemHandler().getCustomItem(item.getId()) == null) return null;
-            ItemStack result = item.getItemStack().clone();
-            result.setAmount(Math.max(1, amount));
-            // Stable initialization: uses + acquisition time (duration)
-            plugin.getItemHandler().updateItemWithUses(result);
-            plugin.getItemHandler().ensureAcquiredTime(result);
-            return result;
+        public ItemStack getResultPreview() {
+            if (customResult != null) return customResult.clone();
+            if (customItem != null) return customItem.getItemStack().clone();
+            if (javaItem != null) return javaItem.createItemStack();
+            return null;
         }
 
-        static CraftRecipe parseShaped(Main plugin, CustomItem item, Map<String, Object> recipe) {
-            if (recipe == null) return null;
-            Object patternObj = recipe.get("pattern");
-            Object keysObj = recipe.get("keys");
-            if (!(patternObj instanceof List) || !(keysObj instanceof Map)) return null;
-
-            List<String> pattern = new ArrayList<>();
-            for (Object o : (List<?>) patternObj) pattern.add(String.valueOf(o));
-            if (pattern.isEmpty() || pattern.size() > 3) return null;
-
-            int width = pattern.get(0).length();
-            if (width < 1 || width > 3) return null;
-            for (String row : pattern) {
-                if (row.length() != width) return null; // all rows of the same length
+        public ItemStack createResult(Main plugin) {
+            ItemStack res = getResultPreview();
+            if (res != null) {
+                res = res.clone();
+                res.setAmount(this.amount);
             }
-
-            Map<Character, String> keyMap = new HashMap<>();
-            for (Map.Entry<?, ?> entry : ((Map<?, ?>) keysObj).entrySet()) {
-                String k = String.valueOf(entry.getKey());
-                if (k.isEmpty()) continue;
-                keyMap.put(k.charAt(0), String.valueOf(entry.getValue()));
-            }
-
-            // Normalize to 3x3 (aligned to the top-left corner)
-            char[][] matrix = new char[3][3];
-            for (int r = 0; r < 3; r++) {
-                for (int c = 0; c < 3; c++) {
-                    matrix[r][c] = ' ';
-                }
-            }
-            for (int r = 0; r < pattern.size(); r++) {
-                for (int c = 0; c < width; c++) {
-                    char ch = pattern.get(r).charAt(c);
-                    matrix[r][c] = ch;
-                    if (ch != ' ' && !keyMap.containsKey(ch)) {
-                        return null; // a key without an ingredient
-                    }
-                }
-            }
-            return new CraftRecipe(plugin, item, null, intValue(recipe.get("amount"), 1), true, matrix, keyMap, null);
+            return res;
         }
 
-        static CraftRecipe parseShapeless(Main plugin, CustomItem item, Map<String, Object> recipe) {
-            if (recipe == null) return null;
-            Object ingredientsObj = recipe.get("ingredients");
-            if (!(ingredientsObj instanceof List)) return null;
-
-            Map<String, Integer> ingredients = new LinkedHashMap<>();
-            for (Object o : (List<?>) ingredientsObj) {
-                String raw = String.valueOf(o);
-                ingredients.put(raw, ingredients.getOrDefault(raw, 0) + 1);
+        public boolean matches(ItemStack[][] grid) {
+            if (isShaped) {
+                return matchesShaped(grid);
+            } else {
+                return matchesShapeless(grid);
             }
-            if (ingredients.isEmpty()) return null;
-
-            return new CraftRecipe(plugin, item, null, intValue(recipe.get("amount"), 1), false,
-                    null, null, ingredients);
-        }
-
-        /**
-         * Java API recipe (RecipeDef from getRecipes()). A furnace is not
-         * needed in the GUI grid — it works in a normal furnace via RecipeManager.
-         */
-        static CraftRecipe parseJava(Main plugin, AbstractCustomItem javaItem, RecipeDef def) {
-            if (def == null) return null;
-
-            if (def.getType() == RecipeDef.Type.SHAPED) {
-                List<String> pattern = def.getPattern();
-                if (pattern.isEmpty() || pattern.size() > 3) return null;
-                int width = pattern.get(0).length();
-                if (width < 1 || width > 3) return null;
-                for (String row : pattern) {
-                    if (row.length() != width) return null; // all rows of the same length
-                }
-
-                Map<Character, String> keyMap = new HashMap<>();
-                for (Map.Entry<Character, String> entry : def.getKeys().entrySet()) {
-                    if (entry.getKey() == null || entry.getKey() == ' ') continue;
-                    keyMap.put(entry.getKey(), entry.getValue());
-                }
-
-                // Normalize to 3x3 (aligned to the top-left corner)
-                char[][] matrix = new char[3][3];
-                for (int r = 0; r < 3; r++) {
-                    for (int c = 0; c < 3; c++) {
-                        matrix[r][c] = ' ';
-                    }
-                }
-                for (int r = 0; r < pattern.size(); r++) {
-                    for (int c = 0; c < width; c++) {
-                        char ch = pattern.get(r).charAt(c);
-                        matrix[r][c] = ch;
-                        if (ch != ' ' && !keyMap.containsKey(ch)) {
-                            return null; // a key without an ingredient
-                        }
-                    }
-                }
-                return new CraftRecipe(plugin, null, javaItem, def.getAmount(), true, matrix, keyMap, null);
-            }
-
-            if (def.getType() == RecipeDef.Type.SHAPELESS) {
-                Map<String, Integer> ingredients = new LinkedHashMap<>();
-                for (String ing : def.getIngredients()) {
-                    ingredients.put(ing, ingredients.getOrDefault(ing, 0) + 1);
-                }
-                if (ingredients.isEmpty()) return null;
-                return new CraftRecipe(plugin, null, javaItem, def.getAmount(), false,
-                        null, null, ingredients);
-            }
-
-            return null; // furnace
-        }
-
-        static int intValue(Object value, int def) {
-            if (value instanceof Number) return ((Number) value).intValue();
-            return def;
-        }
-
-        boolean matches(ItemStack[][] grid) {
-            if (shaped) return matchesShaped(grid);
-            return matchesShapeless(grid);
         }
 
         private boolean matchesShaped(ItemStack[][] grid) {
+            if (shapedMatrix == null) return false;
             for (int r = 0; r < 3; r++) {
                 for (int c = 0; c < 3; c++) {
-                    char ch = matrix[r][c];
-                    ItemStack stack = grid[r][c];
-                    if (ch == ' ') {
-                        if (stack != null) return false;
+                    ItemStack expected = shapedMatrix[r][c];
+                    ItemStack actual = grid[r][c];
+
+                    if (expected == null || expected.getType() == Material.AIR) {
+                        if (actual != null && actual.getType() != Material.AIR) return false;
                     } else {
-                        if (!matchesIngredient(keyMap.get(ch), stack)) return false;
+                        if (actual == null || actual.getType() == Material.AIR) return false;
+                        if (!matchesChoice(expected, actual)) return false;
                     }
                 }
             }
@@ -639,116 +1599,150 @@ public class customcraftModule extends Module implements Listener, CommandExecut
         }
 
         private boolean matchesShapeless(ItemStack[][] grid) {
-            Map<String, Integer> found = new HashMap<>();
+            if (shapelessIngredients == null) return false;
+
+            List<ItemStack> actualItems = new ArrayList<>();
             for (int r = 0; r < 3; r++) {
                 for (int c = 0; c < 3; c++) {
-                    ItemStack stack = grid[r][c];
-                    if (stack == null) continue;
-                    String identity = ingredientIdentityOf(stack);
-                    found.put(identity, found.getOrDefault(identity, 0) + 1);
+                    ItemStack st = grid[r][c];
+                    if (st != null && st.getType() != Material.AIR) actualItems.add(st);
                 }
             }
-            if (found.size() != ingredients.size()) return false;
-            for (Map.Entry<String, Integer> need : ingredients.entrySet()) {
-                if (!need.getValue().equals(found.get(identityOfRaw(need.getKey())))) return false;
+
+            if (actualItems.size() != shapelessIngredients.size()) return false;
+
+            boolean[] matched = new boolean[actualItems.size()];
+            for (RecipeChoice choice : shapelessIngredients) {
+                boolean found = false;
+                for (int i = 0; i < actualItems.size(); i++) {
+                    if (!matched[i] && choice.test(actualItems.get(i))) {
+                        matched[i] = true;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) return false;
             }
             return true;
         }
 
-        /** Consume the ingredients. Returns false if the grid no longer matches. */
-        boolean consume(ItemStack[][] grid) {
-            if (shaped) {
-                for (int r = 0; r < 3; r++) {
-                    for (int c = 0; c < 3; c++) {
-                        char ch = matrix[r][c];
-                        if (ch == ' ') continue;
-                        if (!matchesIngredient(keyMap.get(ch), grid[r][c])) return false;
-                        decrement(grid, r, c);
+        private boolean matchesChoice(ItemStack expected, ItemStack actual) {
+            String expectedCustom = plugin.getItemHandler() != null ? plugin.getItemHandler().getCustomItemId(expected) : null;
+            String actualCustom = plugin.getItemHandler() != null ? plugin.getItemHandler().getCustomItemId(actual) : null;
+
+            if (expectedCustom != null) {
+                return expectedCustom.equalsIgnoreCase(actualCustom);
+            }
+            if (expected.hasItemMeta()) {
+                return expected.isSimilar(actual);
+            }
+            return expected.getType() == actual.getType();
+        }
+
+        public static CraftRecipe parseShaped(Main plugin, CustomItem item, Map<String, Object> map) {
+            if (map == null) return null;
+            try {
+                Object patternObj = map.get("pattern");
+                Object keysObj = map.get("keys");
+                if (!(patternObj instanceof List) || !(keysObj instanceof Map)) return null;
+
+                List<?> pattern = (List<?>) patternObj;
+                Map<?, ?> keys = (Map<?, ?>) keysObj;
+                ItemStack[][] matrix = new ItemStack[3][3];
+                Map<Character, RecipeChoice> keyChoices = new HashMap<>();
+
+                for (int r = 0; r < Math.min(3, pattern.size()); r++) {
+                    String row = String.valueOf(pattern.get(r));
+                    for (int c = 0; c < Math.min(3, row.length()); c++) {
+                        char ch = row.charAt(c);
+                        if (ch != ' ' && keys.containsKey(String.valueOf(ch))) {
+                            String ingStr = String.valueOf(keys.get(String.valueOf(ch)));
+                            ItemStack ing = resolveIngredientStack(plugin, ingStr);
+                            if (ing != null) {
+                                matrix[r][c] = ing;
+                                keyChoices.put(ch, new RecipeChoice.ExactChoice(ing));
+                            }
+                        }
                     }
                 }
-                return true;
-            }
 
-            // shapeless: we write off one by one until all the requirements are covered
-            Map<String, Integer> remaining = new HashMap<>(ingredients);
-            for (int r = 0; r < 3; r++) {
-                for (int c = 0; c < 3; c++) {
-                    ItemStack stack = grid[r][c];
-                    if (stack == null) continue;
-                    String identity = ingredientIdentityOf(stack);
-                    Integer need = remaining.get(identity);
-                    if (need != null && need > 0) {
-                        remaining.put(identity, need - 1);
-                        decrement(grid, r, c);
-                    }
+                int amt = map.containsKey("amount") ? ((Number) map.get("amount")).intValue() : 1;
+                return new CraftRecipe(plugin, item, null, amt, true, matrix, keyChoices, null, null);
+            } catch (Exception ignored) {
+                return null;
+            }
+        }
+
+        public static CraftRecipe parseShapeless(Main plugin, CustomItem item, Map<String, Object> map) {
+            if (map == null) return null;
+            try {
+                Object ingObj = map.get("ingredients");
+                if (!(ingObj instanceof List)) return null;
+                List<?> ings = (List<?>) ingObj;
+                List<RecipeChoice> choices = new ArrayList<>();
+
+                for (Object o : ings) {
+                    ItemStack st = resolveIngredientStack(plugin, String.valueOf(o));
+                    if (st != null) choices.add(new RecipeChoice.ExactChoice(st));
                 }
-            }
-            for (Integer value : remaining.values()) {
-                if (value > 0) return false;
-            }
-            return true;
-        }
 
-        private void decrement(ItemStack[][] grid, int r, int c) {
-            ItemStack stack = grid[r][c];
-            if (stack.getAmount() > 1) {
-                stack.setAmount(stack.getAmount() - 1);
-            } else {
-                grid[r][c] = null;
+                int amt = map.containsKey("amount") ? ((Number) map.get("amount")).intValue() : 1;
+                return new CraftRecipe(plugin, item, null, amt, false, null, null, choices, null);
+            } catch (Exception ignored) {
+                return null;
             }
         }
 
-        /** Whether the stack matches the ingredient. */
-        private boolean matchesIngredient(String raw, ItemStack stack) {
-            if (raw == null || stack == null) return false;
-            String identity = identityOfRaw(raw);
-            if (identity.startsWith("material:")) {
-                Material material = EnumCache.getMaterial(raw);
-                return material != null && stack.getType() == material;
-            }
-            // custom item: we compare the PDC identity (dcustomitems:<id>)
-            // case-insensitive — both YAML and Java API items are matched by ID
-            String customId = plugin.getItemHandler().getCustomItemId(stack);
-            return customId != null && identity.substring("custom:".length()).equalsIgnoreCase(customId);
-        }
+        public static CraftRecipe parseJava(Main plugin, AbstractCustomItem javaItem, RecipeDef def) {
+            if (def == null) return null;
+            try {
+                if (def.getType() == RecipeDef.Type.SHAPED) {
+                    List<String> pattern = def.getPattern();
+                    Map<Character, String> keys = def.getKeys();
+                    ItemStack[][] matrix = new ItemStack[3][3];
+                    Map<Character, RecipeChoice> keyChoices = new HashMap<>();
 
-        /** Identity of a raw ingredient: material:X or custom:<id>. */
-        private String identityOfRaw(String raw) {
-            if (raw == null) return "";
-            Material material = EnumCache.getMaterial(raw);
-            if (material != null) return "material:" + material.name();
-            return "custom:" + raw.toLowerCase();
-        }
-
-        /** Identity of a stack based on its real content. */
-        private String ingredientIdentityOf(ItemStack stack) {
-            String customId = plugin.getItemHandler().getCustomItemId(stack);
-            if (customId != null) return "custom:" + customId;
-            return "material:" + stack.getType().name();
-        }
-    }
-
-    // ===== HOLDER / VIEW =====
-
-    static class CraftHolder implements InventoryHolder {
-        final UUID playerId;
-        CraftHolder(UUID playerId) {
-            this.playerId = playerId;
-        }
-        @Override
-        public Inventory getInventory() {
+                    for (int r = 0; r < Math.min(3, pattern.size()); r++) {
+                        String row = pattern.get(r);
+                        for (int c = 0; c < Math.min(3, row.length()); c++) {
+                            char ch = row.charAt(c);
+                            if (ch != ' ' && keys.containsKey(ch)) {
+                                String ingStr = keys.get(ch);
+                                ItemStack ing = resolveIngredientStack(plugin, ingStr);
+                                if (ing != null) {
+                                    matrix[r][c] = ing;
+                                    keyChoices.put(ch, new RecipeChoice.ExactChoice(ing));
+                                }
+                            }
+                        }
+                    }
+                    return new CraftRecipe(plugin, null, javaItem, def.getAmount(), true, matrix, keyChoices, null, null);
+                } else if (def.getType() == RecipeDef.Type.SHAPELESS) {
+                    List<RecipeChoice> choices = new ArrayList<>();
+                    for (String ingStr : def.getIngredients()) {
+                        ItemStack ing = resolveIngredientStack(plugin, ingStr);
+                        if (ing != null) choices.add(new RecipeChoice.ExactChoice(ing));
+                    }
+                    return new CraftRecipe(plugin, null, javaItem, def.getAmount(), false, null, null, choices, null);
+                }
+            } catch (Exception ignored) {}
             return null;
         }
-    }
 
-    static final class CraftView {
-        final UUID playerId;
-        final Inventory inventory;
-        CraftRecipe current;
+        private static ItemStack resolveIngredientStack(Main plugin, String raw) {
+            if (raw == null || raw.isEmpty()) return null;
+            Material mat = EnumCache.getMaterial(raw);
+            if (mat != null) return new ItemStack(mat);
 
-        CraftView(UUID playerId, Inventory inventory) {
-            this.playerId = playerId;
-            this.inventory = inventory;
+            if (plugin.getItemHandler() != null) {
+                CustomItem ci = plugin.getItemHandler().getCustomItem(raw);
+                if (ci != null) return ci.getItemStack().clone();
+            }
+            if (plugin.getApiItemRegistry() != null) {
+                AbstractCustomItem ai = plugin.getApiItemRegistry().getItem(raw);
+                if (ai != null) return ai.createItemStack();
+            }
+            return null;
         }
     }
 }

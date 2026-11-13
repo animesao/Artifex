@@ -1,41 +1,44 @@
 # ============================================
-# 🛠 CustomCraft — GUI crafting of custom items
+# 🛠 CustomCraft — Мастерская кастомных крафтов
 # ============================================
-# Module: custom crafting through a virtual crafting table.
-# Takes the recipes from the `recipes` YAML section of all custom items
-# (shaped / shapeless) and lets you craft them in the GUI.
+# Модуль: визуальный верстак, выбор станций крафта и
+# внутриигровой конструктор кастомных рецептов с поддержкой
+# любых кастомных предметов Artifex и других плагинов.
 #
-# Item identity is based on PDC (PersistentDataContainer / NBT):
-#   - custom items are matched by their ID (not by name/material);
-#   - ingredients from other plugins are matched by material, their NBT is not spoiled;
-#   - the finished item gets the correct uses/duration through ItemHandler.
-#
-# Disabling: delete the items/customcraft/ folder or set enabled: false.
+# Отключение: удалите папку items/customcraft/ или установите enabled: false.
 
 name: "CustomCraft"
-version: "1.0"
+version: "2.0"
 enabled: true
 
-# Module command
+# Команды модуля
 command: craft
+commands:
+  - craft
 
-# Permission (empty = no restrictions)
+# Права
 permission: dci.craft
+admin-permission: dci.craft.admin
 
-# GUI settings
+# Настройки GUI
 gui:
-  # Window title
-  title: "&8\u2692 CustomCraft"
-  # Background material
+  main-title: "&8⚒ &lМастерская Крафта"
+  station-chooser-title: "&8⚙ &lВыберите станцию крафта"
+  builder-title: "&8✨ &lКонструктор: &e{station}"
+  craft-title: "&8⚒ &lВиртуальный верстак"
+  catalog-title: "&8📖 &lКаталог рецептов"
   filler: GRAY_STAINED_GLASS_PANE
-  # Result slot (in the 27-slot chest)
-  result-slot: 22
-  # Return the items from the grid when the window is closed
+  result-slot: 15
   return-items-on-close: true
 
-# Messages
+# Сообщения
 messages:
-  no-recipes: "&cYou have no available recipes."
-  no-permission: "&cYou do not have permission for /craft!"
-  crafted: "&aItem crafted!"
-  inventory-full: "&cInventory is full!"
+  no-permission: "&cУ вас нет прав для использования /craft!"
+  no-admin-permission: "&cУ вас нет прав для создания кастомных рецептов!"
+  recipe-saved: "&a✔ Рецепт для станции &e{station} &aуспешно создан и добавлен на сервер!"
+  recipe-error-no-ingredients: "&cОшибка: добавьте хотя бы один ингредиент в сетку!"
+  recipe-error-no-result: "&cОшибка: поместите результат крафта в слот результата!"
+  recipe-canceled: "&eСоздание рецепта отменено. Все предметы возвращены."
+  no-recipes: "&cПока нет доступных кастомных рецептов."
+  crafted: "&aПредмет успешно создан!"
+  inventory-full: "&cИнвентарь полон, предметы сброшены на землю!"
