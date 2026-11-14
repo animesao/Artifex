@@ -35,11 +35,24 @@ public class CommandRegistrar {
             if (commandMap == null) return;
 
             CustomCommandExecutor executor = new CustomCommandExecutor(registry);
+            Map<String, Command> knownCommands = CommandMapAccessor.getKnownCommands(commandMap);
+            String prefix = plugin.getName().toLowerCase(Locale.ROOT);
 
             for (CustomCommand cmd : registry.getAllCommands().values()) {
                 Command bukkitCmd = createBukkitCommand(cmd, executor);
                 bukkitCmd.setPermission(cmd.getPermission());
                 commandMap.register(plugin.getName(), bukkitCmd);
+
+                // Ensure primary name and aliases take precedence in knownCommands
+                if (knownCommands != null) {
+                    knownCommands.put(cmd.getName().toLowerCase(Locale.ROOT), bukkitCmd);
+                    knownCommands.put(prefix + ":" + cmd.getName().toLowerCase(Locale.ROOT), bukkitCmd);
+                    for (String alias : cmd.getAliases()) {
+                        knownCommands.put(alias.toLowerCase(Locale.ROOT), bukkitCmd);
+                        knownCommands.put(prefix + ":" + alias.toLowerCase(Locale.ROOT), bukkitCmd);
+                    }
+                }
+
                 dynamicCommands.add(bukkitCmd);
                 plugin.getLogger().info("[API] Registered command: /" + cmd.getName());
             }

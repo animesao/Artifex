@@ -274,14 +274,50 @@ public class CustomItemHandler {
 
     /**
      * Set the acquisition time of the item (if not set yet).
+     * If the item does not have a duration, strips any acquired time tag
+     * so that identical items can stack cleanly in inventories and on the ground.
      *
      * @return true if the item was changed
      */
     public boolean ensureAcquiredTime(ItemStack itemStack) {
         if (itemStack == null || !itemStack.hasItemMeta()) return false;
+        String itemId = getCustomItemId(itemStack);
+        if (itemId == null) return false;
+
+        boolean hasDuration = false;
+        CustomItem customItem = getCustomItem(itemId);
+        if (customItem != null && customItem.hasDuration()) {
+            hasDuration = true;
+        } else if (plugin.getApiItemRegistry() != null) {
+            var apiItem = plugin.getApiItemRegistry().getItem(itemId);
+            if (apiItem != null && apiItem.getDuration() > 0) {
+                hasDuration = true;
+            }
+        }
+
         ItemMeta meta = itemStack.getItemMeta();
         if (meta == null) return false;
         var pdc = meta.getPersistentDataContainer();
+
+        if (!hasDuration) {
+            boolean changed = false;
+            if (pdc.has(acquiredTimeKey, PersistentDataType.LONG)) {
+                pdc.remove(acquiredTimeKey);
+                changed = true;
+            }
+            for (NamespacedKey legacyKey : legacyAcquiredTimeKeys) {
+                if (pdc.has(legacyKey, PersistentDataType.LONG)) {
+                    pdc.remove(legacyKey);
+                    changed = true;
+                }
+            }
+            if (changed) {
+                itemStack.setItemMeta(meta);
+                return true;
+            }
+            return false;
+        }
+
         if (pdc.has(acquiredTimeKey, PersistentDataType.LONG)) {
             return false;
         }

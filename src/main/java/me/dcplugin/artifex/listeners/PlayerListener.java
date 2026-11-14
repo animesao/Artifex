@@ -339,6 +339,9 @@ public class PlayerListener implements Listener {
 
         String itemId = plugin.getItemHandler().getCustomItemId(droppedItem);
         if (itemId != null) {
+            if (plugin.getItemHandler().ensureAcquiredTime(droppedItem)) {
+                event.getItemDrop().setItemStack(droppedItem);
+            }
             CustomItem customItem = plugin.getItemHandler().getCustomItem(itemId);
             if (customItem != null) {
                 ItemFX.spawnEquipEffects(plugin, player, customItem, false);

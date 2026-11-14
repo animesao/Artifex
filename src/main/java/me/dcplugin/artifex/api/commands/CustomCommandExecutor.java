@@ -21,11 +21,16 @@ public class CustomCommandExecutor implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        CustomCommand cmd = registry.getCommand(label.toLowerCase());
+        String cleanLabel = label.contains(":") ? label.substring(label.indexOf(':') + 1) : label;
+        CustomCommand cmd = registry.getCommand(cleanLabel.toLowerCase());
+        if (cmd == null && command != null) {
+            cmd = registry.getCommand(command.getName().toLowerCase());
+        }
         if (cmd == null) {
             // Try to look the command up by name
             for (CustomCommand c : registry.getAllCommands().values()) {
-                if (c.getName().equalsIgnoreCase(label) || c.getAliases().contains(label.toLowerCase())) {
+                if (c.getName().equalsIgnoreCase(cleanLabel) || c.getAliases().contains(cleanLabel.toLowerCase())
+                        || (command != null && c.getName().equalsIgnoreCase(command.getName()))) {
                     cmd = c;
                     break;
                 }
@@ -66,10 +71,15 @@ public class CustomCommandExecutor implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        CustomCommand cmd = registry.getCommand(alias.toLowerCase());
+        String cleanAlias = alias.contains(":") ? alias.substring(alias.indexOf(':') + 1) : alias;
+        CustomCommand cmd = registry.getCommand(cleanAlias.toLowerCase());
+        if (cmd == null && command != null) {
+            cmd = registry.getCommand(command.getName().toLowerCase());
+        }
         if (cmd == null) {
             for (CustomCommand c : registry.getAllCommands().values()) {
-                if (c.getName().equalsIgnoreCase(alias) || c.getAliases().contains(alias.toLowerCase())) {
+                if (c.getName().equalsIgnoreCase(cleanAlias) || c.getAliases().contains(cleanAlias.toLowerCase())
+                        || (command != null && c.getName().equalsIgnoreCase(command.getName()))) {
                     cmd = c;
                     break;
                 }

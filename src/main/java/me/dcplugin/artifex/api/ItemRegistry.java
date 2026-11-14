@@ -4,7 +4,14 @@ import me.dcplugin.artifex.Main;
 import me.dcplugin.artifex.api.commands.CustomCommand;
 import me.dcplugin.artifex.api.modules.Module;
 import me.dcplugin.artifex.api.placeholders.CustomPlaceholder;
+import me.dcplugin.artifex.models.CustomItem;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +36,7 @@ public class ItemRegistry {
     private final Map<String, CustomCommand> registeredCommands;
     private final Map<String, CustomPlaceholder> registeredPlaceholders;
     private final Map<String, Module> registeredModules;
+    private final List<Listener> registeredListeners = new ArrayList<>();
 
     /**
      * Mirror of the item IDs in a thread-safe set.
@@ -159,6 +167,12 @@ public class ItemRegistry {
     public void shutdown() {
         reloadExecutor.shutdownNow();
         closeJarClassLoaders();
+        for (Listener listener : registeredListeners) {
+            try {
+                HandlerList.unregisterAll(listener);
+            } catch (Throwable ignored) {}
+        }
+        registeredListeners.clear();
     }
 
     /** Synchronous reload used by /ci reload on the main Bukkit thread. */
@@ -196,6 +210,14 @@ public class ItemRegistry {
             plugin.getModuleManager().unloadAll();
         }
 
+        // Unregister any dynamically registered listeners from .java classes
+        for (Listener listener : registeredListeners) {
+            try {
+                HandlerList.unregisterAll(listener);
+            } catch (Throwable ignored) {}
+        }
+        registeredListeners.clear();
+
         // Remove dynamic Bukkit command nodes before dropping the old classloader.
         // Otherwise a reload can retain command objects backed by stale Java classes.
         plugin.unregisterCustomCommands();
@@ -205,6 +227,11 @@ public class ItemRegistry {
             } catch (Exception exception) {
                 plugin.getLogger().log(java.util.logging.Level.WARNING,
                     "[API] Error unregistering command " + cmd.getName(), exception);
+            }
+            if (cmd instanceof Listener listener) {
+                try {
+                    HandlerList.unregisterAll(listener);
+                } catch (Throwable ignored) {}
             }
         }
         for (CustomPlaceholder ph : registeredPlaceholders.values()) {
@@ -248,6 +275,10 @@ public class ItemRegistry {
         if (plugin.getModuleManager() != null) {
             plugin.getModuleManager().loadAll();
         }
+
+        // Immediately update all online players: sync commands and update items in inventories
+        updateOnlinePlayers();
+
         logStats();
     }
 
@@ -314,11 +345,21 @@ public class ItemRegistry {
             if (item != null) {
                 registeredItems.put(item.getId(), item);
                 registeredItemIds.add(item.getId());
+                if (item instanceof Listener listener) {
+                    registeredListeners.add(listener);
+                    plugin.getServer().getPluginManager().registerEvents(listener, plugin);
+                }
             }
         }
         for (String cn : result.commands) {
             CustomCommand cmd = compiler.createCommandInstance(cn);
-            if (cmd != null) registeredCommands.put(cmd.getName(), cmd);
+            if (cmd != null) {
+                registeredCommands.put(cmd.getName(), cmd);
+                if (cmd instanceof Listener listener) {
+                    registeredListeners.add(listener);
+                    plugin.getServer().getPluginManager().registerEvents(listener, plugin);
+                }
+            }
         }
         for (String cn : result.modules) {
             Module module = compiler.createModuleInstance(cn);
@@ -327,6 +368,14 @@ public class ItemRegistry {
         for (String cn : result.placeholders) {
             CustomPlaceholder ph = compiler.createPlaceholderInstance(cn);
             if (ph != null) registeredPlaceholders.put(ph.getIdentifier(), ph);
+        }
+        for (String cn : result.listeners) {
+            Listener listener = compiler.createListenerInstance(cn);
+            if (listener != null) {
+                registeredListeners.add(listener);
+                plugin.getServer().getPluginManager().registerEvents(listener, plugin);
+                plugin.getLogger().info("[API] Registered listener: " + cn);
+            }
         }
 
         for (CustomCommand cmd : registeredCommands.values()) {
@@ -347,9 +396,95 @@ public class ItemRegistry {
                         || name.equalsIgnoreCase("EXAMPLES")
                         || name.equalsIgnoreCase("_template")) continue;
                 collectJavaFiles(child, files);
-            } else if (child.getName().endsWith(".java") && !child.getName().startsWith("EXAMPLE-")) {
+            } else if (child.getName().endsWith(".java")
+                    && !child.getName().equals("AbstractCustomItem.java")
+                    && !child.getName().equals("CustomCommand.java")
+                    && !child.getName().equals("CustomPlaceholder.java")
+                    && !child.getName().startsWith("EXAMPLE-")) {
                 files.add(child);
             }
+        }
+    }
+
+    /**
+     * Immediately applies updated commands and updates held/inventory custom items
+     * for all online players so changes take effect instantly after reload.
+     */
+    public void updateOnlinePlayers() {
+        if (!Bukkit.isPrimaryThread()) return;
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            try {
+                player.updateCommands();
+            } catch (Throwable ignored) {}
+            try {
+                updatePlayerCustomItems(player);
+            } catch (Throwable ignored) {}
+        }
+    }
+
+    private void updatePlayerCustomItems(Player player) {
+        if (player == null || !player.isOnline()) return;
+        boolean updated = false;
+        org.bukkit.inventory.PlayerInventory inv = player.getInventory();
+        ItemStack[] contents = inv.getContents();
+        for (ItemStack stack : contents) {
+            if (stack == null || stack.getType() == Material.AIR || !stack.hasItemMeta()) continue;
+            String id = plugin.getItemHandler().getCustomItemId(stack);
+            if (id == null) continue;
+
+            AbstractCustomItem javaItem = registeredItems.get(id);
+            if (javaItem != null) {
+                ItemStack fresh = javaItem.createItemStack();
+                if (fresh != null && fresh.getType() == stack.getType()) {
+                    ItemMeta freshMeta = fresh.getItemMeta();
+                    ItemMeta currentMeta = stack.getItemMeta();
+                    if (freshMeta != null && currentMeta != null) {
+                        currentMeta.setDisplayName(freshMeta.getDisplayName());
+                        currentMeta.setLore(freshMeta.getLore());
+                        if (freshMeta.hasCustomModelData()) {
+                            currentMeta.setCustomModelData(freshMeta.getCustomModelData());
+                        }
+                        try {
+                            if (freshMeta.hasItemModel()) {
+                                currentMeta.setItemModel(freshMeta.getItemModel());
+                            }
+                        } catch (Throwable ignored) {}
+                        currentMeta.setUnbreakable(freshMeta.isUnbreakable());
+                        stack.setItemMeta(currentMeta);
+                        updated = true;
+                    }
+                }
+                continue;
+            }
+
+            CustomItem yamlItem = plugin.getItemHandler().getCustomItem(id);
+            if (yamlItem != null) {
+                ItemStack fresh = yamlItem.getItemStack();
+                if (fresh != null && fresh.getType() == stack.getType()) {
+                    ItemMeta freshMeta = fresh.getItemMeta();
+                    ItemMeta currentMeta = stack.getItemMeta();
+                    if (freshMeta != null && currentMeta != null) {
+                        currentMeta.setDisplayName(freshMeta.getDisplayName());
+                        currentMeta.setLore(freshMeta.getLore());
+                        if (freshMeta.hasCustomModelData()) {
+                            currentMeta.setCustomModelData(freshMeta.getCustomModelData());
+                        }
+                        try {
+                            if (freshMeta.hasItemModel()) {
+                                currentMeta.setItemModel(freshMeta.getItemModel());
+                            }
+                        } catch (Throwable ignored) {}
+                        currentMeta.setUnbreakable(freshMeta.isUnbreakable());
+                        stack.setItemMeta(currentMeta);
+                        updated = true;
+                    }
+                }
+            }
+        }
+        if (updated) {
+            try {
+                player.updateInventory();
+            } catch (Throwable ignored) {}
         }
     }
 

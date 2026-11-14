@@ -149,8 +149,11 @@ public class JavaItemCompiler {
         for (File javaFile : javaFiles) {
             String source = readFileContent(javaFile);
             java.util.regex.Matcher matcher = java.util.regex.Pattern
-                .compile("public\\s+(?:final\\s+)?class\\s+(\\w+)")
+                .compile("(?m)^\\s*(?:@[\\w.]+(?:\\([^)]*\\))?\\s+)*(?:public\\s+)?(?:final\\s+|abstract\\s+)?(?:class|interface|enum|record)\\s+(\\w+)")
                 .matcher(source);
+            if (!matcher.find()) {
+                matcher = java.util.regex.Pattern.compile("\\bclass\\s+(\\w+)").matcher(source);
+            }
             if (matcher.find()) {
                 String generatedName = getGeneratedClassName(javaFile);
                 sourceClassAliases.put(matcher.group(1), generatedName);
@@ -348,6 +351,12 @@ public class JavaItemCompiler {
                     }
                     return true;
                 } else {
+                    for (Diagnostic<? extends JavaFileObject> diagnostic : diagnostics.getDiagnostics()) {
+                        String error = (diagnostic.getSource() != null ? diagnostic.getSource().getName() : "batch")
+                                + ":" + diagnostic.getLineNumber() + " - " + diagnostic.getMessage(null);
+                        plugin.getLogger().warning("[JavaCompiler] ❌ " + error);
+                        result.errors.add(error);
+                    }
                     return false;
                 }
             } finally {
@@ -524,6 +533,9 @@ public class JavaItemCompiler {
             case MODULE:
                 result.modules.add(fullClassName);
                 break;
+            case LISTENER:
+                result.listeners.add(fullClassName);
+                break;
             case UTILITY:
                 // Compiled, but not registered (messages.java and similar)
                 break;
@@ -545,6 +557,7 @@ public class JavaItemCompiler {
         if (sourceCode.contains("extends CustomCommand")) return ClassType.COMMAND;
         if (sourceCode.contains("extends CustomPlaceholder")) return ClassType.PLACEHOLDER;
         if (sourceCode.contains("extends AbstractCustomItem")) return ClassType.ITEM;
+        if (sourceCode.contains("implements Listener") || sourceCode.contains("implements org.bukkit.event.Listener")) return ClassType.LISTENER;
         // The utilities (for example messages.java) are compiled, but not registered
         return ClassType.UTILITY;
     }
@@ -671,8 +684,9 @@ public class JavaItemCompiler {
                         || name.equalsIgnoreCase("_template")) continue;
                 files.addAll(findJavaFiles(child));
             } else if (child.getName().endsWith(".java")
-                    && !child.getName().startsWith("Abstract")
-                    && !child.getName().startsWith("Custom")
+                    && !child.getName().equals("AbstractCustomItem.java")
+                    && !child.getName().equals("CustomCommand.java")
+                    && !child.getName().equals("CustomPlaceholder.java")
                     && !child.getName().startsWith("EXAMPLE-")) {
                 files.add(child);
             }
@@ -847,10 +861,33 @@ public class JavaItemCompiler {
             classpath.append("plugins/Artifex.jar");
         }
 
+        // Include system java class path
+        String javaClassPath = System.getProperty("java.class.path");
+        if (javaClassPath != null && !javaClassPath.isEmpty()) {
+            classpath.append(File.pathSeparator).append(javaClassPath);
+        }
+
         // The server jar: Paper/Spigot/Folia/Purpur and so on. It is searched in the
         // server root (plugins/..), in the current folder and by relative paths.
         File serverRoot = plugin.getDataFolder().getParentFile() != null
                 ? plugin.getDataFolder().getParentFile().getParentFile() : null;
+        if (serverRoot != null && serverRoot.exists() && serverRoot.isDirectory()) {
+            File[] rootJars = serverRoot.listFiles((dir, name) -> name.toLowerCase(Locale.ROOT).endsWith(".jar"));
+            if (rootJars != null) {
+                for (File jar : rootJars) {
+                    classpath.append(File.pathSeparator).append(jar.getAbsolutePath());
+                }
+            }
+            File serverLibs = new File(serverRoot, "libraries");
+            if (serverLibs.exists() && serverLibs.isDirectory()) {
+                addJarsFromClassDir(serverLibs, classpath);
+            }
+            File bundlerDir = new File(serverRoot, "bundler");
+            if (bundlerDir.exists() && bundlerDir.isDirectory()) {
+                addJarsFromClassDir(bundlerDir, classpath);
+            }
+        }
+
         List<String> candidates = new ArrayList<>();
         for (String name : new String[]{"server.jar", "paper.jar", "spigot.jar", "purpur.jar", "folia.jar", "paperclip.jar"}) {
             candidates.add(name);
@@ -913,8 +950,8 @@ public class JavaItemCompiler {
     public Class<?> loadClass(String fullClassName) {
         if (classLoader == null) return null;
         try {
-            return classLoader.findClass(fullClassName);
-        } catch (ClassNotFoundException e) {
+            return classLoader.loadClass(fullClassName);
+        } catch (Throwable e) {
             return null;
         }
     }
@@ -925,8 +962,8 @@ public class JavaItemCompiler {
             if (clazz != null && AbstractCustomItem.class.isAssignableFrom(clazz)) {
                 return (AbstractCustomItem) clazz.getDeclaredConstructor().newInstance();
             }
-        } catch (Exception e) {
-            plugin.getLogger().severe("[JavaCompiler] Error creating item: " + fullClassName);
+        } catch (Throwable e) {
+            plugin.getLogger().severe("[JavaCompiler] Error creating item: " + fullClassName + " (" + e.getMessage() + ")");
         }
         return null;
     }
@@ -939,8 +976,8 @@ public class JavaItemCompiler {
                 cmd.setPlugin(plugin);
                 return cmd;
             }
-        } catch (Exception e) {
-            plugin.getLogger().severe("[JavaCompiler] Error creating command: " + fullClassName);
+        } catch (Throwable e) {
+            plugin.getLogger().severe("[JavaCompiler] Error creating command: " + fullClassName + " (" + e.getMessage() + ")");
         }
         return null;
     }
@@ -958,9 +995,21 @@ public class JavaItemCompiler {
                     .getDeclaredConstructor(Main.class, String.class, File.class)
                     .newInstance(plugin, moduleId, moduleFolder);
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             plugin.getLogger().log(java.util.logging.Level.SEVERE,
                 "[JavaCompiler] Error creating module: " + fullClassName + " - " + e.getMessage(), e);
+        }
+        return null;
+    }
+
+    public org.bukkit.event.Listener createListenerInstance(String fullClassName) {
+        try {
+            Class<?> clazz = loadClass(fullClassName);
+            if (clazz != null && org.bukkit.event.Listener.class.isAssignableFrom(clazz)) {
+                return (org.bukkit.event.Listener) clazz.getDeclaredConstructor().newInstance();
+            }
+        } catch (Throwable e) {
+            plugin.getLogger().severe("[JavaCompiler] Error creating listener: " + fullClassName + " (" + e.getMessage() + ")");
         }
         return null;
     }
@@ -980,8 +1029,8 @@ public class JavaItemCompiler {
                 ph.setPlugin(plugin);
                 return ph;
             }
-        } catch (Exception e) {
-            plugin.getLogger().severe("[JavaCompiler] Error creating placeholder: " + fullClassName);
+        } catch (Throwable e) {
+            plugin.getLogger().severe("[JavaCompiler] Error creating placeholder: " + fullClassName + " (" + e.getMessage() + ")");
         }
         return null;
     }
@@ -1001,7 +1050,7 @@ public class JavaItemCompiler {
 
     // ===== CLASSES =====
 
-    public enum ClassType { ITEM, COMMAND, PLACEHOLDER, MODULE, UTILITY }
+    public enum ClassType { ITEM, COMMAND, PLACEHOLDER, MODULE, LISTENER, UTILITY }
 
     public static class CompileResult {
         public int compiled = 0;
@@ -1009,6 +1058,7 @@ public class JavaItemCompiler {
         public List<String> commands = new ArrayList<>();
         public List<String> placeholders = new ArrayList<>();
         public List<String> modules = new ArrayList<>();
+        public List<String> listeners = new ArrayList<>();
         public List<String> errors = new ArrayList<>();
     }
 
@@ -1023,6 +1073,10 @@ public class JavaItemCompiler {
 
         @Override
         protected Class<?> findClass(String name) throws ClassNotFoundException {
+            Class<?> loaded = findLoadedClass(name);
+            if (loaded != null) {
+                return loaded;
+            }
             byte[] bytes = classBytes.get(name);
             if (bytes != null) {
                 return defineClass(name, bytes, 0, bytes.length);

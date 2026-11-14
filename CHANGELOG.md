@@ -7,6 +7,19 @@ extracts the section of the needed version for the GitHub Release notes.
 
 ---
 
+## v2.3.1
+
+### ⚡ Dynamic Java API & Hot-Reload Engine
+- **Hot-Reload Bugfix:** Fixed `/ci reload` and `/ci` to immediately apply newly added and modified Java classes (`.java` files in `items/`) into the runtime without requiring a server reboot.
+- **Compiler Whitelist Fix:** Removed restrictive file prefix check (`child.getName().startsWith("Custom")`) in `JavaItemCompiler.findJavaFiles` that silently skipped custom user classes.
+- **Linkage Isolation:** Enhanced `CustomClassLoader` to prevent `LinkageError: attempted duplicate class definition` on reloads using `findLoadedClass` before class definition.
+- **Full Listener Lifecycle:** Dynamic Java classes and custom commands implementing `Listener` are now automatically registered with Bukkit's event manager on load, and cleanly unregistered via `HandlerList.unregisterAll()` on reload to eliminate memory leaks and duplicate ghost listeners.
+- **CommandMap Overriding:** Implemented direct injection into Bukkit's `knownCommands` so custom user commands (such as `/give`, `/pl`, `/gc`, `/chat`) reliably override existing vanilla and plugin commands.
+- **Live Inventory & Brigadier Sync:** Automatically synchronizes Brigadier tab completions and command trees (`player.updateCommands()`) and refreshes custom item metadata (DisplayName, Lore, CustomModelData) in online player inventories on reload.
+- **Diagnostic Logging:** Added compiler diagnostics to log exact file names, line numbers, and syntax error messages to console if user scripts fail compilation.
+
+---
+
 ## v2.3.0
 
 ### 🧱 Custom Block Engine (Paper 26.3 NoteBlock Matrix)
