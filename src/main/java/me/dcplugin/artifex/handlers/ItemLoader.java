@@ -30,7 +30,7 @@ public class ItemLoader {
     private final NamespacedKey itemModelKey;
 
     // Valid values
-    private static final List<String> VALID_TYPES = List.of("RUNE", "TOOL", "ARMOR", "CONSUMABLE");
+    private static final List<String> VALID_TYPES = List.of("RUNE", "TOOL", "ARMOR", "CONSUMABLE", "MATERIAL", "BLOCK");
     private static final List<String> VALID_SLOTS = List.of("HAND", "OFFHAND", "HEAD", "CHEST", "LEGS", "FEET");
 
     public ItemLoader(Main plugin, NamespacedKey customItemKey, NamespacedKey itemModelKey) {
@@ -62,7 +62,8 @@ public class ItemLoader {
             "update-available", "latest-version",
             "disable-worlds", "whitelist-blocks",
             "java-compilation", "backup", "extract-default-modules",
-            "file-logging", "crafting", "items", "cooldowns", "security"
+            "file-logging", "crafting", "items", "cooldowns", "security",
+            "custom-blocks"
     );
 
     private void loadFromConfig(Map<String, CustomItem> items) {

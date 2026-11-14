@@ -54,16 +54,18 @@ public class ItemCatalogGui implements InventoryHolder, Listener {
 
     private void buildGui() {
         // Top navigation bar
-        inventory.setItem(1, createButton(Material.NETHERITE_SWORD, "&e✦ Все предметы", "&7Показать все зарегистрированные предметы", category.equals("ALL")));
-        inventory.setItem(3, createButton(Material.DIAMOND_SWORD, "&c⚔ Оружие и инструменты", "&7Категория: TOOL", category.equals("TOOL")));
-        inventory.setItem(4, createButton(Material.NETHERITE_CHESTPLATE, "&b🛡 Броня и экипировка", "&7Категория: ARMOR", category.equals("ARMOR")));
-        inventory.setItem(5, createButton(Material.GOLDEN_APPLE, "&a🍏 Зелья и расходуемые", "&7Категория: CONSUMABLE", category.equals("CONSUMABLE")));
-        inventory.setItem(7, createButton(Material.EMERALD, "&d✧ Руны и самоцветы", "&7Категория: RUNE", category.equals("RUNE")));
+        inventory.setItem(0, createButton(Material.NETHERITE_SWORD, "&e✦ Все предметы", "&7Показать все зарегистрированные предметы", category.equals("ALL")));
+        inventory.setItem(1, createButton(Material.DIAMOND_SWORD, "&c⚔ Оружие и инструменты", "&7Категория: TOOL", category.equals("TOOL")));
+        inventory.setItem(2, createButton(Material.NETHERITE_CHESTPLATE, "&b🛡 Броня и экипировка", "&7Категория: ARMOR", category.equals("ARMOR")));
+        inventory.setItem(3, createButton(Material.GOLDEN_APPLE, "&a🍏 Зелья и расходуемые", "&7Категория: CONSUMABLE", category.equals("CONSUMABLE")));
+        inventory.setItem(4, createButton(Material.EMERALD, "&d✧ Руны и самоцветы", "&7Категория: RUNE", category.equals("RUNE")));
+        inventory.setItem(5, createButton(Material.RAW_GOLD, "&6📦 Ресурсы и материалы", "&7Категория: MATERIAL", category.equals("MATERIAL")));
+        inventory.setItem(6, createButton(Material.NOTE_BLOCK, "&d🧱 Кастомные блоки", "&7Категория: BLOCK", category.equals("BLOCK")));
 
         // Divider panes
         ItemStack divider = createDivider();
-        inventory.setItem(0, divider);
-        inventory.setItem(2, divider);
+        inventory.setItem(7, divider);
+        inventory.setItem(8, divider);
         inventory.setItem(6, divider);
         inventory.setItem(8, divider);
 
@@ -155,11 +157,13 @@ public class ItemCatalogGui implements InventoryHolder, Listener {
         if (rawSlot < 0 || rawSlot >= 54) return;
 
         // Category switches
-        if (rawSlot == 1) { open(player, "ALL", 0); return; }
-        if (rawSlot == 3) { open(player, "TOOL", 0); return; }
-        if (rawSlot == 4) { open(player, "ARMOR", 0); return; }
-        if (rawSlot == 5) { open(player, "CONSUMABLE", 0); return; }
-        if (rawSlot == 7) { open(player, "RUNE", 0); return; }
+        if (rawSlot == 0) { open(player, "ALL", 0); return; }
+        if (rawSlot == 1) { open(player, "TOOL", 0); return; }
+        if (rawSlot == 2) { open(player, "ARMOR", 0); return; }
+        if (rawSlot == 3) { open(player, "CONSUMABLE", 0); return; }
+        if (rawSlot == 4) { open(player, "RUNE", 0); return; }
+        if (rawSlot == 5) { open(player, "MATERIAL", 0); return; }
+        if (rawSlot == 6) { open(player, "BLOCK", 0); return; }
 
         // Pagination
         if (rawSlot == 45 && gui.page > 0) {
