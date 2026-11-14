@@ -51,6 +51,7 @@ public class PluginBootstrap {
     private UpdateChecker updateChecker;
     private PluginLogManager pluginLogManager;
     private me.dcplugin.artifex.utils.CooldownStore cooldownStore;
+    private CustomBlockManager customBlockManager;
 
     public PluginBootstrap(Main plugin) {
         this.plugin = plugin;
@@ -176,6 +177,7 @@ public class PluginBootstrap {
         itemHandler = new CustomItemHandler(plugin);
         armorSetManager = new ArmorSetManager(plugin);
         gemSocketManager = new me.dcplugin.artifex.managers.GemSocketManager(plugin);
+        customBlockManager = new CustomBlockManager(plugin);
     }
 
     private void registerBukkitCommand() {
@@ -212,6 +214,7 @@ public class PluginBootstrap {
         pm.registerEvents(new ApiEventListener(plugin, apiItemRegistry), plugin);
         pm.registerEvents(new me.dcplugin.artifex.listeners.CraftItemListener(plugin), plugin);
         pm.registerEvents(gemSocketManager, plugin);
+        pm.registerEvents(customBlockManager, plugin);
         pm.registerEvents(new me.dcplugin.artifex.handlers.ItemCatalogGui(plugin, "ALL", 0), plugin);
     }
 
@@ -279,4 +282,5 @@ public class PluginBootstrap {
     public CommandRegistrar getCommandRegistrar() { return commandRegistrar; }
     public ConfigMigrator getConfigMigrator() { return configMigrator; }
     public me.dcplugin.artifex.utils.CooldownStore getCooldownStore() { return cooldownStore; }
+    public CustomBlockManager getCustomBlockManager() { return customBlockManager; }
 }

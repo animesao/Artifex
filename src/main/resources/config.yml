@@ -45,6 +45,19 @@ crafting:
   # Protect custom items from being accidentally consumed in vanilla recipes
   protect-custom-items-in-vanilla-recipes: true
 
+# ==========================================
+# CUSTOM BLOCKS ENGINE (Paper 26.3 NoteBlock Matrix)
+# ==========================================
+custom-blocks:
+  # Enable custom blocks & ore mechanics
+  enabled: true
+  # Prevent right-click note tuning on custom blocks
+  prevent-tuning: true
+  # Mute default note block instruments for custom blocks
+  mute-notes: true
+  # Allow Fortune enchantment scaling on custom ores
+  enable-fortune: true
+
 # General items behavior
 items:
   # Native Minecraft swipe animation on the hotbar icon for items with cooldown

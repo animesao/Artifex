@@ -1,6 +1,6 @@
 package me.dcplugin.artifex.api.config;
 
-import org.bukkit.ChatColor;
+import me.dcplugin.artifex.utils.ColorUtils;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -262,13 +262,13 @@ public class MessagesConfig {
         for (int i = 0; i < replacements.length - 1; i += 2) {
             message = message.replace(replacements[i], replacements[i + 1]);
         }
-        return ChatColor.translateAlternateColorCodes('&', message);
+        return ColorUtils.colorize(message);
     }
 
     /**
-     * Replaces colour codes (& → §).
+     * Replaces colour codes (& -> §, &#RRGGBB, <#RRGGBB>, MiniMessage tags).
      */
     public static String colorize(String message) {
-        return message == null ? "" : ChatColor.translateAlternateColorCodes('&', message);
+        return message == null ? "" : ColorUtils.colorize(message);
     }
 }
