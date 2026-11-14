@@ -75,7 +75,7 @@ java-compilation: false
 **Шаг 2. Положите его в `plugins/`.**
 
 ```
-/path/to/server/plugins/Artifex-2.3.1.jar
+/path/to/server/plugins/Artifex-2.3.2.jar
 ```
 
 **Шаг 3. Перезапустите сервер.**

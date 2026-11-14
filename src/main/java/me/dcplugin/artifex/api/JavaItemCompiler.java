@@ -151,10 +151,12 @@ public class JavaItemCompiler {
             java.util.regex.Matcher matcher = java.util.regex.Pattern
                 .compile("(?m)^\\s*(?:@[\\w.]+(?:\\([^)]*\\))?\\s+)*(?:public\\s+)?(?:final\\s+|abstract\\s+)?(?:class|interface|enum|record)\\s+(\\w+)")
                 .matcher(source);
-            if (!matcher.find()) {
+            boolean found = matcher.find();
+            if (!found) {
                 matcher = java.util.regex.Pattern.compile("\\bclass\\s+(\\w+)").matcher(source);
+                found = matcher.find();
             }
-            if (matcher.find()) {
+            if (found) {
                 String generatedName = getGeneratedClassName(javaFile);
                 sourceClassAliases.put(matcher.group(1), generatedName);
                 if (detectClassType(source) == ClassType.MODULE) {
@@ -352,10 +354,12 @@ public class JavaItemCompiler {
                     return true;
                 } else {
                     for (Diagnostic<? extends JavaFileObject> diagnostic : diagnostics.getDiagnostics()) {
-                        String error = (diagnostic.getSource() != null ? diagnostic.getSource().getName() : "batch")
-                                + ":" + diagnostic.getLineNumber() + " - " + diagnostic.getMessage(null);
-                        plugin.getLogger().warning("[JavaCompiler] ❌ " + error);
-                        result.errors.add(error);
+                        if (diagnostic.getKind() == Diagnostic.Kind.ERROR) {
+                            String error = (diagnostic.getSource() != null ? diagnostic.getSource().getName() : "batch")
+                                    + ":" + diagnostic.getLineNumber() + " - " + diagnostic.getMessage(null);
+                            plugin.getLogger().warning("[JavaCompiler] ❌ " + error);
+                            result.errors.add(error);
+                        }
                     }
                     return false;
                 }
@@ -495,9 +499,11 @@ public class JavaItemCompiler {
                     return true;
                 } else {
                     for (Diagnostic<? extends JavaFileObject> diagnostic : diagnostics.getDiagnostics()) {
-                        String error = javaFile.getName() + ":" + diagnostic.getLineNumber() + " - " + diagnostic.getMessage(null);
-                        plugin.getLogger().warning("[JavaCompiler] ❌ " + error);
-                        result.errors.add(error);
+                        if (diagnostic.getKind() == Diagnostic.Kind.ERROR) {
+                            String error = javaFile.getName() + ":" + diagnostic.getLineNumber() + " - " + diagnostic.getMessage(null);
+                            plugin.getLogger().warning("[JavaCompiler] ❌ " + error);
+                            result.errors.add(error);
+                        }
                     }
                     return false;
                 }

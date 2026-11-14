@@ -7,6 +7,15 @@ extracts the section of the needed version for the GitHub Release notes.
 
 ---
 
+## v2.3.2
+
+### 🐛 Hot-Reload Class Name Regex Fix
+- **Matcher Double-Advance Bugfix:** Resolved critical issue in `JavaItemCompiler` where `matcher.find()` was invoked twice sequentially during source alias collection, causing single-class files (items, commands, listeners) to skip name renaming and fail javac compilation with `class X is public, should be declared in a file named X.java`.
+- **Diagnostic Kind Filtering:** Diagnostic logging now specifically isolates errors (`Kind.ERROR`), preventing benign deprecation notices from being logged with error indicators.
+- **Config Migration Whitelist:** Added `custom-blocks` to recognized core settings in `ConfigMigrator`, eliminating spurious migration warnings.
+
+---
+
 ## v2.3.1
 
 ### ⚡ Dynamic Java API & Hot-Reload Engine
