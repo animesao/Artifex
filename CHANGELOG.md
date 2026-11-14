@@ -7,6 +7,30 @@ extracts the section of the needed version for the GitHub Release notes.
 
 ---
 
+## v2.3.0
+
+### 🧱 Custom Block Engine (Paper 26.3 NoteBlock Matrix)
+- **Zero-Entity Solid Blocks:** Implemented `CustomBlockManager` utilizing 800+ distinct NoteBlock states (`instrument + note + powered`) for solid collision, ambient occlusion, and 0 entity tick lag.
+- **Realistic Mining Mechanics:** Hardness and required pickaxe tier checks (Wooden to Netherite), Silk Touch block retention, and Fortune I–III scaling drop multipliers.
+- **Audio & Interaction Guards:** Suppresses default note block pitch tuning on right-click and mutes vanilla instrument sounds for custom blocks.
+- **Configurable Settings:** Added `custom-blocks:` section to `config.yml` (`enabled`, `prevent-tuning`, `mute-notes`, `enable-fortune`).
+
+### 🎨 High-Res 64x64 Textures & Blockbench 3D Models
+- **Blockbench Tooling Integration:** Integrated `blockbench-3d-models` and `blockbench-pixelart-textures` skills with geometry validation (`model_validator.py`).
+- **15 Procedural Textures:** 64x64 multi-zone pixel art textures with specular highlights and glowing ore veins for Ember, Frost, Storm, and Void branches.
+- **13 .bbmodel Source Files:** Complete 3D projects for blocks and items in `blockbench_models/`.
+
+### 🌌 Resource Forge Ecosystem & Iris Worldgen
+- **Master Resource Catalog:** Complete specification of 150 materials across 9 RPG branches (`docs/resources/RESOURCE_MASTER_CATALOG.md`).
+- **First Prototype Tier:** 10 custom materials (raw ores, shards, ingots) and 5 custom blocks (ores and storage block) registered in `items/resource_forge_prototype.yml` with furnace and crafting table recipes.
+- **Iris Dimension Engine Worldgen:** Blueprint for custom ore vein distribution across Iris biomes (`docs/resources/IRIS_WORLDGEN_INTEGRATION.md`).
+
+### 💬 Localized Hex Messages & Chat Formatting
+- **MiniMessage & Hex Formatting:** Fixed `MessagesConfig.format()` and `colorize()` to natively parse `&#RRGGBB`, `<#RRGGBB>`, and MiniMessage tags via `ColorUtils`.
+- **Informative Reload Output:** Localized reload messages (`/artifex reload`) with clear counts for YAML items, Java items, commands, placeholders, and modules.
+
+---
+
 ## v2.2.0
 
 ### 🧭 Interactive GUI Catalog (`/ci menu` / `/ci gui`)
