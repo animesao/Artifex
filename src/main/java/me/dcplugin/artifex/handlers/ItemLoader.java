@@ -449,6 +449,10 @@ public class ItemLoader {
             plugin.getLogger().fine("[LOAD] Applied custom_model_data strings: " + strings + " for " + itemId);
         } else if (customModelData > 0) {
             meta.setCustomModelData(customModelData);
+            try {
+                meta.setItemModel(new NamespacedKey("artifex", itemId.toLowerCase(java.util.Locale.ROOT)));
+            } catch (Throwable ignored) {
+            }
             plugin.getLogger().fine("[LOAD] Applied custom_model_data: " + customModelData + " for " + itemId);
         }
 
