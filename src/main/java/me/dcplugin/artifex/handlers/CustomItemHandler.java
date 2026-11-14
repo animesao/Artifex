@@ -75,6 +75,7 @@ public class CustomItemHandler {
         // Load into a new map and swap it atomically: readers never see
         // a half-empty set of items.
         Map<String, CustomItem> loaded = new ConcurrentHashMap<>(itemLoader.loadAll());
+        customItems = loaded;
 
         recipeManager.clear();
 
@@ -85,8 +86,6 @@ public class CustomItemHandler {
                 recipeManager.register(item);
             }
         }
-
-        customItems = loaded;
 
         plugin.getLogger().info("Loaded " + customItems.size() + " custom items");
     }

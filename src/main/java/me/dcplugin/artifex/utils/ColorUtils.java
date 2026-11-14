@@ -57,12 +57,15 @@ public class ColorUtils {
                 String hex = matcher.group(1);
                 if (hex == null) hex = matcher.group(2);
                 if (hex == null) hex = matcher.group(3);
-                matcher.appendReplacement(buffer, net.md_5.bungee.api.ChatColor.of("#" + hex).toString());
+                StringBuilder hexSb = new StringBuilder("§x");
+                for (char c : hex.toCharArray()) {
+                    hexSb.append('§').append(Character.toLowerCase(c));
+                }
+                matcher.appendReplacement(buffer, hexSb.toString());
             }
             matcher.appendTail(buffer);
             message = buffer.toString();
         } catch (Throwable ignored) {
-            // Older Bukkit without ChatColor.of
         }
         return ChatColor.translateAlternateColorCodes('&', message);
     }
