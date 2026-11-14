@@ -72,11 +72,31 @@ public class CustomBlockManager implements Listener {
     }
 
     private void registerDefaults() {
+        // Base Elemental Ores
         register(new CustomBlockDef("ember_ore", Instrument.IRON_XYLOPHONE, 0, false, "ember_shard", 1, 3, 5, Material.IRON_PICKAXE));
         register(new CustomBlockDef("frost_ore", Instrument.IRON_XYLOPHONE, 1, false, "frost_crystal_shard", 1, 3, 6, Material.IRON_PICKAXE));
         register(new CustomBlockDef("storm_ore", Instrument.IRON_XYLOPHONE, 2, false, "storm_shard", 1, 2, 7, Material.IRON_PICKAXE));
         register(new CustomBlockDef("void_ore", Instrument.IRON_XYLOPHONE, 3, false, "void_shard", 1, 2, 12, Material.DIAMOND_PICKAXE));
+
+        // Gemstone Ores
+        register(new CustomBlockDef("ruby_ore", Instrument.BELL, 0, false, "ruby_rough", 1, 2, 8, Material.IRON_PICKAXE));
+        register(new CustomBlockDef("sapphire_ore", Instrument.BELL, 1, false, "sapphire_rough", 1, 2, 8, Material.IRON_PICKAXE));
+        register(new CustomBlockDef("topaz_ore", Instrument.BELL, 2, false, "topaz_rough", 1, 2, 8, Material.IRON_PICKAXE));
+
+        // Deep/Mythic Ores
+        register(new CustomBlockDef("adamantite_ore", Instrument.BELL, 3, false, "adamantite_ore_raw", 1, 1, 10, Material.DIAMOND_PICKAXE));
+        register(new CustomBlockDef("mithril_ore", Instrument.BELL, 4, false, "mithril_ore_raw", 1, 2, 9, Material.DIAMOND_PICKAXE));
+
+        // Ancient & Relic
+        register(new CustomBlockDef("ancient_runestone", Instrument.FLUTE, 0, false, "runestone_slate", 1, 2, 12, Material.DIAMOND_PICKAXE));
+
+        // Storage Blocks
         register(new CustomBlockDef("ember_block", Instrument.GUITAR, 0, false, "ember_block", 1, 1, 0, Material.IRON_PICKAXE));
+        register(new CustomBlockDef("frost_block", Instrument.GUITAR, 1, false, "frost_block", 1, 1, 0, Material.IRON_PICKAXE));
+        register(new CustomBlockDef("storm_block", Instrument.GUITAR, 2, false, "storm_block", 1, 1, 0, Material.IRON_PICKAXE));
+        register(new CustomBlockDef("void_block", Instrument.GUITAR, 3, false, "void_block", 1, 1, 0, Material.DIAMOND_PICKAXE));
+        register(new CustomBlockDef("ruby_block", Instrument.GUITAR, 4, false, "ruby_block", 1, 1, 0, Material.IRON_PICKAXE));
+        register(new CustomBlockDef("sapphire_block", Instrument.GUITAR, 5, false, "sapphire_block", 1, 1, 0, Material.IRON_PICKAXE));
     }
 
     public void register(CustomBlockDef def) {
