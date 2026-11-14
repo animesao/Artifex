@@ -1,0 +1,909 @@
+{
+  "meta": {
+    "format_version": "4.10",
+    "model_format": "free",
+    "box_uv": false
+  },
+  "name": "berserker_elixir",
+  "geometry_name": "berserker_elixir",
+  "resolution": {
+    "width": 64,
+    "height": 64
+  },
+  "elements": [
+    {
+      "name": "bottle_base",
+      "from": [
+        5.0,
+        1.0,
+        5.0
+      ],
+      "to": [
+        11.0,
+        7.0,
+        11.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "corner_c1",
+      "from": [
+        4.2,
+        1.5,
+        4.2
+      ],
+      "to": [
+        5.8,
+        6.5,
+        5.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      },
+      "rotation": [
+        0,
+        45.0,
+        0
+      ],
+      "origin": [
+        5.0,
+        4.0,
+        5.0
+      ]
+    },
+    {
+      "name": "corner_c2",
+      "from": [
+        10.2,
+        1.5,
+        4.2
+      ],
+      "to": [
+        11.8,
+        6.5,
+        5.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      },
+      "rotation": [
+        0,
+        -45.0,
+        0
+      ],
+      "origin": [
+        11.0,
+        4.0,
+        5.0
+      ]
+    },
+    {
+      "name": "corner_c3",
+      "from": [
+        4.2,
+        1.5,
+        10.2
+      ],
+      "to": [
+        5.8,
+        6.5,
+        11.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      },
+      "rotation": [
+        0,
+        -45.0,
+        0
+      ],
+      "origin": [
+        5.0,
+        4.0,
+        11.0
+      ]
+    },
+    {
+      "name": "corner_c4",
+      "from": [
+        10.2,
+        1.5,
+        10.2
+      ],
+      "to": [
+        11.8,
+        6.5,
+        11.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      },
+      "rotation": [
+        0,
+        45.0,
+        0
+      ],
+      "origin": [
+        11.0,
+        4.0,
+        11.0
+      ]
+    },
+    {
+      "name": "elixir_liquid",
+      "from": [
+        5.5,
+        1.5,
+        5.5
+      ],
+      "to": [
+        10.5,
+        6.5,
+        10.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "shoulder",
+      "from": [
+        5.5,
+        7.0,
+        5.5
+      ],
+      "to": [
+        10.5,
+        8.5,
+        10.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "bottle_neck",
+      "from": [
+        6.8,
+        8.5,
+        6.8
+      ],
+      "to": [
+        9.2,
+        11.0,
+        9.2
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "bottle_lip",
+      "from": [
+        6.2,
+        11.0,
+        6.2
+      ],
+      "to": [
+        9.8,
+        12.0,
+        9.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "cork_plug",
+      "from": [
+        6.8,
+        12.0,
+        6.8
+      ],
+      "to": [
+        9.2,
+        13.8,
+        9.2
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "magic_bubble",
+      "from": [
+        7.5,
+        3.5,
+        7.5
+      ],
+      "to": [
+        8.5,
+        4.5,
+        8.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    }
+  ],
+  "textures": [
+    {
+      "id": "0",
+      "name": "berserker_elixir.png",
+      "folder": "item",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAFO0lEQVR4nO1Za2wUVRQ+XQd/EH9oY6IkBhGN2sQHalx/ABppaKymsrVNaYpA2i5LwYB1SxGw1cIWCy2tLQVb1sZqGlPqa4sNaYSIieIPND5iTAxGiWmMRW1iCJGkOzNdc2a5y3Y6jzsvz5T6JXdndu65351z5txv7r2Tk/r9rxQQIW/RbfDn9blACQF/xO5B0pvYuG0vSb9HDrx0OQCSBJRYmf8oSb9HDrAMkGkDUFO5hqxvwQ8ZUBiqIOl3oHefPzJAkkT/ZcDCV7bA2O7u/+QmSkpCQIHBvvZ0ACSNAJxrfA0Wx15Qjle/BsjaQ+Dsrja4+fufHHVw/r47TW2WPv4EUODYYJxPBM+M/2qrg0cWLOISWHoNkL0TQR7uyqoqoMDx9/q9fw3ycPtWA9wAD/e9DwSBAp+Ojum/BdwCD7dMOBET/DAEtkbrgAKfnRz2xxCg1wBJ9qwDHu5bF98BFJg4P+aPDPC5BuR4rgENu2k2REoLl/O8BeZ5/hag1wDZuwDwDIEbcnOJNUCSvBoBXEOAXgNkycTC2wxo7eoBUg0QjZ6AkF7Vzdm1QPyfce9v4hqH48xJ3+DxWoAH9PsBEm0Aet8aItYA+f/vAkCJSxf/Jutb8EMGzHkNkAk1KOfua68j+zyOoP48npOSfiYNwIXgNsruIa0Bf/SSdD7vphqYnPJuM4Y/ACLNTeA6M5macsRxy9NPwW8fHXcYgCSdCE1O2Q/A7aEiONEXh4JwBH4ZHpl9GQAOMiCveJXiPIIF4cfEMbsBkGA2ZcCSkuKM8wwsCN99kLAzBOQZFQsf3Alj37SAGzDiSqasZV+wtHSa8wVfn1SOJx5aaYsvgD+SKM8o5840KzeuVWelIAdyadUhJlNT3EXtvBpYhzZWOAUjETz7eRPctbxJOdoBT9sk5xDIX11u6Lx6KHwydJQ/A0RR1i0/nGpUHDGy0SrYBtsa2SB4n5QVYBAwYDy8gXQAJMPy7cc74Z4VMVM7VtAW25jZsQwwK0+WV3A9fXUQsJ0Zt6Angmp8ObIdgkWtyhGB5+p6dp2d88BMtMrWrLfsPAO2C4Uj8O47b7vzGvziwygsfaZDOb90unhaXbAokbFx6zW4dm2lbecZsH1ZOAIDA/0Ge4JJa68OtfPs2vxlCctcehOh6nXVjp3n6SeAP7zC9lh5l6bzDFiHNrx8CC1hctt55EJO2yIoZokWD6zwqUVp8/oNrjqfHQTkti2CVmCFbzJLBF+s2pxxns3wTLHgRoDxCS57nC3WhjfC/jdfz1wL+CkDYn2HlEmMJYxPcJsiN/YxMwNEvid2tGMdlEcTujqAIog2VqCe5DS8cRCaN2zNzO3NoF4L6NqFIwq39logKXMX5qga7JpVLlRnddke77SeCSbOI6dWXwIa8KZ3ZeMQ9MdWXz6fHoQr16/YOJkHPN/bAV01UceCiM4jlx4EXtGKxN6HeGNp5n/2eTbwutrW7kxwU08b9Gyqtx0EdB45jBDAHzOxQocO7whxixvaYhs31gLVh/fbGg7YBtua8QfSAdCfrDy3bxg664osrwaxDbZ1YzX47KEWW0HgXw0mJc1S2z4CbVsKdevNCrZFDr16ngxgpezgXu4goB3a8/AGsIHWbk199yi01BQ43hFCDuRyY0doVVfMNAhYj3YWd4TkGUR7qvLBLRhxWd3DK+xsgtHaJk1hROex/qrfFV7R8TKciu5RgsAmQOg8Xp8z3wWWtTfA6brmzB4g/p9zX4YebtsFX9W/qhztQpitGcBwf+uO2f15PG/+Esru4V8a94rbk7P7qwAAAABJRU5ErkJggg=="
+    }
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        3.0,
+        1.0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        3.0,
+        1.0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    },
+    "gui": {
+      "rotation": [
+        30,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        0.5,
+        0
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    "ground": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        2.0,
+        0
+      ],
+      "scale": [
+        0.6,
+        0.6,
+        0.6
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    }
+  }
+}

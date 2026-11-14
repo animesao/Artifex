@@ -1,0 +1,840 @@
+{
+  "meta": {
+    "format_version": "4.10",
+    "model_format": "free",
+    "box_uv": false
+  },
+  "name": "dragon_scale",
+  "geometry_name": "dragon_scale",
+  "resolution": {
+    "width": 64,
+    "height": 64
+  },
+  "elements": [
+    {
+      "name": "stone_slab",
+      "from": [
+        3.5,
+        2.5,
+        7.0
+      ],
+      "to": [
+        12.5,
+        13.5,
+        9.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "chamfer_tl",
+      "from": [
+        2.8,
+        12.5,
+        7.0
+      ],
+      "to": [
+        4.5,
+        14.2,
+        9.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      },
+      "rotation": [
+        0,
+        0,
+        -45.0
+      ],
+      "origin": [
+        3.5,
+        13.0,
+        8.0
+      ]
+    },
+    {
+      "name": "chamfer_tr",
+      "from": [
+        11.5,
+        12.5,
+        7.0
+      ],
+      "to": [
+        13.2,
+        14.2,
+        9.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      },
+      "rotation": [
+        0,
+        0,
+        45.0
+      ],
+      "origin": [
+        12.5,
+        13.0,
+        8.0
+      ]
+    },
+    {
+      "name": "chamfer_bl",
+      "from": [
+        2.8,
+        1.8,
+        7.0
+      ],
+      "to": [
+        4.5,
+        3.5,
+        9.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      },
+      "rotation": [
+        0,
+        0,
+        45.0
+      ],
+      "origin": [
+        3.5,
+        3.0,
+        8.0
+      ]
+    },
+    {
+      "name": "chamfer_br",
+      "from": [
+        11.5,
+        1.8,
+        7.0
+      ],
+      "to": [
+        13.2,
+        3.5,
+        9.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      },
+      "rotation": [
+        0,
+        0,
+        -45.0
+      ],
+      "origin": [
+        12.5,
+        3.0,
+        8.0
+      ]
+    },
+    {
+      "name": "rim_left",
+      "from": [
+        3.0,
+        3.5,
+        8.8
+      ],
+      "to": [
+        4.2,
+        12.5,
+        9.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "rim_right",
+      "from": [
+        11.8,
+        3.5,
+        8.8
+      ],
+      "to": [
+        13.0,
+        12.5,
+        9.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "rim_top",
+      "from": [
+        4.0,
+        12.2,
+        8.8
+      ],
+      "to": [
+        12.0,
+        13.2,
+        9.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "rim_bottom",
+      "from": [
+        4.0,
+        2.8,
+        8.8
+      ],
+      "to": [
+        12.0,
+        3.8,
+        9.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "carved_rune",
+      "from": [
+        5.5,
+        5.0,
+        8.9
+      ],
+      "to": [
+        10.5,
+        11.0,
+        9.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    }
+  ],
+  "textures": [
+    {
+      "id": "0",
+      "name": "dragon_scale.png",
+      "folder": "item",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAFX0lEQVR4nOVZa2wUVRQ+HQZFghr5YaMmmhAjJkoUEpdIqVUryGYp9oEKVFdbAq6QiukWtdJaSisFbKuEKEuRlJRgqUCXSjcViZooYqhJ1UQjJsYfTXwlRmKMTdyZ2TVnxtlup/O48+Js7Zfc2d25554z59t7v/uYvL+/S6eBCPkL8+GKa2YBJXi8fPD6JdKHeKbuVZK4B9q3KQQIUhIosaz4PpK4B9ohNwiIVFWSxeZzgYBg6TqSuEdiuxQCRGICRFEg7gGpyQSEm+6CnuavL8tDVFSUAgV63+5Qh8A/kyoPvTIM63cE5M9pqwGxbefg55/+dBXgxpuutbQpeGAFUGCgt4tNA0Z+STgKsOiGEJO+0GuA5J8Isviuqq4GCiSOdxuL4DhmuApi7jvHNUDBVeB3D1iwMAAU+Hho1HgW8I4AM98KJFEEKvB4MRMqzmUAFhF8rjYKFPjk7CnrIXClyyAsQ4BeA1I+EsAggrfMuxUo8Puvo7kxDea0BkCe/xrQ0ExzILI6WMgwC8gW/s4C9BogJX0kwLoHXDd3LtBqQMpHDUhNAQ0QiEVwz979QKoBosVD4q7OTxHMaQ0Y+eOk/w8xw+VU4yY2MCq1n6A/D0jRHorGDvfltgb4jZzWgMuBsb8uTW8CRHINkGgJoFwI5c2ZdT3Z63EE9evxvLT4AykBdQUXKcODMgR+i5EEn5kfAZF4CubxIggSSfCZOP5T7gRwRWAlvD886JKAJJ0ISWnnBIQWl0FHog6ioXZIXIhPvR6AEB32gEfufUxOHqGSMPD5u04JEGEq9YDyJZWZ5FWoJPSfP+pkCEiTKm5eVA+jI23gBcx82dWAR5c+PSH5wTNvyZ8rH97kyB+HF1GQJpUfL7TKD65XZ6egD/SlVyfHTgvMRZu8FliHNnZ8cqoI6pXvP90O8xY3GNZbFWyLPozq1X+Mpawt3GCafDYJaMvql5MJECTD8s1HjTC/cLupjV7BNtjWzEYmIC0wFTtAEp4o2sTkl1MIEE3Ll2fq4c4HWyzt1IK22MbKTh4CKcGyPHX/FqZ/X0sCtrPyzStDwHoaHD79AgRK9sifCPyurVfvq99ZIKXNV4Ibi1+2nbx2Zuj6cKc30+Bn/bVQUN4pfx87VzahLlASz9jYgZlqP7usyXHyWhL2n23WrefxIjL0gGxok1fvzV4at+0LlVgPNctbXSfPEofDC6uwFa3Zq5u8CqxDG1Z/CD1l9jp59IU+9WLxfqwE7fjTKnw02Olp8tqh0DE0cYjyrCJoB3b8Ze8FXgztyySvrvCsMPt2gLGLbPa4WoyGOmF3oiZzj5MfmHF6Y4Udf9lz8s7BiPwv2QEmzwr0jTGyY/LKA7P9Y8c6w7CmNm6oAyiCaONmFmh5bz00rjqUWdtbQbsXMEsefevvBZISc1ET1UK9Z9eX3vq8aSBsuydYJY8+9WLxaMDavasa+6C75fH/vk8kYfz+uI2bdUBDfC20lvW6FkRMHn0ZgWcVrY0tJ6CrcXXmd/b3bOB9ra3TlWB9fwW0lZ90TAImjz7MwOHFSqwwoTdfKmUWN7TFNl7sBbaeWOVoOGAbbGvln1MIMF6sbN51Ct6IltjeDWIbbOvFbrD2eNARCey7waT+fv35jtPwWk3Q8XkAtkUfXpwHbOl7iJkEtEN75vMAUee0Zuu+IWiLLHd9IoQ+0JcXJ0KbjxVZkoD1aMfqkzcSwR3VxeAVzHzZPcOLvLMEYuvO6wojJo/1//tT4Q1H74GDlV/IJKgLIEwe70+b9wJVR+6G7ie/ymxy8Pe0ezMU7rkDesLfyp9OwVP3ALfvBisP3za1X49fPceeaHmNfwE477wZKgHGkgAAAABJRU5ErkJggg=="
+    }
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        1.0
+      ],
+      "scale": [
+        0.65,
+        0.65,
+        0.65
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        3.0,
+        1.0
+      ],
+      "scale": [
+        0.65,
+        0.65,
+        0.65
+      ]
+    },
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "translation": [
+        0,
+        1.5,
+        0
+      ],
+      "scale": [
+        0.95,
+        0.95,
+        0.95
+      ]
+    },
+    "ground": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        2.0,
+        0
+      ],
+      "scale": [
+        0.6,
+        0.6,
+        0.6
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    }
+  }
+}

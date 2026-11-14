@@ -1,0 +1,1071 @@
+{
+  "meta": {
+    "format_version": "4.10",
+    "model_format": "free",
+    "box_uv": false
+  },
+  "name": "katana_sheathed",
+  "geometry_name": "katana_sheathed",
+  "resolution": {
+    "width": 64,
+    "height": 64
+  },
+  "elements": [
+    {
+      "name": "kashira",
+      "from": [
+        7.0,
+        0.5,
+        7.0
+      ],
+      "to": [
+        9.0,
+        1.8,
+        9.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "tsuka",
+      "from": [
+        7.2,
+        1.8,
+        7.2
+      ],
+      "to": [
+        8.8,
+        7.8,
+        8.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "menuki",
+      "from": [
+        7.0,
+        4.0,
+        7.0
+      ],
+      "to": [
+        9.0,
+        5.0,
+        9.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "fuchi_collar",
+      "from": [
+        7.0,
+        7.5,
+        7.0
+      ],
+      "to": [
+        9.0,
+        8.2,
+        9.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "tsuba_disk",
+      "from": [
+        5.5,
+        8.2,
+        5.5
+      ],
+      "to": [
+        10.5,
+        8.8,
+        10.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "tsuba_rim",
+      "from": [
+        5.0,
+        8.3,
+        5.0
+      ],
+      "to": [
+        11.0,
+        8.7,
+        11.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "habaki",
+      "from": [
+        7.1,
+        8.8,
+        7.3
+      ],
+      "to": [
+        8.9,
+        9.8,
+        8.7
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "saya_upper",
+      "from": [
+        6.9,
+        9.8,
+        7.1
+      ],
+      "to": [
+        9.1,
+        16.0,
+        8.9
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "kurikata_knob",
+      "from": [
+        6.5,
+        11.0,
+        6.8
+      ],
+      "to": [
+        7.2,
+        12.5,
+        9.2
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "sageo_cord",
+      "from": [
+        6.8,
+        10.5,
+        6.9
+      ],
+      "to": [
+        9.2,
+        13.0,
+        9.1
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "saya_mid",
+      "from": [
+        6.9,
+        15.8,
+        7.1
+      ],
+      "to": [
+        9.1,
+        22.0,
+        8.9
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      },
+      "rotation": [
+        0,
+        0,
+        22.5
+      ],
+      "origin": [
+        8.0,
+        16.0,
+        8.0
+      ]
+    },
+    {
+      "name": "saya_lower",
+      "from": [
+        7.0,
+        21.5,
+        7.2
+      ],
+      "to": [
+        9.0,
+        27.0,
+        8.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      },
+      "rotation": [
+        0,
+        0,
+        45.0
+      ],
+      "origin": [
+        7.5,
+        22.0,
+        8.0
+      ]
+    },
+    {
+      "name": "kojiri_end",
+      "from": [
+        7.1,
+        26.5,
+        7.3
+      ],
+      "to": [
+        8.9,
+        28.0,
+        8.7
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      },
+      "rotation": [
+        0,
+        0,
+        45.0
+      ],
+      "origin": [
+        7.5,
+        22.0,
+        8.0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "id": "0",
+      "name": "katana_sheathed.png",
+      "folder": "item",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAFLklEQVR4nOVZa2wUVRQ+3QwS0RhjQxowgUQNaiI/qBENipWiItJKsYUWpJU2PGoL1Gx17QorxdYsqYFYCEXRQDSNqUJtedRSJRiF+sKgP/yDIZioiSX6x/4wzd47XXNmme12Oo87L89s+yV3Znbuud+dc+bcb+69m5NMJpNAhNy8uSCN/A2UkPDw2bdXSB+iZsk8kn6PfPFLKgCMMaBE/r1zpnYAWjsvkPUt4YGxBFDisfmzSfrtGrwajAyQR8l0GAwD8PyqR+H9nq/+l4coWHAnUODYN78aD4H3Pj4LG9c8rpwnvwYk9IfAoc5++POvYVcdzJp5i6XN/XfNBAr0XfpdTAMufv2low4eWFQgpC8B0ICEbx2IcBctugcocOanP1IB4KZvKeSqE3PuoGgAM3vI6a46EBkC826/FSgwNDwkMASk6b4PgQBoADM2UCz8zYC1S+cDBQYvXxMIwI3+B4BeAxLGaerSf1NuFbNuuwkoMDQ84v9aIEvmAcy3DkS4NxflAwW2dpwNxkSIXgMYbQbcPOMGIMHwdQ0Qma05hQg3l0eBClIQhsBLqx8CYg1glqu6ST4PYIYGF88P+P4QyZwcmNKbonyUXAMYUGJ35eJga4DfoNcARjsE/hmhewFSEDJgUq8FAh+A3Ly5QA3KAOQk+RW63gHgtf0/UHYPqSFw7W2Szqfl1QLntMNPwgNjMknn0zD9OXfF8dSyQjgzcM7tVJgDFdxkQNGKZdAW3wORaBOc7hvIvgwAFxmwcuUKxXmEGoQTJ/qcBoBDNmVAaWlJ2nkVahC6u3udDAF5QsWc/Cj8dikOXsCMy24GrCkvG+d8/7EO5bx8dZ0jvhAeOJMnlKvftSoPrldnpyAHcunVKX1zJly0zmuBdWhjhzOkiqBeuXy+Ge54cKdhvVXBtshhVK+8MZkLlXXPrTV1PjMIaCvKG1ICwGTD8vO5GNy9uNnURq9gG2xrZmMnA+wAg1BZVWkjAxg3LT8OROG+whZLO7WgLbaxslMygHPLUl1TI/T2tUHAdlbcUmoIWH8Gvz8VgYXFbcoZgdfaevW+ei0CK9HaUldn23ntl+GdjpRQuv4MDn4Shoef3adc/3th1bi6hcU9aRs7MEvv+u0Njp3XBuHg/nbdekl5CIEMyITWefXejEd6bHMZZcD2cKNr50X6CeFBVNgKKtp1nVeBdWgjyofQEyavnUcu5HQsgixDtERgh08rSuFIk6fOZwYBuR2LoB3Y4ePymAZEY7vTzqszPFGI2ONsMfLqToi37ErfCwUpA1p37VAEyy8gN/YxMQOY2Bvr2lcFFeEeQx1AEUQbN1+B5h0RaH6jLT23t4J2LWDmPHLrrwUSsnBRHdVCvWeXS29yEnsl7GkmIBdyGk+EmFh6V8c+gqMt5devxwdh7P6YjZt5QLRxG8T3HnAtiOg8chlBEhWtzS3H4XCsLP078zoTeF9r63QmGGl4AdraDzkOAjqPHGYI4cFKrNChg00lwuKGttjGi7VAY/0mR8MB22BbK/5QKgDGk5X6Pb3wVmOx7dUgtsG2XqwGG7ZscBQE1/sBL+49BW9uW+54PwDbIocX+wFbN64XDgLaob3wfgDX2a15+UA/xGufdL0jhBzI5cWOUO2GcssgYD3aiXJKRiL4es1S8ApmXHb38DatL4V3O7t1hRGdx/pJvytcXfEMHO06qQRBnQCh83h/yvwvUFX2NHxw/NP0eh9/T7l/htaVPAEf9n6unJ1CytYMUFFetCS7/x7PnV1I2T38ByAkB7jFwnxtAAAAAElFTkSuQmCC"
+    }
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        -90,
+        55
+      ],
+      "translation": [
+        0,
+        4.0,
+        0.5
+      ],
+      "scale": [
+        0.85,
+        0.85,
+        0.85
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        0,
+        90,
+        -55
+      ],
+      "translation": [
+        0,
+        4.0,
+        0.5
+      ],
+      "scale": [
+        0.85,
+        0.85,
+        0.85
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        -90,
+        25
+      ],
+      "translation": [
+        1.13,
+        3.2,
+        1.13
+      ],
+      "scale": [
+        0.68,
+        0.68,
+        0.68
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        0,
+        90,
+        -25
+      ],
+      "translation": [
+        1.13,
+        3.2,
+        1.13
+      ],
+      "scale": [
+        0.68,
+        0.68,
+        0.68
+      ]
+    },
+    "gui": {
+      "rotation": [
+        0,
+        0,
+        -45
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.75,
+        0.75,
+        0.75
+      ]
+    },
+    "ground": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        2.0,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    }
+  }
+}

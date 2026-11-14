@@ -1,0 +1,771 @@
+{
+  "meta": {
+    "format_version": "4.10",
+    "model_format": "free",
+    "box_uv": false
+  },
+  "name": "storm_shard",
+  "geometry_name": "storm_shard",
+  "resolution": {
+    "width": 64,
+    "height": 64
+  },
+  "elements": [
+    {
+      "name": "rock_base",
+      "from": [
+        4.0,
+        2.0,
+        4.0
+      ],
+      "to": [
+        12.0,
+        6.0,
+        12.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "matrix_chunk",
+      "from": [
+        5.0,
+        5.5,
+        5.0
+      ],
+      "to": [
+        11.0,
+        8.5,
+        11.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            0.0,
+            64.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "spire_main",
+      "from": [
+        6.5,
+        7.5,
+        6.5
+      ],
+      "to": [
+        9.5,
+        13.5,
+        9.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "spire_tip",
+      "from": [
+        7.0,
+        13.0,
+        7.0
+      ],
+      "to": [
+        9.0,
+        15.0,
+        9.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "crystal_left",
+      "from": [
+        4.5,
+        6.0,
+        6.5
+      ],
+      "to": [
+        7.0,
+        11.5,
+        9.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      },
+      "rotation": [
+        0,
+        0,
+        22.5
+      ],
+      "origin": [
+        6.0,
+        6.0,
+        7.5
+      ]
+    },
+    {
+      "name": "crystal_north",
+      "from": [
+        6.5,
+        6.0,
+        4.5
+      ],
+      "to": [
+        9.5,
+        11.0,
+        7.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      },
+      "rotation": [
+        -22.5,
+        0,
+        0
+      ],
+      "origin": [
+        8.0,
+        6.0,
+        6.0
+      ]
+    },
+    {
+      "name": "crystal_south",
+      "from": [
+        6.8,
+        5.5,
+        9.5
+      ],
+      "to": [
+        9.2,
+        10.0,
+        11.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      },
+      "rotation": [
+        45.0,
+        0,
+        0
+      ],
+      "origin": [
+        8.0,
+        5.5,
+        9.5
+      ]
+    },
+    {
+      "name": "crystal_right",
+      "from": [
+        9.5,
+        5.5,
+        6.8
+      ],
+      "to": [
+        11.5,
+        10.0,
+        9.2
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            0.0,
+            32.0,
+            32.0
+          ],
+          "texture": 0
+        }
+      },
+      "rotation": [
+        0,
+        0,
+        -45.0
+      ],
+      "origin": [
+        9.5,
+        5.5,
+        8.0
+      ]
+    },
+    {
+      "name": "glowing_vein",
+      "from": [
+        6.0,
+        4.5,
+        6.0
+      ],
+      "to": [
+        10.0,
+        6.5,
+        10.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    }
+  ],
+  "textures": [
+    {
+      "id": "0",
+      "name": "storm_shard.png",
+      "folder": "item",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAFDUlEQVR4nO1bXUwUVxQ+jCMP+uBLo7Upja0PVm2tsQZSlRhbulQFXQgWTCsWQggpkQSMVaJQsrTFaPzXhJgttBpEKxFKtQZKNA3+BGNUUiOa0DYxTZs2vvTFZGfQbc6Fuy7D7Mydn/XMsv2SOzM7c+45c86c+825dyAlHB4KAxHSZr0N1JBxo/x5lPQm+ttfJbGbufH3sQAoT4AScxa9R2Q56I0A5Kw/RWZbxo2i0gagoeYFErt5nz70RgYoKhkPAwuAqhOAuRk74deBL5/LTSzLygZaDlAnBmDoSgDmr6hn+8nPAYr+EBi89DnMTB1yZOAfZb6pTPnHM4AClQ2PBTggFeBC77+2DKz1zRDiF0Uh5gAljiQoorvgoxygQPVXYxygqk/jZkREt2c5wA2I6M7xTQcKDA6LcIBDJAYHqHEMgIDuqmo/UGBvMOiRIUDNAWocAyCie8lbqZDcHKAmOQfsbtoAFGjr/p8DwBND4MXZElBgcBi8UQnS1wEKbQacaNkIFEhbKMQBEpvVTeo6QDG4yX0t8V8uezrlSXIviirUHKASL4r2nS/2MgfEH/QcoNIG4I9HITLbshcygH4uoNAGIERIgikvz5xGZ90DSAmPDJMG4K/reZTmYfQ1+HczifGpsyogpMRvHiICGTcq0Vtgqgvjf97SLHhws89pITQCifgGePOd9yF4uAvKqvzwy/WfEi8DwEEGLF3pY84jeBBu/txrNwAjkEgZgJ/TufMcPAjX+nrcmQu8sqQWHt5qAjdgpMtqBqxa88E458sCow4H67Nt6ZNxM6IzBH4b+AJey9jF9k5gpsPKTDDbv3rCk9fLgp6ui+6Q4IP+BpiX2cD2diDSNyS4HLduw1pD57VB6D57wR0SvHupDt54t5HtrUC0TzzWAngQOtrOm8pKnASN2u2eWuaQmRxvKIt9zOQQITVs2vDvB0SevjYI2M9Mt8wCIDAZuvHDZ5Ceu4ftEXisvc7P82MRmGVASfk6y85rM6H1eLc7r8Gr52pgef5+dvz4yvgaPj23MyJjBfgUYqGicr1t57VBaD72vcFbQLFWCGmd5+emrei0rCtWBuAnc6fOi9iROAmKtJVFh3Sd58BrKCOqj7+3tc1t51EX6tSzJY0GQIzcRGFFH1aC0W3b9jxXnY8OAurW2pPZDbu8ImRFX/R0OBAoiDjPKzxzvA4A94XksVrcuSsf6us7IuckL2XAjtqzjLCs4b6wJOpGGxMzQBV7Yqf3F0NRTWdMHkASRBkr0Nbu1Vu/gwP7PozU9mbQzgViylX5mW4tJNwgc4s27qgW/JxVXcjO2la55YyNTDB2HnXq2ZJRQDS9S+rOQGtj4djx+CA8O/9MxkkdUFZxGoLNRY4JEZ1HXbEgi5JWeWMHHK8riPyOPo4GntfK2q0Ei0vb2adzu0FA51GHESTcmJEVOnRsh1+Y3FAW+7gxFyjcdMrWcMA+2NdMvzQagNjFSuXuLji4NVe4uOEN+2Bfs0JIb1xqW15hm60giOiWjdYDth25CHu3rAa7wL5mOkTXA9bkn4Qfz20SGg4YLJR3tCJU29wLTRU+cArUYaTLynpAVs4J9indKAjoPMqJQo5FgoFS9/6Xz0iX1TW8TN+30N+7WTcI6Dxen/SrwhmrvoGBy5+wIPACCJ3H80nzXWDx8la4c7UkMt/H30n3ZWhBegvcu1HK9nYhJ2oGcMxd/HVifx5Pe2kRpXn4DzC6h/J5ydCGAAAAAElFTkSuQmCC"
+    }
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        3.0,
+        1.0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        3.0,
+        1.0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    },
+    "gui": {
+      "rotation": [
+        30,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        0.5,
+        0
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    "ground": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        2.0,
+        0
+      ],
+      "scale": [
+        0.6,
+        0.6,
+        0.6
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    }
+  }
+}

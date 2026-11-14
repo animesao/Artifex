@@ -1,0 +1,1133 @@
+{
+  "meta": {
+    "format_version": "4.10",
+    "model_format": "free",
+    "box_uv": false
+  },
+  "name": "sapphire_ring",
+  "geometry_name": "sapphire_ring",
+  "resolution": {
+    "width": 64,
+    "height": 64
+  },
+  "elements": [
+    {
+      "name": "band_bottom",
+      "from": [
+        6.0,
+        2.5,
+        6.5
+      ],
+      "to": [
+        10.0,
+        4.0,
+        9.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "band_top",
+      "from": [
+        6.0,
+        8.5,
+        6.5
+      ],
+      "to": [
+        10.0,
+        10.0,
+        9.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "band_left",
+      "from": [
+        3.0,
+        5.0,
+        6.5
+      ],
+      "to": [
+        4.5,
+        8.0,
+        9.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "band_right",
+      "from": [
+        11.5,
+        5.0,
+        6.5
+      ],
+      "to": [
+        13.0,
+        8.0,
+        9.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "band_bl",
+      "from": [
+        4.0,
+        3.2,
+        6.5
+      ],
+      "to": [
+        5.8,
+        5.2,
+        9.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      },
+      "rotation": [
+        0,
+        0,
+        45.0
+      ],
+      "origin": [
+        5.0,
+        4.0,
+        8.0
+      ]
+    },
+    {
+      "name": "band_br",
+      "from": [
+        10.2,
+        3.2,
+        6.5
+      ],
+      "to": [
+        12.0,
+        5.2,
+        9.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      },
+      "rotation": [
+        0,
+        0,
+        -45.0
+      ],
+      "origin": [
+        11.0,
+        4.0,
+        8.0
+      ]
+    },
+    {
+      "name": "band_tl",
+      "from": [
+        4.0,
+        7.8,
+        6.5
+      ],
+      "to": [
+        5.8,
+        9.8,
+        9.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      },
+      "rotation": [
+        0,
+        0,
+        -45.0
+      ],
+      "origin": [
+        5.0,
+        9.0,
+        8.0
+      ]
+    },
+    {
+      "name": "band_tr",
+      "from": [
+        10.2,
+        7.8,
+        6.5
+      ],
+      "to": [
+        12.0,
+        9.8,
+        9.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      },
+      "rotation": [
+        0,
+        0,
+        45.0
+      ],
+      "origin": [
+        11.0,
+        9.0,
+        8.0
+      ]
+    },
+    {
+      "name": "gem_collet",
+      "from": [
+        5.5,
+        9.5,
+        6.0
+      ],
+      "to": [
+        10.5,
+        11.0,
+        10.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "prong_nw",
+      "from": [
+        5.2,
+        10.5,
+        5.8
+      ],
+      "to": [
+        6.2,
+        12.8,
+        6.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "prong_ne",
+      "from": [
+        9.8,
+        10.5,
+        5.8
+      ],
+      "to": [
+        10.8,
+        12.8,
+        6.8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "prong_sw",
+      "from": [
+        5.2,
+        10.5,
+        9.2
+      ],
+      "to": [
+        6.2,
+        12.8,
+        10.2
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "prong_se",
+      "from": [
+        9.8,
+        10.5,
+        9.2
+      ],
+      "to": [
+        10.8,
+        12.8,
+        10.2
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0.0,
+            32.0,
+            32.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    },
+    {
+      "name": "gemstone",
+      "from": [
+        6.0,
+        10.8,
+        6.5
+      ],
+      "to": [
+        10.0,
+        13.5,
+        9.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            32.0,
+            32.0,
+            64.0,
+            64.0
+          ],
+          "texture": 0
+        }
+      }
+    }
+  ],
+  "textures": [
+    {
+      "id": "0",
+      "name": "sapphire_ring.png",
+      "folder": "item",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAFPklEQVR4nOVaa2gcVRQ+GSeUVkGllWCqAR+oBBFWSyOYUKgh0MBKGmzStG4faWrT2NKYNW2CHbvtRpM2dt1SlUYKgkptqiTBgMEi/ZNIUNoKIqKhPoj6I+q/YiEzs7tyZjOb3ck87jx2z8T94M7Mzj33u3POnvvNvXe35O9/UykgwtryAFTe+SNQgsfD+WsS6UNcOf8QSb8b235OB0CWaANwdyBI1HPcHwHoaHmXrG8eD7IkAyW69pWT9Lsl/NtCAETaDBBFMh0GwyHQE7wfBsZ/L8hDVNZtBhL0xo2HQN/Ir3C08QHlXAQaIOlWRoZn4Orcfa46WFf2h6VNS+M9QIHpgT/ZNGB2aspRBxXV1Uz6Mk+vAXLeOmDhrt3eBCSIFWAewMLtWw3wAizcG2ruAgpMz/zFMARuy/8QECVqDRBNvqWV7jpgEcHQoe1AgdgHLBqwsgg0QMrjW4CF+5HHbgcKTM+I/hDBeV9rgEuwcB/p2wUUuDhhshbwCizc5BogEw+BO1avABqI1gEoKUAARCkJVOCt0rS0AEMgPrQXKBB4StUAE6EqXVjV5VMEfa0BNyeH8v4QN5McFPWmqEg+D5BoN0WHR/b7VwMKAR9ogAyUmJlLFPcQmC92DRApA7C2PADUoAxASUq+Qdc7ADw9eC9l95DeEJk7R9J5aVk7JOV5oASPB0miUWGcZidl0RVHy6Yy+HhizmUARLrXYMpFBmwLVsDp6GUIC3VwYXx2+WUAuMiAFzY/rDiPUIPw0egN/22KWiHlIAChLZUZ51WoQfjwkx+cDIHEkoqKJ3th9no/eAEzLrsiuLMlkOP8d5fqlPMTTZcd8XF4kKXEkvLL133Kg+vV2SnIgVx6dekHFpmL1nktsA5t7HByqgjqlZ8mI/Bg1VHDequCbZHDqB6RSohMZXeoytT57CCgLSsvpwRAShiW768I8GhNxNRGr2AbbGtmo6YsS7EDDELrrhomXi4dANm0fPtFLzy+MWpppxa0xTZWdkoGyKJlaWurZfr2tUHAdlbcfHoIWL8Gvxk/DOuDp5QzAq+19ep99dqL1+C+Aw22nc99M9TD0Ntj3rwGvxrpgmcaY8r1rancf3atD45mbLyaCLV3Njt2PjcIDXAuPqxbz+NBZsiAbGidV++tqh61zWWUAR2vhFw7z9IPhwdWYduw9Yyu8yqwDm1Y+dQH0xavnUcu5DR+DUps4sYKO3w4BLLLgZ49njqfHQTk1vbHKw9sM22tYIcvmVhMzUPHOjPOqzM8K6xZBfDPLTZ7nC2GhQ44czyeucf5KQPiwkllPm8H6DwrkBv7WJoBEts3djG2A7Z2jRrqAIog2rgRp1hvFML9QmZubwXtWsDMeeTWXwuICeaiOqqFes8ul54wvdkt2M4EK+eRU68vHg1Y03u3MAzvR5sXrnODsHh/0cbNPGDw5cPQ/dYp14KIziOXEXhW0Xox+im8Jzyf+Zx9nQ28r7V1OhM8ebATjpyNOw4COo8cZuDwYCVW6NA7PQ3M4oa22MaLtcDA/g5HwwHbYFsrfi4dAOPJyksDYxAPB22vBrENtvViNfjG3j2OgsC+GhT11+udp8dh8OAmx/sB2BY5vNgPeL01xBwEtEN75v0AWWe3pvvsBPS317neEUIO5PJiRyi6o9kyCFiPdqycvJEInmh9FryCGZfdzY7j2xrg2IUxXWFE57H+f78rHGmqh8ilz5UgqBMgdB7vF83vAq811sKJkS8z2+H4ueh+GRKeq4HoZ5PK2Sn45ZoBKl6tr1reP4+vWM02Y8wX/gO3kwPQpuJy9gAAAABJRU5ErkJggg=="
+    }
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        1.0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        45,
+        0
+      ],
+      "translation": [
+        0,
+        2.5,
+        1.0
+      ],
+      "scale": [
+        0.7,
+        0.7,
+        0.7
+      ]
+    },
+    "gui": {
+      "rotation": [
+        15,
+        -25,
+        -10
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.9,
+        0.9,
+        0.9
+      ]
+    },
+    "ground": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        2.0,
+        0
+      ],
+      "scale": [
+        0.6,
+        0.6,
+        0.6
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.85,
+        0.85,
+        0.85
+      ]
+    },
+    "head": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0,
+        6.0,
+        -4.5
+      ],
+      "scale": [
+        0.85,
+        0.85,
+        0.85
+      ]
+    }
+  }
+}
