@@ -7,6 +7,19 @@ extracts the section of the needed version for the GitHub Release notes.
 
 ---
 
+## v2.3.8
+
+### 🛡️ Minecraft 1.21.2+ & 26.3 Custom Humanoid Armor (Equippable Component)
+- **Equippable Data Component Integration:** Implemented Paper `DataComponentTypes.EQUIPPABLE` with `asset_id` (`artifex:<set>`) and Bukkit `EquippableComponent` in `ItemLoader.java` and `gear.yml`. Custom armor sets now render authentic 3D humanoid armor models (`amber`, `bloodstone`, `crystalite`, `galenite`) on the player character skin instead of defaulting to vanilla gold.
+- **Dynamic Live Armor Updating:** Added real-time inventory and equip event listeners (`fixArmorEquippable`) ensuring armor pieces held or worn dynamically receive the `EQUIPPABLE` component on interaction.
+- **Equipment Assets Architecture:** Generated complete equipment JSON definitions (`assets/<ns>/equipment/<id>.json`) and humanoid textures (`entity/equipment/humanoid/` and `humanoid_leggings/`) across the resource pack.
+
+### 🧱 Custom Ore Placement & Transformation Bugfix
+- **Next-Tick Block Transformation Fix:** Removed flawed type-check in next-tick scheduler task of `OreBlockSystem` that caused placed custom ores to remain as plain vanilla stone.
+- **Guaranteed Packet Synchronization:** Ensured immediate block transformation into NoteBlock state with instrument/note metadata and instant `sendBlockChange` packet delivery to the placer and nearby players.
+
+---
+
 ## v2.3.7
 
 ### 🧱 Universal Custom Block & Ore System & Packet Synchronization
