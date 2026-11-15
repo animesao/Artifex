@@ -15,8 +15,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
+import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.NotePlayEvent;
+import org.bukkit.block.BlockFace;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -259,6 +261,42 @@ public class CustomBlockManager implements Listener {
         CustomBlockDef def = getByBlock(event.getBlock());
         if (def != null) {
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onBlockPhysics(BlockPhysicsEvent event) {
+        Block block = event.getBlock();
+        if (block.getType() == Material.NOTE_BLOCK) {
+            CustomBlockDef def = getByBlock(block);
+            if (def != null) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onNeighborBreak(BlockBreakEvent event) {
+        Block broken = event.getBlock();
+        for (BlockFace face : new BlockFace[]{
+                BlockFace.UP, BlockFace.DOWN, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST
+        }) {
+            Block neighbor = broken.getRelative(face);
+            if (neighbor.getType() == Material.NOTE_BLOCK) {
+                CustomBlockDef def = getByBlock(neighbor);
+                if (def != null) {
+                    Bukkit.getScheduler().runTask(plugin, () -> {
+                        if (neighbor.getType() == Material.NOTE_BLOCK) {
+                            if (neighbor.getBlockData() instanceof NoteBlock nb) {
+                                nb.setInstrument(def.instrument);
+                                nb.setNote(new Note(def.note));
+                                nb.setPowered(def.powered);
+                                neighbor.setBlockData(nb, false);
+                            }
+                        }
+                    });
+                }
+            }
         }
     }
 
