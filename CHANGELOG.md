@@ -7,6 +7,15 @@ extracts the section of the needed version for the GitHub Release notes.
 
 ---
 
+## v2.3.6
+
+### 🚀 Paper Async Command Builder Race Fix & Safe Registration
+- **Debounced Command Synchronization:** Implemented debounced command dispatch in `CommandMapAccessor.syncCommands()` via cancellable `runTaskLater(plugin, ..., 3L)`. Eliminates `ConcurrentModificationException` inside Paper's `Paper Async Command Builder Thread Pool` by ensuring that rapid multi-command registration during `/ci reload` does not mutate Brigadier's `CommandNode` hierarchy concurrently with async worker threads.
+- **Redundant Client Command Updates Removed:** Removed redundant `player.updateCommands()` from `ItemRegistry.updateOnlinePlayers()`, allowing Paper's native `syncCommands()` to handle client synchronization centrally without thread collisions.
+- **Clean Reload Cycle:** Removed premature command synchronization from `CommandRegistrar.unregisterAll()`, preventing unnecessary intermediate empty command packets sent to online clients during reloads.
+
+---
+
 ## v2.3.5
 
 ### 🛡️ Universal Surface-Independent Custom Block Engine & Zero-Gap Models
