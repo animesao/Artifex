@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "artifex:block/oresvol1_amber_block"
-  }
-}

@@ -42,4 +42,5 @@ replay_pid*
 # Local Assets & Generation Scripts (excluded from plugin repository)
 blockbench_models/
 scripts/
+resourcepack/
 
