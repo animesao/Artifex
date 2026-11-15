@@ -7,6 +7,16 @@ extracts the section of the needed version for the GitHub Release notes.
 
 ---
 
+## v2.3.3
+
+### 🔮 Modular Wasteland Crystal Ores & 3D Shards
+- **Self-Contained Java Item Architecture:** Implemented completely modular block & item definitions directly inside dynamic user scripts (`items/ore/WastelandCrystalOre.java` and `items/ore/WastelandCrystalShard.java`) without modifying core plugin sources.
+- **In-World Block Placement:** Added Bukkit `Listener` implementation inside Java item classes allowing automatic remapping of placed blocks to custom 3D NoteBlock states (`iron_xylophone:4`).
+- **Authentic Mining & Harvest Requirements:** Enforced Iron Pickaxe minimum tier with Mining Fatigue debuff on non-eligible tools, authentic deepslate/amethyst hit and break sounds, Dragon Breath particles, and Fortune / Silk Touch drop calculation.
+- **Resource Pack Texture Atlas Fix:** Resolved missing magenta/black checkerboard texture bug by properly binding textures to Minecraft's native item/block atlases and supplying complete 800-variant `note_block.json` blockstates.
+
+---
+
 ## v2.3.2
 
 ### 🐛 Hot-Reload Class Name Regex Fix
