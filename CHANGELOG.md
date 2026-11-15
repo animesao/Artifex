@@ -7,6 +7,15 @@ extracts the section of the needed version for the GitHub Release notes.
 
 ---
 
+## v2.3.5
+
+### 🛡️ Universal Surface-Independent Custom Block Engine & Zero-Gap Models
+- **Universal Note Variant Binding:** Mapped all 16 instruments (`harp`, `basedrum`, `snare`, `bass`, etc.) and both powered states for `note=4` directly to custom ore models, eliminating texture reversion regardless of host surface (dirt, stone, glass, wood, air).
+- **Zero-Gap Seamless Block Geometry:** Expanded ore base matrix to full `16x16x16` block dimensions (`[0,0,0]` to `[16,16,16]`), completely eliminating transparent edge gaps and see-through x-ray seams against adjacent terrain.
+- **Piston & Placement State Lock:** Added `BlockPistonExtendEvent`, `BlockPistonRetractEvent`, and next-tick reinforcement in `BlockPlaceEvent` to permanently protect custom blocks from environmental and mechanical displacement.
+
+---
+
 ## v2.3.4
 
 ### 💎 Custom Block Physics Locking & Natural Ore Generation
