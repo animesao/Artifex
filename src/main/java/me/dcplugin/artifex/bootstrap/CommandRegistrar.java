@@ -89,7 +89,8 @@ public class CommandRegistrar {
                 }
             }
             dynamicCommands.clear();
-            CommandMapAccessor.syncCommands();
+            // syncCommands() will be called after all new commands are registered,
+            // avoiding intermediate async command tree building races.
         } catch (Exception e) {
             plugin.getLogger().log(Level.WARNING, "Failed to unregister custom commands: " + e.getMessage(), e);
         }

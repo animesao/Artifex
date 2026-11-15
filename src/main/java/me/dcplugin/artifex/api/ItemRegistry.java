@@ -414,9 +414,6 @@ public class ItemRegistry {
         if (!Bukkit.isPrimaryThread()) return;
         for (Player player : Bukkit.getOnlinePlayers()) {
             try {
-                player.updateCommands();
-            } catch (Throwable ignored) {}
-            try {
                 updatePlayerCustomItems(player);
             } catch (Throwable ignored) {}
         }

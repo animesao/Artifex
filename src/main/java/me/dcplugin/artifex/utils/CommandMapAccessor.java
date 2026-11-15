@@ -84,7 +84,7 @@ public final class CommandMapAccessor {
         }
     }
 
-    private static final java.util.concurrent.atomic.AtomicBoolean syncScheduled = new java.util.concurrent.atomic.AtomicBoolean(false);
+    private static org.bukkit.scheduler.BukkitTask pendingSyncTask = null;
 
     /**
      * The map of the "known" commands of the CommandMap.
@@ -157,25 +157,30 @@ public final class CommandMapAccessor {
 
     /**
      * Synchronizes commands with players and Brigadier if supported (e.g. Paper).
-     * Automatically debounced to the next tick to prevent racing with Paper's
-     * async command builder thread pool.
+     * Automatically debounced to run a few ticks after the last registration
+     * to prevent racing with Paper's async command builder thread pool.
      */
-    public static void syncCommands() {
+    public static synchronized void syncCommands() {
         Object server = Bukkit.getServer();
         if (server == null) return;
 
         try {
             org.bukkit.plugin.Plugin plugin = Bukkit.getPluginManager().getPlugin("Artifex");
-            if (plugin != null && plugin.isEnabled() && Bukkit.isPrimaryThread()) {
-                if (syncScheduled.compareAndSet(false, true)) {
-                    Bukkit.getScheduler().runTask(plugin, () -> {
-                        syncScheduled.set(false);
-                        try {
-                            Method syncMethod = server.getClass().getMethod("syncCommands");
-                            syncMethod.invoke(server);
-                        } catch (Throwable ignored) {}
-                    });
+            if (plugin != null && plugin.isEnabled()) {
+                if (pendingSyncTask != null) {
+                    try {
+                        pendingSyncTask.cancel();
+                    } catch (Throwable ignored) {}
                 }
+                pendingSyncTask = Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                    synchronized (CommandMapAccessor.class) {
+                        pendingSyncTask = null;
+                    }
+                    try {
+                        Method syncMethod = server.getClass().getMethod("syncCommands");
+                        syncMethod.invoke(server);
+                    } catch (Throwable ignored) {}
+                }, 3L);
                 return;
             }
         } catch (Throwable ignored) {
@@ -185,15 +190,19 @@ public final class CommandMapAccessor {
         try {
             Method syncMethod = server.getClass().getMethod("syncCommands");
             syncMethod.invoke(server);
-        } catch (Throwable ignored) {
-            // Not supported on this server software or version
-        }
+        } catch (Throwable ignored) {}
     }
 
     /**
      * Reset the cache (in case the server is swapped in the tests).
      */
     public static synchronized void reset() {
+        if (pendingSyncTask != null) {
+            try {
+                pendingSyncTask.cancel();
+            } catch (Throwable ignored) {}
+                pendingSyncTask = null;
+        }
         commandMap = null;
         knownCommands = null;
         resolved = false;
