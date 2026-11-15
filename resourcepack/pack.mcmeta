@@ -1,0 +1,12 @@
+{
+  "pack": {
+    "pack_format": 97,
+    "supported_formats": [
+      34,
+      64
+    ],
+    "min_format": 34,
+    "max_format": 120,
+    "description": "§b§lARTIFEX §7• §fCustom Items & Ores"
+  }
+}

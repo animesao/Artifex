@@ -1,0 +1,544 @@
+amber_ingot:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: COPPER_INGOT
+    title: '&#FFAA00Янтарный слиток'
+    custom-model-data: 2008
+    item-model: artifex:item/amber_ingot
+  lore:
+  - '&7Ценный минеральный ресурс: &fЯнтарь'
+  - '&7Тир: &eТир 2'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: amber_ingot'
+amber_nugget:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: IRON_NUGGET
+    title: '&#FFAA00Кусочек янтаря'
+    custom-model-data: 2013
+    item-model: artifex:item/amber_nugget
+  lore:
+  - '&7Ценный минеральный ресурс: &fЯнтарь'
+  - '&7Тир: &eТир 2'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: amber_nugget'
+amber_shard:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: COPPER_INGOT
+    title: '&#FFAA00Янтарь'
+    custom-model-data: 2016
+    item-model: artifex:item/amber_shard
+  lore:
+  - '&7Ценный минеральный ресурс: &fЯнтарь'
+  - '&7Тир: &eТир 2'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: amber_shard'
+amethyst:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: AMETHYST_SHARD
+    title: '&#C855FFАметист'
+    custom-model-data: 2019
+    item-model: artifex:item/amethyst
+  lore:
+  - '&7Ценный минеральный ресурс: &fАметист'
+  - '&7Тир: &eТир 3'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: amethyst'
+amethyst_ingot:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: AMETHYST_SHARD
+    title: '&#C855FFАметистовый слиток'
+    custom-model-data: 2021
+    item-model: artifex:item/amethyst_ingot
+  lore:
+  - '&7Ценный минеральный ресурс: &fАметист'
+  - '&7Тир: &eТир 3'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: amethyst_ingot'
+amethyst_nugget:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: IRON_NUGGET
+    title: '&#C855FFКусочек аметиста'
+    custom-model-data: 2022
+    item-model: artifex:item/amethyst_nugget
+  lore:
+  - '&7Ценный минеральный ресурс: &fАметист'
+  - '&7Тир: &eТир 3'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: amethyst_nugget'
+bloodstone_ingot:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: NETHERITE_INGOT
+    title: '&#FF2244Кровавый слиток'
+    custom-model-data: 2031
+    item-model: artifex:item/bloodstone_ingot
+  lore:
+  - '&7Ценный минеральный ресурс: &fКровавый камень'
+  - '&7Тир: &eТир 5'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: bloodstone_ingot'
+bloodstone_nugget:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: IRON_NUGGET
+    title: '&#FF2244Кусочек кровавого камня'
+    custom-model-data: 2036
+    item-model: artifex:item/bloodstone_nugget
+  lore:
+  - '&7Ценный минеральный ресурс: &fКровавый камень'
+  - '&7Тир: &eТир 5'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: bloodstone_nugget'
+crystalite_ingot:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: DIAMOND
+    title: '&#00FFDDКристаллитовый слиток'
+    custom-model-data: 2048
+    item-model: artifex:item/crystalite_ingot
+  lore:
+  - '&7Ценный минеральный ресурс: &fКристаллит'
+  - '&7Тир: &eТир 4'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: crystalite_ingot'
+crystalite_nugget:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: IRON_NUGGET
+    title: '&#00FFDDКусочек кристаллита'
+    custom-model-data: 2053
+    item-model: artifex:item/crystalite_nugget
+  lore:
+  - '&7Ценный минеральный ресурс: &fКристаллит'
+  - '&7Тир: &eТир 4'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: crystalite_nugget'
+galenite_ingot:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: IRON_INGOT
+    title: '&#708090Галенитовый слиток'
+    custom-model-data: 2073
+    item-model: artifex:item/galenite_ingot
+  lore:
+  - '&7Ценный минеральный ресурс: &fГаленит'
+  - '&7Тир: &eТир 3'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: galenite_ingot'
+galenite_nugget:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: IRON_NUGGET
+    title: '&#708090Кусочек галенита'
+    custom-model-data: 2078
+    item-model: artifex:item/galenite_nugget
+  lore:
+  - '&7Ценный минеральный ресурс: &fГаленит'
+  - '&7Тир: &eТир 3'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: galenite_nugget'
+iridium:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: NETHERITE_INGOT
+    title: '&#FFFFFFИридий'
+    custom-model-data: 2083
+    item-model: artifex:item/iridium
+  lore:
+  - '&7Ценный минеральный ресурс: &fИридий'
+  - '&7Тир: &eТир 5'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: iridium'
+iridium_ingot:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: NETHERITE_INGOT
+    title: '&#FFFFFFИридиевый слиток'
+    custom-model-data: 2085
+    item-model: artifex:item/iridium_ingot
+  lore:
+  - '&7Ценный минеральный ресурс: &fИридий'
+  - '&7Тир: &eТир 5'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: iridium_ingot'
+iridium_nugget:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: IRON_NUGGET
+    title: '&#FFFFFFКусочек иридия'
+    custom-model-data: 2086
+    item-model: artifex:item/iridium_nugget
+  lore:
+  - '&7Ценный минеральный ресурс: &fИридий'
+  - '&7Тир: &eТир 5'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: iridium_nugget'
+jade_ingot:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: EMERALD
+    title: '&#55FF55Нефритовый слиток'
+    custom-model-data: 2089
+    item-model: artifex:item/jade_ingot
+  lore:
+  - '&7Ценный минеральный ресурс: &fНефрит'
+  - '&7Тир: &eТир 3'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: jade_ingot'
+jade_nugget:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: IRON_NUGGET
+    title: '&#55FF55Кусочек нефрита'
+    custom-model-data: 2090
+    item-model: artifex:item/jade_nugget
+  lore:
+  - '&7Ценный минеральный ресурс: &fНефрит'
+  - '&7Тир: &eТир 3'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: jade_nugget'
+malachite:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: EMERALD
+    title: '&#11BB66Малахит'
+    custom-model-data: 2092
+    item-model: artifex:item/malachite
+  lore:
+  - '&7Ценный минеральный ресурс: &fМалахит'
+  - '&7Тир: &eТир 3'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: malachite'
+malachite_ingot:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: EMERALD
+    title: '&#11BB66Малахитовый слиток'
+    custom-model-data: 2094
+    item-model: artifex:item/malachite_ingot
+  lore:
+  - '&7Ценный минеральный ресурс: &fМалахит'
+  - '&7Тир: &eТир 3'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: malachite_ingot'
+malachite_nugget:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: IRON_NUGGET
+    title: '&#11BB66Кусочек малахита'
+    custom-model-data: 2095
+    item-model: artifex:item/malachite_nugget
+  lore:
+  - '&7Ценный минеральный ресурс: &fМалахит'
+  - '&7Тир: &eТир 3'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: malachite_nugget'
+mythril_ingot:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: NETHERITE_INGOT
+    title: '&#33E0FFМифриловый слиток'
+    custom-model-data: 2098
+    item-model: artifex:item/mythril_ingot
+  lore:
+  - '&7Ценный минеральный ресурс: &fМифрил'
+  - '&7Тир: &eТир 5'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: mythril_ingot'
+mythril_nugget:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: IRON_NUGGET
+    title: '&#33E0FFКусочек мифрила'
+    custom-model-data: 2099
+    item-model: artifex:item/mythril_nugget
+  lore:
+  - '&7Ценный минеральный ресурс: &fМифрил'
+  - '&7Тир: &eТир 5'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: mythril_nugget'
+raw_amber:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: RAW_IRON
+    title: '&#FFAA00Необработанный янтарь'
+    custom-model-data: 2105
+    item-model: artifex:item/raw_amber
+  lore:
+  - '&7Ценный минеральный ресурс: &fЯнтарь'
+  - '&7Тир: &eТир 2'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: raw_amber'
+raw_bloodstone:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: RAW_IRON
+    title: '&#FF2244Необработанный кровавый камень'
+    custom-model-data: 2108
+    item-model: artifex:item/raw_bloodstone
+  lore:
+  - '&7Ценный минеральный ресурс: &fКровавый камень'
+  - '&7Тир: &eТир 5'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: raw_bloodstone'
+raw_crystalite:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: RAW_IRON
+    title: '&#00FFDDНеобработанный кристаллит'
+    custom-model-data: 2109
+    item-model: artifex:item/raw_crystalite
+  lore:
+  - '&7Ценный минеральный ресурс: &fКристаллит'
+  - '&7Тир: &eТир 4'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: raw_crystalite'
+raw_galenite:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: RAW_IRON
+    title: '&#708090Необработанный галенит'
+    custom-model-data: 2110
+    item-model: artifex:item/raw_galenite
+  lore:
+  - '&7Ценный минеральный ресурс: &fГаленит'
+  - '&7Тир: &eТир 3'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: raw_galenite'
+raw_jade:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: RAW_IRON
+    title: '&#55FF55Необработанный нефрит'
+    custom-model-data: 2112
+    item-model: artifex:item/raw_jade
+  lore:
+  - '&7Ценный минеральный ресурс: &fНефрит'
+  - '&7Тир: &eТир 3'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: raw_jade'
+raw_mythril:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: RAW_IRON
+    title: '&#33E0FFНеобработанный мифрил'
+    custom-model-data: 2115
+    item-model: artifex:item/raw_mythril
+  lore:
+  - '&7Ценный минеральный ресурс: &fМифрил'
+  - '&7Тир: &eТир 5'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: raw_mythril'
+ruby:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: DIAMOND
+    title: '&#FF3366Рубин'
+    custom-model-data: 2119
+    item-model: artifex:item/ruby
+  lore:
+  - '&7Ценный минеральный ресурс: &fРубин'
+  - '&7Тир: &eТир 4'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: ruby'
+ruby_ingot:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: DIAMOND
+    title: '&#FF3366Рубиновый слиток'
+    custom-model-data: 2121
+    item-model: artifex:item/ruby_ingot
+  lore:
+  - '&7Ценный минеральный ресурс: &fРубин'
+  - '&7Тир: &eТир 4'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: ruby_ingot'
+ruby_nugget:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: IRON_NUGGET
+    title: '&#FF3366Кусочек рубина'
+    custom-model-data: 2122
+    item-model: artifex:item/ruby_nugget
+  lore:
+  - '&7Ценный минеральный ресурс: &fРубин'
+  - '&7Тир: &eТир 4'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: ruby_nugget'
+silver:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: IRON_INGOT
+    title: '&#DDEEFFСеребро'
+    custom-model-data: 2124
+    item-model: artifex:item/silver
+  lore:
+  - '&7Ценный минеральный ресурс: &fСеребро'
+  - '&7Тир: &eТир 2'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: silver'
+silver_ingot:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: IRON_INGOT
+    title: '&#DDEEFFСеребряный слиток'
+    custom-model-data: 2126
+    item-model: artifex:item/silver_ingot
+  lore:
+  - '&7Ценный минеральный ресурс: &fСеребро'
+  - '&7Тир: &eТир 2'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: silver_ingot'
+silver_nugget:
+  type: MATERIAL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: IRON_NUGGET
+    title: '&#DDEEFFКусочек серебра'
+    custom-model-data: 2127
+    item-model: artifex:item/silver_nugget
+  lore:
+  - '&7Ценный минеральный ресурс: &fСеребро'
+  - '&7Тир: &eТир 2'
+  - ' '
+  - '&7Используется для крафта высокоуровневого'
+  - '&7снаряжения, оружия и инструментов в Artifex.'
+  - '&8Artifex Resource • ID: silver_nugget'

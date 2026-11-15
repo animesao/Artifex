@@ -1,0 +1,750 @@
+amber_block:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: IRON_BLOCK
+    title: '&#FFAA00Янтарный блок'
+    custom-model-data: 2002
+    item-model: artifex:block/amber_block
+  lore:
+  - '&7Природный блок месторождения &fЯнтарь&7.'
+  - '&7Тир редкости: &eТир 2'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: amber_block'
+amber_end_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: END_STONE
+    title: '&#FFAA00Янтарная руда Энда'
+    custom-model-data: 2005
+    item-model: artifex:block/amber_end_ore
+  lore:
+  - '&7Природный блок месторождения &fЯнтарь&7.'
+  - '&7Тир редкости: &eТир 2'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: amber_end_ore'
+amber_nether_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: NETHERRACK
+    title: '&#FFAA00Янтарная руда Незера'
+    custom-model-data: 2012
+    item-model: artifex:block/amber_nether_ore
+  lore:
+  - '&7Природный блок месторождения &fЯнтарь&7.'
+  - '&7Тир редкости: &eТир 2'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: amber_nether_ore'
+amber_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: STONE
+    title: '&#FFAA00Янтарная руда'
+    custom-model-data: 2014
+    item-model: artifex:block/amber_ore
+  lore:
+  - '&7Природный блок месторождения &fЯнтарь&7.'
+  - '&7Тир редкости: &eТир 2'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: amber_ore'
+amethyst_block:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: IRON_BLOCK
+    title: '&#C855FFАметистовый блок'
+    custom-model-data: 2020
+    item-model: artifex:block/amethyst_block
+  lore:
+  - '&7Природный блок месторождения &fАметист&7.'
+  - '&7Тир редкости: &eТир 3'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: amethyst_block'
+amethyst_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: STONE
+    title: '&#C855FFАметистовая руда'
+    custom-model-data: 2023
+    item-model: artifex:block/amethyst_ore
+  lore:
+  - '&7Природный блок месторождения &fАметист&7.'
+  - '&7Тир редкости: &eТир 3'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: amethyst_ore'
+bloodstone_block:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: IRON_BLOCK
+    title: '&#FF2244Кровавый блок'
+    custom-model-data: 2025
+    item-model: artifex:block/bloodstone_block
+  lore:
+  - '&7Природный блок месторождения &fКровавый камень&7.'
+  - '&7Тир редкости: &eТир 5'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: bloodstone_block'
+bloodstone_end_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: END_STONE
+    title: '&#FF2244Кровавая руда Энда'
+    custom-model-data: 2028
+    item-model: artifex:block/bloodstone_end_ore
+  lore:
+  - '&7Природный блок месторождения &fКровавый камень&7.'
+  - '&7Тир редкости: &eТир 5'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: bloodstone_end_ore'
+bloodstone_nether_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: NETHERRACK
+    title: '&#FF2244Кровавая руда Незера'
+    custom-model-data: 2035
+    item-model: artifex:block/bloodstone_nether_ore
+  lore:
+  - '&7Природный блок месторождения &fКровавый камень&7.'
+  - '&7Тир редкости: &eТир 5'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: bloodstone_nether_ore'
+bloodstone_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: STONE
+    title: '&#FF2244Кровавая руда'
+    custom-model-data: 2037
+    item-model: artifex:block/bloodstone_ore
+  lore:
+  - '&7Природный блок месторождения &fКровавый камень&7.'
+  - '&7Тир редкости: &eТир 5'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: bloodstone_ore'
+crystalite_block:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: IRON_BLOCK
+    title: '&#00FFDDКристаллитовый блок'
+    custom-model-data: 2042
+    item-model: artifex:block/crystalite_block
+  lore:
+  - '&7Природный блок месторождения &fКристаллит&7.'
+  - '&7Тир редкости: &eТир 4'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: crystalite_block'
+crystalite_end_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: END_STONE
+    title: '&#00FFDDКристаллитовая руда Энда'
+    custom-model-data: 2045
+    item-model: artifex:block/crystalite_end_ore
+  lore:
+  - '&7Природный блок месторождения &fКристаллит&7.'
+  - '&7Тир редкости: &eТир 4'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: crystalite_end_ore'
+crystalite_nether_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: NETHERRACK
+    title: '&#00FFDDКристаллитовая руда Незера'
+    custom-model-data: 2052
+    item-model: artifex:block/crystalite_nether_ore
+  lore:
+  - '&7Природный блок месторождения &fКристаллит&7.'
+  - '&7Тир редкости: &eТир 4'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: crystalite_nether_ore'
+crystalite_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: STONE
+    title: '&#00FFDDКристаллитовая руда'
+    custom-model-data: 2054
+    item-model: artifex:block/crystalite_ore
+  lore:
+  - '&7Природный блок месторождения &fКристаллит&7.'
+  - '&7Тир редкости: &eТир 4'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: crystalite_ore'
+deepslate_amber_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: DEEPSLATE
+    title: '&#FFAA00Глубинная янтарная руда'
+    custom-model-data: 2058
+    item-model: artifex:block/deepslate_amber_ore
+  lore:
+  - '&7Природный блок месторождения &fЯнтарь&7.'
+  - '&7Тир редкости: &eТир 2'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: deepslate_amber_ore'
+deepslate_amethyst_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: DEEPSLATE
+    title: '&#C855FFГлубинная аметистовая руда'
+    custom-model-data: 2059
+    item-model: artifex:block/deepslate_amethyst_ore
+  lore:
+  - '&7Природный блок месторождения &fАметист&7.'
+  - '&7Тир редкости: &eТир 3'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: deepslate_amethyst_ore'
+deepslate_iridium_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: DEEPSLATE
+    title: '&#FFFFFFГлубинная иридиевая руда'
+    custom-model-data: 2060
+    item-model: artifex:block/deepslate_iridium_ore
+  lore:
+  - '&7Природный блок месторождения &fИридий&7.'
+  - '&7Тир редкости: &eТир 5'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: deepslate_iridium_ore'
+deepslate_jade_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: DEEPSLATE
+    title: '&#55FF55Глубинная нефритовая руда'
+    custom-model-data: 2061
+    item-model: artifex:block/deepslate_jade_ore
+  lore:
+  - '&7Природный блок месторождения &fНефрит&7.'
+  - '&7Тир редкости: &eТир 3'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: deepslate_jade_ore'
+deepslate_malachite_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: DEEPSLATE
+    title: '&#11BB66Глубинная малахитовая руда'
+    custom-model-data: 2062
+    item-model: artifex:block/deepslate_malachite_ore
+  lore:
+  - '&7Природный блок месторождения &fМалахит&7.'
+  - '&7Тир редкости: &eТир 3'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: deepslate_malachite_ore'
+deepslate_mythril_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: DEEPSLATE
+    title: '&#33E0FFГлубинная мифриловая руда'
+    custom-model-data: 2063
+    item-model: artifex:block/deepslate_mythril_ore
+  lore:
+  - '&7Природный блок месторождения &fМифрил&7.'
+  - '&7Тир редкости: &eТир 5'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: deepslate_mythril_ore'
+deepslate_ruby_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: DEEPSLATE
+    title: '&#FF3366Глубинная рубиновая руда'
+    custom-model-data: 2064
+    item-model: artifex:block/deepslate_ruby_ore
+  lore:
+  - '&7Природный блок месторождения &fРубин&7.'
+  - '&7Тир редкости: &eТир 4'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: deepslate_ruby_ore'
+deepslate_silver_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: DEEPSLATE
+    title: '&#DDEEFFГлубинная серебряная руда'
+    custom-model-data: 2065
+    item-model: artifex:block/deepslate_silver_ore
+  lore:
+  - '&7Природный блок месторождения &fСеребро&7.'
+  - '&7Тир редкости: &eТир 2'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: deepslate_silver_ore'
+galenite_block:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: IRON_BLOCK
+    title: '&#708090Галенитовый блок'
+    custom-model-data: 2067
+    item-model: artifex:block/galenite_block
+  lore:
+  - '&7Природный блок месторождения &fГаленит&7.'
+  - '&7Тир редкости: &eТир 3'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: galenite_block'
+galenite_end_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: END_STONE
+    title: '&#708090Галенитовая руда Энда'
+    custom-model-data: 2070
+    item-model: artifex:block/galenite_end_ore
+  lore:
+  - '&7Природный блок месторождения &fГаленит&7.'
+  - '&7Тир редкости: &eТир 3'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: galenite_end_ore'
+galenite_nether_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: NETHERRACK
+    title: '&#708090Галенитовая руда Незера'
+    custom-model-data: 2077
+    item-model: artifex:block/galenite_nether_ore
+  lore:
+  - '&7Природный блок месторождения &fГаленит&7.'
+  - '&7Тир редкости: &eТир 3'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: galenite_nether_ore'
+galenite_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: STONE
+    title: '&#708090Галенитовая руда'
+    custom-model-data: 2079
+    item-model: artifex:block/galenite_ore
+  lore:
+  - '&7Природный блок месторождения &fГаленит&7.'
+  - '&7Тир редкости: &eТир 3'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: galenite_ore'
+iridium_block:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: IRON_BLOCK
+    title: '&#FFFFFFИридиевый блок'
+    custom-model-data: 2084
+    item-model: artifex:block/iridium_block
+  lore:
+  - '&7Природный блок месторождения &fИридий&7.'
+  - '&7Тир редкости: &eТир 5'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: iridium_block'
+iridium_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: STONE
+    title: '&#FFFFFFИридиевая руда'
+    custom-model-data: 2087
+    item-model: artifex:block/iridium_ore
+  lore:
+  - '&7Природный блок месторождения &fИридий&7.'
+  - '&7Тир редкости: &eТир 5'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: iridium_ore'
+jade_block:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: IRON_BLOCK
+    title: '&#55FF55Нефритовый блок'
+    custom-model-data: 2088
+    item-model: artifex:block/jade_block
+  lore:
+  - '&7Природный блок месторождения &fНефрит&7.'
+  - '&7Тир редкости: &eТир 3'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: jade_block'
+jade_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: STONE
+    title: '&#55FF55Нефритовая руда'
+    custom-model-data: 2091
+    item-model: artifex:block/jade_ore
+  lore:
+  - '&7Природный блок месторождения &fНефрит&7.'
+  - '&7Тир редкости: &eТир 3'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: jade_ore'
+malachite_block:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: IRON_BLOCK
+    title: '&#11BB66Малахитовый блок'
+    custom-model-data: 2093
+    item-model: artifex:block/malachite_block
+  lore:
+  - '&7Природный блок месторождения &fМалахит&7.'
+  - '&7Тир редкости: &eТир 3'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: malachite_block'
+malachite_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: STONE
+    title: '&#11BB66Малахитовая руда'
+    custom-model-data: 2096
+    item-model: artifex:block/malachite_ore
+  lore:
+  - '&7Природный блок месторождения &fМалахит&7.'
+  - '&7Тир редкости: &eТир 3'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: malachite_ore'
+mythril_block:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: IRON_BLOCK
+    title: '&#33E0FFМифриловый блок'
+    custom-model-data: 2097
+    item-model: artifex:block/mythril_block
+  lore:
+  - '&7Природный блок месторождения &fМифрил&7.'
+  - '&7Тир редкости: &eТир 5'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: mythril_block'
+mythril_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: STONE
+    title: '&#33E0FFМифриловая руда'
+    custom-model-data: 2100
+    item-model: artifex:block/mythril_ore
+  lore:
+  - '&7Природный блок месторождения &fМифрил&7.'
+  - '&7Тир редкости: &eТир 5'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: mythril_ore'
+oresvol1_amber_block:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: IRON_BLOCK
+    title: '&#FF8800Древнеянтарный блок'
+    custom-model-data: 2101
+    item-model: artifex:block/oresvol1_amber_block
+  lore:
+  - '&7Природный блок месторождения &fЯнтарь Древний&7.'
+  - '&7Тир редкости: &eТир 2'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: oresvol1_amber_block'
+oresvol1_amber_ingot:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: STONE
+    title: '&#FF8800Древнеянтарная руда'
+    custom-model-data: 2102
+    item-model: artifex:block/oresvol1_amber_ingot
+  lore:
+  - '&7Природный блок месторождения &fЯнтарь Древний&7.'
+  - '&7Тир редкости: &eТир 2'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: oresvol1_amber_ingot'
+oresvol1_amber_nugget:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: STONE
+    title: '&#FF8800Древнеянтарная руда'
+    custom-model-data: 2103
+    item-model: artifex:block/oresvol1_amber_nugget
+  lore:
+  - '&7Природный блок месторождения &fЯнтарь Древний&7.'
+  - '&7Тир редкости: &eТир 2'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: oresvol1_amber_nugget'
+oresvol1_amber_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: STONE
+    title: '&#FF8800Древнеянтарная руда'
+    custom-model-data: 2104
+    item-model: artifex:block/oresvol1_amber_ore
+  lore:
+  - '&7Природный блок месторождения &fЯнтарь Древний&7.'
+  - '&7Тир редкости: &eТир 2'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: oresvol1_amber_ore'
+raw_amber_block:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: RAW_IRON_BLOCK
+    title: '&#FFAA00Блок сырого янтаря'
+    custom-model-data: 2106
+    item-model: artifex:block/raw_amber_block
+  lore:
+  - '&7Природный блок месторождения &fЯнтарь&7.'
+  - '&7Тир редкости: &eТир 2'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: raw_amber_block'
+raw_amethyst_block:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: RAW_IRON_BLOCK
+    title: '&#C855FFБлок сырого аметиста'
+    custom-model-data: 2107
+    item-model: artifex:block/raw_amethyst_block
+  lore:
+  - '&7Природный блок месторождения &fАметист&7.'
+  - '&7Тир редкости: &eТир 3'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: raw_amethyst_block'
+raw_iridium_block:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: RAW_IRON_BLOCK
+    title: '&#FFFFFFБлок сырого иридия'
+    custom-model-data: 2111
+    item-model: artifex:block/raw_iridium_block
+  lore:
+  - '&7Природный блок месторождения &fИридий&7.'
+  - '&7Тир редкости: &eТир 5'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: raw_iridium_block'
+raw_jade_block:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: RAW_IRON_BLOCK
+    title: '&#55FF55Блок сырого нефрита'
+    custom-model-data: 2113
+    item-model: artifex:block/raw_jade_block
+  lore:
+  - '&7Природный блок месторождения &fНефрит&7.'
+  - '&7Тир редкости: &eТир 3'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: raw_jade_block'
+raw_malachite_block:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: RAW_IRON_BLOCK
+    title: '&#11BB66Блок сырого малахита'
+    custom-model-data: 2114
+    item-model: artifex:block/raw_malachite_block
+  lore:
+  - '&7Природный блок месторождения &fМалахит&7.'
+  - '&7Тир редкости: &eТир 3'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: raw_malachite_block'
+raw_mythril_block:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: RAW_IRON_BLOCK
+    title: '&#33E0FFБлок сырого мифрила'
+    custom-model-data: 2116
+    item-model: artifex:block/raw_mythril_block
+  lore:
+  - '&7Природный блок месторождения &fМифрил&7.'
+  - '&7Тир редкости: &eТир 5'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: raw_mythril_block'
+raw_ruby_block:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: RAW_IRON_BLOCK
+    title: '&#FF3366Блок сырого рубина'
+    custom-model-data: 2117
+    item-model: artifex:block/raw_ruby_block
+  lore:
+  - '&7Природный блок месторождения &fРубин&7.'
+  - '&7Тир редкости: &eТир 4'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: raw_ruby_block'
+raw_silver_block:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: RAW_IRON_BLOCK
+    title: '&#DDEEFFБлок сырого серебра'
+    custom-model-data: 2118
+    item-model: artifex:block/raw_silver_block
+  lore:
+  - '&7Природный блок месторождения &fСеребро&7.'
+  - '&7Тир редкости: &eТир 2'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: raw_silver_block'
+ruby_block:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: IRON_BLOCK
+    title: '&#FF3366Рубиновый блок'
+    custom-model-data: 2120
+    item-model: artifex:block/ruby_block
+  lore:
+  - '&7Природный блок месторождения &fРубин&7.'
+  - '&7Тир редкости: &eТир 4'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: ruby_block'
+ruby_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: STONE
+    title: '&#FF3366Рубиновая руда'
+    custom-model-data: 2123
+    item-model: artifex:block/ruby_ore
+  lore:
+  - '&7Природный блок месторождения &fРубин&7.'
+  - '&7Тир редкости: &eТир 4'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: ruby_ore'
+silver_block:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: IRON_BLOCK
+    title: '&#DDEEFFСеребряный блок'
+    custom-model-data: 2125
+    item-model: artifex:block/silver_block
+  lore:
+  - '&7Природный блок месторождения &fСеребро&7.'
+  - '&7Тир редкости: &eТир 2'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: silver_block'
+silver_ore:
+  type: BLOCK
+  activation-slot: HAND
+  placeable: true
+  item:
+    type: STONE
+    title: '&#DDEEFFСеребряная руда'
+    custom-model-data: 2128
+    item-model: artifex:block/silver_ore
+  lore:
+  - '&7Природный блок месторождения &fСеребро&7.'
+  - '&7Тир редкости: &eТир 2'
+  - ' '
+  - '&7Добывается соответствующей киркой.'
+  - '&8Artifex Mineral Block • ID: silver_ore'

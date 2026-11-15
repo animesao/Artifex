@@ -1,0 +1,152 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "minecraft:item/netherite_sword"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "custom_model_data": 1001
+      },
+      "model": "artifex:item/katana_drawn"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1002
+      },
+      "model": "artifex:item/katana_sheathed"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1003
+      },
+      "model": "artifex:item/storm_staff"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1004
+      },
+      "model": "artifex:item/shadow_dagger"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1005
+      },
+      "model": "artifex:item/abyssal_amulet"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1006
+      },
+      "model": "artifex:item/soul_reaper"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1007
+      },
+      "model": "artifex:item/storm_spear"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1008
+      },
+      "model": "artifex:item/frost_dagger"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1009
+      },
+      "model": "artifex:item/infernal_staff"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1010
+      },
+      "model": "artifex:item/nature_ring"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1011
+      },
+      "model": "artifex:item/wind_pendant"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1012
+      },
+      "model": "artifex:item/eye_of_the_abyss"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1013
+      },
+      "model": "artifex:item/phoenix_feather"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1014
+      },
+      "model": "artifex:item/crystal_drill"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1015
+      },
+      "model": "artifex:item/builders_wand"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1016
+      },
+      "model": "artifex:item/treasure_seeker"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1017
+      },
+      "model": "artifex:item/artisan_hammer"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1018
+      },
+      "model": "artifex:item/recall_scroll"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1019
+      },
+      "model": "artifex:item/frost_bomb"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1020
+      },
+      "model": "artifex:item/berserker_elixir"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1021
+      },
+      "model": "artifex:item/ancient_seed"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1022
+      },
+      "model": "artifex:item/dragon_scale"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1023
+      },
+      "model": "artifex:item/void_essence"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 1024
+      },
+      "model": "artifex:item/ancient_ingot"
+    }
+  ]
+}

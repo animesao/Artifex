@@ -7,6 +7,16 @@ extracts the section of the needed version for the GitHub Release notes.
 
 ---
 
+## v2.3.7
+
+### 🧱 Universal Custom Block & Ore System & Packet Synchronization
+- **Network Block Packet Synchronization:** Integrated `player.sendBlockChange(...)` upon placement and a 1-tick delayed broadcast task to all players within 64 blocks in `CustomBlockManager`. Eliminates client-side ghost stone prediction and ensures placed custom blocks render their 3D models immediately without needing relogging or interaction.
+- **Universal Custom Ore & Block Engine:** Added `OreBlockSystem` managing all custom ores, deepslate variants, nether/end minerals, storage blocks, and raw blocks via NoteBlock instrument/note mapping.
+- **Mining Mechanics & Tool Tier Enforcing:** Real stone/deepslate hardness, tool tier requirements (Iron/Diamond Pickaxes) with mining fatigue on improper tools, Fortune enchantment multipliers, Silk Touch block retention, realistic fracture particles, crystal sparkles, and authentic acoustic feedback.
+- **NoteBlock Blockstates Resource Pack:** Updated `note_block.json` with clean state mapping across `iron_xylophone`, `cow_bell`, `guitar`, and `didgeridoo` variants pointing directly to high-definition 3D models and textures.
+
+---
+
 ## v2.3.6
 
 ### 🚀 Paper Async Command Builder Race Fix & Safe Registration

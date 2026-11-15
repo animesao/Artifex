@@ -35,6 +35,10 @@ Thumbs.db
 hs_err_pid*
 replay_pid*
 
+# Database files
+*.db
+*.sqlite
+
 # Local Assets & Generation Scripts (excluded from plugin repository)
 blockbench_models/
 scripts/

@@ -1,0 +1,188 @@
+{
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "minecraft:custom_model_data",
+    "index": 0,
+    "entries": [
+      {
+        "threshold": 1001,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/katana_drawn"
+        }
+      },
+      {
+        "threshold": 1002,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/katana_sheathed"
+        }
+      },
+      {
+        "threshold": 1003,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/storm_staff"
+        }
+      },
+      {
+        "threshold": 1004,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/shadow_dagger"
+        }
+      },
+      {
+        "threshold": 1005,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/abyssal_amulet"
+        }
+      },
+      {
+        "threshold": 1006,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/soul_reaper"
+        }
+      },
+      {
+        "threshold": 1007,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/storm_spear"
+        }
+      },
+      {
+        "threshold": 1008,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/frost_dagger"
+        }
+      },
+      {
+        "threshold": 1009,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/infernal_staff"
+        }
+      },
+      {
+        "threshold": 1010,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/nature_ring"
+        }
+      },
+      {
+        "threshold": 1011,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/wind_pendant"
+        }
+      },
+      {
+        "threshold": 1012,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/eye_of_the_abyss"
+        }
+      },
+      {
+        "threshold": 1013,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/phoenix_feather"
+        }
+      },
+      {
+        "threshold": 1014,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/crystal_drill"
+        }
+      },
+      {
+        "threshold": 1015,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/builders_wand"
+        }
+      },
+      {
+        "threshold": 1016,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/treasure_seeker"
+        }
+      },
+      {
+        "threshold": 1017,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/artisan_hammer"
+        }
+      },
+      {
+        "threshold": 1018,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/recall_scroll"
+        }
+      },
+      {
+        "threshold": 1019,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/frost_bomb"
+        }
+      },
+      {
+        "threshold": 1020,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/berserker_elixir"
+        }
+      },
+      {
+        "threshold": 1021,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/ancient_seed"
+        }
+      },
+      {
+        "threshold": 1022,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/dragon_scale"
+        }
+      },
+      {
+        "threshold": 1023,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/void_essence"
+        }
+      },
+      {
+        "threshold": 1024,
+        "model": {
+          "type": "minecraft:model",
+          "model": "artifex:item/ancient_ingot"
+        }
+      },
+      {
+        "threshold": 1025,
+        "model": {
+          "type": "minecraft:model",
+          "model": "minecraft:item/netherite_sword"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "minecraft:item/netherite_sword"
+    }
+  }
+}

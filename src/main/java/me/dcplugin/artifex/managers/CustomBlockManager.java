@@ -146,6 +146,24 @@ public class CustomBlockManager implements Listener {
             nb.setPowered(def.powered);
             block.setBlockData(nb, false);
         }
+        event.getPlayer().sendBlockChange(block.getLocation(), block.getBlockData());
+
+        // Next-tick synchronization guarantees client doesn't see ghost vanilla stone
+        Bukkit.getScheduler().runTask(plugin, () -> {
+            if (block.getType() == Material.NOTE_BLOCK) {
+                if (block.getBlockData() instanceof NoteBlock nb2) {
+                    nb2.setInstrument(def.instrument);
+                    nb2.setNote(new Note(def.note));
+                    nb2.setPowered(def.powered);
+                    block.setBlockData(nb2, false);
+                }
+                for (Player p : block.getWorld().getPlayers()) {
+                    if (p.getLocation().distanceSquared(block.getLocation()) < 64 * 64) {
+                        p.sendBlockChange(block.getLocation(), block.getBlockData());
+                    }
+                }
+            }
+        });
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)

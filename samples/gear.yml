@@ -1,0 +1,832 @@
+amber_axe:
+  type: TOOL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: GOLDEN_AXE
+    title: '&#FFAA00Янтарный топор'
+    custom-model-data: 2001
+    item-model: artifex:item/amber_axe
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Оружие / Топор • Тир 2 (Янтарь)'
+  - ' '
+  - '&7Урон: &c+7.0'
+  - '&7Скорость атаки: &e0.9'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fЯнтарь&7.'
+  - '&8Artifex Custom Gear • ID: amber_axe'
+  attributes:
+    GENERIC_ATTACK_DAMAGE: 7.0
+    GENERIC_ATTACK_SPEED: 0.9
+amber_boots:
+  type: ARMOR
+  activation-slot: FEET
+  placeable: false
+  item:
+    type: GOLDEN_BOOTS
+    title: '&#FFAA00Янтарные ботинки'
+    custom-model-data: 2003
+    item-model: artifex:item/amber_boots
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Снаряжение • Тир 2 (Янтарь)'
+  - ' '
+  - '&7Броня: &c+2'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fЯнтарь&7.'
+  - '&8Artifex Custom Gear • ID: amber_boots'
+  attributes:
+    GENERIC_ARMOR: 2.0
+amber_chestplate:
+  type: ARMOR
+  activation-slot: CHEST
+  placeable: false
+  item:
+    type: GOLDEN_CHESTPLATE
+    title: '&#FFAA00Янтарный нагрудник'
+    custom-model-data: 2004
+    item-model: artifex:item/amber_chestplate
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Снаряжение • Тир 2 (Янтарь)'
+  - ' '
+  - '&7Броня: &c+7'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fЯнтарь&7.'
+  - '&8Artifex Custom Gear • ID: amber_chestplate'
+  attributes:
+    GENERIC_ARMOR: 7.0
+amber_helmet:
+  type: ARMOR
+  activation-slot: HEAD
+  placeable: false
+  item:
+    type: GOLDEN_HELMET
+    title: '&#FFAA00Янтарный шлем'
+    custom-model-data: 2006
+    item-model: artifex:item/amber_helmet
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Снаряжение • Тир 2 (Янтарь)'
+  - ' '
+  - '&7Броня: &c+2'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fЯнтарь&7.'
+  - '&8Artifex Custom Gear • ID: amber_helmet'
+  attributes:
+    GENERIC_ARMOR: 2.0
+amber_hoe:
+  type: TOOL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: GOLDEN_HOE
+    title: '&#FFAA00Янтарная мотыга'
+    custom-model-data: 2007
+    item-model: artifex:item/amber_hoe
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Инструмент • Тир 2 (Янтарь)'
+  - ' '
+  - ' '
+  - '&7Выковано из цельных слитков материала &fЯнтарь&7.'
+  - '&8Artifex Custom Gear • ID: amber_hoe'
+amber_leggings:
+  type: ARMOR
+  activation-slot: LEGS
+  placeable: false
+  item:
+    type: GOLDEN_LEGGINGS
+    title: '&#FFAA00Янтарные поножи'
+    custom-model-data: 2011
+    item-model: artifex:item/amber_leggings
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Снаряжение • Тир 2 (Янтарь)'
+  - ' '
+  - '&7Броня: &c+5'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fЯнтарь&7.'
+  - '&8Artifex Custom Gear • ID: amber_leggings'
+  attributes:
+    GENERIC_ARMOR: 5.0
+amber_pickaxe:
+  type: TOOL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: GOLDEN_PICKAXE
+    title: '&#FFAA00Янтарная кирка'
+    custom-model-data: 2015
+    item-model: artifex:item/amber_pickaxe
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Инструмент • Тир 2 (Янтарь)'
+  - ' '
+  - '&7Эффективность добычи: &b+4'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fЯнтарь&7.'
+  - '&8Artifex Custom Gear • ID: amber_pickaxe'
+  attributes:
+    GENERIC_ATTACK_DAMAGE: 3.0
+amber_shovel:
+  type: TOOL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: GOLDEN_SHOVEL
+    title: '&#FFAA00Янтарная лопата'
+    custom-model-data: 2017
+    item-model: artifex:item/amber_shovel
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Инструмент • Тир 2 (Янтарь)'
+  - ' '
+  - ' '
+  - '&7Выковано из цельных слитков материала &fЯнтарь&7.'
+  - '&8Artifex Custom Gear • ID: amber_shovel'
+amber_sword:
+  type: TOOL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: GOLDEN_SWORD
+    title: '&#FFAA00Янтарный меч'
+    custom-model-data: 2018
+    item-model: artifex:item/amber_sword
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Оружие • Тир 2 (Янтарь)'
+  - ' '
+  - '&7Урон: &c+5.0'
+  - '&7Скорость атаки: &e1.4'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fЯнтарь&7.'
+  - '&8Artifex Custom Gear • ID: amber_sword'
+  attributes:
+    GENERIC_ATTACK_DAMAGE: 5.0
+    GENERIC_ATTACK_SPEED: 1.4
+bloodstone_axe:
+  type: TOOL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: NETHERITE_AXE
+    title: '&#FF2244Кровавый топор'
+    custom-model-data: 2024
+    item-model: artifex:item/bloodstone_axe
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Оружие / Топор • Тир 5 (Кровавый камень)'
+  - ' '
+  - '&7Урон: &c+11.0'
+  - '&7Скорость атаки: &e0.9'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fКровавый камень&7.'
+  - '&8Artifex Custom Gear • ID: bloodstone_axe'
+  attributes:
+    GENERIC_ATTACK_DAMAGE: 11.0
+    GENERIC_ATTACK_SPEED: 0.9
+bloodstone_boots:
+  type: ARMOR
+  activation-slot: FEET
+  placeable: false
+  item:
+    type: NETHERITE_BOOTS
+    title: '&#FF2244Кровавые ботинки'
+    custom-model-data: 2026
+    item-model: artifex:item/bloodstone_boots
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Снаряжение • Тир 5 (Кровавый камень)'
+  - ' '
+  - '&7Броня: &c+4'
+  - '&7Стойкость: &b+3.5'
+  - '&7Сопротивление отбрасыванию: &9+10%'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fКровавый камень&7.'
+  - '&8Artifex Custom Gear • ID: bloodstone_boots'
+  attributes:
+    GENERIC_ARMOR: 4.0
+    GENERIC_ARMOR_TOUGHNESS: 3.5
+    GENERIC_KNOCKBACK_RESISTANCE: 0.1
+bloodstone_chestplate:
+  type: ARMOR
+  activation-slot: CHEST
+  placeable: false
+  item:
+    type: NETHERITE_CHESTPLATE
+    title: '&#FF2244Кровавый нагрудник'
+    custom-model-data: 2027
+    item-model: artifex:item/bloodstone_chestplate
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Снаряжение • Тир 5 (Кровавый камень)'
+  - ' '
+  - '&7Броня: &c+9'
+  - '&7Стойкость: &b+3.5'
+  - '&7Сопротивление отбрасыванию: &9+10%'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fКровавый камень&7.'
+  - '&8Artifex Custom Gear • ID: bloodstone_chestplate'
+  attributes:
+    GENERIC_ARMOR: 9.0
+    GENERIC_ARMOR_TOUGHNESS: 3.5
+    GENERIC_KNOCKBACK_RESISTANCE: 0.1
+bloodstone_helmet:
+  type: ARMOR
+  activation-slot: HEAD
+  placeable: false
+  item:
+    type: NETHERITE_HELMET
+    title: '&#FF2244Кровавый шлем'
+    custom-model-data: 2029
+    item-model: artifex:item/bloodstone_helmet
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Снаряжение • Тир 5 (Кровавый камень)'
+  - ' '
+  - '&7Броня: &c+4'
+  - '&7Стойкость: &b+3.5'
+  - '&7Сопротивление отбрасыванию: &9+10%'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fКровавый камень&7.'
+  - '&8Artifex Custom Gear • ID: bloodstone_helmet'
+  attributes:
+    GENERIC_ARMOR: 4.0
+    GENERIC_ARMOR_TOUGHNESS: 3.5
+    GENERIC_KNOCKBACK_RESISTANCE: 0.1
+bloodstone_hoe:
+  type: TOOL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: NETHERITE_HOE
+    title: '&#FF2244Кровавая мотыга'
+    custom-model-data: 2030
+    item-model: artifex:item/bloodstone_hoe
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Инструмент • Тир 5 (Кровавый камень)'
+  - ' '
+  - ' '
+  - '&7Выковано из цельных слитков материала &fКровавый камень&7.'
+  - '&8Artifex Custom Gear • ID: bloodstone_hoe'
+bloodstone_leggings:
+  type: ARMOR
+  activation-slot: LEGS
+  placeable: false
+  item:
+    type: NETHERITE_LEGGINGS
+    title: '&#FF2244Кровавые поножи'
+    custom-model-data: 2034
+    item-model: artifex:item/bloodstone_leggings
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Снаряжение • Тир 5 (Кровавый камень)'
+  - ' '
+  - '&7Броня: &c+7'
+  - '&7Стойкость: &b+3.5'
+  - '&7Сопротивление отбрасыванию: &9+10%'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fКровавый камень&7.'
+  - '&8Artifex Custom Gear • ID: bloodstone_leggings'
+  attributes:
+    GENERIC_ARMOR: 7.0
+    GENERIC_ARMOR_TOUGHNESS: 3.5
+    GENERIC_KNOCKBACK_RESISTANCE: 0.1
+bloodstone_pickaxe:
+  type: TOOL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: NETHERITE_PICKAXE
+    title: '&#FF2244Кровавая кирка'
+    custom-model-data: 2038
+    item-model: artifex:item/bloodstone_pickaxe
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Инструмент • Тир 5 (Кровавый камень)'
+  - ' '
+  - '&7Эффективность добычи: &b+10'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fКровавый камень&7.'
+  - '&8Artifex Custom Gear • ID: bloodstone_pickaxe'
+  attributes:
+    GENERIC_ATTACK_DAMAGE: 7.0
+bloodstone_shovel:
+  type: TOOL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: NETHERITE_SHOVEL
+    title: '&#FF2244Кровавая лопата'
+    custom-model-data: 2039
+    item-model: artifex:item/bloodstone_shovel
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Инструмент • Тир 5 (Кровавый камень)'
+  - ' '
+  - ' '
+  - '&7Выковано из цельных слитков материала &fКровавый камень&7.'
+  - '&8Artifex Custom Gear • ID: bloodstone_shovel'
+bloodstone_sword:
+  type: TOOL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: NETHERITE_SWORD
+    title: '&#FF2244Кровавый меч'
+    custom-model-data: 2040
+    item-model: artifex:item/bloodstone_sword
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Оружие • Тир 5 (Кровавый камень)'
+  - ' '
+  - '&7Урон: &c+9.0'
+  - '&7Скорость атаки: &e1.6'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fКровавый камень&7.'
+  - '&8Artifex Custom Gear • ID: bloodstone_sword'
+  attributes:
+    GENERIC_ATTACK_DAMAGE: 9.0
+    GENERIC_ATTACK_SPEED: 1.6
+crystalite_axe:
+  type: TOOL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: DIAMOND_AXE
+    title: '&#00FFDDКристаллитовый топор'
+    custom-model-data: 2041
+    item-model: artifex:item/crystalite_axe
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Оружие / Топор • Тир 4 (Кристаллит)'
+  - ' '
+  - '&7Урон: &c+10.0'
+  - '&7Скорость атаки: &e0.9'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fКристаллит&7.'
+  - '&8Artifex Custom Gear • ID: crystalite_axe'
+  attributes:
+    GENERIC_ATTACK_DAMAGE: 10.0
+    GENERIC_ATTACK_SPEED: 0.9
+crystalite_boots:
+  type: ARMOR
+  activation-slot: FEET
+  placeable: false
+  item:
+    type: DIAMOND_BOOTS
+    title: '&#00FFDDКристаллитовые ботинки'
+    custom-model-data: 2043
+    item-model: artifex:item/crystalite_boots
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Снаряжение • Тир 4 (Кристаллит)'
+  - ' '
+  - '&7Броня: &c+3'
+  - '&7Стойкость: &b+2.5'
+  - '&7Сопротивление отбрасыванию: &9+5%'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fКристаллит&7.'
+  - '&8Artifex Custom Gear • ID: crystalite_boots'
+  attributes:
+    GENERIC_ARMOR: 3.0
+    GENERIC_ARMOR_TOUGHNESS: 2.5
+    GENERIC_KNOCKBACK_RESISTANCE: 0.05
+crystalite_chestplate:
+  type: ARMOR
+  activation-slot: CHEST
+  placeable: false
+  item:
+    type: DIAMOND_CHESTPLATE
+    title: '&#00FFDDКристаллитовый нагрудник'
+    custom-model-data: 2044
+    item-model: artifex:item/crystalite_chestplate
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Снаряжение • Тир 4 (Кристаллит)'
+  - ' '
+  - '&7Броня: &c+8'
+  - '&7Стойкость: &b+2.5'
+  - '&7Сопротивление отбрасыванию: &9+5%'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fКристаллит&7.'
+  - '&8Artifex Custom Gear • ID: crystalite_chestplate'
+  attributes:
+    GENERIC_ARMOR: 8.0
+    GENERIC_ARMOR_TOUGHNESS: 2.5
+    GENERIC_KNOCKBACK_RESISTANCE: 0.05
+crystalite_helmet:
+  type: ARMOR
+  activation-slot: HEAD
+  placeable: false
+  item:
+    type: DIAMOND_HELMET
+    title: '&#00FFDDКристаллитовый шлем'
+    custom-model-data: 2046
+    item-model: artifex:item/crystalite_helmet
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Снаряжение • Тир 4 (Кристаллит)'
+  - ' '
+  - '&7Броня: &c+3'
+  - '&7Стойкость: &b+2.5'
+  - '&7Сопротивление отбрасыванию: &9+5%'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fКристаллит&7.'
+  - '&8Artifex Custom Gear • ID: crystalite_helmet'
+  attributes:
+    GENERIC_ARMOR: 3.0
+    GENERIC_ARMOR_TOUGHNESS: 2.5
+    GENERIC_KNOCKBACK_RESISTANCE: 0.05
+crystalite_hoe:
+  type: TOOL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: DIAMOND_HOE
+    title: '&#00FFDDКристаллитовая мотыга'
+    custom-model-data: 2047
+    item-model: artifex:item/crystalite_hoe
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Инструмент • Тир 4 (Кристаллит)'
+  - ' '
+  - ' '
+  - '&7Выковано из цельных слитков материала &fКристаллит&7.'
+  - '&8Artifex Custom Gear • ID: crystalite_hoe'
+crystalite_leggings:
+  type: ARMOR
+  activation-slot: LEGS
+  placeable: false
+  item:
+    type: DIAMOND_LEGGINGS
+    title: '&#00FFDDКристаллитовые поножи'
+    custom-model-data: 2051
+    item-model: artifex:item/crystalite_leggings
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Снаряжение • Тир 4 (Кристаллит)'
+  - ' '
+  - '&7Броня: &c+6'
+  - '&7Стойкость: &b+2.5'
+  - '&7Сопротивление отбрасыванию: &9+5%'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fКристаллит&7.'
+  - '&8Artifex Custom Gear • ID: crystalite_leggings'
+  attributes:
+    GENERIC_ARMOR: 6.0
+    GENERIC_ARMOR_TOUGHNESS: 2.5
+    GENERIC_KNOCKBACK_RESISTANCE: 0.05
+crystalite_pickaxe:
+  type: TOOL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: DIAMOND_PICKAXE
+    title: '&#00FFDDКристаллитовая кирка'
+    custom-model-data: 2055
+    item-model: artifex:item/crystalite_pickaxe
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Инструмент • Тир 4 (Кристаллит)'
+  - ' '
+  - '&7Эффективность добычи: &b+8'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fКристаллит&7.'
+  - '&8Artifex Custom Gear • ID: crystalite_pickaxe'
+  attributes:
+    GENERIC_ATTACK_DAMAGE: 6.0
+crystalite_shovel:
+  type: TOOL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: DIAMOND_SHOVEL
+    title: '&#00FFDDКристаллитовая лопата'
+    custom-model-data: 2056
+    item-model: artifex:item/crystalite_shovel
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Инструмент • Тир 4 (Кристаллит)'
+  - ' '
+  - ' '
+  - '&7Выковано из цельных слитков материала &fКристаллит&7.'
+  - '&8Artifex Custom Gear • ID: crystalite_shovel'
+crystalite_sword:
+  type: TOOL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: DIAMOND_SWORD
+    title: '&#00FFDDКристаллитовый меч'
+    custom-model-data: 2057
+    item-model: artifex:item/crystalite_sword
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Оружие • Тир 4 (Кристаллит)'
+  - ' '
+  - '&7Урон: &c+8.0'
+  - '&7Скорость атаки: &e1.6'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fКристаллит&7.'
+  - '&8Artifex Custom Gear • ID: crystalite_sword'
+  attributes:
+    GENERIC_ATTACK_DAMAGE: 8.0
+    GENERIC_ATTACK_SPEED: 1.6
+galenite_axe:
+  type: TOOL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: IRON_AXE
+    title: '&#708090Галенитовый топор'
+    custom-model-data: 2066
+    item-model: artifex:item/galenite_axe
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Оружие / Топор • Тир 3 (Галенит)'
+  - ' '
+  - '&7Урон: &c+8.5'
+  - '&7Скорость атаки: &e0.9'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fГаленит&7.'
+  - '&8Artifex Custom Gear • ID: galenite_axe'
+  attributes:
+    GENERIC_ATTACK_DAMAGE: 8.5
+    GENERIC_ATTACK_SPEED: 0.9
+galenite_boots:
+  type: ARMOR
+  activation-slot: FEET
+  placeable: false
+  item:
+    type: IRON_BOOTS
+    title: '&#708090Галенитовые ботинки'
+    custom-model-data: 2068
+    item-model: artifex:item/galenite_boots
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Снаряжение • Тир 3 (Галенит)'
+  - ' '
+  - '&7Броня: &c+3'
+  - '&7Стойкость: &b+1.5'
+  - '&7Сопротивление отбрасыванию: &9+5%'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fГаленит&7.'
+  - '&8Artifex Custom Gear • ID: galenite_boots'
+  attributes:
+    GENERIC_ARMOR: 3.0
+    GENERIC_ARMOR_TOUGHNESS: 1.5
+    GENERIC_KNOCKBACK_RESISTANCE: 0.05
+galenite_chestplate:
+  type: ARMOR
+  activation-slot: CHEST
+  placeable: false
+  item:
+    type: IRON_CHESTPLATE
+    title: '&#708090Галенитовый нагрудник'
+    custom-model-data: 2069
+    item-model: artifex:item/galenite_chestplate
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Снаряжение • Тир 3 (Галенит)'
+  - ' '
+  - '&7Броня: &c+8'
+  - '&7Стойкость: &b+1.5'
+  - '&7Сопротивление отбрасыванию: &9+5%'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fГаленит&7.'
+  - '&8Artifex Custom Gear • ID: galenite_chestplate'
+  attributes:
+    GENERIC_ARMOR: 8.0
+    GENERIC_ARMOR_TOUGHNESS: 1.5
+    GENERIC_KNOCKBACK_RESISTANCE: 0.05
+galenite_helmet:
+  type: ARMOR
+  activation-slot: HEAD
+  placeable: false
+  item:
+    type: IRON_HELMET
+    title: '&#708090Галенитовый шлем'
+    custom-model-data: 2071
+    item-model: artifex:item/galenite_helmet
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Снаряжение • Тир 3 (Галенит)'
+  - ' '
+  - '&7Броня: &c+3'
+  - '&7Стойкость: &b+1.5'
+  - '&7Сопротивление отбрасыванию: &9+5%'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fГаленит&7.'
+  - '&8Artifex Custom Gear • ID: galenite_helmet'
+  attributes:
+    GENERIC_ARMOR: 3.0
+    GENERIC_ARMOR_TOUGHNESS: 1.5
+    GENERIC_KNOCKBACK_RESISTANCE: 0.05
+galenite_hoe:
+  type: TOOL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: IRON_HOE
+    title: '&#708090Галенитовая мотыга'
+    custom-model-data: 2072
+    item-model: artifex:item/galenite_hoe
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Инструмент • Тир 3 (Галенит)'
+  - ' '
+  - ' '
+  - '&7Выковано из цельных слитков материала &fГаленит&7.'
+  - '&8Artifex Custom Gear • ID: galenite_hoe'
+galenite_leggings:
+  type: ARMOR
+  activation-slot: LEGS
+  placeable: false
+  item:
+    type: IRON_LEGGINGS
+    title: '&#708090Галенитовые поножи'
+    custom-model-data: 2076
+    item-model: artifex:item/galenite_leggings
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Снаряжение • Тир 3 (Галенит)'
+  - ' '
+  - '&7Броня: &c+6'
+  - '&7Стойкость: &b+1.5'
+  - '&7Сопротивление отбрасыванию: &9+5%'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fГаленит&7.'
+  - '&8Artifex Custom Gear • ID: galenite_leggings'
+  attributes:
+    GENERIC_ARMOR: 6.0
+    GENERIC_ARMOR_TOUGHNESS: 1.5
+    GENERIC_KNOCKBACK_RESISTANCE: 0.05
+galenite_pickaxe:
+  type: TOOL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: IRON_PICKAXE
+    title: '&#708090Галенитовая кирка'
+    custom-model-data: 2080
+    item-model: artifex:item/galenite_pickaxe
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Инструмент • Тир 3 (Галенит)'
+  - ' '
+  - '&7Эффективность добычи: &b+6'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fГаленит&7.'
+  - '&8Artifex Custom Gear • ID: galenite_pickaxe'
+  attributes:
+    GENERIC_ATTACK_DAMAGE: 4.5
+galenite_shovel:
+  type: TOOL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: IRON_SHOVEL
+    title: '&#708090Галенитовая лопата'
+    custom-model-data: 2081
+    item-model: artifex:item/galenite_shovel
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Инструмент • Тир 3 (Галенит)'
+  - ' '
+  - ' '
+  - '&7Выковано из цельных слитков материала &fГаленит&7.'
+  - '&8Artifex Custom Gear • ID: galenite_shovel'
+galenite_sword:
+  type: TOOL
+  activation-slot: HAND
+  placeable: false
+  item:
+    type: IRON_SWORD
+    title: '&#708090Галенитовый меч'
+    custom-model-data: 2082
+    item-model: artifex:item/galenite_sword
+    unbreakable: true
+    item-flags:
+    - HIDE_ATTRIBUTES
+    - HIDE_UNBREAKABLE
+  lore:
+  - '&7Оружие • Тир 3 (Галенит)'
+  - ' '
+  - '&7Урон: &c+6.5'
+  - '&7Скорость атаки: &e1.4'
+  - ' '
+  - '&7Выковано из цельных слитков материала &fГаленит&7.'
+  - '&8Artifex Custom Gear • ID: galenite_sword'
+  attributes:
+    GENERIC_ATTACK_DAMAGE: 6.5
+    GENERIC_ATTACK_SPEED: 1.4

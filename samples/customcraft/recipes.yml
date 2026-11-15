@@ -1,0 +1,1154 @@
+recipes:
+  smelt_amber_raw:
+    uuid: smelt_amber_raw
+    station: FURNACE
+    source:
+      custom-id: raw_amber
+    result:
+      custom-id: amber_ingot
+      amount: 1
+    exp: 1.5
+    cooking-time: 200
+  blast_amber_raw:
+    uuid: blast_amber_raw
+    station: BLAST_FURNACE
+    source:
+      custom-id: raw_amber
+    result:
+      custom-id: amber_ingot
+      amount: 1
+    exp: 1.5
+    cooking-time: 100
+  craft_amber_nuggets_from_ingot:
+    uuid: craft_amber_nuggets_from_ingot
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: amber_ingot
+    result:
+      custom-id: amber_nugget
+      amount: 9
+  craft_amber_ingot_from_nuggets:
+    uuid: craft_amber_ingot_from_nuggets
+    station: WORKBENCH_SHAPED
+    pattern:
+    - NNN
+    - NNN
+    - NNN
+    keys:
+      N:
+        custom-id: amber_nugget
+    result:
+      custom-id: amber_ingot
+      amount: 1
+  craft_amber_block:
+    uuid: craft_amber_block
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - III
+    - III
+    keys:
+      I:
+        custom-id: amber_ingot
+    result:
+      custom-id: amber_block
+      amount: 1
+  craft_amber_ingot_from_block:
+    uuid: craft_amber_ingot_from_block
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: amber_block
+    result:
+      custom-id: amber_ingot
+      amount: 9
+  craft_amber_raw_block:
+    uuid: craft_amber_raw_block
+    station: WORKBENCH_SHAPED
+    pattern:
+    - RRR
+    - RRR
+    - RRR
+    keys:
+      R:
+        custom-id: raw_amber
+    result:
+      custom-id: raw_amber_block
+      amount: 1
+  craft_amber_raw_from_block:
+    uuid: craft_amber_raw_from_block
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: raw_amber_block
+    result:
+      custom-id: raw_amber
+      amount: 9
+  craft_amber_sword:
+    uuid: craft_amber_sword
+    station: WORKBENCH_SHAPED
+    pattern:
+    - ' I '
+    - ' I '
+    - ' S '
+    keys:
+      I:
+        custom-id: amber_ingot
+      S:
+        material: STICK
+    result:
+      custom-id: amber_sword
+      amount: 1
+  craft_amber_pickaxe:
+    uuid: craft_amber_pickaxe
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - ' S '
+    - ' S '
+    keys:
+      I:
+        custom-id: amber_ingot
+      S:
+        material: STICK
+    result:
+      custom-id: amber_pickaxe
+      amount: 1
+  craft_amber_axe:
+    uuid: craft_amber_axe
+    station: WORKBENCH_SHAPED
+    pattern:
+    - 'II '
+    - 'IS '
+    - ' S '
+    keys:
+      I:
+        custom-id: amber_ingot
+      S:
+        material: STICK
+    result:
+      custom-id: amber_axe
+      amount: 1
+  craft_amber_shovel:
+    uuid: craft_amber_shovel
+    station: WORKBENCH_SHAPED
+    pattern:
+    - ' I '
+    - ' S '
+    - ' S '
+    keys:
+      I:
+        custom-id: amber_ingot
+      S:
+        material: STICK
+    result:
+      custom-id: amber_shovel
+      amount: 1
+  craft_amber_hoe:
+    uuid: craft_amber_hoe
+    station: WORKBENCH_SHAPED
+    pattern:
+    - 'II '
+    - ' S '
+    - ' S '
+    keys:
+      I:
+        custom-id: amber_ingot
+      S:
+        material: STICK
+    result:
+      custom-id: amber_hoe
+      amount: 1
+  craft_amber_helmet:
+    uuid: craft_amber_helmet
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - I I
+    - '   '
+    keys:
+      I:
+        custom-id: amber_ingot
+    result:
+      custom-id: amber_helmet
+      amount: 1
+  craft_amber_chestplate:
+    uuid: craft_amber_chestplate
+    station: WORKBENCH_SHAPED
+    pattern:
+    - I I
+    - III
+    - III
+    keys:
+      I:
+        custom-id: amber_ingot
+    result:
+      custom-id: amber_chestplate
+      amount: 1
+  craft_amber_leggings:
+    uuid: craft_amber_leggings
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - I I
+    - I I
+    keys:
+      I:
+        custom-id: amber_ingot
+    result:
+      custom-id: amber_leggings
+      amount: 1
+  craft_amber_boots:
+    uuid: craft_amber_boots
+    station: WORKBENCH_SHAPED
+    pattern:
+    - I I
+    - I I
+    - '   '
+    keys:
+      I:
+        custom-id: amber_ingot
+    result:
+      custom-id: amber_boots
+      amount: 1
+  craft_amethyst_nuggets_from_ingot:
+    uuid: craft_amethyst_nuggets_from_ingot
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: amethyst_ingot
+    result:
+      custom-id: amethyst_nugget
+      amount: 9
+  craft_amethyst_ingot_from_nuggets:
+    uuid: craft_amethyst_ingot_from_nuggets
+    station: WORKBENCH_SHAPED
+    pattern:
+    - NNN
+    - NNN
+    - NNN
+    keys:
+      N:
+        custom-id: amethyst_nugget
+    result:
+      custom-id: amethyst_ingot
+      amount: 1
+  craft_amethyst_block:
+    uuid: craft_amethyst_block
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - III
+    - III
+    keys:
+      I:
+        custom-id: amethyst_ingot
+    result:
+      custom-id: amethyst_block
+      amount: 1
+  craft_amethyst_ingot_from_block:
+    uuid: craft_amethyst_ingot_from_block
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: amethyst_block
+    result:
+      custom-id: amethyst_ingot
+      amount: 9
+  smelt_bloodstone_raw:
+    uuid: smelt_bloodstone_raw
+    station: FURNACE
+    source:
+      custom-id: raw_bloodstone
+    result:
+      custom-id: bloodstone_ingot
+      amount: 1
+    exp: 1.5
+    cooking-time: 200
+  blast_bloodstone_raw:
+    uuid: blast_bloodstone_raw
+    station: BLAST_FURNACE
+    source:
+      custom-id: raw_bloodstone
+    result:
+      custom-id: bloodstone_ingot
+      amount: 1
+    exp: 1.5
+    cooking-time: 100
+  craft_bloodstone_nuggets_from_ingot:
+    uuid: craft_bloodstone_nuggets_from_ingot
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: bloodstone_ingot
+    result:
+      custom-id: bloodstone_nugget
+      amount: 9
+  craft_bloodstone_ingot_from_nuggets:
+    uuid: craft_bloodstone_ingot_from_nuggets
+    station: WORKBENCH_SHAPED
+    pattern:
+    - NNN
+    - NNN
+    - NNN
+    keys:
+      N:
+        custom-id: bloodstone_nugget
+    result:
+      custom-id: bloodstone_ingot
+      amount: 1
+  craft_bloodstone_block:
+    uuid: craft_bloodstone_block
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - III
+    - III
+    keys:
+      I:
+        custom-id: bloodstone_ingot
+    result:
+      custom-id: bloodstone_block
+      amount: 1
+  craft_bloodstone_ingot_from_block:
+    uuid: craft_bloodstone_ingot_from_block
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: bloodstone_block
+    result:
+      custom-id: bloodstone_ingot
+      amount: 9
+  craft_bloodstone_sword:
+    uuid: craft_bloodstone_sword
+    station: WORKBENCH_SHAPED
+    pattern:
+    - ' I '
+    - ' I '
+    - ' S '
+    keys:
+      I:
+        custom-id: bloodstone_ingot
+      S:
+        material: STICK
+    result:
+      custom-id: bloodstone_sword
+      amount: 1
+  craft_bloodstone_pickaxe:
+    uuid: craft_bloodstone_pickaxe
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - ' S '
+    - ' S '
+    keys:
+      I:
+        custom-id: bloodstone_ingot
+      S:
+        material: STICK
+    result:
+      custom-id: bloodstone_pickaxe
+      amount: 1
+  craft_bloodstone_axe:
+    uuid: craft_bloodstone_axe
+    station: WORKBENCH_SHAPED
+    pattern:
+    - 'II '
+    - 'IS '
+    - ' S '
+    keys:
+      I:
+        custom-id: bloodstone_ingot
+      S:
+        material: STICK
+    result:
+      custom-id: bloodstone_axe
+      amount: 1
+  craft_bloodstone_shovel:
+    uuid: craft_bloodstone_shovel
+    station: WORKBENCH_SHAPED
+    pattern:
+    - ' I '
+    - ' S '
+    - ' S '
+    keys:
+      I:
+        custom-id: bloodstone_ingot
+      S:
+        material: STICK
+    result:
+      custom-id: bloodstone_shovel
+      amount: 1
+  craft_bloodstone_hoe:
+    uuid: craft_bloodstone_hoe
+    station: WORKBENCH_SHAPED
+    pattern:
+    - 'II '
+    - ' S '
+    - ' S '
+    keys:
+      I:
+        custom-id: bloodstone_ingot
+      S:
+        material: STICK
+    result:
+      custom-id: bloodstone_hoe
+      amount: 1
+  craft_bloodstone_helmet:
+    uuid: craft_bloodstone_helmet
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - I I
+    - '   '
+    keys:
+      I:
+        custom-id: bloodstone_ingot
+    result:
+      custom-id: bloodstone_helmet
+      amount: 1
+  craft_bloodstone_chestplate:
+    uuid: craft_bloodstone_chestplate
+    station: WORKBENCH_SHAPED
+    pattern:
+    - I I
+    - III
+    - III
+    keys:
+      I:
+        custom-id: bloodstone_ingot
+    result:
+      custom-id: bloodstone_chestplate
+      amount: 1
+  craft_bloodstone_leggings:
+    uuid: craft_bloodstone_leggings
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - I I
+    - I I
+    keys:
+      I:
+        custom-id: bloodstone_ingot
+    result:
+      custom-id: bloodstone_leggings
+      amount: 1
+  craft_bloodstone_boots:
+    uuid: craft_bloodstone_boots
+    station: WORKBENCH_SHAPED
+    pattern:
+    - I I
+    - I I
+    - '   '
+    keys:
+      I:
+        custom-id: bloodstone_ingot
+    result:
+      custom-id: bloodstone_boots
+      amount: 1
+  smelt_crystalite_raw:
+    uuid: smelt_crystalite_raw
+    station: FURNACE
+    source:
+      custom-id: raw_crystalite
+    result:
+      custom-id: crystalite_ingot
+      amount: 1
+    exp: 1.5
+    cooking-time: 200
+  blast_crystalite_raw:
+    uuid: blast_crystalite_raw
+    station: BLAST_FURNACE
+    source:
+      custom-id: raw_crystalite
+    result:
+      custom-id: crystalite_ingot
+      amount: 1
+    exp: 1.5
+    cooking-time: 100
+  craft_crystalite_nuggets_from_ingot:
+    uuid: craft_crystalite_nuggets_from_ingot
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: crystalite_ingot
+    result:
+      custom-id: crystalite_nugget
+      amount: 9
+  craft_crystalite_ingot_from_nuggets:
+    uuid: craft_crystalite_ingot_from_nuggets
+    station: WORKBENCH_SHAPED
+    pattern:
+    - NNN
+    - NNN
+    - NNN
+    keys:
+      N:
+        custom-id: crystalite_nugget
+    result:
+      custom-id: crystalite_ingot
+      amount: 1
+  craft_crystalite_block:
+    uuid: craft_crystalite_block
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - III
+    - III
+    keys:
+      I:
+        custom-id: crystalite_ingot
+    result:
+      custom-id: crystalite_block
+      amount: 1
+  craft_crystalite_ingot_from_block:
+    uuid: craft_crystalite_ingot_from_block
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: crystalite_block
+    result:
+      custom-id: crystalite_ingot
+      amount: 9
+  craft_crystalite_sword:
+    uuid: craft_crystalite_sword
+    station: WORKBENCH_SHAPED
+    pattern:
+    - ' I '
+    - ' I '
+    - ' S '
+    keys:
+      I:
+        custom-id: crystalite_ingot
+      S:
+        material: STICK
+    result:
+      custom-id: crystalite_sword
+      amount: 1
+  craft_crystalite_pickaxe:
+    uuid: craft_crystalite_pickaxe
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - ' S '
+    - ' S '
+    keys:
+      I:
+        custom-id: crystalite_ingot
+      S:
+        material: STICK
+    result:
+      custom-id: crystalite_pickaxe
+      amount: 1
+  craft_crystalite_axe:
+    uuid: craft_crystalite_axe
+    station: WORKBENCH_SHAPED
+    pattern:
+    - 'II '
+    - 'IS '
+    - ' S '
+    keys:
+      I:
+        custom-id: crystalite_ingot
+      S:
+        material: STICK
+    result:
+      custom-id: crystalite_axe
+      amount: 1
+  craft_crystalite_shovel:
+    uuid: craft_crystalite_shovel
+    station: WORKBENCH_SHAPED
+    pattern:
+    - ' I '
+    - ' S '
+    - ' S '
+    keys:
+      I:
+        custom-id: crystalite_ingot
+      S:
+        material: STICK
+    result:
+      custom-id: crystalite_shovel
+      amount: 1
+  craft_crystalite_hoe:
+    uuid: craft_crystalite_hoe
+    station: WORKBENCH_SHAPED
+    pattern:
+    - 'II '
+    - ' S '
+    - ' S '
+    keys:
+      I:
+        custom-id: crystalite_ingot
+      S:
+        material: STICK
+    result:
+      custom-id: crystalite_hoe
+      amount: 1
+  craft_crystalite_helmet:
+    uuid: craft_crystalite_helmet
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - I I
+    - '   '
+    keys:
+      I:
+        custom-id: crystalite_ingot
+    result:
+      custom-id: crystalite_helmet
+      amount: 1
+  craft_crystalite_chestplate:
+    uuid: craft_crystalite_chestplate
+    station: WORKBENCH_SHAPED
+    pattern:
+    - I I
+    - III
+    - III
+    keys:
+      I:
+        custom-id: crystalite_ingot
+    result:
+      custom-id: crystalite_chestplate
+      amount: 1
+  craft_crystalite_leggings:
+    uuid: craft_crystalite_leggings
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - I I
+    - I I
+    keys:
+      I:
+        custom-id: crystalite_ingot
+    result:
+      custom-id: crystalite_leggings
+      amount: 1
+  craft_crystalite_boots:
+    uuid: craft_crystalite_boots
+    station: WORKBENCH_SHAPED
+    pattern:
+    - I I
+    - I I
+    - '   '
+    keys:
+      I:
+        custom-id: crystalite_ingot
+    result:
+      custom-id: crystalite_boots
+      amount: 1
+  smelt_galenite_raw:
+    uuid: smelt_galenite_raw
+    station: FURNACE
+    source:
+      custom-id: raw_galenite
+    result:
+      custom-id: galenite_ingot
+      amount: 1
+    exp: 1.5
+    cooking-time: 200
+  blast_galenite_raw:
+    uuid: blast_galenite_raw
+    station: BLAST_FURNACE
+    source:
+      custom-id: raw_galenite
+    result:
+      custom-id: galenite_ingot
+      amount: 1
+    exp: 1.5
+    cooking-time: 100
+  craft_galenite_nuggets_from_ingot:
+    uuid: craft_galenite_nuggets_from_ingot
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: galenite_ingot
+    result:
+      custom-id: galenite_nugget
+      amount: 9
+  craft_galenite_ingot_from_nuggets:
+    uuid: craft_galenite_ingot_from_nuggets
+    station: WORKBENCH_SHAPED
+    pattern:
+    - NNN
+    - NNN
+    - NNN
+    keys:
+      N:
+        custom-id: galenite_nugget
+    result:
+      custom-id: galenite_ingot
+      amount: 1
+  craft_galenite_block:
+    uuid: craft_galenite_block
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - III
+    - III
+    keys:
+      I:
+        custom-id: galenite_ingot
+    result:
+      custom-id: galenite_block
+      amount: 1
+  craft_galenite_ingot_from_block:
+    uuid: craft_galenite_ingot_from_block
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: galenite_block
+    result:
+      custom-id: galenite_ingot
+      amount: 9
+  craft_galenite_sword:
+    uuid: craft_galenite_sword
+    station: WORKBENCH_SHAPED
+    pattern:
+    - ' I '
+    - ' I '
+    - ' S '
+    keys:
+      I:
+        custom-id: galenite_ingot
+      S:
+        material: STICK
+    result:
+      custom-id: galenite_sword
+      amount: 1
+  craft_galenite_pickaxe:
+    uuid: craft_galenite_pickaxe
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - ' S '
+    - ' S '
+    keys:
+      I:
+        custom-id: galenite_ingot
+      S:
+        material: STICK
+    result:
+      custom-id: galenite_pickaxe
+      amount: 1
+  craft_galenite_axe:
+    uuid: craft_galenite_axe
+    station: WORKBENCH_SHAPED
+    pattern:
+    - 'II '
+    - 'IS '
+    - ' S '
+    keys:
+      I:
+        custom-id: galenite_ingot
+      S:
+        material: STICK
+    result:
+      custom-id: galenite_axe
+      amount: 1
+  craft_galenite_shovel:
+    uuid: craft_galenite_shovel
+    station: WORKBENCH_SHAPED
+    pattern:
+    - ' I '
+    - ' S '
+    - ' S '
+    keys:
+      I:
+        custom-id: galenite_ingot
+      S:
+        material: STICK
+    result:
+      custom-id: galenite_shovel
+      amount: 1
+  craft_galenite_hoe:
+    uuid: craft_galenite_hoe
+    station: WORKBENCH_SHAPED
+    pattern:
+    - 'II '
+    - ' S '
+    - ' S '
+    keys:
+      I:
+        custom-id: galenite_ingot
+      S:
+        material: STICK
+    result:
+      custom-id: galenite_hoe
+      amount: 1
+  craft_galenite_helmet:
+    uuid: craft_galenite_helmet
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - I I
+    - '   '
+    keys:
+      I:
+        custom-id: galenite_ingot
+    result:
+      custom-id: galenite_helmet
+      amount: 1
+  craft_galenite_chestplate:
+    uuid: craft_galenite_chestplate
+    station: WORKBENCH_SHAPED
+    pattern:
+    - I I
+    - III
+    - III
+    keys:
+      I:
+        custom-id: galenite_ingot
+    result:
+      custom-id: galenite_chestplate
+      amount: 1
+  craft_galenite_leggings:
+    uuid: craft_galenite_leggings
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - I I
+    - I I
+    keys:
+      I:
+        custom-id: galenite_ingot
+    result:
+      custom-id: galenite_leggings
+      amount: 1
+  craft_galenite_boots:
+    uuid: craft_galenite_boots
+    station: WORKBENCH_SHAPED
+    pattern:
+    - I I
+    - I I
+    - '   '
+    keys:
+      I:
+        custom-id: galenite_ingot
+    result:
+      custom-id: galenite_boots
+      amount: 1
+  craft_iridium_nuggets_from_ingot:
+    uuid: craft_iridium_nuggets_from_ingot
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: iridium_ingot
+    result:
+      custom-id: iridium_nugget
+      amount: 9
+  craft_iridium_ingot_from_nuggets:
+    uuid: craft_iridium_ingot_from_nuggets
+    station: WORKBENCH_SHAPED
+    pattern:
+    - NNN
+    - NNN
+    - NNN
+    keys:
+      N:
+        custom-id: iridium_nugget
+    result:
+      custom-id: iridium_ingot
+      amount: 1
+  craft_iridium_block:
+    uuid: craft_iridium_block
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - III
+    - III
+    keys:
+      I:
+        custom-id: iridium_ingot
+    result:
+      custom-id: iridium_block
+      amount: 1
+  craft_iridium_ingot_from_block:
+    uuid: craft_iridium_ingot_from_block
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: iridium_block
+    result:
+      custom-id: iridium_ingot
+      amount: 9
+  smelt_jade_raw:
+    uuid: smelt_jade_raw
+    station: FURNACE
+    source:
+      custom-id: raw_jade
+    result:
+      custom-id: jade_ingot
+      amount: 1
+    exp: 1.5
+    cooking-time: 200
+  blast_jade_raw:
+    uuid: blast_jade_raw
+    station: BLAST_FURNACE
+    source:
+      custom-id: raw_jade
+    result:
+      custom-id: jade_ingot
+      amount: 1
+    exp: 1.5
+    cooking-time: 100
+  craft_jade_nuggets_from_ingot:
+    uuid: craft_jade_nuggets_from_ingot
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: jade_ingot
+    result:
+      custom-id: jade_nugget
+      amount: 9
+  craft_jade_ingot_from_nuggets:
+    uuid: craft_jade_ingot_from_nuggets
+    station: WORKBENCH_SHAPED
+    pattern:
+    - NNN
+    - NNN
+    - NNN
+    keys:
+      N:
+        custom-id: jade_nugget
+    result:
+      custom-id: jade_ingot
+      amount: 1
+  craft_jade_block:
+    uuid: craft_jade_block
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - III
+    - III
+    keys:
+      I:
+        custom-id: jade_ingot
+    result:
+      custom-id: jade_block
+      amount: 1
+  craft_jade_ingot_from_block:
+    uuid: craft_jade_ingot_from_block
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: jade_block
+    result:
+      custom-id: jade_ingot
+      amount: 9
+  craft_jade_raw_block:
+    uuid: craft_jade_raw_block
+    station: WORKBENCH_SHAPED
+    pattern:
+    - RRR
+    - RRR
+    - RRR
+    keys:
+      R:
+        custom-id: raw_jade
+    result:
+      custom-id: raw_jade_block
+      amount: 1
+  craft_jade_raw_from_block:
+    uuid: craft_jade_raw_from_block
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: raw_jade_block
+    result:
+      custom-id: raw_jade
+      amount: 9
+  craft_malachite_nuggets_from_ingot:
+    uuid: craft_malachite_nuggets_from_ingot
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: malachite_ingot
+    result:
+      custom-id: malachite_nugget
+      amount: 9
+  craft_malachite_ingot_from_nuggets:
+    uuid: craft_malachite_ingot_from_nuggets
+    station: WORKBENCH_SHAPED
+    pattern:
+    - NNN
+    - NNN
+    - NNN
+    keys:
+      N:
+        custom-id: malachite_nugget
+    result:
+      custom-id: malachite_ingot
+      amount: 1
+  craft_malachite_block:
+    uuid: craft_malachite_block
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - III
+    - III
+    keys:
+      I:
+        custom-id: malachite_ingot
+    result:
+      custom-id: malachite_block
+      amount: 1
+  craft_malachite_ingot_from_block:
+    uuid: craft_malachite_ingot_from_block
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: malachite_block
+    result:
+      custom-id: malachite_ingot
+      amount: 9
+  smelt_mythril_raw:
+    uuid: smelt_mythril_raw
+    station: FURNACE
+    source:
+      custom-id: raw_mythril
+    result:
+      custom-id: mythril_ingot
+      amount: 1
+    exp: 1.5
+    cooking-time: 200
+  blast_mythril_raw:
+    uuid: blast_mythril_raw
+    station: BLAST_FURNACE
+    source:
+      custom-id: raw_mythril
+    result:
+      custom-id: mythril_ingot
+      amount: 1
+    exp: 1.5
+    cooking-time: 100
+  craft_mythril_nuggets_from_ingot:
+    uuid: craft_mythril_nuggets_from_ingot
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: mythril_ingot
+    result:
+      custom-id: mythril_nugget
+      amount: 9
+  craft_mythril_ingot_from_nuggets:
+    uuid: craft_mythril_ingot_from_nuggets
+    station: WORKBENCH_SHAPED
+    pattern:
+    - NNN
+    - NNN
+    - NNN
+    keys:
+      N:
+        custom-id: mythril_nugget
+    result:
+      custom-id: mythril_ingot
+      amount: 1
+  craft_mythril_block:
+    uuid: craft_mythril_block
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - III
+    - III
+    keys:
+      I:
+        custom-id: mythril_ingot
+    result:
+      custom-id: mythril_block
+      amount: 1
+  craft_mythril_ingot_from_block:
+    uuid: craft_mythril_ingot_from_block
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: mythril_block
+    result:
+      custom-id: mythril_ingot
+      amount: 9
+  craft_mythril_raw_block:
+    uuid: craft_mythril_raw_block
+    station: WORKBENCH_SHAPED
+    pattern:
+    - RRR
+    - RRR
+    - RRR
+    keys:
+      R:
+        custom-id: raw_mythril
+    result:
+      custom-id: raw_mythril_block
+      amount: 1
+  craft_mythril_raw_from_block:
+    uuid: craft_mythril_raw_from_block
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: raw_mythril_block
+    result:
+      custom-id: raw_mythril
+      amount: 9
+  craft_ruby_nuggets_from_ingot:
+    uuid: craft_ruby_nuggets_from_ingot
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: ruby_ingot
+    result:
+      custom-id: ruby_nugget
+      amount: 9
+  craft_ruby_ingot_from_nuggets:
+    uuid: craft_ruby_ingot_from_nuggets
+    station: WORKBENCH_SHAPED
+    pattern:
+    - NNN
+    - NNN
+    - NNN
+    keys:
+      N:
+        custom-id: ruby_nugget
+    result:
+      custom-id: ruby_ingot
+      amount: 1
+  craft_ruby_block:
+    uuid: craft_ruby_block
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - III
+    - III
+    keys:
+      I:
+        custom-id: ruby_ingot
+    result:
+      custom-id: ruby_block
+      amount: 1
+  craft_ruby_ingot_from_block:
+    uuid: craft_ruby_ingot_from_block
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: ruby_block
+    result:
+      custom-id: ruby_ingot
+      amount: 9
+  craft_silver_nuggets_from_ingot:
+    uuid: craft_silver_nuggets_from_ingot
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: silver_ingot
+    result:
+      custom-id: silver_nugget
+      amount: 9
+  craft_silver_ingot_from_nuggets:
+    uuid: craft_silver_ingot_from_nuggets
+    station: WORKBENCH_SHAPED
+    pattern:
+    - NNN
+    - NNN
+    - NNN
+    keys:
+      N:
+        custom-id: silver_nugget
+    result:
+      custom-id: silver_ingot
+      amount: 1
+  craft_silver_block:
+    uuid: craft_silver_block
+    station: WORKBENCH_SHAPED
+    pattern:
+    - III
+    - III
+    - III
+    keys:
+      I:
+        custom-id: silver_ingot
+    result:
+      custom-id: silver_block
+      amount: 1
+  craft_silver_ingot_from_block:
+    uuid: craft_silver_ingot_from_block
+    station: WORKBENCH_SHAPELESS
+    ingredients:
+    - custom-id: silver_block
+    result:
+      custom-id: silver_ingot
+      amount: 9
