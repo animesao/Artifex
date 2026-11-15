@@ -27,6 +27,7 @@ amber_boots:
   activation-slot: FEET
   placeable: false
   item:
+    asset-id: artifex:amber
     type: GOLDEN_BOOTS
     title: '&#FFAA00Янтарные ботинки'
     custom-model-data: 2003
@@ -49,6 +50,7 @@ amber_chestplate:
   activation-slot: CHEST
   placeable: false
   item:
+    asset-id: artifex:amber
     type: GOLDEN_CHESTPLATE
     title: '&#FFAA00Янтарный нагрудник'
     custom-model-data: 2004
@@ -71,6 +73,7 @@ amber_helmet:
   activation-slot: HEAD
   placeable: false
   item:
+    asset-id: artifex:amber
     type: GOLDEN_HELMET
     title: '&#FFAA00Янтарный шлем'
     custom-model-data: 2006
@@ -112,6 +115,7 @@ amber_leggings:
   activation-slot: LEGS
   placeable: false
   item:
+    asset-id: artifex:amber
     type: GOLDEN_LEGGINGS
     title: '&#FFAA00Янтарные поножи'
     custom-model-data: 2011
@@ -223,6 +227,7 @@ bloodstone_boots:
   activation-slot: FEET
   placeable: false
   item:
+    asset-id: artifex:bloodstone
     type: NETHERITE_BOOTS
     title: '&#FF2244Кровавые ботинки'
     custom-model-data: 2026
@@ -249,6 +254,7 @@ bloodstone_chestplate:
   activation-slot: CHEST
   placeable: false
   item:
+    asset-id: artifex:bloodstone
     type: NETHERITE_CHESTPLATE
     title: '&#FF2244Кровавый нагрудник'
     custom-model-data: 2027
@@ -275,6 +281,7 @@ bloodstone_helmet:
   activation-slot: HEAD
   placeable: false
   item:
+    asset-id: artifex:bloodstone
     type: NETHERITE_HELMET
     title: '&#FF2244Кровавый шлем'
     custom-model-data: 2029
@@ -320,6 +327,7 @@ bloodstone_leggings:
   activation-slot: LEGS
   placeable: false
   item:
+    asset-id: artifex:bloodstone
     type: NETHERITE_LEGGINGS
     title: '&#FF2244Кровавые поножи'
     custom-model-data: 2034
@@ -435,6 +443,7 @@ crystalite_boots:
   activation-slot: FEET
   placeable: false
   item:
+    asset-id: artifex:crystalite
     type: DIAMOND_BOOTS
     title: '&#00FFDDКристаллитовые ботинки'
     custom-model-data: 2043
@@ -461,6 +470,7 @@ crystalite_chestplate:
   activation-slot: CHEST
   placeable: false
   item:
+    asset-id: artifex:crystalite
     type: DIAMOND_CHESTPLATE
     title: '&#00FFDDКристаллитовый нагрудник'
     custom-model-data: 2044
@@ -487,6 +497,7 @@ crystalite_helmet:
   activation-slot: HEAD
   placeable: false
   item:
+    asset-id: artifex:crystalite
     type: DIAMOND_HELMET
     title: '&#00FFDDКристаллитовый шлем'
     custom-model-data: 2046
@@ -532,6 +543,7 @@ crystalite_leggings:
   activation-slot: LEGS
   placeable: false
   item:
+    asset-id: artifex:crystalite
     type: DIAMOND_LEGGINGS
     title: '&#00FFDDКристаллитовые поножи'
     custom-model-data: 2051
@@ -647,6 +659,7 @@ galenite_boots:
   activation-slot: FEET
   placeable: false
   item:
+    asset-id: artifex:galenite
     type: IRON_BOOTS
     title: '&#708090Галенитовые ботинки'
     custom-model-data: 2068
@@ -673,6 +686,7 @@ galenite_chestplate:
   activation-slot: CHEST
   placeable: false
   item:
+    asset-id: artifex:galenite
     type: IRON_CHESTPLATE
     title: '&#708090Галенитовый нагрудник'
     custom-model-data: 2069
@@ -699,6 +713,7 @@ galenite_helmet:
   activation-slot: HEAD
   placeable: false
   item:
+    asset-id: artifex:galenite
     type: IRON_HELMET
     title: '&#708090Галенитовый шлем'
     custom-model-data: 2071
@@ -744,6 +759,7 @@ galenite_leggings:
   activation-slot: LEGS
   placeable: false
   item:
+    asset-id: artifex:galenite
     type: IRON_LEGGINGS
     title: '&#708090Галенитовые поножи'
     custom-model-data: 2076

@@ -10,6 +10,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -214,6 +215,10 @@ public class ItemLoader {
             String itemModel = itemSection.getString("item-model", itemSection.getString("model", null));
             String itemModelVariant = itemSection.getString("item-model-variant", null);
             applyModelData(itemStack, customModelData, itemModel, itemId, itemModelVariant);
+
+            // === Equippable Humanoid Armor (Minecraft 1.21.2+ asset_id) ===
+            String assetId = itemSection.getString("asset-id", section.getString("asset-id", null));
+            applyEquippableData(itemStack, itemId, assetId);
 
             // === Trigger actions (old + new format) ===
             List<String> triggerActions = loadTriggerActions(section);
@@ -457,6 +462,58 @@ public class ItemLoader {
         }
 
         itemStack.setItemMeta(meta);
+    }
+
+    private void applyEquippableData(ItemStack itemStack, String itemId, String assetId) {
+        if (itemStack == null) return;
+        Material mat = itemStack.getType();
+        EquipmentSlot slot = getArmorSlot(mat);
+        if (slot == null) return;
+
+        if (assetId == null || assetId.isEmpty()) {
+            String lower = itemId.toLowerCase(Locale.ROOT);
+            for (String set : new String[]{"amber", "bloodstone", "crystalite", "galenite"}) {
+                if (lower.startsWith(set + "_")) {
+                    assetId = "artifex:" + set;
+                    break;
+                }
+            }
+        }
+        if (assetId == null || assetId.isEmpty()) return;
+
+        ItemMeta meta = itemStack.getItemMeta();
+        if (meta != null) {
+            try {
+                if (meta.hasEquippable()) {
+                    org.bukkit.inventory.meta.components.EquippableComponent eq = meta.getEquippable();
+                    NamespacedKey modelKey = assetId.contains(":") ? NamespacedKey.fromString(assetId) : new NamespacedKey("artifex", assetId);
+                    eq.setModel(modelKey);
+                    eq.setSlot(slot);
+                    meta.setEquippable(eq);
+                    itemStack.setItemMeta(meta);
+                }
+            } catch (Throwable ignored) {}
+        }
+
+        try {
+            net.kyori.adventure.key.Key key = assetId.contains(":")
+                    ? net.kyori.adventure.key.Key.key(assetId)
+                    : net.kyori.adventure.key.Key.key("artifex", assetId);
+            io.papermc.paper.datacomponent.item.Equippable eq = io.papermc.paper.datacomponent.item.Equippable.equippable(slot)
+                    .assetId(key)
+                    .build();
+            itemStack.setData(io.papermc.paper.datacomponent.DataComponentTypes.EQUIPPABLE, eq);
+        } catch (Throwable ignored) {}
+    }
+
+    private EquipmentSlot getArmorSlot(Material mat) {
+        if (mat == null) return null;
+        String name = mat.name();
+        if (name.endsWith("_HELMET")) return EquipmentSlot.HEAD;
+        if (name.endsWith("_CHESTPLATE")) return EquipmentSlot.CHEST;
+        if (name.endsWith("_LEGGINGS")) return EquipmentSlot.LEGS;
+        if (name.endsWith("_BOOTS")) return EquipmentSlot.FEET;
+        return null;
     }
 
     /**
