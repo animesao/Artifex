@@ -7,6 +7,16 @@ extracts the section of the needed version for the GitHub Release notes.
 
 ---
 
+## v2.3.4
+
+### 💎 Custom Block Physics Locking & Natural Ore Generation
+- **NoteBlock Physics Locking:** Implemented `BlockPhysicsEvent` handling in `CustomBlockManager` and dynamic block modules, preventing Minecraft from resetting custom note block instruments (`instrument=iron_xylophone`) to vanilla wooden note blocks when blocks underneath or adjacent are broken.
+- **Neighbor Break Resilience:** Added automated block state reaffirmation on neighbor block breaks to guarantee consistent custom 3D model rendering across client and server.
+- **Natural Deepslate World Generation:** Integrated autonomous vein generation in `ChunkLoadEvent` for newly explored Overworld chunks ($Y = -58 \dots 0$), with configurable vein clustering (4–7 veins/chunk, 2–5 blocks/vein).
+- **In-Game Generation Command (`/oregen`, `/ore`):** Added registered custom command extending `CustomCommand` with tab-completion for instant in-game testing (`/ore here`, `/ore [radius]`).
+
+---
+
 ## v2.3.3
 
 ### 🔮 Modular Wasteland Crystal Ores & 3D Shards
