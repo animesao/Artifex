@@ -114,12 +114,16 @@ public class CustomBlockManager implements Listener {
     public void register(CustomBlockDef def) {
         byId.put(def.blockId.toLowerCase(), def);
         byState.put(def.getStateKey(), def);
+        byState.put(def.instrument.name() + ":" + def.note, def);
     }
 
     public CustomBlockDef getByBlock(Block block) {
         if (block == null || !(block.getBlockData() instanceof NoteBlock nb)) return null;
-        String key = nb.getInstrument().name() + ":" + nb.getNote().getId() + ":" + nb.isPowered();
-        return byState.get(key);
+        String simpleKey = nb.getInstrument().name() + ":" + nb.getNote().getId();
+        CustomBlockDef def = byState.get(simpleKey);
+        if (def != null) return def;
+        String fullKey = simpleKey + ":" + nb.isPowered();
+        return byState.get(fullKey);
     }
 
     public CustomBlockDef getById(String id) {
@@ -265,13 +269,23 @@ public class CustomBlockManager implements Listener {
 
         CustomBlockDef def = getByBlock(block);
         if (def != null) {
-            // Cancel tuning NoteBlock
-            event.setCancelled(true);
+            // Prevent tuning NoteBlock but allow placing blocks against it
+            event.setUseInteractedBlock(org.bukkit.event.Event.Result.DENY);
+            if (event.useItemInHand() != org.bukkit.event.Event.Result.DENY) {
+                event.setUseItemInHand(org.bukkit.event.Event.Result.ALLOW);
+            }
             
             // Show ore inspect info on shift-click
             if (event.getPlayer().isSneaking()) {
                 event.getPlayer().sendActionBar(ColorUtils.colorize("&6✦ &f" + def.displayName + " &8| &7Добыча: &e" + getToolName(def.minTool)));
             }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onBlockDropItem(org.bukkit.event.block.BlockDropItemEvent event) {
+        if (event.getBlockState().getType() == Material.NOTE_BLOCK) {
+            event.getItems().removeIf(item -> item.getItemStack().getType() == Material.NOTE_BLOCK);
         }
     }
 
