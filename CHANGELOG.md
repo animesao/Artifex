@@ -7,6 +7,18 @@ extracts the section of the needed version for the GitHub Release notes.
 
 ---
 
+## v2.4.0
+
+### 🧱 Custom Block Placement & Drop Fixes
+- **Block-on-Block Placement:** Replaced `event.setCancelled(true)` in `PlayerInteractEvent` with `event.setUseInteractedBlock(Event.Result.DENY)` and `event.setUseItemInHand(Event.Result.ALLOW)`. Prevents NoteBlock tuning while allowing players to place custom ores or any other blocks on top of, below, or against existing custom ores seamlessly.
+- **Eliminated Vanilla Note Block Drops:** Fixed `getByBlock` state matching by decoupling it from redstone `:powered` state flags so powered custom ores are recognized properly.
+- **Fallback State Matching:** Enhanced recognition fallback for NoteBlocks altered by neighboring block physics.
+- **BlockDropItemEvent Protection:** Added `BlockDropItemEvent` safety net that strips any accidental `NOTE_BLOCK` item entities from entering the world.
+- **Unified Instrument Alignment:** Explicitly set `Instrument.IRON_XYLOPHONE` and note 4 for `wasteland_crystal_ore` across `WastelandCrystalOre.java` and `oregen.java`.
+- **Dwarf Ore Mining Support:** Added `NOTE_BLOCK` custom ore mining detection for Dwarf race Haste perk.
+
+---
+
 ## v2.3.9
 
 ### ⚡ Performance and Stability Improvements
