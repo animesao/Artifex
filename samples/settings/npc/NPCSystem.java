@@ -43,6 +43,9 @@ import java.io.File;
 import java.sql.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Полнофункциональная система NPC для Artifex.
@@ -71,6 +74,12 @@ public class NPCSystem extends CustomCommand implements Listener {
     private final Map<UUID, Long> clickCooldown = new ConcurrentHashMap<>();
     private final Map<UUID, UUID> editingTrade = new ConcurrentHashMap<>();
     private final Map<UUID, String> npcSkins = new ConcurrentHashMap<>();
+    private final Map<String, List<MerchantRecipe>> recipesCache = new ConcurrentHashMap<>();
+    private final ExecutorService databaseWriter = Executors.newSingleThreadExecutor(runnable -> {
+        Thread thread = new Thread(runnable, "Artifex-NPC-Database");
+        thread.setDaemon(true);
+        return thread;
+    });
 
     private org.bukkit.scheduler.BukkitTask trackerTask;
 
@@ -92,6 +101,13 @@ public class NPCSystem extends CustomCommand implements Listener {
         if (trackerTask != null) {
             trackerTask.cancel();
             trackerTask = null;
+        }
+        databaseWriter.shutdown();
+        try {
+            if (!databaseWriter.awaitTermination(5, TimeUnit.SECONDS)) databaseWriter.shutdownNow();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            databaseWriter.shutdownNow();
         }
         if (connection != null) {
             try {
@@ -121,6 +137,8 @@ public class NPCSystem extends CustomCommand implements Listener {
 
             connection = DriverManager.getConnection("jdbc:sqlite:" + dbFile.getAbsolutePath());
             try (Statement stmt = connection.createStatement()) {
+                stmt.execute("PRAGMA busy_timeout=5000");
+                stmt.execute("PRAGMA journal_mode=WAL");
                 stmt.executeUpdate("CREATE TABLE IF NOT EXISTS npcs (" +
                         "uuid TEXT PRIMARY KEY, " +
                         "name TEXT, " +
@@ -145,11 +163,12 @@ public class NPCSystem extends CustomCommand implements Listener {
         if (connection == null) return;
         try (Statement stmt = connection.createStatement()) {
             // Загружаем NPC
-            try (ResultSet rs = stmt.executeQuery("SELECT uuid, command, trade_enabled, skin FROM npcs")) {
+            try (ResultSet rs = stmt.executeQuery("SELECT uuid, command, trade_enabled, skin, trades FROM npcs")) {
                 while (rs.next()) {
                     String uuid = rs.getString("uuid");
                     commandCache.put(uuid, rs.getString("command") != null ? rs.getString("command") : "");
                     tradeCache.put(uuid, rs.getInt("trade_enabled") == 1);
+                    recipesCache.put(uuid, deserializeRecipes(rs.getString("trades")));
                     String skin = rs.getString("skin");
                     if (skin != null && !skin.isEmpty()) {
                         try {
@@ -246,7 +265,6 @@ public class NPCSystem extends CustomCommand implements Listener {
                 Location pEye = player.getEyeLocation();
                 for (Entity entity : player.getNearbyEntities(8.0, 5.0, 8.0)) {
                     if (!entity.getPersistentDataContainer().has(npcKey, PersistentDataType.STRING)) continue;
-
                     try {
                         entity.lookAt(pEye.getX(), pEye.getY(), pEye.getZ(), LookAnchor.EYES);
                     } catch (Throwable ignored) {
@@ -257,7 +275,7 @@ public class NPCSystem extends CustomCommand implements Listener {
                     }
                 }
             }
-        }, 10L, 2L);
+        }, 10L, 4L);
     }
 
     // =====================================================================
@@ -845,8 +863,9 @@ public class NPCSystem extends CustomCommand implements Listener {
 
         // 1. Открытие торговли (работает для MANNEQUIN, VILLAGER и всех мобов)
         if (isTradeEnabled) {
-            List<MerchantRecipe> recipes = loadRecipes(uuidStr);
-            if (!recipes.isEmpty()) {
+            List<MerchantRecipe> recipes = recipesCache.get(uuidStr);
+            if (recipes != null && !recipes.isEmpty()) {
+                recipes = cloneRecipes(recipes);
                 String title = entity.getCustomName() != null ? entity.getCustomName() : "Торговец";
                 Merchant merchant = Bukkit.createMerchant(ColorUtils.colorize(title));
                 merchant.setRecipes(recipes);
@@ -909,6 +928,9 @@ public class NPCSystem extends CustomCommand implements Listener {
     // РЕЦЕПТЫ ТОРГОВЛИ (СЕРИАЛИЗАЦИЯ И ДЕСЕРИАЛИЗАЦИЯ)
     // =====================================================================
     private List<MerchantRecipe> loadRecipes(String npcUUID) {
+        List<MerchantRecipe> cached = recipesCache.get(npcUUID);
+        if (cached != null) return cloneRecipes(cached);
+
         List<MerchantRecipe> recipes = new ArrayList<>();
         if (connection == null) return recipes;
         try (PreparedStatement ps = connection.prepareStatement("SELECT trades FROM npcs WHERE uuid = ?")) {
@@ -938,10 +960,41 @@ public class NPCSystem extends CustomCommand implements Listener {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        recipesCache.put(npcUUID, cloneRecipes(recipes));
+        return cloneRecipes(recipes);
+    }
+
+    private List<MerchantRecipe> deserializeRecipes(String tradesStr) {
+        List<MerchantRecipe> recipes = new ArrayList<>();
+        if (tradesStr == null || tradesStr.isEmpty()) return recipes;
+        for (String part : tradesStr.split(";;")) {
+            String[] items = part.split("\\|\\|");
+            if (items.length < 2) continue;
+            ItemStack in1 = deserializeItem(items[0]);
+            ItemStack out = deserializeItem(items[1]);
+            ItemStack in2 = items.length > 2 ? deserializeItem(items[2]) : null;
+            if (in1 == null || out == null) continue;
+            MerchantRecipe recipe = new MerchantRecipe(out, 9999);
+            recipe.addIngredient(in1);
+            if (in2 != null && in2.getType() != Material.AIR) recipe.addIngredient(in2);
+            recipes.add(recipe);
+        }
         return recipes;
     }
 
+    private List<MerchantRecipe> cloneRecipes(List<MerchantRecipe> recipes) {
+        List<MerchantRecipe> copy = new ArrayList<>(recipes.size());
+        for (MerchantRecipe recipe : recipes) {
+            MerchantRecipe clone = new MerchantRecipe(recipe.getResult().clone(), recipe.getMaxUses());
+            clone.setUses(recipe.getUses());
+            for (ItemStack ingredient : recipe.getIngredients()) clone.addIngredient(ingredient.clone());
+            copy.add(clone);
+        }
+        return copy;
+    }
+
     private void saveRecipes(String npcUUID, List<MerchantRecipe> recipes) {
+        recipesCache.put(npcUUID, cloneRecipes(recipes));
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < recipes.size(); i++) {
             MerchantRecipe recipe = recipes.get(i);
@@ -952,7 +1005,7 @@ public class NPCSystem extends CustomCommand implements Listener {
         }
         Plugin plugin = Bukkit.getPluginManager().getPlugin("Artifex");
         if (plugin != null) {
-            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            databaseWriter.execute(() -> {
                 try (PreparedStatement ps = connection.prepareStatement("UPDATE npcs SET trades = ? WHERE uuid = ?")) {
                     ps.setString(1, sb.toString());
                     ps.setString(2, npcUUID);

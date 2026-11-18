@@ -31,6 +31,15 @@ security:
 # Debug logging (turn off in production)
 debug-mode: false
 
+# Performance tuning. Higher intervals reduce CPU usage but make updates less frequent.
+performance:
+  equipment-refresh-ms: 150
+  duration-check-interval-ticks: 20
+  world-check-interval-ticks: 20
+  npc-tracker-interval-ticks: 4
+  max-action-sequence-steps: 64
+  max-action-sequence-delay-ms: 300000
+
 # Plugin logs to plugins/Artifex/logs/latest.log instead of the console.
 # Disabled by default - the plugin messages go to the server console.
 file-logging: false

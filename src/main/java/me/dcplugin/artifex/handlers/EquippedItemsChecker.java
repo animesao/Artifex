@@ -23,7 +23,9 @@ import java.util.*;
 public class EquippedItemsChecker extends BukkitRunnable {
 
     private final Main plugin;
-    private static final long RECALC_COOLDOWN_MS = 150; // 150ms between recalculations for a single player
+    private final long recalcCooldownMs;
+    private final int durationCheckInterval;
+    private final int worldCheckInterval;
 
     // Slot indices in the id array, one row per slot.
     private static final int SLOT_HAND = 0;
@@ -53,23 +55,22 @@ public class EquippedItemsChecker extends BukkitRunnable {
 
     // Global tick counter: expensive checks are not performed every tick
     private int globalTick = 0;
-    private static final int DURATION_CHECK_INTERVAL = 20;  // once per second
-    private static final int WORLD_CHECK_INTERVAL = 20;     // once per second
 
     // Java API items with getPeriodicInterval() > 0: id -> item
     // (updated once per second; while empty the periodic cycle does not run)
     private final Map<String, AbstractCustomItem> periodicJavaItems = new HashMap<>();
 
-    // Whether the loaded YAML items have trail particles.
-    // Updated once per second together with periodicJavaItems — so that the
-    // PDC is not read for an empty result.
     private boolean trailItemsPresent = false;
+    private boolean durationItemsPresent = false;
 
     /** Cached key: NamespacedKey validates and lowercases on every call. */
     private final org.bukkit.NamespacedKey acquiredTimeKey;
 
     public EquippedItemsChecker(Main plugin) {
         this.plugin = plugin;
+        this.recalcCooldownMs = Math.max(50L, plugin.getConfig().getLong("performance.equipment-refresh-ms", 150L));
+        this.durationCheckInterval = Math.max(1, plugin.getConfig().getInt("performance.duration-check-interval-ticks", 20));
+        this.worldCheckInterval = Math.max(1, plugin.getConfig().getInt("performance.world-check-interval-ticks", 20));
         this.acquiredTimeKey = new org.bukkit.NamespacedKey(plugin, "acquired_time");
     }
 
@@ -165,30 +166,22 @@ public class EquippedItemsChecker extends BukkitRunnable {
                 spawnTrailParticles(player, snapshot.ids, tick);
                 runJavaPeriodic(player, snapshot.ids, tick);
             }
-        } else {
-            // Neither trails nor periodic effects — the tick counter is still
-            // needed (it is used as the base for the intervals), but the PDC
-            // does not have to be read.
-            for (Player player : onlinePlayers) {
-                UUID playerId = player.getUniqueId();
-                trailTickCounter.put(playerId, trailTickCounter.getOrDefault(playerId, 0) + 1);
-            }
         }
 
         // Cache of Java items with periodic effects — once per second
-        if (globalTick % DURATION_CHECK_INTERVAL == 0) {
+        if (globalTick % durationCheckInterval == 0) {
             refreshPeriodicJavaItems();
         }
 
         // === Duration check (once per second, not every tick) ===
-        if (globalTick % DURATION_CHECK_INTERVAL == 0) {
+        if (durationItemsPresent && globalTick % durationCheckInterval == 0) {
             for (Player player : onlinePlayers) {
                 checkItemDurations(player);
             }
         }
 
         // === World restriction check (once per second and only on a world change) ===
-        if (globalTick % WORLD_CHECK_INTERVAL == 0) {
+        if (globalTick % worldCheckInterval == 0) {
             for (Player player : onlinePlayers) {
                 UUID playerId = player.getUniqueId();
                 String currentWorld = player.getWorld().getName();
@@ -240,7 +233,7 @@ public class EquippedItemsChecker extends BukkitRunnable {
         Long lastRecalc = lastRecalcTime.get(playerId);
         boolean stale = cached == null
                 || lastRecalc == null
-                || (now - lastRecalc) >= RECALC_COOLDOWN_MS;
+                || (now - lastRecalc) >= recalcCooldownMs;
 
         if (!stale) return cached;
 
@@ -469,12 +462,21 @@ public class EquippedItemsChecker extends BukkitRunnable {
             }
         }
 
-        // Whether there are items with trail particles — so that the PDC is not read for nothing
+        // Avoid scanning every player's inventory when the corresponding features are unused.
         trailItemsPresent = false;
+        durationItemsPresent = false;
         for (CustomItem item : plugin.getItemHandler().getAllCustomItems().values()) {
-            if (item != null && item.hasTrailParticles()) {
-                trailItemsPresent = true;
-                break;
+            if (item == null) continue;
+            if (item.hasTrailParticles()) trailItemsPresent = true;
+            if (item.hasDuration()) durationItemsPresent = true;
+            if (trailItemsPresent && durationItemsPresent) break;
+        }
+        if (!durationItemsPresent) {
+            for (AbstractCustomItem item : plugin.getApiItemRegistry().getAllItems().values()) {
+                if (item != null && item.getDuration() > 0) {
+                    durationItemsPresent = true;
+                    break;
+                }
             }
         }
     }
@@ -486,16 +488,14 @@ public class EquippedItemsChecker extends BukkitRunnable {
     private void runJavaPeriodic(Player player, String[] slotIds, int tick) {
         if (periodicJavaItems.isEmpty()) return;
 
-        for (Map.Entry<String, AbstractCustomItem> entry : periodicJavaItems.entrySet()) {
-            AbstractCustomItem item = entry.getValue();
+        for (int slotIndex = 0; slotIndex < slotIds.length; slotIndex++) {
+            String itemId = slotIds[slotIndex];
+            if (itemId == null) continue;
+            AbstractCustomItem item = periodicJavaItems.get(itemId);
+            if (item == null || slotIndex(item.getActivationSlot()) != slotIndex) continue;
+
             long interval = item.getPeriodicInterval();
             if (interval <= 0 || tick % interval != 0) continue;
-
-            // The item must be in its activation slot
-            int slotIndex = slotIndex(item.getActivationSlot());
-            if (slotIndex < 0) continue;
-            String slotId = slotIds[slotIndex];
-            if (slotId == null || !slotId.equals(entry.getKey())) continue;
 
             // Bukkit event: cancelling skips this onPeriodic call
             CustomItemPeriodicEvent periodicEvent = new CustomItemPeriodicEvent(player, item, interval);
@@ -506,7 +506,7 @@ public class EquippedItemsChecker extends BukkitRunnable {
                 item.onPeriodic(player);
             } catch (Exception e) {
                 plugin.getLogger().log(java.util.logging.Level.WARNING,
-                        "Error in onPeriodic for '" + entry.getKey() + "' for " + player.getName() + ": " + e.getMessage(), e);
+                        "Error in onPeriodic for '" + itemId + "' for " + player.getName() + ": " + e.getMessage(), e);
             }
         }
     }

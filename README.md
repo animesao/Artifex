@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Minecraft-1.21.8%2B-green?style=for-the-badge&logo=minecraft" alt="Minecraft">
   <img src="https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=openjdk" alt="Java">
-  <img src="https://img.shields.io/badge/Version-2.3.8-blue?style=for-the-badge" alt="Version">
+  <img src="https://img.shields.io/badge/Version-2.3.9-blue?style=for-the-badge" alt="Version">
   <img src="https://img.shields.io/badge/Modules-5-purple?style=for-the-badge" alt="Modules">
   <img src="https://img.shields.io/github/license/animesao/Artifex-purple?style=for-the-badge" alt="License">
 </p>
@@ -118,6 +118,30 @@ vim items/my-module/config.yml
 
 ---
 
+## ⚡ Оптимизация и настройка производительности
+
+В `config.yml` есть раздел `performance`:
+
+```yaml
+performance:
+  equipment-refresh-ms: 150
+  duration-check-interval-ticks: 20
+  world-check-interval-ticks: 20
+  npc-tracker-interval-ticks: 4
+  max-action-sequence-steps: 64
+  max-action-sequence-delay-ms: 300000
+```
+
+Значения по умолчанию подходят для большинства серверов. Не уменьшай интервалы без необходимости: это увеличивает нагрузку на главный поток Paper. Для поиска реальных причин лагов сначала используй Spark:
+
+```text
+/spark healthreport
+/spark profiler start
+/spark profiler stop
+```
+
+Профиль лучше снимать не менее 60 секунд во время обычной игровой нагрузки. Настройки `performance` применяются после перезапуска плагина или сервера.
+
 ## 📦 Установка
 
 ### Быстрая установка
@@ -125,7 +149,7 @@ vim items/my-module/config.yml
 ```bash
 # Скачать последний релиз
 cd ~/server/plugins
-curl -L -o artifex.jar https://github.com/animesao/Artifex/releases/download/v2.3.8/Artifex-2.3.8.jar
+curl -L -o artifex.jar https://github.com/animesao/Artifex/releases/download/v2.3.9/Artifex-2.3.9.jar
 
 # Перезапустить сервер
 ./restart.sh
@@ -133,7 +157,7 @@ curl -L -o artifex.jar https://github.com/animesao/Artifex/releases/download/v2.
 
 ### Ручная установка
 
-1. Скачай `Artifex-2.3.8.jar` из [Releases](https://github.com/animesao/Artifex/releases)
+1. Скачай `Artifex-2.3.9.jar` из [Releases](https://github.com/animesao/Artifex/releases)
 2. Помести в папку `plugins/`
 3. Перезапусти сервер
 4. Настрой `plugins/Artifex/config.yml`

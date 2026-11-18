@@ -7,6 +7,16 @@ extracts the section of the needed version for the GitHub Release notes.
 
 ---
 
+## v2.3.9
+
+### ⚡ Performance and Stability Improvements
+- Added configurable performance settings for equipment, duration, world and action processing.
+- Reduced repeated PDC and periodic Java item checks.
+- Added cached NPC trades and serialized SQLite writes for the NPC sample module.
+- Improved action delay rounding and added runtime performance documentation.
+
+---
+
 ## v2.3.8
 
 ### 🛡️ Minecraft 1.21.2+ & 26.3 Custom Humanoid Armor (Equippable Component)

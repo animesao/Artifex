@@ -192,17 +192,15 @@ public class ItemAPI {
     public static boolean isHolding(Player player, String itemId) {
         ItemStack main = player.getInventory().getItemInMainHand();
         ItemStack off = player.getInventory().getItemInOffHand();
-        return (isCustomItem(main) && itemId.equals(getCustomItemId(main))) ||
-               (isCustomItem(off) && itemId.equals(getCustomItemId(off)));
+        return itemId.equals(getCustomItemId(main)) || itemId.equals(getCustomItemId(off));
     }
 
     /**
      * Checks whether an item is equipped (in hand or as armour).
      */
     public static boolean isEquipped(Player player, String itemId) {
-        // getContents() already includes armour — no separate pass is needed.
         for (ItemStack item : player.getInventory().getContents()) {
-            if (isCustomItem(item) && itemId.equals(getCustomItemId(item))) return true;
+            if (itemId.equals(getCustomItemId(item))) return true;
         }
         return false;
     }

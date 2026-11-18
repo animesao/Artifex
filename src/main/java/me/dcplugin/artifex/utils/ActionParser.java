@@ -1097,10 +1097,10 @@ public class ActionParser {
 
     private static void scheduleLater(Runnable task, long delayMs) {
         Main plugin = Main.getInstance();
-        if (plugin == null || !plugin.isEnabled()) {
-            return;
-        }
-        org.bukkit.Bukkit.getScheduler().runTaskLater(plugin, task, Math.max(1L, delayMs / 50));
+        if (plugin == null || !plugin.isEnabled()) return;
+        long safeDelay = Math.max(0L, delayMs);
+        long ticks = Math.max(1L, (safeDelay + 49L) / 50L);
+        org.bukkit.Bukkit.getScheduler().runTaskLater(plugin, task, ticks);
     }
 
     // === CONDITIONS & CONTROL FLOW ===
