@@ -101,16 +101,13 @@ public class PluginBootstrap {
         // a Java recipe may use a YAML item as an ingredient.
         apiItemRegistry.registerJavaRecipes();
 
-        moduleManager.loadAll();
+        initializeDatabaseBeforeModules(this::initDatabase, () -> moduleManager.loadAll());
 
         // Command registration (delayed by 1 tick)
         registerBukkitCommand();
 
         // Event registration
         registerEvents();
-
-        // Database
-        initDatabase();
 
         // Global equipped-items check task
         equippedItemsChecker = new EquippedItemsChecker(plugin);
@@ -216,6 +213,11 @@ public class PluginBootstrap {
         pm.registerEvents(gemSocketManager, plugin);
         pm.registerEvents(customBlockManager, plugin);
         pm.registerEvents(new me.dcplugin.artifex.handlers.ItemCatalogGui(plugin, "ALL", 0), plugin);
+    }
+
+    static void initializeDatabaseBeforeModules(Runnable initDatabase, Runnable loadModules) {
+        initDatabase.run();
+        loadModules.run();
     }
 
     private void initDatabase() {
