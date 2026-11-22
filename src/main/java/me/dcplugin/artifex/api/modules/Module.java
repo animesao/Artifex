@@ -81,7 +81,13 @@ public abstract class Module {
     public void enable() {
         if (enabled) return;
         enabled = true;
-        onEnable();
+        try {
+            onEnable();
+        } catch (Throwable e) {
+            enabled = false;
+            unregisterDynamicCommands();
+            throw e;
+        }
         plugin.getLogger().info("[Module] Enabled: " + id);
     }
 
@@ -187,16 +193,20 @@ public abstract class Module {
             org.bukkit.command.CommandMap commandMap = getCommandMap();
             if (commandMap == null) return;
 
-            Map<String, org.bukkit.command.Command> knownCommands =
-                    me.dcplugin.artifex.utils.CommandMapAccessor.getKnownCommands(commandMap);
-            if (knownCommands == null) {
-                plugin.getLogger().warning("[Module " + id + "] knownCommands is unavailable - commands stay in the CommandMap");
-                dynamicCommands.clear();
-                return;
+            Map<String, org.bukkit.command.Command> knownCommands = null;
+            try {
+                knownCommands = me.dcplugin.artifex.utils.CommandMapAccessor.getKnownCommands(commandMap);
+            } catch (Throwable e) {
+                plugin.getLogger().warning("[Module " + id + "] Error inspecting known commands: " + e.getMessage());
             }
             String prefix = plugin != null ? plugin.getName().toLowerCase(java.util.Locale.ROOT) : "artifex";
             for (org.bukkit.command.Command cmd : dynamicCommands) {
-                cmd.unregister(commandMap);
+                try {
+                    cmd.unregister(commandMap);
+                } catch (Exception e) {
+                    plugin.getLogger().warning("[Module " + id + "] Error unregistering command /" + cmd.getName() + ": " + e.getMessage());
+                }
+                if (knownCommands == null) continue;
                 knownCommands.remove(cmd.getName().toLowerCase(java.util.Locale.ROOT));
                 knownCommands.remove(prefix + ":" + cmd.getName().toLowerCase(java.util.Locale.ROOT));
                 knownCommands.remove("dcustomitems:" + cmd.getName().toLowerCase(java.util.Locale.ROOT));
@@ -206,10 +216,11 @@ public abstract class Module {
                     knownCommands.remove("dcustomitems:" + alias.toLowerCase(java.util.Locale.ROOT));
                 }
             }
-            dynamicCommands.clear();
             me.dcplugin.artifex.utils.CommandMapAccessor.syncCommands();
         } catch (Exception e) {
             plugin.getLogger().warning("[Module " + id + "] Error unregistering commands: " + e.getMessage());
+        } finally {
+            dynamicCommands.clear();
         }
     }
 

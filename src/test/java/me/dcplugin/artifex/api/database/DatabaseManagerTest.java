@@ -9,8 +9,12 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.lang.reflect.Field;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -114,5 +118,26 @@ class DatabaseManagerTest {
         assertTrue(database.connect());
         assertFalse(database.createTable("bad; DROP TABLE core_profile", "uuid TEXT"));
         assertFalse(database.tableExists("bad; DROP TABLE core_profile"));
+    }
+
+    @Test
+    void shutdownCompletesPendingAsyncWaitersAndDisconnects() throws Exception {
+        assertTrue(database.connect());
+        CompletableFuture<Integer> pending = new CompletableFuture<>();
+        pendingAsyncOperations().add(pending);
+
+        database.shutdownAsync();
+
+        assertTrue(pending.isCompletedExceptionally());
+        assertTrue(pending.handle((value, error) -> error instanceof CancellationException).join());
+        assertFalse(database.isConnected());
+        assertEquals(0, pendingAsyncOperations().size());
+    }
+
+    @SuppressWarnings("unchecked")
+    private Set<CompletableFuture<?>> pendingAsyncOperations() throws Exception {
+        Field field = DatabaseManager.class.getDeclaredField("pendingAsyncOperations");
+        field.setAccessible(true);
+        return (Set<CompletableFuture<?>>) field.get(database);
     }
 }

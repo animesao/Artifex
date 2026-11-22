@@ -65,7 +65,7 @@
 В консоли при старте сервера:
 
 ```text
-[Server] Artifex v1.333.0 could not be loaded (Unsupported API version)
+[Server] Artifex v2.5.1 could not be loaded (Unsupported API version)
 ```
 
 или
@@ -852,7 +852,7 @@ tail -f plugins/Artifex/logs/latest.log
 Полезный шаблон:
 
 ```text
-Версия плагина: 1.333.0
+Версия плагина: 2.5.1
 Сервер: Paper 1.21.8 (Java 21)
 java-compilation: true
 

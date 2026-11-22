@@ -64,7 +64,7 @@ public class ItemLoader {
             "disable-worlds", "whitelist-blocks",
             "java-compilation", "backup", "extract-default-modules",
             "file-logging", "crafting", "items", "cooldowns", "security",
-            "custom-blocks"
+            "custom-blocks", "performance"
     );
 
     private void loadFromConfig(Map<String, CustomItem> items) {

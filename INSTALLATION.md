@@ -1,4 +1,4 @@
-# Installing Artifex 2.5.0
+# Installing Artifex 2.5.1
 
 Artifex is a standalone modular Java plugin for Paper/Spigot 1.21.8+ running on Java 21.
 
@@ -10,15 +10,15 @@ Artifex is a standalone modular Java plugin for Paper/Spigot 1.21.8+ running on 
 
 ## Install
 
-1. Download `Artifex-2.5.0.jar` and `SHA256SUMS.txt` from the
-   [2.5.0 release](https://github.com/animesao/Artifex/releases/tag/v2.5.0).
+1. Download `Artifex-2.5.1.jar` and `SHA256SUMS.txt` from the
+   [2.5.1 release](https://github.com/animesao/Artifex/releases/tag/v2.5.1).
 2. Verify the JAR checksum:
 
    ```sh
    sha256sum -c SHA256SUMS.txt
    ```
 
-3. Copy `Artifex-2.5.0.jar` into the server's `plugins/` directory.
+3. Copy `Artifex-2.5.1.jar` into the server's `plugins/` directory.
 4. Start the server once. Artifex creates `plugins/Artifex/config.yml`,
    `items/messages.java`, and (with the default configuration) `data.db`.
 5. Stop the server before adding modules or editing configuration.
@@ -41,7 +41,7 @@ A severe message such as `[DB] Database is unavailable` indicates a broken start
 ## Upgrade from 2.4.0
 
 1. Back up `plugins/Artifex/`, including `data.db` and `items/`.
-2. Replace the old JAR with `Artifex-2.5.0.jar`.
+2. Replace the old JAR with `Artifex-2.5.1.jar`.
 3. Start the server. Existing SQLite data is preserved; no destructive migration is performed.
 
 ## Security note

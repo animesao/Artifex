@@ -7,6 +7,44 @@ extracts the section of the needed version for the GitHub Release notes.
 
 ---
 
+## v2.5.1
+
+**Stable patch release.** This release completes the Java module shutdown lifecycle without changing the public API or adding any project-specific integration to Artifex Core.
+
+### Fixed
+- `PluginBootstrap.disable()` now calls `ModuleManager.unloadAll()` after custom command unregistration and before placeholders, the item registry, and the database are shut down.
+- Every active Java module now receives `onDisable()` exactly once during a full plugin shutdown, while the database, registry, placeholders, and module resources are still available.
+- A failure in one module no longer prevents other modules from being disabled; module errors are logged with their stack traces.
+- Module unloading is idempotent: the module registry is cleared in a `finally` block, so repeated `disable()` calls do not invoke `onDisable()` twice.
+- Failed module `onEnable()` calls now roll back module state and unregister commands registered before the failure.
+- Dynamic commands are unregistered even when the Bukkit `knownCommands` map cannot be resolved; tracked command collections are always cleared.
+- Database shutdown now drains async work, completes outstanding waiters on timeout, and closes connections in one owned sequence.
+- Full shutdown now clears YAML and Java recipes and isolates every cleanup step with `Throwable`-safe handling.
+- Added `performance` to the known configuration sections so the shipped config no longer produces false item-migration warnings.
+- Clarified that `security.strict-mode` is advisory source hygiene, not a sandbox or a security boundary.
+- Made the Maven JAR reproducible and made CI release fail loudly when the committed checksum is missing or does not match the built JAR.
+
+### Compatibility
+- No public API signatures changed.
+- Existing modules using `extends Module`, the `(Main, String, File)` constructor, `onEnable()`, `onDisable()`, and `registerDynamicCommand(...)` remain compatible.
+- Dynamic command cleanup, runtime Java compilation, SQLite/MySQL persistence, YAML items, PlaceholderAPI, Vault, GUI, and crafting behavior are unchanged.
+- Existing configurations and player/item data are not migrated or reset.
+
+### Tests and verification
+- Added `PluginBootstrapShutdownTest` covering single and multiple modules, exactly-once shutdown, failing modules, repeated disable, dependency availability, recipe cleanup, and pending-state persistence during `onDisable()`.
+- Added `CommandCleanupTest` covering dynamic-command fallback cleanup and failed-enable rollback.
+- Added `DatabaseManagerTest` coverage for pending async waiter completion and connection shutdown.
+- Added `ItemRegistryShutdownTest` covering custom command and placeholder unregistration on shutdown.
+- Added `ConfigMigratorTest` covering the corrected `performance` classification.
+- Full Maven build and Surefire suite pass: 98 tests, 0 failures, 0 errors, 0 skips.
+- Disposable Paper 26.3 verification covers startup, `/ci reload`, module reloading, runtime Java compilation, full plugin shutdown, and a second start without errors.
+- Verified that a module can persist queue state to disk during shutdown before the database is disconnected.
+
+### Release note
+- No production Minecraft server was modified or deployed to by this release.
+
+---
+
 ## v2.5.0
 
 **Stable release.** Artifex is an independent, universal modular Java core for Minecraft servers.

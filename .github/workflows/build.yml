@@ -106,17 +106,17 @@ jobs:
         JAR="Artifex-${VERSION}.jar"
         SUMS="release/${VERSION}/SHA256SUMS.txt"
         ACTUAL=$(sha256sum "$JAR" | cut -d' ' -f1)
-        EXPECTED=""
-        if [ -f "$SUMS" ]; then
-          EXPECTED=$(grep -i "$JAR" "$SUMS" | awk '{print $NF}' | tr '[:upper:]' '[:lower:]')
+        if [ ! -f "$SUMS" ]; then
+          echo "::error::Missing committed checksum file: $SUMS"
+          exit 1
         fi
-        if [ -n "$EXPECTED" ] && [ "$ACTUAL" = "$EXPECTED" ]; then
-          echo "attach=true" >> $GITHUB_OUTPUT
-          echo "Verified release JAR checksum: $ACTUAL"
-        else
-          echo "attach=false" >> $GITHUB_OUTPUT
-          echo "::warning::CI-built JAR checksum $ACTUAL does not match committed metadata ($EXPECTED); no JAR will be auto-attached."
+        EXPECTED=$(grep -i "$JAR" "$SUMS" | awk '{print $NF}' | tr '[:upper:]' '[:lower:]')
+        if [ -z "$EXPECTED" ] || [ "$ACTUAL" != "$EXPECTED" ]; then
+          echo "::error::CI-built JAR checksum $ACTUAL does not match committed metadata ($EXPECTED)."
+          exit 1
         fi
+        echo "attach=true" >> $GITHUB_OUTPUT
+        echo "Verified release JAR checksum: $ACTUAL"
 
     - name: Generate release notes
       run: |
@@ -172,7 +172,9 @@ jobs:
       with:
         name: "Artifex ${{ env.VERSION }}"
         body_path: notes.md
-        files: Artifex-${{ env.VERSION }}.jar
+        files: |
+          Artifex-${{ env.VERSION }}.jar
+          release/${{ env.VERSION }}/SHA256SUMS.txt
         draft: false
         prerelease: ${{ contains(env.VERSION, '-rc') }}
       env:

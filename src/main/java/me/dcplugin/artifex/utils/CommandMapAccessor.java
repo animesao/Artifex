@@ -31,9 +31,9 @@ public final class CommandMapAccessor {
      * The server's CommandMap (null if it could not be obtained).
      */
     public static synchronized CommandMap getCommandMap() {
-        if (resolved) return commandMap;
-        resolved = true;
+        if (resolved && commandMap != null) return commandMap;
         commandMap = resolveCommandMap();
+        resolved = commandMap != null;
         return commandMap;
     }
 
@@ -68,8 +68,10 @@ public final class CommandMapAccessor {
             // Fall through to the next approach
         }
 
-        Bukkit.getLogger().log(Level.WARNING,
-                "[Artifex] Could not obtain the CommandMap - dynamic commands will not be registered");
+        if (Bukkit.getServer() != null) {
+            Bukkit.getLogger().log(Level.WARNING,
+                    "[Artifex] Could not obtain the CommandMap - dynamic commands will not be registered");
+        }
         return null;
     }
 
@@ -139,8 +141,10 @@ public final class CommandMapAccessor {
             current = current.getSuperclass();
         }
 
-        Bukkit.getLogger().log(Level.WARNING,
-                "[Artifex] Could not obtain knownCommands - commands will not be removed on reload");
+        if (Bukkit.getServer() != null) {
+            Bukkit.getLogger().log(Level.WARNING,
+                    "[Artifex] Could not obtain knownCommands - commands will not be removed on reload");
+        }
         return null;
     }
 

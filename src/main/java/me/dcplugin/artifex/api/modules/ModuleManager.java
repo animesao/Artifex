@@ -62,7 +62,8 @@ public class ModuleManager {
             }
             try {
                 loadModule(folder);
-            } catch (Exception e) {
+            } catch (Throwable e) {
+                modules.remove(folder.getName().toLowerCase(java.util.Locale.ROOT));
                 plugin.getLogger().log(java.util.logging.Level.WARNING,
                     "[Modules] Error loading module: " + folder.getName() + " - " + e.getMessage(), e);
             }
@@ -93,7 +94,7 @@ public class ModuleManager {
         Module javaModule = plugin.getApiItemRegistry() == null
             ? null : plugin.getApiItemRegistry().getModule(moduleId);
         if (javaModule != null) {
-            modules.put(moduleId.toLowerCase(), javaModule);
+            modules.put(moduleId.toLowerCase(java.util.Locale.ROOT), javaModule);
             if (config.getBoolean("enabled", true)) javaModule.enable();
             return;
         }
@@ -139,14 +140,18 @@ public class ModuleManager {
      * Unloads all modules
      */
     public void unloadAll() {
-        for (Module module : modules.values()) {
-            try {
-                module.disable();
-            } catch (Exception e) {
-                plugin.getLogger().warning("[Modules] Error disabling: " + module.getId());
+        try {
+            for (Module module : modules.values()) {
+                try {
+                    module.disable();
+                } catch (Throwable e) {
+                    plugin.getLogger().log(java.util.logging.Level.WARNING,
+                            "[Modules] Error disabling: " + module.getId(), e);
+                }
             }
+        } finally {
+            modules.clear();
         }
-        modules.clear();
     }
 
     /**
@@ -161,7 +166,7 @@ public class ModuleManager {
      * Gets a module by ID
      */
     public Module getModule(String id) {
-        return modules.get(id.toLowerCase());
+        return modules.get(id.toLowerCase(java.util.Locale.ROOT));
     }
 
     /**

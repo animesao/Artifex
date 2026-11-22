@@ -7,9 +7,13 @@ import me.dcplugin.artifex.Main;
 import java.io.File;
 import java.sql.*;
 import java.util.*;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 /**
  * Database manager for the plugin's default SQLite storage and optional MySQL storage.
@@ -25,6 +29,7 @@ public class DatabaseManager {
     private Connection sqliteConnection;
     private HikariDataSource mysqlDataSource;
     private final Object sqliteLock = new Object();
+    private final Set<CompletableFuture<?>> pendingAsyncOperations = ConcurrentHashMap.newKeySet();
     private final ExecutorService asyncExecutor = Executors.newFixedThreadPool(2, runnable -> {
         Thread thread = new Thread(runnable, "Artifex-Database");
         thread.setDaemon(true);
@@ -313,7 +318,7 @@ public class DatabaseManager {
     }
 
     public boolean update(String table, Map<String, Object> data, String where, Object... whereParams) {
-        if (data == null || data.isEmpty()) return false;
+        if (data == null || data.isEmpty() || isBlankSql(where)) return false;
         String safeTable = safeIdentifier(table);
         if (safeTable == null) return false;
         StringBuilder sets = new StringBuilder();
@@ -330,6 +335,7 @@ public class DatabaseManager {
     }
 
     public boolean delete(String table, String where, Object... params) {
+        if (isBlankSql(where)) return false;
         String safeTable = safeIdentifier(table);
         if (safeTable == null) return false;
         return execute("DELETE FROM " + safeTable + " WHERE " + where, params);
@@ -421,6 +427,7 @@ public class DatabaseManager {
     }
 
     public boolean increment(String table, String column, String where, Object... whereParams) {
+        if (isBlankSql(where)) return false;
         String safeTable = safeIdentifier(table);
         String safeColumn = safeIdentifier(column);
         if (safeTable == null || safeColumn == null) return false;
@@ -429,6 +436,7 @@ public class DatabaseManager {
     }
 
     public boolean add(String table, String column, double amount, String where, Object... whereParams) {
+        if (isBlankSql(where)) return false;
         String safeTable = safeIdentifier(table);
         String safeColumn = safeIdentifier(column);
         if (safeTable == null || safeColumn == null) return false;
@@ -441,42 +449,60 @@ public class DatabaseManager {
 
     /** Run a write asynchronously. The callback must not touch Bukkit API directly. */
     public CompletableFuture<Boolean> executeAsync(String sql, Object... params) {
-        return CompletableFuture.supplyAsync(() -> execute(sql, params), asyncExecutor);
+        return submitAsync(() -> execute(sql, params));
     }
 
     /** Run a write asynchronously and return the affected-row count. */
     public CompletableFuture<Integer> executeUpdateAsync(String sql, Object... params) {
-        return CompletableFuture.supplyAsync(() -> executeUpdate(sql, params), asyncExecutor);
+        return submitAsync(() -> executeUpdate(sql, params));
     }
 
     public CompletableFuture<Integer> queryIntAsync(String sql, Object... params) {
-        return CompletableFuture.supplyAsync(() -> queryInt(sql, params), asyncExecutor);
+        return submitAsync(() -> queryInt(sql, params));
     }
 
     public CompletableFuture<String> queryStringAsync(String sql, Object... params) {
-        return CompletableFuture.supplyAsync(() -> queryString(sql, params), asyncExecutor);
+        return submitAsync(() -> queryString(sql, params));
     }
 
     public CompletableFuture<List<Map<String, Object>>> queryAllAsync(String sql, Object... params) {
-        return CompletableFuture.supplyAsync(() -> queryAll(sql, params), asyncExecutor);
+        return submitAsync(() -> queryAll(sql, params));
     }
 
-    /** Stop the database worker threads during full plugin shutdown. */
+    private <T> CompletableFuture<T> submitAsync(Supplier<T> operation) {
+        CompletableFuture<T> future = CompletableFuture.supplyAsync(operation, asyncExecutor);
+        pendingAsyncOperations.add(future);
+        future.whenComplete((value, error) -> pendingAsyncOperations.remove(future));
+        return future;
+    }
+
+    /** Drain database work, complete waiters and close connections during full plugin shutdown. */
     public void shutdownAsync() {
         asyncExecutor.shutdown();
         try {
-            if (!asyncExecutor.awaitTermination(5, java.util.concurrent.TimeUnit.SECONDS)) {
+            if (!asyncExecutor.awaitTermination(5, TimeUnit.SECONDS)) {
                 asyncExecutor.shutdownNow();
+                if (!asyncExecutor.awaitTermination(2, TimeUnit.SECONDS)) {
+                    plugin.getLogger().warning("[DB] Database worker did not stop within the shutdown timeout");
+                }
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             asyncExecutor.shutdownNow();
         }
+        for (CompletableFuture<?> future : pendingAsyncOperations) {
+            future.completeExceptionally(new CancellationException("Database manager is shutting down"));
+        }
+        pendingAsyncOperations.clear();
+        disconnect();
     }
 
     /** Convert a generic insert to the correct upsert syntax for the selected database. */
     public String upsertSql(String table, String columns, String values, String updateClause) {
         String safeTable = validateIdentifier(table);
+        if (isBlankSql(columns) || isBlankSql(values) || isBlankSql(updateClause)) {
+            throw new IllegalArgumentException("SQL fragments must not be blank");
+        }
         if (isMySql()) {
             return "INSERT INTO " + safeTable + " (" + columns + ") VALUES (" + values + ") ON DUPLICATE KEY UPDATE " + updateClause;
         }
@@ -511,6 +537,10 @@ public class DatabaseManager {
             plugin.getLogger().warning("SQL: " + e.getMessage());
             return null;
         }
+    }
+
+    private static boolean isBlankSql(String value) {
+        return value == null || value.isBlank();
     }
 
     private static final java.util.regex.Pattern IDENTIFIER_PATTERN =
