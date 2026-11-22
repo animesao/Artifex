@@ -110,7 +110,7 @@ Runtime permission was requested and explicitly granted before launch.
 - No force push, history rewrite or destructive Git operation was performed.
 - No token was printed or written to a file; cached Git credentials were used through environment-scoped
   PowerShell variables only.
-- Local working tree is clean at `40f4a81` on `release/2.5.0`.
+- Local working tree is clean at `042be7c` on `release/2.5.0`.
 
 ## 8. Final state
 
