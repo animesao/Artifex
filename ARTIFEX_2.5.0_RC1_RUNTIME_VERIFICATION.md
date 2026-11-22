@@ -182,6 +182,8 @@ all synthetic. No production database was opened for write.
   **0 listeners** across ports 25571–25574 and 25579–25587.
 - Broken-DB disposable copy removed after the test.
 - No push, tag, or GitHub Release performed. No stable release declared.
+- Text-only secret scan of the disposable root: **57,802 files scanned, 0 secret-like patterns**. The two
+  earlier hits were binary DLLs in the Iris native cache, not credentials.
 - Raw synthetic values are retained only inside the isolated test root; this report is sanitized.
 
 ## 8. Conclusion
