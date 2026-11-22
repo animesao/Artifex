@@ -21,10 +21,12 @@
 # (YAML items still work).
 java-compilation: true
 
-# Strict security mode for runtime Java compilation.
-# When enabled, any .java file containing dangerous system calls
-# (System.exit, ProcessBuilder, Runtime.exec, .setAccessible) is rejected
-# and will not be compiled or executed.
+# Strict source checks for runtime Java compilation.
+# This is advisory hygiene only, NOT a sandbox or a security boundary:
+# a substring filter cannot stop determined Java code. When enabled, obvious
+# calls such as System.exit, ProcessBuilder, Runtime.exec and .setAccessible
+# are rejected, but equivalent code can still bypass them.
+# Anyone able to write into items/ can fully control the server.
 security:
   strict-mode: false
 

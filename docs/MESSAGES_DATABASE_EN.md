@@ -1,6 +1,6 @@
 ﻿# Messages and Database — English Guide
 
-## 1. Messages in version 2.5.0
+## 1. Messages in version 2.5.1
 
 Built-in messages are stored in:
 

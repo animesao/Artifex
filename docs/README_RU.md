@@ -1,6 +1,6 @@
 ﻿# Artifex — полная документация
 
-**Версия документации:** 2.5.0
+**Версия документации:** 2.5.1
 **Minecraft:** Paper/Spigot 1.21.x
 **Java для сервера:** Java 21+ требуется для Paper 1.21.8+ и для сборки проекта.
 
@@ -76,14 +76,14 @@ Artifex позволяет создавать кастомные предмет�
 
 ```bash
 cd ~/test/plugins
-curl -fL -o Artifex-2.5.0.jar "https://github.com/animesao/Artifex/releases/download/v2.5.0/Artifex-2.5.0.jar"
+curl -fL -o Artifex-2.5.1.jar "https://github.com/animesao/Artifex/releases/download/v2.5.1/Artifex-2.5.1.jar"
 ```
 
 Для обычного сервера замените `~/test/plugins` на путь к своей папке `plugins/`.
 
 ### Первый запуск
 
-1. Положите `Artifex-2.5.0.jar` в `plugins/`.
+1. Положите `Artifex-2.5.1.jar` в `plugins/`.
 2. Запустите сервер.
 3. Дождитесь сообщения `CustomItems enabled!`.
 4. Плагин создаст папку `plugins/Artifex/`.
@@ -863,7 +863,7 @@ cp server.properties server.properties.backup
 ```bash
 dck stop test2
 cd ~/test/plugins
-curl -fL -o Artifex-2.5.0.jar "https://github.com/animesao/Artifex/releases/download/v2.5.0/Artifex-2.5.0.jar"
+curl -fL -o Artifex-2.5.1.jar "https://github.com/animesao/Artifex/releases/download/v2.5.1/Artifex-2.5.1.jar"
 # очищайте cache/compiled только если менялась система Java-компиляции
 rm -rf Artifex/cache Artifex/compiled
 dck start test2

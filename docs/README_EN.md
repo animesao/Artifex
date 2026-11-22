@@ -1,6 +1,6 @@
 ﻿# Artifex — Complete Documentation
 
-**Documentation version:** 2.5.0
+**Documentation version:** 2.5.1
 **Minecraft:** Paper/Spigot 1.21.x
 **Server Java:** Java 21+ is required for Paper 1.21.8+ and to build the project.
 
@@ -76,14 +76,14 @@ Important: Artifex compiles user Java files while the server is running. Only us
 
 ```bash
 cd ~/test/plugins
-curl -fL -o Artifex-2.5.0.jar "https://github.com/animesao/Artifex/releases/download/v2.5.0/Artifex-2.5.0.jar"
+curl -fL -o Artifex-2.5.1.jar "https://github.com/animesao/Artifex/releases/download/v2.5.1/Artifex-2.5.1.jar"
 ```
 
 Replace `~/test/plugins` with your server's `plugins/` directory when needed.
 
 ### First start
 
-1. Put `Artifex-2.5.0.jar` in `plugins/`.
+1. Put `Artifex-2.5.1.jar` in `plugins/`.
 2. Start the server.
 3. Wait for `CustomItems enabled!`.
 4. The plugin creates `plugins/Artifex/`.
@@ -864,7 +864,7 @@ Update the JAR:
 ```bash
 dck stop test2
 cd ~/test/plugins
-curl -fL -o Artifex-2.5.0.jar "https://github.com/animesao/Artifex/releases/download/v2.5.0/Artifex-2.5.0.jar"
+curl -fL -o Artifex-2.5.1.jar "https://github.com/animesao/Artifex/releases/download/v2.5.1/Artifex-2.5.1.jar"
 # clear cache/compiled only when the Java compiler system changed
 rm -rf Artifex/cache Artifex/compiled
 dck start test2

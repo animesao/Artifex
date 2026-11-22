@@ -63,6 +63,7 @@ public class PluginBootstrap {
     public void enable() {
         plugin.getLogger().info("Artifex starting...");
 
+        me.dcplugin.artifex.utils.CommandMapAccessor.reset();
         plugin.saveDefaultConfig();
 
         // The plugin ships a single file: items/messages.java.
@@ -133,32 +134,50 @@ public class PluginBootstrap {
                 effectManager.stopPeriodicEffects(player);
             }
         }
-        if (attributeManager != null) attributeManager.cleanup();
-
-        if (equippedItemsChecker != null) equippedItemsChecker.cancel();
-        try { commandRegistrar.unregisterAll(); } catch (Exception ignored) {}
-        try {
+        runCleanup("attribute cleanup", () -> {
+            if (attributeManager != null) attributeManager.cleanup();
+        });
+        runCleanup("equipped items checker", () -> {
+            if (equippedItemsChecker != null) equippedItemsChecker.cancel();
+        });
+        me.dcplugin.artifex.utils.CommandMapAccessor.reset();
+        runCleanup("command unregistration", commandRegistrar::unregisterAll);
+        runCleanup("module unload", () -> {
+            if (moduleManager != null) moduleManager.unloadAll();
+        });
+        runCleanup("recipe cleanup", () -> {
+            if (itemHandler != null && itemHandler.getRecipeManager() != null) {
+                itemHandler.getRecipeManager().clear();
+                itemHandler.getRecipeManager().clearJava();
+            }
+        });
+        runCleanup("placeholder unregistration", () -> {
             if (placeholderManager != null) placeholderManager.unregisterExpansion();
-        } catch (Exception ignored) {}
-        try {
+        });
+        runCleanup("API shutdown", () -> {
             if (apiItemRegistry != null) apiItemRegistry.shutdown();
-        } catch (Exception ignored) {}
-
-        if (databaseManager != null) {
-            try { databaseManager.shutdownAsync(); } catch (Exception ignored) {}
-            try { databaseManager.disconnect(); } catch (Exception ignored) {}
-        }
-
-        if (pluginLogManager != null) {
-            try { pluginLogManager.stop(); } catch (Exception ignored) {}
-            pluginLogManager = null;
-        }
-
-        if (cooldownStore != null) {
-            try { cooldownStore.save(); } catch (Exception ignored) {}
-        }
+        });
+        runCleanup("database shutdown", () -> {
+            if (databaseManager != null) databaseManager.shutdownAsync();
+        });
+        runCleanup("cooldown save", () -> {
+            if (cooldownStore != null) cooldownStore.save();
+        });
+        runCleanup("plugin log stop", () -> {
+            if (pluginLogManager != null) pluginLogManager.stop();
+        });
+        pluginLogManager = null;
 
         plugin.getLogger().info("Artifex disabled!");
+    }
+
+    private void runCleanup(String step, Runnable action) {
+        try {
+            action.run();
+        } catch (Throwable e) {
+            plugin.getLogger().log(java.util.logging.Level.WARNING,
+                    "Error during " + step + ": " + e.getMessage(), e);
+        }
     }
 
     // ===== Internal init methods =====

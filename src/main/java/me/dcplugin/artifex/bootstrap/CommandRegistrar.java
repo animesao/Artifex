@@ -71,16 +71,20 @@ public class CommandRegistrar {
             CommandMap commandMap = CommandMapAccessor.getCommandMap();
             if (commandMap == null) return;
 
-            // Access knownCommands via reflection (Paper remaps field names)
-            Map<String, Command> knownCommands = CommandMapAccessor.getKnownCommands(commandMap);
-            if (knownCommands == null) {
-                plugin.getLogger().warning("[API] knownCommands is unavailable - commands stay in the CommandMap");
-                return;
+            Map<String, Command> knownCommands = null;
+            try {
+                knownCommands = CommandMapAccessor.getKnownCommands(commandMap);
+            } catch (Throwable e) {
+                plugin.getLogger().log(Level.WARNING, "Failed to inspect known commands: " + e.getMessage(), e);
             }
-
             String prefix = plugin.getName().toLowerCase(Locale.ROOT);
             for (Command cmd : dynamicCommands) {
-                cmd.unregister(commandMap);
+                try {
+                    cmd.unregister(commandMap);
+                } catch (Exception e) {
+                    plugin.getLogger().log(Level.WARNING, "Failed to unregister command /" + cmd.getName(), e);
+                }
+                if (knownCommands == null) continue;
                 knownCommands.remove(cmd.getName().toLowerCase(Locale.ROOT));
                 knownCommands.remove(prefix + ":" + cmd.getName().toLowerCase(Locale.ROOT));
                 for (String alias : cmd.getAliases()) {
@@ -88,11 +92,10 @@ public class CommandRegistrar {
                     knownCommands.remove(prefix + ":" + alias.toLowerCase(Locale.ROOT));
                 }
             }
-            dynamicCommands.clear();
-            // syncCommands() will be called after all new commands are registered,
-            // avoiding intermediate async command tree building races.
         } catch (Exception e) {
             plugin.getLogger().log(Level.WARNING, "Failed to unregister custom commands: " + e.getMessage(), e);
+        } finally {
+            dynamicCommands.clear();
         }
     }
 

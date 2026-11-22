@@ -26,12 +26,12 @@ This guide helps you solve common problems with Artifex.
 
 2. **Check File Location:**
    ```
-   server/plugins/Artifex-2.5.0.jar
+   server/plugins/Artifex-2.5.1.jar
    ```
    Must be in `plugins/` folder.
 
 3. **Check File Name:**
-   - Should be `Artifex-2.5.0.jar`
+   - Should be `Artifex-2.5.1.jar`
    - No spaces or special characters
 
 4. **Check Console for Errors:**

@@ -559,13 +559,19 @@ public class JavaItemCompiler {
 
     private ClassType detectClassType(String sourceCode) {
         // The order matters: the non-utility files may mention the names of other types
-        if (sourceCode.contains("extends Module")) return ClassType.MODULE;
-        if (sourceCode.contains("extends CustomCommand")) return ClassType.COMMAND;
-        if (sourceCode.contains("extends CustomPlaceholder")) return ClassType.PLACEHOLDER;
-        if (sourceCode.contains("extends AbstractCustomItem")) return ClassType.ITEM;
+        if (extendsType(sourceCode, "Module", "me.dcplugin.artifex.api.modules")) return ClassType.MODULE;
+        if (extendsType(sourceCode, "CustomCommand", "me.dcplugin.artifex.api.commands")) return ClassType.COMMAND;
+        if (extendsType(sourceCode, "CustomPlaceholder", "me.dcplugin.artifex.api.placeholders")) return ClassType.PLACEHOLDER;
+        if (extendsType(sourceCode, "AbstractCustomItem", "me.dcplugin.artifex.api")) return ClassType.ITEM;
         if (sourceCode.contains("implements Listener") || sourceCode.contains("implements org.bukkit.event.Listener")) return ClassType.LISTENER;
         // The utilities (for example messages.java) are compiled, but not registered
         return ClassType.UTILITY;
+    }
+
+    private boolean extendsType(String sourceCode, String simpleName, String packageName) {
+        String pattern = "\\bextends\\s+(?:" + Pattern.quote(packageName) + "\\.)?"
+                + Pattern.quote(simpleName) + "\\b";
+        return Pattern.compile(pattern).matcher(sourceCode).find();
     }
 
     private String replaceClassNames(String sourceCode) {

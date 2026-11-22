@@ -166,13 +166,53 @@ public class ItemRegistry {
      */
     public void shutdown() {
         reloadExecutor.shutdownNow();
-        closeJarClassLoaders();
+        unregisterCustomComponents();
         for (Listener listener : registeredListeners) {
             try {
                 HandlerList.unregisterAll(listener);
             } catch (Throwable ignored) {}
         }
         registeredListeners.clear();
+        closeJarClassLoaders();
+        registeredItems.clear();
+        registeredItemIds.clear();
+        registeredCommands.clear();
+        registeredPlaceholders.clear();
+        registeredModules.clear();
+        compiler.clear();
+    }
+
+    private void unregisterCustomComponents() {
+        try {
+            plugin.unregisterCustomCommands();
+        } catch (Exception exception) {
+            plugin.getLogger().log(java.util.logging.Level.WARNING,
+                "[API] Error unregistering custom commands", exception);
+        }
+        for (CustomCommand cmd : registeredCommands.values()) {
+            try {
+                cmd.onUnregister();
+            } catch (Exception exception) {
+                plugin.getLogger().log(java.util.logging.Level.WARNING,
+                    "[API] Error unregistering command " + cmd.getName(), exception);
+            }
+            if (cmd instanceof Listener listener) {
+                try {
+                    HandlerList.unregisterAll(listener);
+                } catch (Throwable ignored) {}
+            }
+        }
+        for (CustomPlaceholder ph : registeredPlaceholders.values()) {
+            try {
+                ph.onUnregister();
+            } catch (Exception exception) {
+                plugin.getLogger().log(java.util.logging.Level.WARNING,
+                    "[API] Error unregistering placeholder " + ph.getIdentifier(), exception);
+            }
+            if (plugin.getPlaceholderManager() != null) {
+                plugin.getPlaceholderManager().unregisterCustom(ph.getIdentifier());
+            }
+        }
     }
 
     /** Synchronous reload used by /ci reload on the main Bukkit thread. */
@@ -218,36 +258,7 @@ public class ItemRegistry {
         }
         registeredListeners.clear();
 
-        // Remove dynamic Bukkit command nodes before dropping the old classloader.
-        // Otherwise a reload can retain command objects backed by stale Java classes.
-        plugin.unregisterCustomCommands();
-        for (CustomCommand cmd : registeredCommands.values()) {
-            try {
-                cmd.onUnregister();
-            } catch (Exception exception) {
-                plugin.getLogger().log(java.util.logging.Level.WARNING,
-                    "[API] Error unregistering command " + cmd.getName(), exception);
-            }
-            if (cmd instanceof Listener listener) {
-                try {
-                    HandlerList.unregisterAll(listener);
-                } catch (Throwable ignored) {}
-            }
-        }
-        for (CustomPlaceholder ph : registeredPlaceholders.values()) {
-            try {
-                ph.onUnregister();
-            } catch (Exception exception) {
-                plugin.getLogger().log(java.util.logging.Level.WARNING,
-                    "[API] Error unregistering placeholder " + ph.getIdentifier(), exception);
-            }
-            // Unregister the placeholder from the manager as well: otherwise old implementations
-            // (and with them the old classes and classloader) stayed
-            // in the PlaceholderManager map forever.
-            if (plugin.getPlaceholderManager() != null) {
-                plugin.getPlaceholderManager().unregisterCustom(ph.getIdentifier());
-            }
-        }
+        unregisterCustomComponents();
 
         closeJarClassLoaders();
         registeredItems.clear();
@@ -363,7 +374,7 @@ public class ItemRegistry {
         }
         for (String cn : result.modules) {
             Module module = compiler.createModuleInstance(cn);
-            if (module != null) registeredModules.put(module.getId().toLowerCase(), module);
+            if (module != null) registeredModules.put(module.getId().toLowerCase(java.util.Locale.ROOT), module);
         }
         for (String cn : result.placeholders) {
             CustomPlaceholder ph = compiler.createPlaceholderInstance(cn);
@@ -600,7 +611,7 @@ public class ItemRegistry {
         return Collections.unmodifiableMap(new LinkedHashMap<>(registeredModules));
     }
 
-    public Module getModule(String id) { return registeredModules.get(id.toLowerCase()); }
+    public Module getModule(String id) { return registeredModules.get(id.toLowerCase(java.util.Locale.ROOT)); }
     public int getModuleCount() { return registeredModules.size(); }
     public JavaItemCompiler getCompiler() { return compiler; }
     public int getCount() { return getItemCount(); }

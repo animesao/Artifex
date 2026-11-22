@@ -1,6 +1,6 @@
 # Artifex Architecture
 
-Artifex 2.5.0 is an independent, universal modular Java core for Minecraft servers. It provides
+Artifex 2.5.1 is an independent, universal modular Java core for Minecraft servers. It provides
 the engine and shared infrastructure; project-specific products are built on top of it as
 separate projects and modules.
 

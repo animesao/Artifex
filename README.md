@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Minecraft-1.21.8%2B-green?style=for-the-badge&logo=minecraft" alt="Minecraft">
   <img src="https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=openjdk" alt="Java">
-  <img src="https://img.shields.io/badge/Version-2.5.0-brightgreen?style=for-the-badge" alt="Version: 2.5.0 (stable)">
+  <img src="https://img.shields.io/badge/Version-2.5.1-brightgreen?style=for-the-badge" alt="Version: 2.5.1 (stable)">
   <img src="https://img.shields.io/badge/Modules-5-purple?style=for-the-badge" alt="Modules">
   <img src="https://img.shields.io/github/license/animesao/Artifex-purple?style=for-the-badge" alt="License">
 </p>
@@ -25,7 +25,7 @@
 
 ---
 
-> ✅ **Artifex 2.5.0 — стабильная версия.** Универсальное модульное Java-ядро для Minecraft 1.21.8+. Production deployment не выполнялся. Проектно-специфичные интеграции не входят в публичное ядро и реализуются отдельными проектами поверх модульной архитектуры Artifex. См. [CHANGELOG.md](CHANGELOG.md).
+> ✅ **Artifex 2.5.1 — стабильная версия.** Универсальное модульное Java-ядро для Minecraft 1.21.8+. Production deployment не выполнялся. Проектно-специфичные интеграции не входят в публичное ядро и реализуются отдельными проектами поверх модульной архитектуры Artifex. См. [CHANGELOG.md](CHANGELOG.md).
 
 ---
 
@@ -153,7 +153,7 @@ performance:
 ```bash
 # Скачать последний релиз
 cd ~/server/plugins
-curl -L -o artifex.jar https://github.com/animesao/Artifex/releases/download/v2.5.0/Artifex-2.5.0.jar
+curl -L -o artifex.jar https://github.com/animesao/Artifex/releases/download/v2.5.1/Artifex-2.5.1.jar
 
 # Перезапустить сервер
 ./restart.sh
@@ -161,7 +161,7 @@ curl -L -o artifex.jar https://github.com/animesao/Artifex/releases/download/v2.
 
 ### Ручная установка
 
-1. Скачай `Artifex-2.5.0.jar` из [Releases](https://github.com/animesao/Artifex/releases)
+1. Скачай `Artifex-2.5.1.jar` из [Releases](https://github.com/animesao/Artifex/releases)
 2. Помести в папку `plugins/`
 3. Перезапусти сервер
 4. Настрой `plugins/Artifex/config.yml`
@@ -425,7 +425,7 @@ my-item:
 
 | Плейсхолдер | Описание | Пример |
 |-------------|----------|--------|
-| `%dci_version%` | Версия плагина | `1.328.0` |
+| `%dci_version%` | Версия плагина | `2.5.1` |
 | `%dci_item_count%` | YAML-предметов | `45` |
 | `%dci_java_item_count%` | Java API предметов | `6` |
 | `%dci_command_count%` | Команд | `3` |
@@ -509,7 +509,7 @@ economy:
 ### Кастомный предмет
 
 ```java
-import me.dcplugin.dcustomitems.api.AbstractCustomItem;
+import me.dcplugin.artifex.api.AbstractCustomItem;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -537,7 +537,7 @@ public class MySword extends AbstractCustomItem {
 ### Кастомная команда
 
 ```java
-import me.dcplugin.dcustomitems.api.commands.CustomCommand;
+import me.dcplugin.artifex.api.commands.CustomCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -562,7 +562,7 @@ public class HealCommand extends CustomCommand {
 ### Кастомный плейсхолдер
 
 ```java
-import me.dcplugin.dcustomitems.api.placeholders.CustomPlaceholder;
+import me.dcplugin.artifex.api.placeholders.CustomPlaceholder;
 import org.bukkit.entity.Player;
 
 public class KillsPlaceholder extends CustomPlaceholder {

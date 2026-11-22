@@ -1,4 +1,4 @@
-# Configuring Artifex 2.5.0
+# Configuring Artifex 2.5.1
 
 The single configuration file is `plugins/Artifex/config.yml`. Content definitions live in
 `plugins/Artifex/items/` as YAML (`.yml`) or Java (`.java`) files. Messages are overridable in
