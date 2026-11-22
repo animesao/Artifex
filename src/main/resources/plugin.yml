@@ -1,5 +1,5 @@
 name: Artifex
-version: 2.4.0
+version: 2.5.0-rc.1
 main: me.dcplugin.artifex.Main
 api-version: '1.21'
 description: Modular custom items plugin with Java API
