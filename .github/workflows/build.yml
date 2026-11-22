@@ -154,6 +154,6 @@ jobs:
         body_path: notes.md
         files: Artifex-${{ env.VERSION }}.jar
         draft: false
-        prerelease: false
+        prerelease: ${{ contains(env.VERSION, '-rc') }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

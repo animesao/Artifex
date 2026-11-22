@@ -7,6 +7,42 @@ extracts the section of the needed version for the GitHub Release notes.
 
 ---
 
+## v2.5.0-rc.1
+
+**Release Candidate.** This is not a production release; no deployment has been performed.
+
+### Fixed
+- Fixed DatabaseManager initialization order.
+- Modules now initialize after database connection.
+- Resolved the previously reproduced startup initialization race.
+
+### Added
+- Authenticated read-only HTTP integration API (`GET /v1/player/{uuid}`).
+- Player profile retrieval from persisted Artifex tables.
+- Discord identity-link validation.
+- Explicit profile readiness and availability states.
+- Loopback-only API binding.
+
+### Security
+- Bearer token authentication.
+- Constant-time credential comparison.
+- Parameterized database queries.
+- Read-only HTTP operations.
+- No-store and nosniff response headers.
+
+### Compatibility
+- Existing module architecture retained.
+- No automatic database reset or migration.
+- No changes to production databases.
+
+### Known limitations
+- Account-linking provisioning is not complete, and no Discord client is implemented in this artifact.
+- The versioned release candidate has not been verified in Paper. Existing runtime evidence applies to the
+  functionally identical pre-version-bump source.
+- Velocity integration remains an unresolved, separate topic.
+
+---
+
 ## v2.4.0
 
 ### 🧱 Custom Block Placement & Drop Fixes

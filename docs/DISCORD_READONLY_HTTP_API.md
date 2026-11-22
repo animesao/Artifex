@@ -1,7 +1,13 @@
 # Discord Read-Only HTTP API
 
-**Status:** implemented in isolated worktree `D:\Artifex-worktrees\2026-11-22-init-api` on branch
-`feature/database-init-order-and-discord-api`. **Not deployed to production. Production readiness: NOT READY.**
+**Status:** included in **Artifex 2.5.0-rc.1 (Release Candidate)**, built from the verified branch
+`feature/database-init-order-and-discord-api` in worktree `D:\Artifex-worktrees\2026-11-22-init-api`.
+**Not deployed to production. Production readiness: NOT READY.**
+
+**Release Candidate limitations:** account-linking provisioning is not complete; no Discord client is
+implemented in this artifact; Velocity integration remains an unresolved, separate topic. The versioned
+RC artifact has not itself been verified in Paper — existing P0.7 runtime evidence applies to the
+functionally identical pre-version-bump source.
 
 ## Purpose
 
@@ -59,6 +65,8 @@ integration:
 | `UNAVAILABLE` | DatabaseManager missing/disconnected, query failed, or internal error | Show explicit unavailable state; retry later |
 
 Per-field states are `VERIFIED` or `UNAVAILABLE`; absent values are JSON `null`, never invented strings.
+**Clients must inspect the body `state` on every 2xx response** — HTTP 200 alone does not mean current data.
+In particular, a disconnected DatabaseManager returns 200 with `state: UNAVAILABLE`.
 
 ## Field mapping (profile card v1)
 

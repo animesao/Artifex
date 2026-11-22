@@ -25,6 +25,10 @@
 
 ---
 
+> 🧪 **Release Candidate 2.5.0-rc.1.** Это кандидат в релиз, а не стабильная версия. Production deployment не выполнялся. Provisioning связывания аккаунтов (account linking) ещё не завершён, Discord-клиент не реализован, а интеграция с Velocity остаётся отдельным нерешённым вопросом. См. [CHANGELOG.md](CHANGELOG.md) и [Discord Read-Only HTTP API](docs/DISCORD_READONLY_HTTP_API.md).
+
+---
+
 ## 📖 Что такое Artifex
 
 **Artifex** — это модульный плагин для Minecraft 1.21.8+, который позволяет создавать кастомные предметы с уникальными механиками.
@@ -161,6 +165,8 @@ curl -L -o artifex.jar https://github.com/animesao/Artifex/releases/download/v2.
 2. Помести в папку `plugins/`
 3. Перезапусти сервер
 4. Настрой `plugins/Artifex/config.yml`
+
+> 🔐 **Интеграционный API (Release Candidate).** Read-only HTTP API по умолчанию отключён (`integration.http.enabled: false`). Секрет задаётся **только** переменной окружения `ARTIFEX_INTEGRATION_TOKEN`; в `config.yml` токен не указывается и никуда не логируется. API слушает только loopback. Подробности контракта, состояний и заголовков — [docs/DISCORD_READONLY_HTTP_API.md](docs/DISCORD_READONLY_HTTP_API.md). Настоящий токен в документацию не добавляется.
 
 > 🧩 При установке плагин создаёт **ровно один файл** — `plugins/Artifex/items/messages.java` (все сообщения плагина, их можно менять). Больше ничего не копируется: примеры лежат в репозитории ([`samples/`](samples/)), а не внутри jar. Включи нужный пример: скопируй файл/папку из `samples/` в `items/` и убери префикс `EXAMPLE-` из имени (`EXAMPLE-give-command.java` → `give-command.java`, `EXAMPLE-vault/` → `vault/`), затем `/artifex reload`. Контент отключается удалением файла/папки из `items/`.
 
