@@ -26,12 +26,12 @@ This guide helps you solve common problems with Artifex.
 
 2. **Check File Location:**
    ```
-   server/plugins/dcustomitems.jar
+   server/plugins/Artifex-2.5.0.jar
    ```
    Must be in `plugins/` folder.
 
 3. **Check File Name:**
-   - Should be `dcustomitems.jar`
+   - Should be `Artifex-2.5.0.jar`
    - No spaces or special characters
 
 4. **Check Console for Errors:**
@@ -427,7 +427,6 @@ If you find a bug:
 
 ### Join Community
 
-- Discord server
 - GitHub Discussions
 - Reddit
 

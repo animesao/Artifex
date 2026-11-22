@@ -1,6 +1,6 @@
 ﻿# Artifex — полная документация
 
-**Версия документации:** 1.325.0
+**Версия документации:** 2.5.0
 **Minecraft:** Paper/Spigot 1.21.x
 **Java для сервера:** Java 21+ требуется для Paper 1.21.8+ и для сборки проекта.
 
@@ -19,8 +19,9 @@ Artifex позволяет создавать кастомные предмет�
 5. [GUI и модули](MODULES_GUI_RU.md)
 6. [Хранение данных: SQLite, MySQL и YAML](DATABASE_RU.md)
 7. [Java с нуля](JAVA_API_RU.md)
-8. [Оптимизация и решение проблем](TROUBLESHOOTING_RU.md)
-9. [Resource pack и модели](RESOURCE_PACK_RU.md)
+8. [Разработка динамических модулей](MODULE_DEVELOPMENT_RU.md)
+9. [Оптимизация и решение проблем](TROUBLESHOOTING_RU.md)
+10. [Resource pack и модели](RESOURCE_PACK_RU.md)
 
 Рабочие примеры лежат в `samples/` в репозитории. При установке ничего не копируется — создаётся ровно один файл: `items/messages.java`. Чтобы включить образец, скопируйте нужный файл или папку из `samples/` в `items/`, уберите префикс `EXAMPLE-` из имени и выполните `/ci reload`.
 
@@ -75,14 +76,14 @@ Artifex позволяет создавать кастомные предмет�
 
 ```bash
 cd ~/test/plugins
-curl -fL -o dcustomitems.jar "https://github.com/animesao/Artifex/releases/download/v1.320.282/Artifex-1.320.282.jar"
+curl -fL -o Artifex-2.5.0.jar "https://github.com/animesao/Artifex/releases/download/v2.5.0/Artifex-2.5.0.jar"
 ```
 
 Для обычного сервера замените `~/test/plugins` на путь к своей папке `plugins/`.
 
 ### Первый запуск
 
-1. Положите `dcustomitems.jar` в `plugins/`.
+1. Положите `Artifex-2.5.0.jar` в `plugins/`.
 2. Запустите сервер.
 3. Дождитесь сообщения `CustomItems enabled!`.
 4. Плагин создаст папку `plugins/Artifex/`.
@@ -862,7 +863,7 @@ cp server.properties server.properties.backup
 ```bash
 dck stop test2
 cd ~/test/plugins
-curl -fL -o dcustomitems.jar "https://github.com/animesao/Artifex/releases/download/v1.320.282/Artifex-1.320.282.jar"
+curl -fL -o Artifex-2.5.0.jar "https://github.com/animesao/Artifex/releases/download/v2.5.0/Artifex-2.5.0.jar"
 # очищайте cache/compiled только если менялась система Java-компиляции
 rm -rf Artifex/cache Artifex/compiled
 dck start test2

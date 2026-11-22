@@ -135,7 +135,6 @@ mvn clean package
 ## Communities
 
 - **GitHub Issues**: For bug reports and suggestions
-- **Discord**: For community chat
 
 ---
 

@@ -17,8 +17,6 @@ import me.dcplugin.artifex.managers.*;
 import me.dcplugin.artifex.utils.UpdateChecker;
 import org.bukkit.Bukkit;
 
-import java.util.logging.Level;
-
 /**
  * Centralized initialization of all plugin components.
  * Called from Main.onEnable() and Main.onDisable().
@@ -101,16 +99,13 @@ public class PluginBootstrap {
         // a Java recipe may use a YAML item as an ingredient.
         apiItemRegistry.registerJavaRecipes();
 
-        moduleManager.loadAll();
+        initializeDatabaseBeforeModules(this::initDatabase, () -> moduleManager.loadAll());
 
         // Command registration (delayed by 1 tick)
         registerBukkitCommand();
 
         // Event registration
         registerEvents();
-
-        // Database
-        initDatabase();
 
         // Global equipped-items check task
         equippedItemsChecker = new EquippedItemsChecker(plugin);
@@ -218,9 +213,17 @@ public class PluginBootstrap {
         pm.registerEvents(new me.dcplugin.artifex.handlers.ItemCatalogGui(plugin, "ALL", 0), plugin);
     }
 
+    static void initializeDatabaseBeforeModules(Runnable initDatabase, Runnable loadModules) {
+        initDatabase.run();
+        loadModules.run();
+    }
+
     private void initDatabase() {
         databaseManager = new DatabaseManager(plugin);
         databaseManager.connect();
+        if (!databaseManager.isConnected()) {
+            plugin.getLogger().severe("[DB] Database is unavailable; modules may not be able to persist data");
+        }
     }
 
     private void initPlaceholders() {
