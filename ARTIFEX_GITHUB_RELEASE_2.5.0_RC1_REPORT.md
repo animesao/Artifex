@@ -11,7 +11,7 @@ Status: **PUBLISHED — GitHub Pre-release.** Not a stable release.
 | Repository visibility | Public |
 | Default branch | `main` |
 | Release branch | `release/2.5.0-rc.1` |
-| Remote branch commit | `d3df9fa1b82706b42f67225fe8259bde47698dcd` |
+| Remote branch commit at publication | `d3df9fa1b82706b42f67225fe8259bde47698dcd` |
 | Release tag | `v2.5.0-rc.1` |
 | Tag type | annotated (`tag` object), message `Artifex 2.5.0-rc.1 Release Candidate` |
 | Tag target commit | `d3df9fa1b82706b42f67225fe8259bde47698dcd` |
