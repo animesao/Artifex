@@ -6,6 +6,12 @@ import me.dcplugin.artifex.api.ItemAPI;
 import me.dcplugin.artifex.api.ItemRegistry;
 import me.dcplugin.artifex.api.config.MessagesConfig;
 import me.dcplugin.artifex.api.database.DatabaseManager;
+import me.dcplugin.artifex.api.integration.DatabaseProfileDataSource;
+import me.dcplugin.artifex.api.integration.HttpIntegrationServer;
+import me.dcplugin.artifex.api.integration.IntegrationTokenVerifier;
+import me.dcplugin.artifex.api.integration.LinkConfigReader;
+import me.dcplugin.artifex.api.integration.LinkedIdentityStore;
+import me.dcplugin.artifex.api.integration.ProfileQueryService;
 import me.dcplugin.artifex.api.modules.ModuleManager;
 import me.dcplugin.artifex.api.placeholders.PlaceholderManager;
 import me.dcplugin.artifex.commands.CustomItemsCommand;
@@ -17,6 +23,9 @@ import me.dcplugin.artifex.managers.*;
 import me.dcplugin.artifex.utils.UpdateChecker;
 import org.bukkit.Bukkit;
 
+import java.io.File;
+import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Level;
 
 /**
@@ -52,6 +61,7 @@ public class PluginBootstrap {
     private PluginLogManager pluginLogManager;
     private me.dcplugin.artifex.utils.CooldownStore cooldownStore;
     private CustomBlockManager customBlockManager;
+    private HttpIntegrationServer integrationServer;
 
     public PluginBootstrap(Main plugin) {
         this.plugin = plugin;
@@ -119,6 +129,8 @@ public class PluginBootstrap {
         // Update check
         checkUpdates();
 
+        startIntegrationServer();
+
         logStartupInfo();
     }
 
@@ -127,6 +139,11 @@ public class PluginBootstrap {
      */
     public void disable() {
         plugin.getLogger().info("Artifex disabling...");
+
+        if (integrationServer != null) {
+            try { integrationServer.stop(); } catch (Exception ignored) {}
+            integrationServer = null;
+        }
 
         // Remove effects from players: after the plugin is disabled they would
         // otherwise linger until their duration expires (60 s).
@@ -220,6 +237,43 @@ public class PluginBootstrap {
         loadModules.run();
     }
 
+    private void startIntegrationServer() {
+        if (!plugin.getConfig().getBoolean("integration.http.enabled", false)) return;
+
+        String token = System.getenv("ARTIFEX_INTEGRATION_TOKEN");
+        if (token == null || token.isBlank()) {
+            plugin.getLogger().warning("[Integration] HTTP API disabled: ARTIFEX_INTEGRATION_TOKEN is not set");
+            return;
+        }
+
+        String configuredHost = plugin.getConfig().getString("integration.http.host", "127.0.0.1");
+        if (!"127.0.0.1".equals(configuredHost)) {
+            plugin.getLogger().warning("[Integration] Non-loopback host ignored; binding to 127.0.0.1");
+        }
+        int port = plugin.getConfig().getInt("integration.http.port", 25570);
+        if (port < 1 || port > 65535) {
+            plugin.getLogger().warning("[Integration] Invalid HTTP port; API disabled");
+            return;
+        }
+
+        boolean requireLink = plugin.getConfig().getBoolean("integration.http.require-player-link", true);
+        Map<String, UUID> links = LinkConfigReader.read(new File(plugin.getDataFolder(), "links.yml"));
+        ProfileQueryService service = new ProfileQueryService(
+                new IntegrationTokenVerifier(token),
+                new LinkedIdentityStore(links),
+                new DatabaseProfileDataSource(databaseManager),
+                requireLink);
+
+        try {
+            integrationServer = HttpIntegrationServer.create("127.0.0.1", port, service);
+            integrationServer.start();
+            plugin.getLogger().info("[Integration] Read-only HTTP API listening on 127.0.0.1:" + port);
+        } catch (Exception e) {
+            integrationServer = null;
+            plugin.getLogger().log(Level.SEVERE, "[Integration] Could not start HTTP API: " + e.getMessage(), e);
+        }
+    }
+
     private void initDatabase() {
         databaseManager = new DatabaseManager(plugin);
         databaseManager.connect();
@@ -278,6 +332,7 @@ public class PluginBootstrap {
     public ItemRegistry getApiItemRegistry() { return apiItemRegistry; }
     public ModuleManager getModuleManager() { return moduleManager; }
     public DatabaseManager getDatabaseManager() { return databaseManager; }
+    public HttpIntegrationServer getHttpIntegrationServer() { return integrationServer; }
     public PlaceholderManager getPlaceholderManager() { return placeholderManager; }
     public UpdateChecker getUpdateChecker() { return updateChecker; }
     public EquippedItemsChecker getEquippedItemsChecker() { return equippedItemsChecker; }

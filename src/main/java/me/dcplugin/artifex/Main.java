@@ -3,6 +3,7 @@ package me.dcplugin.artifex;
 
 import me.dcplugin.artifex.api.ItemRegistry;
 import me.dcplugin.artifex.api.database.DatabaseManager;
+import me.dcplugin.artifex.api.integration.HttpIntegrationServer;
 import me.dcplugin.artifex.api.modules.ModuleManager;
 import me.dcplugin.artifex.api.placeholders.PlaceholderManager;
 import me.dcplugin.artifex.bootstrap.PluginBootstrap;
@@ -58,6 +59,7 @@ public class Main extends JavaPlugin {
     public CustomBlockManager getCustomBlockManager() { return bootstrap.getCustomBlockManager(); }
     public ItemRegistry getApiItemRegistry() { return bootstrap.getApiItemRegistry(); }
     public DatabaseManager getDatabaseManager() { return bootstrap.getDatabaseManager(); }
+    public HttpIntegrationServer getHttpIntegrationServer() { return bootstrap.getHttpIntegrationServer(); }
     public PlaceholderManager getPlaceholderManager() { return bootstrap.getPlaceholderManager(); }
     public ModuleManager getModuleManager() { return bootstrap.getModuleManager(); }
     public UpdateChecker getUpdateChecker() { return bootstrap.getUpdateChecker(); }
