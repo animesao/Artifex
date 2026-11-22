@@ -8,6 +8,17 @@
 
 **Tech Stack:** Java 21, JDK `com.sun.net.httpserver`, JUnit 5, Maven. No new runtime dependencies.
 
+## Review adjustments applied during execution
+
+- `ProfileSnapshot` carries per-field states (`VERIFIED`/`UNAVAILABLE`) and nullable values. Empty strings
+  are never used as substitutes for missing data, and offline caches are never reported as current.
+- `ProfileDataSource.load` returns a snapshot whose own `state` is `READY`, `NOT_FOUND`, or `UNAVAILABLE`,
+  instead of `Optional`; this removes the ambiguity between "database down" and "player has no row".
+- `STALE` is enforced by `ProfileQueryService` using `observedAt` and `config.integration.http.max-age-ms`.
+- Discord IDs must match `\\d{17,20}`; `links.yml` keys are validated the same way by `LinkConfigReader`.
+- Host binding is forced to `127.0.0.1` regardless of configuration.
+- A real SQLite integration test and a real loopback HTTP test were added, plus `LinkConfigReader`.
+
 ---
 
 ## File structure
