@@ -110,7 +110,7 @@ jobs:
           echo "::error::Missing committed checksum file: $SUMS"
           exit 1
         fi
-        EXPECTED=$(grep -i "$JAR" "$SUMS" | awk '{print $NF}' | tr '[:upper:]' '[:lower:]')
+        EXPECTED=$(awk -v jar="$JAR" 'tolower($2) == tolower(jar) { print $1; exit }' "$SUMS" | tr '[:upper:]' '[:lower:]')
         if [ -z "$EXPECTED" ] || [ "$ACTUAL" != "$EXPECTED" ]; then
           echo "::error::CI-built JAR checksum $ACTUAL does not match committed metadata ($EXPECTED)."
           exit 1
