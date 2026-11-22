@@ -175,3 +175,73 @@ Status: **PUBLISHED — stable Latest Release.** Not a pre-release.
 - The release has exactly two checksum-verified public assets.
 - Local release and main working trees are clean apart from this final report commit.
 - This report documents the completed 2.5.1 release and does not alter the release artifact or tag target.
+
+## 18. Independent post-publication verification (2026-11-22)
+
+This section records a second, independent verification performed after publication from a fresh detached worktree at `main` (`818934f32152298c4cce10ce67285fd8adec7c3e`). No source code, tag, GitHub Release, asset, production server or deployed environment was changed by this verification.
+
+### 18.1 Git and source
+
+- Git root: `D:/Artifex`; remote: `https://github.com/animesao/Artifex.git` (fetch and push URLs identical).
+- Worktrees audited: `D:/Artifex` (`main`), `D:/Artifex-worktrees/2026-11-22-init-api` (`release/2.5.0`), `D:/Artifex-worktrees/module-lifecycle-shutdown` (`fix/module-lifecycle-shutdown`), `D:/Artifex-worktrees/release-2.5.1` (`release/2.5.1`), plus a temporary detached verification worktree.
+- `fix/module-lifecycle-shutdown` still contains three uncommitted local changes (`ModuleManager.java`, `PluginBootstrap.java`, untracked `PluginBootstrapShutdownTest.java`). They are an earlier, narrower version of the fix and were deliberately preserved untouched; they are not required because the complete fix is already in `main` and in tag `v2.5.1`.
+- `git diff --check 818934f` returned exit code 0.
+- `VERSION`, `pom.xml` and `src/main/resources/plugin.yml` all report `2.5.1`. Remaining `2.5.0` references are historical changelog/report/checksum records and one old internal plan.
+
+### 18.2 Source components reviewed directly
+
+- `PluginBootstrap.disable()` calls `moduleManager.unloadAll()` after command unregistration and before placeholder, API-registry, database, cooldown and log shutdown; every step is wrapped in `runCleanup(..., Throwable)`.
+- `ModuleManager.unloadAll()` isolates per-module `Throwable`, logs each with a stack trace, and clears its registry in `finally`; `loadAll()` begins by `unloadAll()`, so reload is idempotent.
+- `Module.enable()`/`disable()` guard on `enabled`; failed `onEnable()` rolls state back and unregisters commands; `disable()` calls `onDisable()` once and unregisters dynamic commands in `finally`.
+- `DatabaseManager.shutdownAsync()` owns connection shutdown; `ItemRegistry.shutdown()` stops the reload executor, unregisters listeners/commands/placeholders and closes classloaders last.
+- The public Java module contract (`extends Module`, `(Main, String, File)`, `onEnable()`, `onDisable()`, `registerDynamicCommand(...)`) is unchanged.
+
+### 18.3 Changed Java files in 2.5.1 relative to v2.5.0
+
+- `src/main/java/me/dcplugin/artifex/api/ItemRegistry.java`
+- `src/main/java/me/dcplugin/artifex/api/JavaItemCompiler.java`
+- `src/main/java/me/dcplugin/artifex/api/database/DatabaseManager.java`
+- `src/main/java/me/dcplugin/artifex/api/modules/Module.java`
+- `src/main/java/me/dcplugin/artifex/api/modules/ModuleManager.java`
+- `src/main/java/me/dcplugin/artifex/bootstrap/CommandRegistrar.java`
+- `src/main/java/me/dcplugin/artifex/bootstrap/ConfigMigrator.java`
+- `src/main/java/me/dcplugin/artifex/bootstrap/PluginBootstrap.java`
+- `src/main/java/me/dcplugin/artifex/handlers/ItemLoader.java`
+- `src/main/java/me/dcplugin/artifex/utils/CommandMapAccessor.java`
+- Tests: `ItemRegistryShutdownTest.java`, `DatabaseManagerTest.java`, `CommandCleanupTest.java`, `ConfigMigratorTest.java`, `PluginBootstrapShutdownTest.java`.
+
+### 18.4 Fresh build and tests
+
+- Command: `mvn -B clean package` in the detached verification worktree under JDK 25.0.2 / Maven 3.9.15.
+- Result: `BUILD SUCCESS`; 63 main sources and 16 test sources compiled; Surefire: **16 suites, 98 tests, 0 failures, 0 errors, 0 skipped**.
+- `PluginBootstrapShutdownTest`: 8/8 passed, including single/multiple modules, exactly-once `onDisable()`, error isolation, repeated `disable()`, dependency availability, recipe cleanup and disk spill before database shutdown.
+- Mockito self-attach, native-access and shade overlap warnings were non-fatal; no compilation error occurred.
+
+### 18.5 Build hash difference and published assets
+
+- Fresh local JDK 25 JAR SHA-256: `22115841b118753d33b6ec0f09ab80db2fa6d117b66910dd4c3d74262dfe2b77`.
+- Published JAR SHA-256 (GitHub API, asset digest, downloaded file and committed `SHA256SUMS.txt`): `cdfcc33bd65e9d5f2924b38fb152b36db8dd91609511fea49b9d943bf0ebee83`.
+- Published `SHA256SUMS.txt` SHA-256: `938baf6cfd5852701d8b955228872a55ff16d17b74b8b6cd0463efb8c430441d`.
+- Both assets were downloaded again from the public release URLs and re-hashed locally; all values matched the GitHub API metadata exactly.
+- Cause of the local/CI difference was confirmed from JAR manifests: published JAR has `Build-Jdk-Spec: 21` (CI uses JDK 21 per `.github/workflows/build.yml`), fresh local JAR has `Build-Jdk-Spec: 25`. This is an environment/compiler-output difference, not a source divergence. No byte-for-byte equality between local and CI JAR is claimed.
+
+### 18.6 GitHub state confirmed via REST API
+
+- `GET /repos/animesao/Artifex/releases/latest` resolves to `v2.5.1`, release ID `454368032`, `draft: false`, `prerelease: false`.
+- Release page: `https://github.com/animesao/Artifex/releases/tag/v2.5.1`; `target_commitish: release/2.5.1`.
+- Exactly two assets are attached: `Artifex-2.5.1.jar` and `SHA256SUMS.txt` with the sizes/digests listed above.
+- `v2.5.0` and `v2.5.0-rc.1` were not modified; no new tag or replacement asset was created.
+
+### 18.7 Documentation changes in 2.5.1
+
+- `VERSION`, `pom.xml`, `plugin.yml`, `README.md`, `CHANGELOG.md`, `INSTALLATION.md`, `ARCHITECTURE.md`, `CONFIGURATION.md`, `SECURITY.md`, `docs/`, `wiki/`, `.github/workflows/build.yml` and `release/2.5.1/SHA256SUMS.txt` were updated to the 2.5.1 release line; historical 2.5.0/RC1 records were preserved.
+
+### 18.8 Production-server confirmation
+
+- `C:\Users\Anime\Desktop\server` was not read for modification, written to, started, stopped, RCON-connected to, or deployed to by this verification.
+- No plugin JAR, config, database, world, playerdata, inventory, proxy setting, Iris setting or start script under that path was touched. `EXAMPLE-webbridge` remained inactive.
+
+### 18.9 What remains for future work
+
+- No blocking work remains for the 2.5.1 stable release.
+- Optional follow-ups: run the disposable Paper runtime suite on a future CI JDK 21 artifact after any new source change; extend module tests to cover additional third-party modules if they are added to the public repository; consider adding Mockito as a JVM agent to silence the self-attach warning; keep monitoring `main` versus the latest stable release whenever a new release is cut.
