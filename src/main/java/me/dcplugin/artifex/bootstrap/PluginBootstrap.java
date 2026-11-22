@@ -257,12 +257,14 @@ public class PluginBootstrap {
         }
 
         boolean requireLink = plugin.getConfig().getBoolean("integration.http.require-player-link", true);
+        long maxAgeMs = plugin.getConfig().getLong("integration.http.max-age-ms", 30_000L);
         Map<String, UUID> links = LinkConfigReader.read(new File(plugin.getDataFolder(), "links.yml"));
         ProfileQueryService service = new ProfileQueryService(
                 new IntegrationTokenVerifier(token),
                 new LinkedIdentityStore(links),
                 new DatabaseProfileDataSource(databaseManager),
-                requireLink);
+                requireLink,
+                maxAgeMs);
 
         try {
             integrationServer = HttpIntegrationServer.create("127.0.0.1", port, service);

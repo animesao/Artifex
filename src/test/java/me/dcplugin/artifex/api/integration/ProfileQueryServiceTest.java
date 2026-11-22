@@ -90,6 +90,23 @@ class ProfileQueryServiceTest {
     }
 
     @Test
+    void oldVerifiedSnapshotBecomesStale() {
+        ProfileSnapshot old = new ProfileSnapshot(
+                SYNTH.toString(), "READY", System.currentTimeMillis() - 120_000L,
+                null, "UNAVAILABLE", 7, 25L, 325L, "VERIFIED",
+                "humans", "human_will", "VERIFIED", List.of(), "SYN", 2, "VERIFIED", "database");
+        ProfileQueryService shortLived = new ProfileQueryService(
+                new IntegrationTokenVerifier("test-service-token"),
+                new LinkedIdentityStore(Map.of(DISCORD, SYNTH)),
+                uuid -> CompletableFuture.completedFuture(old), true, 30_000L);
+
+        var result = shortLived.query(TOKEN, DISCORD, SYNTH.toString()).join();
+
+        assertEquals(200, result.status());
+        assertTrue(result.bodyJson().contains("\"state\":\"STALE\""));
+    }
+
+    @Test
     void linkRequirementCanBeDisabledButDiscordIdStillValidated() {
         var permitted = service(false, snapshot).query(TOKEN, "100000000000000099", SYNTH.toString()).join();
         var rejected = service(false, snapshot).query(TOKEN, "bad", SYNTH.toString()).join();

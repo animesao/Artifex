@@ -42,6 +42,12 @@ public record ProfileSnapshot(
                 null, null, UNAVAILABLE, List.of(), null, null, UNAVAILABLE, "none");
     }
 
+    public ProfileSnapshot withState(String newState) {
+        return new ProfileSnapshot(uuid, newState, observedAt, username, usernameState,
+                level, currentXp, totalXp, progressionState, raceId, selectedSkillId, raceState,
+                activeCooldowns, guildTag, guildId, guildState, source);
+    }
+
     public String toJson() {
         Map<String, String> fields = new LinkedHashMap<>();
         fields.put("uuid", Json.string(uuid));

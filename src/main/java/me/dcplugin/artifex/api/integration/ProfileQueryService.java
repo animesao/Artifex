@@ -15,15 +15,25 @@ public final class ProfileQueryService {
     private final LinkedIdentityStore links;
     private final ProfileDataSource source;
     private final boolean requireLink;
+    private final long maxAgeMs;
 
     public ProfileQueryService(IntegrationTokenVerifier verifier,
                                LinkedIdentityStore links,
                                ProfileDataSource source,
                                boolean requireLink) {
+        this(verifier, links, source, requireLink, Long.MAX_VALUE);
+    }
+
+    public ProfileQueryService(IntegrationTokenVerifier verifier,
+                               LinkedIdentityStore links,
+                               ProfileDataSource source,
+                               boolean requireLink,
+                               long maxAgeMs) {
         this.verifier = verifier;
         this.links = links;
         this.source = source;
         this.requireLink = requireLink;
+        this.maxAgeMs = maxAgeMs;
     }
 
     public CompletableFuture<QueryResult> query(String authorization, String discordId, String rawUuid) {
@@ -44,8 +54,17 @@ public final class ProfileQueryService {
         }
         return source.load(uuid)
                 .thenApply(snapshot -> new QueryResult(200,
-                        snapshot == null ? ProfileSnapshot.unavailable(uuid).toJson() : snapshot.toJson()))
+                        snapshot == null ? ProfileSnapshot.unavailable(uuid).toJson() : enforceFreshness(snapshot).toJson()))
                 .exceptionally(failure -> new QueryResult(503, ProfileSnapshot.unavailable(uuid).toJson()));
+    }
+
+    private ProfileSnapshot enforceFreshness(ProfileSnapshot snapshot) {
+        if (ProfileSnapshot.READY.equals(snapshot.state())
+                && maxAgeMs != Long.MAX_VALUE
+                && System.currentTimeMillis() - snapshot.observedAt() > maxAgeMs) {
+            return snapshot.withState(ProfileSnapshot.STALE);
+        }
+        return snapshot;
     }
 
     private static CompletableFuture<QueryResult> completed(int status, String bodyJson) {
