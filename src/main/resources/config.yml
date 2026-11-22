@@ -125,21 +125,6 @@ database:
     leak-detection-ms: 0
 
 # ==========================================
-# DISCORD READ-ONLY HTTP API
-# ==========================================
-# Disabled by default. Requires the ARTIFEX_INTEGRATION_TOKEN environment
-# variable; the token is never read from this file. Binding is forced to
-# 127.0.0.1 even if another host is configured here.
-integration:
-  http:
-    enabled: false
-    host: 127.0.0.1
-    port: 25570
-    require-player-link: true
-    # Verified snapshots older than this are reported as STALE, never as current.
-    max-age-ms: 30000
-
-# ==========================================
 # SET BONUSES (for full armor sets)
 # ==========================================
 # They are defined here because ArmorSetManager reads from config.yml.

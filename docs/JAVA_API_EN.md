@@ -1,5 +1,7 @@
 ﻿# Java API Guide
 
+For dynamic modules loaded by `ModuleManager`, see [MODULE_DEVELOPMENT_EN.md](MODULE_DEVELOPMENT_EN.md).
+
 ## 📚 Complete Reference
 
 This guide covers everything about creating custom items using the Java API.

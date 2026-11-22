@@ -234,3 +234,18 @@ YAML is convenient for manual editing, but it is not suitable for frequent write
 | MySQL causes lag | Move JDBC work to async methods |
 | Password appears on GitHub | Change it immediately and remove it from files/history |
 | MySQL is not used | Check `database.type: mysql` and restart the server |
+
+## 11. Initialization order and module safety
+
+Artifex initializes persistence before any dynamic module is loaded:
+
+1. `DatabaseManager` is constructed.
+2. The SQLite/MySQL connection is established.
+3. Database readiness is verified with `DatabaseManager.isConnected()`.
+4. Dynamic Java modules are loaded.
+5. Module `onEnable` callbacks run.
+
+A module can therefore assume that `Main.getInstance().getDatabaseManager()` is connected in
+`onEnable`. If the database is unavailable, startup continues with an explicit unavailable state
+rather than exposing a half-initialized manager to modules. Modules must not open independent
+database files or duplicate `DatabaseManager` schema logic.

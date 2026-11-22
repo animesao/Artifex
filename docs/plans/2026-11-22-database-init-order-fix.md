@@ -98,10 +98,10 @@ Expected: PASS with no failures.
 - [ ] **Step 2: Build the JAR**
 
 Run: `mvn -q -DskipTests package`
-Expected: `target/Artifex-2.4.0.jar` exists.
+Expected: `target/Artifex-2.5.0.jar` exists.
 
 - [ ] **Step 3: Validate only on the existing disposable server**
 
-Copy the newly built JAR into the disposable test copy only. Start through its isolated launcher, confirm no `DatabaseManager unavailable` warnings at startup, confirm `Database connected: SQLite` appears before module initialization, and confirm synthetic guild/level/race-skill records load without `/artifex reload`.
+Copy the newly built JAR into the disposable test copy only. Start through its isolated launcher, confirm no `[DB] Database is unavailable` warnings at startup, confirm `Database connected: SQLite` appears before module initialization, and confirm synthetic module records load without `/artifex reload`.
 
 Do not copy the JAR to production or the master backup.

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PluginBootstrapTest {
     @Test
@@ -17,5 +18,17 @@ class PluginBootstrapTest {
                 () -> calls.add("modules"));
 
         assertEquals(List.of("database", "modules"), calls);
+    }
+
+    @Test
+    void doesNotLoadModulesWhenDatabaseInitializationFails() {
+        List<String> calls = new ArrayList<>();
+
+        assertThrows(IllegalStateException.class, () ->
+                PluginBootstrap.initializeDatabaseBeforeModules(
+                        () -> { calls.add("database"); throw new IllegalStateException("database unavailable"); },
+                        () -> calls.add("modules")));
+
+        assertEquals(List.of("database"), calls);
     }
 }

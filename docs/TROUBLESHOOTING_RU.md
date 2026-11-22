@@ -26,12 +26,12 @@
 
 2. **Проверьте Расположение Файла:**
    ```
-   server/plugins/dcustomitems.jar
+   server/plugins/Artifex-2.5.0.jar
    ```
    Должен быть в папке `plugins/`.
 
 3. **Проверьте Имя Файла:**
-   - Должно быть `dcustomitems.jar`
+   - Должно быть `Artifex-2.5.0.jar`
    - Без пробелов и специальных символов
 
 4. **Проверьте Консоль на Ошибки:**
@@ -427,7 +427,6 @@ chmod 644 items/*.yml
 
 ### Присоединяйтесь к Сообществу
 
-- Discord сервер
 - GitHub Discussions
 - Reddit
 

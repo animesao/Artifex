@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Minecraft-1.21.8%2B-green?style=for-the-badge&logo=minecraft" alt="Minecraft">
   <img src="https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=openjdk" alt="Java">
-  <img src="https://img.shields.io/badge/Version-2.5.0--rc.1-orange?style=for-the-badge" alt="Version: 2.5.0-rc.1 (Release Candidate)">
+  <img src="https://img.shields.io/badge/Version-2.5.0-brightgreen?style=for-the-badge" alt="Version: 2.5.0 (stable)">
   <img src="https://img.shields.io/badge/Modules-5-purple?style=for-the-badge" alt="Modules">
   <img src="https://img.shields.io/github/license/animesao/Artifex-purple?style=for-the-badge" alt="License">
 </p>
@@ -25,7 +25,7 @@
 
 ---
 
-> 🧪 **Release Candidate 2.5.0-rc.1.** Это кандидат в релиз, а не стабильная версия. Production deployment не выполнялся. Provisioning связывания аккаунтов (account linking) ещё не завершён, Discord-клиент не реализован, а интеграция с Velocity остаётся отдельным нерешённым вопросом. См. [CHANGELOG.md](CHANGELOG.md) и [Discord Read-Only HTTP API](docs/DISCORD_READONLY_HTTP_API.md).
+> ✅ **Artifex 2.5.0 — стабильная версия.** Универсальное модульное Java-ядро для Minecraft 1.21.8+. Production deployment не выполнялся. Проектно-специфичные интеграции не входят в публичное ядро и реализуются отдельными проектами поверх модульной архитектуры Artifex. См. [CHANGELOG.md](CHANGELOG.md).
 
 ---
 
@@ -153,7 +153,7 @@ performance:
 ```bash
 # Скачать последний релиз
 cd ~/server/plugins
-curl -L -o artifex.jar https://github.com/animesao/Artifex/releases/download/v2.3.9/Artifex-2.3.9.jar
+curl -L -o artifex.jar https://github.com/animesao/Artifex/releases/download/v2.5.0/Artifex-2.5.0.jar
 
 # Перезапустить сервер
 ./restart.sh
@@ -161,12 +161,10 @@ curl -L -o artifex.jar https://github.com/animesao/Artifex/releases/download/v2.
 
 ### Ручная установка
 
-1. Скачай `Artifex-2.3.9.jar` из [Releases](https://github.com/animesao/Artifex/releases)
+1. Скачай `Artifex-2.5.0.jar` из [Releases](https://github.com/animesao/Artifex/releases)
 2. Помести в папку `plugins/`
 3. Перезапусти сервер
 4. Настрой `plugins/Artifex/config.yml`
-
-> 🔐 **Интеграционный API (Release Candidate).** Read-only HTTP API по умолчанию отключён (`integration.http.enabled: false`). Секрет задаётся **только** переменной окружения `ARTIFEX_INTEGRATION_TOKEN`; в `config.yml` токен не указывается и никуда не логируется. API слушает только loopback. Подробности контракта, состояний и заголовков — [docs/DISCORD_READONLY_HTTP_API.md](docs/DISCORD_READONLY_HTTP_API.md). Настоящий токен в документацию не добавляется.
 
 > 🧩 При установке плагин создаёт **ровно один файл** — `plugins/Artifex/items/messages.java` (все сообщения плагина, их можно менять). Больше ничего не копируется: примеры лежат в репозитории ([`samples/`](samples/)), а не внутри jar. Включи нужный пример: скопируй файл/папку из `samples/` в `items/` и убери префикс `EXAMPLE-` из имени (`EXAMPLE-give-command.java` → `give-command.java`, `EXAMPLE-vault/` → `vault/`), затем `/artifex reload`. Контент отключается удалением файла/папки из `items/`.
 
@@ -723,6 +721,10 @@ Artifex/
 | 📖 **Вики (с нуля, A→Z)** | [**wiki/README.md**](wiki/README.md) — 19 страниц: установка, YAML и Java-предметы, все действия и триггеры, рецепты, команды, плейсхолдеры, модули, сообщения, БД, события, конфиг, права, примеры, решение проблем |
 | 🇬🇧 English | [Full Documentation](docs/README_EN.md) |
 | 🇷🇺 Русский | [Полная документация](docs/README_RU.md) |
+| 📥 Установка | [Installation](INSTALLATION.md) |
+| ⚙️ Конфигурация | [Configuration](CONFIGURATION.md) |
+| 🏗️ Архитектура | [Architecture](ARCHITECTURE.md) |
+| 🧩 Модули | [Module Development](docs/MODULE_DEVELOPMENT_RU.md) / [EN](docs/MODULE_DEVELOPMENT_EN.md) |
 | ☕ Java API | [Java API Guide](docs/JAVA_API_RU.md) |
 | 📦 YAML Предметы | [YAML Items Guide](docs/YAML_ITEMS_RU.md) |
 | ⚡ Команды | [Commands Guide](docs/COMMANDS_RU.md) |

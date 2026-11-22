@@ -1,6 +1,6 @@
 ﻿# Artifex — Complete Documentation
 
-**Documentation version:** 1.325.0
+**Documentation version:** 2.5.0
 **Minecraft:** Paper/Spigot 1.21.x
 **Server Java:** Java 21+ is required for Paper 1.21.8+ and to build the project.
 
@@ -19,8 +19,9 @@ If YAML and Java are new to you, read these guides in order:
 5. [GUI and modules](MODULES_GUI_EN.md)
 6. [Data storage: SQLite, MySQL, and YAML](DATABASE_EN.md)
 7. [Java from zero](JAVA_API_EN.md)
-8. [Performance and troubleshooting](TROUBLESHOOTING_EN.md)
-9. [Resource packs and models](RESOURCE_PACK_EN.md)
+8. [Dynamic module development](MODULE_DEVELOPMENT_EN.md)
+9. [Performance and troubleshooting](TROUBLESHOOTING_EN.md)
+10. [Resource packs and models](RESOURCE_PACK_EN.md)
 
 Working examples live in `samples/` in the repository. Nothing is copied on install — a fresh install contains exactly one file: `items/messages.java`. To enable an example, copy the file or folder you need from `samples/` into `items/` and remove the `EXAMPLE-` prefix from its name, then run `/ci reload`.
 
@@ -75,14 +76,14 @@ Important: Artifex compiles user Java files while the server is running. Only us
 
 ```bash
 cd ~/test/plugins
-curl -fL -o dcustomitems.jar "https://github.com/animesao/Artifex/releases/download/v1.320.282/Artifex-1.320.282.jar"
+curl -fL -o Artifex-2.5.0.jar "https://github.com/animesao/Artifex/releases/download/v2.5.0/Artifex-2.5.0.jar"
 ```
 
 Replace `~/test/plugins` with your server's `plugins/` directory when needed.
 
 ### First start
 
-1. Put `dcustomitems.jar` in `plugins/`.
+1. Put `Artifex-2.5.0.jar` in `plugins/`.
 2. Start the server.
 3. Wait for `CustomItems enabled!`.
 4. The plugin creates `plugins/Artifex/`.
@@ -863,7 +864,7 @@ Update the JAR:
 ```bash
 dck stop test2
 cd ~/test/plugins
-curl -fL -o dcustomitems.jar "https://github.com/animesao/Artifex/releases/download/v1.320.282/Artifex-1.320.282.jar"
+curl -fL -o Artifex-2.5.0.jar "https://github.com/animesao/Artifex/releases/download/v2.5.0/Artifex-2.5.0.jar"
 # clear cache/compiled only when the Java compiler system changed
 rm -rf Artifex/cache Artifex/compiled
 dck start test2

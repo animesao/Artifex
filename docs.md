@@ -2,8 +2,9 @@
 
 Полная документация теперь в `docs/`:
 
-* RU: `docs/README_RU.md`, `docs/YAML_ITEMS_RU.md`, `docs/JAVA_API_RU.md`, `docs/COMMANDS_RU.md`
-* EN: `docs/README_EN.md`, `docs/YAML_ITEMS_EN.md`, `docs/JAVA_API_EN.md`
+* RU: `docs/README_RU.md`, `docs/YAML_ITEMS_RU.md`, `docs/JAVA_API_RU.md`, `docs/COMMANDS_RU.md`, `docs/MODULE_DEVELOPMENT_RU.md`
+* EN: `docs/README_EN.md`, `docs/YAML_ITEMS_EN.md`, `docs/JAVA_API_EN.md`, `docs/MODULE_DEVELOPMENT_EN.md`
+* Release docs: `INSTALLATION.md`, `CONFIGURATION.md`, `ARCHITECTURE.md`, `CHANGELOG.md`
 
 Канон триггеров: секция `triggers:` (старый `trigger-actions:` deprecated, удалим в 1.328).
 Канон рецептов: `recipes: { shaped, shapeless, furnace, smithing, stonecutting }`.

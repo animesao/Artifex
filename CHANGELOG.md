@@ -7,39 +7,37 @@ extracts the section of the needed version for the GitHub Release notes.
 
 ---
 
-## v2.5.0-rc.1
+## v2.5.0
 
-**Release Candidate.** This is not a production release; no deployment has been performed.
+**Stable release.** Artifex is an independent, universal modular Java core for Minecraft servers.
+No production deployment is performed by this release.
 
 ### Fixed
-- Fixed DatabaseManager initialization order.
-- Modules now initialize after database connection.
-- Resolved the previously reproduced startup initialization race.
+- Corrected DatabaseManager initialization order: the SQLite connection is established and verified before dynamic modules are loaded.
+- Modules now initialize only after database initialization succeeds.
+- Resolved the previously reproduced startup initialization race affecting dependent modules.
+- Improved module startup reliability and lifecycle consistency.
 
-### Added
-- Authenticated read-only HTTP integration API (`GET /v1/player/{uuid}`).
-- Player profile retrieval from persisted Artifex tables.
-- Discord identity-link validation.
-- Explicit profile readiness and availability states.
-- Loopback-only API binding.
+### Internal improvements
+- Added regression coverage for database-before-modules initialization order.
+- Preserved SQLite persistence, connection checks and existing configuration behavior.
+- Verified compatibility with dynamic Java modules.
+- Kept the shared DatabaseManager as the single persistence mechanism.
 
-### Security
-- Bearer token authentication.
-- Constant-time credential comparison.
-- Parameterized database queries.
-- Read-only HTTP operations.
-- No-store and nosniff response headers.
+### Architecture
+- Retained the modular Java architecture and ModuleManager lifecycle.
+- Java owns business logic, events, handlers, services, validation, persistence and security.
+- YAML/JSON remain configuration, content and template formats.
+- No project-specific integrations are included in the public core.
 
 ### Compatibility
 - Existing module architecture retained.
-- No automatic database reset or migration.
+- No automatic database reset or destructive migration.
 - No changes to production databases.
 
-### Known limitations
-- Account-linking provisioning is not complete, and no Discord client is implemented in this artifact.
-- The versioned release candidate has not been verified in Paper. Existing runtime evidence applies to the
-  functionally identical pre-version-bump source.
-- Velocity integration remains an unresolved, separate topic.
+### Historical note
+- `v2.5.0-rc.1` was published as a Release Candidate and is superseded by this stable release.
+  Its tag, branch and history remain unchanged.
 
 ---
 
