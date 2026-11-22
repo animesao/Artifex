@@ -88,18 +88,29 @@ Example synthetic response:
 
 | HTTP | `error` | Cause |
 | --- | --- | --- |
+| 200 | *(none)* | Successful query. The body's `state` may still be `READY`, `STALE`, `NOT_FOUND`, or `UNAVAILABLE`. |
 | 400 | `invalid_discord_id` | Missing or malformed `X-Discord-User-Id` |
 | 400 | `invalid_uuid` | Malformed UUID path segment |
 | 400 | `bad_request` | Malformed request path |
 | 401 | `unauthorized` | Missing/invalid service token |
 | 403 | `not_linked` | Discord ID not linked to that UUID |
 | 405 | `method_not_allowed` | Non-GET request |
-| 503 | *(state `UNAVAILABLE`)* | Data source failure |
+| 503 | *(state `UNAVAILABLE`)* | A database query threw an exception |
+
+Two distinct unavailability cases exist and the bot must treat both identically:
+
+1. `DatabaseManager` is missing or disconnected → **HTTP 200** with `state: UNAVAILABLE`, all value fields
+   `null`, per-field states `UNAVAILABLE`, and `source: none`. This is graceful degradation, not an error.
+2. A query future completes exceptionally → **HTTP 503** with the same `UNAVAILABLE` body.
+
+In neither case is a cached value or invented placeholder returned.
 
 ## Readiness, async initialization, and stale data
 
-- Readiness is `DatabaseManager.isConnected()`. If it is false, the API returns `UNAVAILABLE` rather than
-  cached values.
+- Readiness is `DatabaseManager.isConnected()`. If it is false, the API returns HTTP 200 with body
+  `state: UNAVAILABLE` and all values `null` rather than cached values. This was verified on a disposable
+  server whose SQLite file was deliberately replaced by a directory: the connection failed at startup,
+  no module reported usable data, and the API returned no invented values.
 - Guild membership is read from `artifex_guild_members`/`artifex_guilds` on every request. The module's
   asynchronous in-memory cache is **not** treated as current data, so a not-yet-populated cache cannot
   produce a false "no guild" answer.
